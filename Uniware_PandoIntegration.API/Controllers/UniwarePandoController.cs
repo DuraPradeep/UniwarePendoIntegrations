@@ -15,7 +15,9 @@ using System.Xml.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Collections.Generic;
 using System.Net;
-
+using Serilog;
+using Microsoft.AspNetCore.Authorization;
+using Uniware_PandoIntegration.API.Folder;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -24,9 +26,12 @@ namespace Uniware_PandoIntegration.API.Controllers
     public class UniwarePandoController : Controller
     {
         private readonly ILogger<UniwarePandoController> _logger;
-        public UniwarePandoController(ILogger<UniwarePandoController> logger)
+        private readonly IUniwarePando _jWTManager;
+
+        public UniwarePandoController(ILogger<UniwarePandoController> logger, IUniwarePando uniwarePando)
         {
             _logger = logger;
+            _jWTManager = uniwarePando;
         }
         BearerToken _Token = new BearerToken();
         private UniwareBL ObjBusinessLayer = new();
@@ -128,8 +133,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                         return;
                     Console.WriteLine(i);
                 }
+                var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
                 var allsenddata = ObjBusinessLayer.GetAllRecrdstosend();
                 var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
+
                 var sendcode = ObjBusinessLayer.GetAllSendData();
                 var resutt = _MethodWrapper.Action(sendcode, triggerid, 0);
             }
@@ -495,8 +502,26 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
         //Step-2
-        [HttpPost]
-        [BasicAuthenticationFilter]
+        [HttpGet]
+        public IActionResult GetJWTUserLogin()
+        {
+            //GenerateToken generateToken=new GenerateToken(null) ;
+            var token = _jWTManager.GenerateJWTTokens();
+            //log.Info($" log Object {JsonConvert.SerializeObject(token)}");
+            //try
+            //{
+            //    if (token == null)
+            //    {
+            //        log.Error($" Error Object {JsonConvert.SerializeObject(token)}");
+            //        return Unauthorized();
+            //    }
+            //    log.Debug($" Debug Object {JsonConvert.SerializeObject(token)}");
+            //}
+            //catch (Exception ex) { log.Error($" Error Object {JsonConvert.SerializeObject(ex)}"); }
+            return Ok(token);
+        }
+        [Authorize]
+        [HttpPost]       //[BasicAuthenticationFilter]       
         public IActionResult Waybill(OmsToPandoRoot Records)
         {
             _logger.LogInformation($"Waybill GetData From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");

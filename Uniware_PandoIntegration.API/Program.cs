@@ -7,6 +7,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Data.Common;
 using Uniware_PandoIntegration.API;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using System.Data;
+using Uniware_PandoIntegration.API.Folder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +21,52 @@ builder.Services.Add(new ServiceDescriptor(typeof(SPWrapper), new SPWrapper(conf
 builder.Services.Add(new ServiceDescriptor(typeof(BasicAuthenticationFilterAttribute), new BasicAuthenticationFilterAttribute(configuration)));
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 // Add services to the container.
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+//{
+//    options.RequireHttpsMetadata = false;
+//    options.SaveToken = true;
+//    options.TokenValidationParameters = new TokenValidationParameters()
+//    {
+//        ValidateIssuer = true,
+//        ValidateAudience = true,
+//        ValidAudience = builder.Configuration["Jwt:Audience"],
+//        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+//    };
+//});
+var Key = Encoding.UTF8.GetBytes(configuration["JWT:Key"]);
+var tokenValidationParameters = new TokenValidationParameters
+{
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidIssuer = configuration["JWT:Issuer"],
+    ValidAudience = configuration["JWT:Audience"],
+    IssuerSigningKey = new SymmetricSecurityKey(Key),
+    RequireExpirationTime = false,
+};
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
 
+    o.SaveToken = true;
+    o.TokenValidationParameters = tokenValidationParameters;
+    o.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            {
+                context.Response.Headers.Add("IS-TOKEN-EXPIRED", "true");
+            }
+            return Task.CompletedTask;
+        }
+    };
+});
 builder.Services.AddControllers();
 builder.Services.AddSession();
 builder.Services.AddMvc()
@@ -28,6 +77,31 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddSingleton(new BasicAuthenticationFilterAttribute());
+
+builder.Services.AddSingleton<IUniwarePando>(new GenerateToken(configuration));
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme {
+                    Reference = new Microsoft.OpenApi.Models.OpenApiReference {
+                        Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                    }
+                },
+                new string[] {}
+        }
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,8 +114,9 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 app.UseSession();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();

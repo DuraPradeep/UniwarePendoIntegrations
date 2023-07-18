@@ -2,6 +2,6 @@
 {
     public interface IUniwarePando
     {
-
+        string GenerateJWTTokens(); 
     }
 }
