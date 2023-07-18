@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Uniware_PandoIntegration.API.props" />
+</Project>

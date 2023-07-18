@@ -1,0 +1,196 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj": {}
+  },
+  "projects": {
+    "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj",
+        "projectName": "Uniware_PandoIntegration.Common",
+        "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+        "projectName": "Uniware_PandoIntegration.API",
+        "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+        "packagesPath": "C:\\Users\\Ajay\\.nuget\\packages\\",
+        "outputPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.API\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+              },
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj"
+              },
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj"
+              },
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "Serilog.AspNetCore": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.2.3, )"
+            },
+            "System.Data.SqlClient": {
+              "target": "Package",
+              "version": "[4.8.5, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.31.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj",
+        "projectName": "Uniware_PandoIntegration.BusinessLayer",
+        "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+              },
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj"
+              },
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
+        "projectName": "Uniware_PandoIntegration.DataAccessLayer",
+        "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+              },
+              "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
+    "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
+        "projectName": "Uniware_PandoIntegration.Entities",
+        "projectPath": "D:\\UniWarePandoIntegration\\Uniware_PandoIntegration\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+﻿@model Uniware_PandoIntegration.Entities.ApiStatus
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+
+<body class="login">
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="table-responsive" id="IdDetails">
+            <table id="myTable" style="border: 1px solid;">
+                <thead style="background-color: #49494952;">
+                    <tr>
+                        <th>saleOrder/search</th>
+                        <th>Saleorder/Get</th>
+                        <th>itemType/get</th>
+                        <th>Post_delivery-picklist</th>
+                        <th>Status</th>
+                        <th>Failed Count</th>
+                        <th>Trigger</th>
+                        <th>Code</th>
+                        <th>Sku Code</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <td>
+
+                            @Html.DropDownListFor(m => m.SaleOrder_search, new List<SelectListItem>
+                            {
+                            //new SelectListItem{ Text="Select User Type", Value = "0" },
+                            new SelectListItem{ Text="Active", Value = "false" },
+                            new SelectListItem{ Text="Inactive", Value = "true" },
+                            }, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.Saleorder_Get, new List<SelectListItem>
+                            {
+                            //new SelectListItem{ Text="Select User Type", Value = "0" },
+                            new SelectListItem{ Text="Active", Value = "false" },
+                            new SelectListItem{ Text="Inactive", Value = "true" },
+                            }, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.itemType_get, new List<SelectListItem>
+                            {
+                            //new SelectListItem{ Text="Select User Type", Value = "0" },
+                            new SelectListItem{ Text="Active", Value = "false" },
+                            new SelectListItem{ Text="Inactive", Value = "true" },
+                            }, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.Post_delivery_picklist, new List<SelectListItem>
+                            {
+                            //new SelectListItem{ Text="Select User Type", Value = "0" },
+                            new SelectListItem{ Text="Active", Value = "false" },
+                            new SelectListItem{ Text="Inactive", Value = "true" },
+                            }, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Failed_Count, new { @class = "form-control", @onchange = "" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(m => m.Status, new List<SelectListItem>
+                            {
+                            //new SelectListItem{ Text="Select User Type", Value = "0" },
+                            new SelectListItem{ Text="Active", Value = "false" },
+                            new SelectListItem{ Text="Inactive", Value = "true" },
+                            }, new { @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", @onchange = "" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.SkuCode, new { @class = "form-control", @onchange = "" })
+                        </td>                       
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.APIs.dll.config
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.APIs.dll
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.APIs.pdb
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\Newtonsoft.Json.dll
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\System.Net.Http.Formatting.dll
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.Entities.dll
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.Entities.pdb
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\Newtonsoft.Json.xml
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\bin\Debug\System.Net.Http.Formatting.xml
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.csproj.AssemblyReference.cache
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.csproj.CoreCompileInputs.cache
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.csproj.CopyComplete
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.dll
+D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.pdb

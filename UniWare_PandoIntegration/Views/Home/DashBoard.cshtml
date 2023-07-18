@@ -1,0 +1,92 @@
+﻿
+
+<style>
+
+    .sales .ct-series-a .ct-line, .sales .ct-series-a .ct-point {
+        stroke: #e60a1d;
+        stroke-width: 3px;
+    }
+
+    .overviewcard {
+        color: red;
+    }
+
+    .float-container {
+        border: 3px solid #fff;
+        padding: 20px;
+    }
+
+    .float-child {
+        width: 20%;
+        float: left;
+        padding: 20px;
+        box-shadow: 10px 10px 5px lightblue;
+        margin-right: 30px;
+    }
+</style>
+<script>
+    function fn_Errorlist() {
+        alert("hitting");
+
+        $.get("/Home/ErrorList", {}).done(function (data) {
+            debugger;
+            $(".preloader").fadeOut();
+            $("#dv_PartialView").html(data);
+        });
+
+
+        //$.ajax({
+        //    type: 'GET',
+        //    dataType: 'json',
+        //    url: '/Home/ErrorList',
+        //    success: function (data) {
+
+        //        alert("success");
+
+        //    }
+        //    ,
+        //    error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+        //    }
+
+        //})
+    };
+        
+</script>
+<div class="row">
+    <div class="col-5 align-self-center">
+        @*<h4 class="page-title">Dashboard</h4>*@
+    </div>
+    <div class="col-7 align-self-center">
+        <div class="d-flex align-items-center justify-content-end">
+            <nav aria-label="breadcrumb">
+                @*<ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                <a href="#">Home</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                </ol>*@
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<div class="float-container">
+    <div class="float-child" style="background:azure " onclick="fn_Errorlist()">
+        <div class="overviewcard__icon" id="myList">
+            <img src="~/dashboard/checklist.gif" alt="homepage" class="light-logo" style="height: 80px;width: 80px;" />
+        </div>
+        <div class="overviewcard__info"><h3 class="card-title mb-0" style="color:red">Sale Order API</h3></div>
+    </div>
+    <div class="float-child" style="background:azure ">
+        <div class="overviewcard__icon #77467b" id="myList">
+            <img src="~/dashboard/checklist.gif" alt="homepage" class="light-logo" style="height: 80px;width: 80px;" />
+        </div>
+        <div class="overviewcard__info"><h3 class="card-title mb-0" style="color:red">Way Bill Generation</h3></div>
+    </div>
+
+
+</div>
+<div id="dv_PartialView"></div>
+

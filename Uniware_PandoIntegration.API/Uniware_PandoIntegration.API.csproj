@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
+	  
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uniware_PandoIntegration.APIs\Uniware_PandoIntegration.Common.csproj" />
+    <ProjectReference Include="..\Uniware_PandoIntegration.BusinessLayer\Uniware_PandoIntegration.BusinessLayer.csproj" />
+    <ProjectReference Include="..\Uniware_PandoIntegration.DataAccessLayer\Uniware_PandoIntegration.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\Uniware_PandoIntegration.Entities\Uniware_PandoIntegration.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

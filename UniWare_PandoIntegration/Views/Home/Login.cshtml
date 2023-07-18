@@ -1,0 +1,121 @@
+﻿<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Login</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    @*<link href="~/css/landing.css" rel="stylesheet" />*@
+    <script src="~/js/jquery-3.7.0.min.js"></script>
+    <style>
+        .login-container-wrapper li {
+            text-align: center;
+            padding: 0 15px;
+            background-color: #283443;
+            height: 50px;
+            line-height: 50px;
+            box-shadow: inset 0 -2px 0 0 #ccc;
+            cursor: pointer;
+        }
+
+
+
+        .tab1.active {
+            /*background: linear-gradient(0deg, rgb(253 5 6 / 49%), rgb(246 2 1 / 0%)) !important;*/
+            text-decoration: none !important;
+            box-shadow: inset 0 -2px 0 0 #AB47BC !important;
+            font-weight: 400;
+        }
+
+        li.tab1 a {
+            color: #AB47BC !important;
+            text-decoration: none;
+        }
+
+        li.tab1 {
+            background-color: transparent !important;
+            color: #AB47BC !important;
+            /*width: 33.33%;*/
+            width: 100%;
+            margin-top: 15px;
+        }
+        /* li.tab1.active {
+                            box-shadow: inset 0 -1px 0 0 #dc3545;
+                        }*/
+        .login-container-wrapper li {
+            box-shadow: none !important;
+            /*height: 0px !important;*/
+            line-height: 21px !important;
+        }
+
+        ul.nav.nav-tabs {
+            margin-bottom: 25px;
+        }
+
+        .checkbox.checkbox-success {
+            padding-top: 15px;
+        }
+
+        li.tab1:hover {
+            background-color: #AB47BC !important;
+            color: black !important;
+        }
+
+        li.tab1 a:hover {
+            color: #AB47BC !important;
+            text-decoration: none !important;
+        }
+
+        .login-container-wrapper li.tab1.active a {
+            text-decoration: none;
+            border-bottom: none !important
+        }
+
+        li.tab1:hover a {
+            color: #AB47BC !important;
+        }
+
+        .login-form .input-lg {
+            font-size: 16px;
+            height: 52px;
+            padding: 10px 25px;
+            border-radius: 0;
+        }
+
+        .login-form .form-group {
+            margin-right: 0;
+            margin-left: 0;
+            margin-top: 7px;
+        }
+    </style>
+</head>
+
+
+<body class="login">
+    <div class="container">
+        <div class="login-container-wrapper clearfix" style="width: 50%;margin-left: 25%;">
+            <ul class="nav nav-tabs">
+                <li class="tab1 active">Login</li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="login">
+                    <form action="~/Home/Login" method="post">
+                        <div class="form-group" style="position:relative">
+                            <input class="form-control input-lg" id="UserName" name="UserName" placeholder="User Name" type="text"><i class="fa fa-user"></i>                        </div>
+                        <div class="form-group relative">
+                            <input class="form-control input-lg" id="Password" name="Password" placeholder="Password" type="password"><i class="fa fa-lock"></i>
+                        </div>
+                  
+                        <div class="form-group">
+                            <button class="btn btn-lg btn-block" style="width:100%;background-color: #AB47BC" type="submit">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

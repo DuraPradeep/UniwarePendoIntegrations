@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Jscript\" />
+    <Folder Include="Style\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="wwwroot\DashBoard\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\Landing.css" />
+    <None Include="wwwroot\js\jquery-3.7.0.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uniware_PandoIntegration.APIs\Uniware_PandoIntegration.Common.csproj" />
+    <ProjectReference Include="..\Uniware_PandoIntegration.Entities\Uniware_PandoIntegration.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

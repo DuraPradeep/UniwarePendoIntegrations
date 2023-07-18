@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "core.css@3.0.0",
+      "destination": "Style/core.css/"
+    }
+  ]
+}

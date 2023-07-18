@@ -1,0 +1,971 @@
+﻿using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Security.Policy;
+using System.Text;
+using System.Threading.Tasks;
+using Uniware_PandoIntegration.APIs;
+using Uniware_PandoIntegration.DataAccessLayer;
+using Uniware_PandoIntegration.Entities;
+
+
+namespace Uniware_PandoIntegration.BusinessLayer
+{
+    public class UniwareBL
+    {
+        public bool InsertCode(List<Element> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertCodeInUniware(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<Salesorder> GetCode()
+        {
+            List<Salesorder> serviceResponse = new List<Salesorder>();
+            try
+            {
+                //CreateLog($" Get Code from DB ");
+
+                serviceResponse = Mapper.GetCodes(SPWrapper.GetCodeDB());
+                //CreateLog($" Get Code from DB Data{serviceResponse} ");
+            }
+            catch (Exception Ex)
+            {
+                //CreateLog($"Error: {Ex.Message}");
+            }
+            return serviceResponse;
+        }
+        public bool insertSalesDTO(List<SaleOrderDTO> salesordrsearch)
+        {
+            bool res;
+            try
+            {
+                //CreateLog($"SalesOrder DTO data :-{salesordrsearch}");
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("Code");
+                dt.Columns.Add("displayOrderCode");
+                for (int i = 0; i < salesordrsearch.Count; i++)
+                {
+                    DataRow myDataRow = dt.NewRow();
+                    myDataRow["Code"] = salesordrsearch[i].code;
+                    myDataRow["displayOrderCode"] = salesordrsearch[i].displayOrderCode;
+                    dt.Rows.Add(myDataRow);
+                }
+                res = SPWrapper.InsertSaleOrderDTO(dt);
+                //CreateLog($"SalesOrder DTO data insert Status :-{res}");
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return res;
+        }
+
+        public bool InsertAddrsss(List<Address> addresses)
+        {
+            bool res;
+            try
+            {
+                //CreateLog($"Address data insert Data :-{addresses}");
+
+                DataTable dtaddress = new DataTable();
+                dtaddress.Columns.Add("Code");
+                dtaddress.Columns.Add("name");
+                dtaddress.Columns.Add("addressLine1");
+                dtaddress.Columns.Add("addressLine2");
+                dtaddress.Columns.Add("city");
+                dtaddress.Columns.Add("state");
+                dtaddress.Columns.Add("pincode");
+                dtaddress.Columns.Add("phone");
+                dtaddress.Columns.Add("email");
+
+                for (int i = 0; i < addresses.Count; i++)
+                {
+                    DataRow dr = dtaddress.NewRow();
+                    dr["Code"] = addresses[i].Code;
+                    dr["name"] = addresses[i].name;
+                    dr["addressLine1"] = addresses[i].addressLine1;
+                    dr["addressLine2"] = addresses[i].addressLine2;
+                    dr["city"] = addresses[i].city;
+                    dr["state"] = addresses[i].state;
+                    dr["pincode"] = addresses[i].pincode;
+                    dr["phone"] = addresses[i].phone;
+                    dr["email"] = addresses[i].email;
+                    dtaddress.Rows.Add(dr);
+
+                }
+                res = SPWrapper.Insertaddress(dtaddress);
+                //CreateLog($"Address data insert status :-{res}");
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+            return res;
+        }
+        public bool InsertBill(List<ShippingPackage> shippingPackages)
+        {
+            bool res = false;
+            try
+            {
+                //CreateLog($"shipping data :-{shippingPackages}");
+                DataTable dtshipping = new DataTable();
+                dtshipping.Columns.Add("Code");
+                dtshipping.Columns.Add("invoiceCode");
+                dtshipping.Columns.Add("invoiceDate");
+                for (int k = 0; k < shippingPackages.Count; k++)
+                {
+                    DataRow drbilling = dtshipping.NewRow();
+                    drbilling["Code"] = shippingPackages[k].code;
+                    drbilling["invoiceCode"] = shippingPackages[k].invoiceCode;
+                    drbilling["invoiceDate"] = shippingPackages[k].invoiceDate;
+                    dtshipping.Rows.Add(drbilling);
+                }
+                res = SPWrapper.InsertShippingDetails(dtshipping);
+                //CreateLog($"shipping data inserted status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return res;
+        }
+
+        public bool insertItems(List<Items> items)
+        {
+            bool res;
+            DataTable dtitems = new DataTable();
+            dtitems.Columns.Add("Code");
+            dtitems.Columns.Add("quentity");
+            try
+            {
+                //CreateLog($"Items inserted DB Data:-{items}");
+                for (int k = 0; k < items.Count; k++)
+                {
+                    DataRow dritems = dtitems.NewRow();
+                    dritems["Code"] = items[k].Code;
+                    dritems["quentity"] = items[k].quantity;
+                    dtitems.Rows.Add(dritems);
+                }
+                res = SPWrapper.InsertItems(dtitems);
+                //CreateLog($"Items inserted DB status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return res;
+        }
+
+        public bool insertsalesorderitem(List<SaleOrderItem> sitems)
+        {
+            bool res;
+            try
+            {
+                //CreateLog($"Sales Order Item inserted DB Data:-{sitems}");
+                DataTable dtslesorder = new DataTable();
+                dtslesorder.Columns.Add("Code");
+                dtslesorder.Columns.Add("shippingPackageCode");
+                dtslesorder.Columns.Add("OrderItem_id");
+                dtslesorder.Columns.Add("itemsku");
+                dtslesorder.Columns.Add("prepaidAmount");
+                dtslesorder.Columns.Add("taxPercentage");
+                dtslesorder.Columns.Add("TotalPrice");
+                dtslesorder.Columns.Add("facilityCode");
+                for (int l = 0; l < sitems.Count; l++)
+                {
+                    DataRow drsalesorder = dtslesorder.NewRow();
+                    drsalesorder["Code"] = sitems[l].code;
+                    drsalesorder["shippingPackageCode"] = sitems[l].shippingPackageCode;
+                    drsalesorder["OrderItem_id"] = sitems[l].id;
+                    drsalesorder["itemsku"] = sitems[l].itemSku;
+                    drsalesorder["prepaidAmount"] = sitems[l].prepaidAmount;
+                    drsalesorder["taxPercentage"] = sitems[l].taxPercentage;
+                    drsalesorder["TotalPrice"] = sitems[l].totalPrice;
+                    drsalesorder["facilityCode"] = sitems[l].facilityCode;
+                    dtslesorder.Rows.Add(drsalesorder);
+                }
+                res = SPWrapper.InsertsalesorderItems(dtslesorder);
+                //CreateLog($"Sales Order Item inserted DB res:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return res;
+        }
+        public List<SKucode> GetSKucodesBL()
+        {
+            List<SKucode> codes = new List<SKucode>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                codes = Mapper.Getskucodes(SPWrapper.GetSkuCodeDB());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return codes;
+        }
+
+        public bool InsertitemSku(List<ItemTypeDTO> itemDTO)
+        {
+            bool res;
+            try
+            {
+                //CreateLog($"item sku code insert DB:-{itemDTO}");
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("itemDetailFieldsText");//itemDetailFieldsText  dtsku.Columns.Add("CategoryCode")
+                dtsku.Columns.Add("Width");
+                dtsku.Columns.Add("height");
+                dtsku.Columns.Add("length");
+                dtsku.Columns.Add("weight");
+                for (int i = 0; i < itemDTO.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = itemDTO[i].Code;
+                    drsku["itemDetailFieldsText"] = itemDTO[i].itemDetailFieldsText;
+                    drsku["Width"] = itemDTO[i].width;
+                    drsku["height"] = itemDTO[i].height;
+                    drsku["length"] = itemDTO[i].length;
+                    drsku["weight"] = itemDTO[i].weight;
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.IsertItemtypes(dtsku);
+                //CreateLog($"item sku insert DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<Data> GetAllRecrdstosend()
+        {
+            List<Data> AllRes = new List<Data>();
+            try
+            {
+                //CreateLog($" Get Code from DB ");
+
+                AllRes = Mapper.GetSendingAllrecords(SPWrapper.GetAllSendRecords());
+                //CreateLog($" Get Code from DB Data{AllRes} ");
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+        public ServiceResponse<List<PostErrorDetails>> PostDataStatus()
+        {
+            ServiceResponse<List<PostErrorDetails>> Triggerid = new ServiceResponse<List<PostErrorDetails>>();
+            try
+            {
+                Triggerid = Mapper.PostErrorDetails(SPWrapper.PostStatus());
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return Triggerid;
+        }
+        //public static void CreateLog(string message)
+        //{
+        //    Log.Information(message);
+        //}
+        public string InsertAllsendingData(List<Data> itemDatun)
+        {
+            string res;
+            try
+            {
+                string id = "Tri_" + GenerateNumeric();
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("TriggerID");
+                dtsku.Columns.Add("Name");
+                dtsku.Columns.Add("Reference_Number");
+                dtsku.Columns.Add("Address");
+                dtsku.Columns.Add("City");
+                dtsku.Columns.Add("State");
+                dtsku.Columns.Add("Pincode");
+                dtsku.Columns.Add("Region");
+                dtsku.Columns.Add("Mobile_number");
+                dtsku.Columns.Add("Email");
+                dtsku.Columns.Add("Catgory");
+                dtsku.Columns.Add("Delivefr_number");
+                dtsku.Columns.Add("Mrp_Price");
+                dtsku.Columns.Add("Material_Code");
+                dtsku.Columns.Add("material_taxable_amount");
+                dtsku.Columns.Add("quentity");
+                dtsku.Columns.Add("Weight");
+                dtsku.Columns.Add("Volume");
+                dtsku.Columns.Add("Ship_to");
+                dtsku.Columns.Add("Sold_to");
+                dtsku.Columns.Add("Line_item_no");
+                dtsku.Columns.Add("pickup_reference_number");
+                dtsku.Columns.Add("Customer_type");
+                dtsku.Columns.Add("source_system");
+                dtsku.Columns.Add("division");
+                dtsku.Columns.Add("quantity_unit");
+                dtsku.Columns.Add("volume_unit");
+                dtsku.Columns.Add("type");
+                dtsku.Columns.Add("weight_unit");
+                dtsku.Columns.Add("cust_category");
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["TriggerID"] = id;
+                    drsku["Name"] = itemDatun[i].name;
+                    drsku["Reference_Number"] = itemDatun[i].reference_number;
+                    drsku["Address"] = itemDatun[i].address;
+                    drsku["City"] = itemDatun[i].city;
+                    drsku["State"] = itemDatun[i].state;
+                    drsku["Pincode"] = itemDatun[i].pincode;
+                    drsku["Region"] = itemDatun[i].region;
+                    drsku["Mobile_number"] = itemDatun[i].mobile_number;
+                    drsku["Email"] = itemDatun[i].email;
+                    drsku["Catgory"] = itemDatun[i].category;
+                    drsku["Delivefr_number"] = itemDatun[i].delivery_number;
+                    drsku["Mrp_Price"] = itemDatun[i].mrp_price;
+                    drsku["Material_Code"] = itemDatun[i].material_code;
+                    drsku["material_taxable_amount"] = itemDatun[i].material_taxable_amount;
+                    drsku["quentity"] = itemDatun[i].quantity;
+                    drsku["Weight"] = itemDatun[i].weight;
+                    drsku["Volume"] = itemDatun[i].volume;
+                    drsku["Ship_to"] = itemDatun[i].ship_to;
+                    drsku["Sold_to"] = itemDatun[i].sold_to;
+                    drsku["Line_item_no"] = itemDatun[i].line_item_no;
+                    drsku["pickup_reference_number"] = itemDatun[i].pickup_reference_number;
+                    drsku["Customer_type"] = itemDatun[i].customer_type;//"End_Customer";
+                    drsku["source_system"] = itemDatun[i].source_system;//"abc_sleepyhead";                    
+                    drsku["division"] = itemDatun[i].division;
+                    drsku["quantity_unit"] = itemDatun[i].quantity_unit;//"EA";
+                    drsku["volume_unit"] = itemDatun[i].volume_unit;//"CFT";
+                    drsku["type"] = itemDatun[i].type;//"Secondary";
+                    drsku["weight_unit"] = itemDatun[i].weight_unit;//"KG";
+                    drsku["cust_category"] = itemDatun[i].cust_category;//"";
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.IsertAllsendingrec(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
+        public bool UpdateSalesOrderError(List<ErrorDetails> ErrorDt, int type)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].Code;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateSalesorderDetails(dtsku, type);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public bool UpdateSkucodeError(List<ErrorDetails> ErrorDt, int type)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].SkuCode;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateSalesorderDetails(dtsku, type);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public void UpdatePostDatadetails(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.Updatedetailspostdata(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<Salesorder> GetCodeforRetrigger()
+        {
+            List<Salesorder> serviceResponse = new List<Salesorder>();
+            try
+            {
+                //CreateLog($" Get Code from DB ");
+
+                serviceResponse = Mapper.GetCodes(SPWrapper.GetCoderetrigger());
+                //CreateLog($" Get Code from DB Data{serviceResponse} ");
+            }
+            catch (Exception Ex)
+            {
+                //CreateLog($"Error: {Ex.Message}");
+            }
+            return serviceResponse;
+        }
+        public List<SKucode> GetSKucodesForRetrigger()
+        {
+            List<SKucode> codes = new List<SKucode>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                codes = Mapper.Getskucodes(SPWrapper.GetSkuCodeforRetrigger());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return codes;
+        }
+        public List<Data> GetAllSendData()
+        {
+            List<Data> sendData = new List<Data>();
+            try
+            {
+                sendData = Mapper.GetSendData(SPWrapper.GetSendCode());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return sendData;
+        }
+        public ServiceResponse<List<CodesErrorDetails>> GetErrorCodes()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetFailedCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+
+        public static string GenerateNumeric()
+        {
+            int numbers = 5;
+            Random objrandom = new Random();
+            string strrandom = "";
+            for (int i = 0; i < 5; i++)
+            {
+                int temp = objrandom.Next(0, numbers);
+                strrandom += temp;
+            }
+            var rnd = strrandom;
+            //Random generator = new Random();
+            //string r = generator.Next(0, 1000000).ToString("D6");
+            return rnd;
+        }
+
+        public string insertWaybillMain(OmsToPandoRoot omsToPandoRoot)
+        {
+
+            string res;
+            try
+            {
+
+                res = SPWrapper.WaybillinsertMain(omsToPandoRoot);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public bool insertWaybillshipment(OmsToPandoRoot omsToPandoRoot, string primaryid)
+        {
+
+            bool res;
+            try
+            {
+
+                res = SPWrapper.WaybillShipment(omsToPandoRoot, primaryid);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public bool InsertitemWaybill(List<Item> itemDTO, string ID, string Code)
+        {
+            bool res;
+            try
+            {
+                //CreateLog($"item sku code insert DB:-{itemDTO}");
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("ID");
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("name");
+                dtsku.Columns.Add("description");
+                dtsku.Columns.Add("quantity");
+                dtsku.Columns.Add("skuCode");
+                dtsku.Columns.Add("itemPrice");
+                dtsku.Columns.Add("imageURL");
+                dtsku.Columns.Add("hsnCode");
+                dtsku.Columns.Add("tags");
+
+                for (int i = 0; i < itemDTO.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["ID"] = ID;
+                    drsku["Code"] = Code;
+                    drsku["name"] = itemDTO[i].name;
+                    drsku["description"] = itemDTO[i].description;
+                    drsku["quantity"] = itemDTO[i].quantity;
+                    drsku["skuCode"] = itemDTO[i].skuCode;
+                    drsku["itemPrice"] = itemDTO[i].itemPrice;
+                    drsku["imageURL"] = itemDTO[i].imageURL;
+                    drsku["hsnCode"] = itemDTO[i].hsnCode;
+                    drsku["tags"] = itemDTO[i].tags;
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.Waybillinsertitems(dtsku);
+                //CreateLog($"item sku insert DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool InsertCustomfieldWaybill(List<CustomFieldValue> itemDTO, string ID, string Code)
+        {
+            bool res;
+            try
+            {
+                //CreateLog($"item sku code insert DB:-{itemDTO}");
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("ID");
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("name");
+
+                dtsku.Columns.Add("value");
+
+
+                for (int i = 0; i < itemDTO.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["ID"] = ID;
+                    drsku["Code"] = Code;
+                    drsku["name"] = itemDTO[i].name;
+                    drsku["value"] = itemDTO[i].value;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.WaybillinsertCustomfield(dtsku);
+                //CreateLog($"item sku insert DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool insertWaybillpickupadres(PickupAddressDetails pickupaddress, string primaryid)
+        {
+
+            bool res;
+            try
+            {
+
+                res = SPWrapper.WaybillPickupAddress(pickupaddress, primaryid);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public bool insertWaybillReturnaddress(ReturnAddressDetails pickupaddress, string primaryid)
+        {
+
+            bool res;
+            try
+            {
+
+                res = SPWrapper.WaybillreturnAddress(pickupaddress, primaryid);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public bool insertWaybilldeliveryaddress(DeliveryAddressDetails pickupaddress, string primaryid)
+        {
+            bool res;
+            try
+            {
+                res = SPWrapper.WaybilldeliveryAddress(pickupaddress, primaryid);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public List<WaybillSend> GetWaybillAllRecrdstosend()
+        {
+            List<WaybillSend> AllRes = new List<WaybillSend>();
+            try
+            {
+                AllRes = Mapper.GetWayBillSendrecords(SPWrapper.GetWaybillSendData());
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+
+
+        public bool insertReturnOrdercoder(List<ReturnorderCode> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertReturnOrderCode(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
+        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodes()
+        {
+            ServiceResponse<List<ReturnorderCode>> codes = new ServiceResponse<List<ReturnorderCode>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetReturnOrderCode(SPWrapper.GetReturnOrderCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public bool insertReturnSaleOrderitem(List<ReturnSaleOrderItem> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("reversePickupCode");
+                dtinstcode.Columns.Add("skuCode");
+                dtinstcode.Columns.Add("quantity");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].Code;
+                    dr["reversePickupCode"] = elements[i].reversePickupCode;
+                    dr["skuCode"] = elements[i].skuCode;
+                    dr["quantity"] = elements[i].quantity;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertReturnSaleOrderitem(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool insertReturnaddress(List<ReturnAddressDetailsList> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("name");
+                dtinstcode.Columns.Add("addressLine1");
+                dtinstcode.Columns.Add("addressLine2");
+                dtinstcode.Columns.Add("city");
+                dtinstcode.Columns.Add("state");
+                dtinstcode.Columns.Add("pincode");
+                dtinstcode.Columns.Add("phone");
+                dtinstcode.Columns.Add("email");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].Code;
+                    dr["name"] = elements[i].name;
+                    dr["addressLine1"] = elements[i].addressLine1;
+                    dr["addressLine2"] = elements[i].addressLine2;
+                    dr["city"] = elements[i].city;
+                    dr["state"] = elements[i].state;
+                    dr["pincode"] = elements[i].pincode;
+                    dr["phone"] = elements[i].phone;
+                    dr["email"] = elements[i].email;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertReturnaddress(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public ServiceResponse<List<ReturnSaleOrderItem>> GetReturnOrderSkuCodes()
+        {
+            ServiceResponse<List<ReturnSaleOrderItem>> codes = new ServiceResponse<List<ReturnSaleOrderItem>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetReturnOrderSkuCode(SPWrapper.GetReturnOrderSkuCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public bool insertReturOrderItemtypes(List<ItemTypeDTO> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("Weight");
+                dtinstcode.Columns.Add("length");
+                dtinstcode.Columns.Add("width");
+                dtinstcode.Columns.Add("itemDetailFieldsText");
+                dtinstcode.Columns.Add("maxRetailPrice");
+                
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].Code;
+                    dr["Weight"] = elements[i].weight;
+                    dr["length"] = elements[i].length;
+                    dr["width"] = elements[i].width;
+                    dr["itemDetailFieldsText"] = elements[i].itemDetailFieldsText;
+                    dr["maxRetailPrice"] = elements[i].maxRetailPrice;
+                    
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertReturnOrderItemtypes(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public ServiceResponse<List<ReturnOrderSendData>> GetReturnOrderSendData()
+        {
+            ServiceResponse<List<ReturnOrderSendData>> codes = new ServiceResponse<List<ReturnOrderSendData>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetReturnSendData(SPWrapper.GetReturnOrderSendData());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public void UpdateWaybillErrordetails(bool status, string Reason)
+        {
+            try
+            {
+                SPWrapper.UpdateWaybillError(status, Reason);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool UpdateReturnOrderErrordetails(List<ErrorDetails> ErrorDt)
+        {            
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].Code;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res= SPWrapper.UpdateReurnOrdercodeError(dtsku);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public bool UpdateReturnOrderSKUErrordetails(List<ErrorDetails> ErrorDt)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].SkuCode;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateReurnOrderSKUError(dtsku);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public void UpdateSaleOrderFirst( string Reason)
+        {
+            try
+            {
+                SPWrapper.UpdateSaleOrderSearchError(Reason);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

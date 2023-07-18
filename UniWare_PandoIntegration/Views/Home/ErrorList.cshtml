@@ -1,0 +1,169 @@
+﻿@model List<Uniware_PandoIntegration.Entities.CodesErrorDetails>
+
+
+
+
+<script src="~/js/jquery-3.7.0.min.js"></script>
+@*<script src="~/js/jquery.toast.min.js"></script>*@
+<script src="~/js/toast.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function (ev) {
+        geterrorcode();
+    });
+    function geterrorcode() {
+        debugger;
+        //var length = 'HttpContext.Session.Getstring("Errorcodeoccur")'
+        var UserName = '@Html.Raw(this.ViewData["UserName"])'
+        debugger;
+        if (UserName == 1) {
+            debugger;
+            $("#id_triggerbtn").css("display", "block");
+        }
+    }
+    function fn_Retrigger() {
+        debugger;
+        const options = {
+            settings: {
+                duration: 5000,
+            },
+        };
+        const styles = {
+            style: {
+                main: {
+                    background: "#3CB043",
+                    color: "white",
+                },
+            },
+        };
+        $.ajax({            
+            url: "/Home/Retrigger",
+            type: 'GET',
+            success: function (res) {            
+                iqwerty.toast.toast(res.message,  styles);               
+            }
+        });
+    }
+</script>
+<style>
+    table {
+        width: 100%;
+        table-layout: fixed;
+        margin-top: 30px;
+    }
+
+    .tbl-header {
+        background-color: darkturquoise;
+        font-size: large;
+    }
+
+    .tbl-content {
+        height: 316px;
+        overflow-x: auto;
+        margin-top: 0px;
+        border: 1px solid rgba(255,255,255,0.3);
+        background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+        background: linear-gradient(to right, #25c481, #25b7c4);
+        font-size: large;
+    }
+
+    th {
+        padding: 20px 15px;
+        text-align: left;
+        font-weight: 500;
+        font-size: 12px;
+        color: #fff;
+        text-transform: uppercase;
+    }
+
+    td {
+        padding: 15px;
+        text-align: left;
+        vertical-align: middle;
+        font-weight: 300;
+        font-size: 12px;
+        color: #fff;
+        border-bottom: solid 1px rgba(255,255,255,0.1);
+    }
+
+
+
+    body {
+        font-family: sans-serif;
+        background-color: whitesmoke;
+    }
+
+    section {
+        margin: 50px;
+    }
+
+    /* for custom scrollbar for webkit browser*/
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+</style>
+<script src="~/js/jquery-3.7.0.min.js"></script>
+<div class="container">
+    <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+                <tr>
+                    <th>saleOrder/search</th>
+                    <th>saleorder/get</th>
+                    <th>itemType/get</th>
+                    <th>delivery-picklist</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="tbl-content">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+                @if (Model.Count > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                @item.CODE
+                            </td>
+                            <td>
+                                @item.itemSku
+                            </td>
+                            <td>
+                                @item.Triggerid
+                            </td>
+                            <td>@item.Reason</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" style="text-align: center;font-size: larger;">
+                            No Failed Records.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div id="id_triggerbtn" style="text-align: end;display: none; margin-top: 10px;border-radius: 94px;">
+        @*<input type="button" value="Retrigger" />*@
+        <button class="btn btn-outline-dark" onclick="fn_Retrigger()">Retrigger</button>
+    </div>
+</div>
