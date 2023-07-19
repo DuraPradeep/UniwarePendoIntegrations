@@ -503,7 +503,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         //Step-2
         [HttpGet]
-        public IActionResult GetJWTUserLogin()
+        public IActionResult GetJWTToken()
         {
             //GenerateToken generateToken=new GenerateToken(null) ;
             var token = _jWTManager.GenerateJWTTokens();
