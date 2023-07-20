@@ -1043,6 +1043,45 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
 
         }
+        public static DataSet CheckLoginCredentials(string UserName, string Password)
+        {
+            con = GetConnection();
+            // con = GetConnection();
+            // con = new SqlConnection(connectionString);
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = null;
+            DataTable dtConfig = new DataTable();
+            try
+            {
+                com = new SqlCommand
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "Pro_GetUsernamePassword"
+                };
+                com.Parameters.AddWithValue("@Username", UserName);
+                com.Parameters.AddWithValue("@Password", Password);
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"ServiceResponse Object {JsonConvert.SerializeObject(ex)}");
+
+                // LoggingAdapter.WriteLog("Insert Country Details" + ex.Message + Environment.NewLine);
+            }
+            finally
+            {
+                con.Close();
+                con = null;
+            }
+
+            //  int lintId = 0;
+
+            return ds;
+        }
     }
 
 }

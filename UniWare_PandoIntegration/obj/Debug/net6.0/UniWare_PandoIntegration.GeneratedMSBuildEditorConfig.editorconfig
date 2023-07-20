@@ -40,16 +40,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_CancelOrderErrorList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9DYW5jZWxPcmRlckVycm9yTGlzdC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_ErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9FcnJvckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_ReturnOrderErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9SZXR1cm5PcmRlckVycm9yTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_STOWaybillErrorList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9TVE9XYXliaWxsRXJyb3JMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_WaybillErrorList.cshtml]

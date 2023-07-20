@@ -4,4 +4,60 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<h3>Waybill Error List</h3>
+<div class="container" id="errorList1">
+    @*<div class="table_records">
+        <div class="tbl-header">
+            <table cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <th>saleOrder/search</th>
+                        <th>saleorder/get</th>
+                        <th>itemType/get</th>
+                        <th>delivery-picklist</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>*@
+        <div class="tbl-content">
+            <table cellpadding="0" cellspacing="0" border="0">
+                @*<tbody>
+                    @if (Model.Count > 0)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                </td>
+                                <td>
+                                    @item.CODE
+                                </td>
+                                <td>
+                                    @item.itemSku
+                                </td>
+                                <td>
+                                    @item.Triggerid
+                                </td>
+                                <td>@item.Reason</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" style="text-align: center;font-size: larger;">
+                                No Failed Records.
+                            </td>
+                        </tr>
+                    }
+                </tbody>*@
+            </table>
+
+        </div>
+    </div>
+
+    <div id="id_triggerbtn" style="text-align: end;display: none; margin-top: 10px;border-radius: 94px;">
+        @*<input type="button" value="Retrigger" />*@
+        <button class="btn btn-outline-dark" onclick="fn_Retrigger()">Retrigger</button>
+    </div>
+</div>

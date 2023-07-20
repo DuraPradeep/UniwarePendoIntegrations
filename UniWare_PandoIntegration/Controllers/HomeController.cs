@@ -1,30 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Newtonsoft.Json;
 using Uniware_PandoIntegration.APIs;
 using Uniware_PandoIntegration.Entities;
+using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace UniWare_PandoIntegration.Controllers
 {
     public class HomeController : Controller
     {
+        
         ApiOperation ApiControl;
-        [HttpPost]
-        public async Task<ActionResult> Login(UserLogin login)
+
+
+		[HttpPost]
+        public ActionResult Login(string UserName, string Password)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (login.UserName == "admin" && login.Password == "admin")
+                    ApiControl = new ApiOperation();
+					ServiceResponse<UserLogin> serviceResponseg = ApiControl.Get<ServiceResponse<UserLogin>, string, string>(UserName, Password, "UserName", "Password", "Api/Login/GetUserNamePassword");
+                    if (serviceResponseg.ObjectParam.UserName == UserName && serviceResponseg.ObjectParam.Password == Password)
                     {
-                        HttpClient client = new HttpClient();
-                        client.BaseAddress = new Uri("https://localhost:7128");
 
-                        //HttpResponseMessage htp = await client.GetAsync("api/UniwarePando/GetErrorCodes");
-                        //var codes = htp.Content.ReadAsStringAsync().Result;
-                        ////response = codes;
-                        ViewBag.Message = "Welcome to the Dashboard!!";
+						HttpContext.Session.SetString("UserName", serviceResponseg.ObjectParam.UserName);
+                        
+                        ViewBag.Message = "Welcome "+ HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
                         return View("Dashboard");
                     }
                     else
@@ -90,7 +96,8 @@ namespace UniWare_PandoIntegration.Controllers
         public ActionResult Logout()
         {
             ViewBag.Message = "Logout Sucessfuly!!";
-            return View("Login");
+           
+            return RedirectToAction("Login");
         }
         public ActionResult WaybillErrorList()
         {
@@ -100,9 +107,11 @@ namespace UniWare_PandoIntegration.Controllers
         {
             return View("~/Views/Home/Pv_ReturnOrderErrorList.cshtml");
         }
-        public ActionResult CancelOrderErrorList()
-        {
-            return View("~/Views/Home/Pv_CancelOrderErrorList.cshtml");
+        public ActionResult STOWaybillErrorList()
+        {           
+            return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
         }
+
+
     }
 }

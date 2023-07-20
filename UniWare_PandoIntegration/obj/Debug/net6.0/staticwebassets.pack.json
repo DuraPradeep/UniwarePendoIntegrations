@@ -29,12 +29,20 @@
       "PackagePath": "staticwebassets\\css\\Landing.css"
     },
     {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\fontawesome4.7.0.min.css",
+      "PackagePath": "staticwebassets\\css\\fontawesome4.7.0.min.css"
+    },
+    {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
     },
     {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\jquery-3.7.0.min.js",
@@ -183,6 +191,10 @@
     {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\css\\fontawesome4.7.0.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\fontawesome4.7.0.min.css"
     },
     {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",

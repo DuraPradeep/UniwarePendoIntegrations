@@ -4,9 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 class="title_dashboard">Dashboard</h1>
+@*<h1 class="title_dashboard">Dashboard</h1>*@
+<link href="~/lib/bootstrap/dist/css/fontawesome4.7.0.min.css" rel="stylesheet" />
 <script src="~/js/jquery-3.7.0.min.js"></script>
 <script src="~/js/toast.min.js"></script>
+
 <style>
     /* Color and Images for Project Containers  */
 
@@ -172,8 +174,9 @@
     }
     function fn_WaybillErrorList() {
         debugger;
+        //$("#overlay").fadeIn(500);
         $.get("/Home/WaybillErrorList", {}).done(function (data) {
-
+            //$("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
             
@@ -181,17 +184,19 @@
     }
     function fn_ReturnOrderErrorList() {
         debugger;
+        //$("#overlay").fadeIn(500);
         $.get("/Home/ReturnOrderErrorList", {}).done(function (data) {
-
+            //$("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
 
         });
     }
-    function fn_CancelOrderErrorList() {
+    function fn_STOWaybillErrorList() {
         debugger;
-        $.get("/Home/CancelOrderErrorList", {}).done(function (data) {
-
+        //$("#overlay").fadeIn(500);
+        $.get("/Home/STOWaybillErrorList", {}).done(function (data) {
+            //$("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
 
@@ -263,12 +268,12 @@
 
     </div>
     <div class="row">
-        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_CancelOrderErrorList()">
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_STOWaybillErrorList()">
 
             <div class="card text-white text-center mb-4">
                 <div class="card-body tile_list">
                     @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
-                    <p>Cancel Order </p>
+                    <p>STO Waybill API </p>
                 </div>
             </div>
 

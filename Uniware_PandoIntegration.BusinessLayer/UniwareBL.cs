@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,7 @@ using Uniware_PandoIntegration.Entities;
 
 namespace Uniware_PandoIntegration.BusinessLayer
 {
+    
     public class UniwareBL
     {
         public bool InsertCode(List<Element> elements)
@@ -1078,5 +1080,25 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
+		public static void CreateLog(string message)
+		{
+			Log.Information(message);
+		}
+		public ServiceResponse<UserLogin> CheckLoginCredentials(string UserName, string Password)
+        {
+            ServiceResponse<UserLogin> serviceResponse;
+            try
+            {
+                serviceResponse = Mapper.CheckLoginCredentials(SPWrapper.CheckLoginCredentials(UserName, Password));
+				CreateLog($"ServiceResponse Object {JsonConvert.SerializeObject(serviceResponse)}");
+            }
+            catch (Exception Ex)
+            {
+				Log.Error($"Excetion at :", Ex);
+                serviceResponse = null;
+            }
+            return serviceResponse;
+        }
+        
     }
 }

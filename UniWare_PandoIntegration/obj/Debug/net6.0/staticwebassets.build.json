@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+ouutcWjRrVq+t5ik4/W+wu+z6o9VF3mLZTfiGgzKsk=",
+  "Hash": "gnDD93ZnZTLo5ijaVDHWPohqrI5iunJfDfgsWknLy08=",
   "Source": "UniWare_PandoIntegration",
   "BasePath": "_content/UniWare_PandoIntegration",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\UniWare_PandoIntegration.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\fontawesome4.7.0.min.css",
+      "SourceId": "UniWare_PandoIntegration",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\",
+      "BasePath": "_content/UniWare_PandoIntegration",
+      "RelativePath": "css/fontawesome4.7.0.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\fontawesome4.7.0.min.css"
     },
     {
       "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\Landing.css",
@@ -185,6 +202,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\user.png"
+    },
+    {
+      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\bootstrap.min.js",
+      "SourceId": "UniWare_PandoIntegration",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\",
+      "BasePath": "_content/UniWare_PandoIntegration",
+      "RelativePath": "js/bootstrap.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\bootstrap.min.js"
     },
     {
       "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\jquery.toast.min.js",
@@ -797,6 +831,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\css\\fontawesome4.7.0.min.css",
+      "SourceId": "UniWare_PandoIntegration",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\",
+      "BasePath": "_content/UniWare_PandoIntegration",
+      "RelativePath": "lib/bootstrap/dist/css/fontawesome4.7.0.min.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\fontawesome4.7.0.min.css"
     },
     {
       "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",

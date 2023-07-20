@@ -77,7 +77,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddSingleton(new BasicAuthenticationFilterAttribute());
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IUniwarePando>(new GenerateToken(configuration));
 builder.Services.AddSwaggerGen(options =>
 {

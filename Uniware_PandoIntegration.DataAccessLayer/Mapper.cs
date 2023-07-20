@@ -372,6 +372,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
-
+        
+        public static ServiceResponse<UserLogin> CheckLoginCredentials(DataSet pds)
+        {
+            ServiceResponse<UserLogin> serviceResponse = new ServiceResponse<UserLogin>();
+            UserLogin userLogin = new UserLogin();
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    userLogin.UserName = Convert.ToString(pds.Tables[0].Rows[0]["UserName"]);
+                    userLogin.Password = pds.Tables[0].Rows[0]["Password"].ToString();
+                    serviceResponse.ObjectParam = userLogin;
+                    serviceResponse.Errcode = 200;
+                }
+                else
+                {
+                    serviceResponse.Errcode = Convert.ToInt32(300);
+                    serviceResponse.Errdesc = "Data Not Found";
+                    serviceResponse.ObjectParam = new UserLogin();
+                }
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Errcode = 500;
+                serviceResponse.Errdesc = ex.Message;
+                serviceResponse.ObjectParam = new UserLogin();
+            }
+            return serviceResponse;
+        }
     }
 }
