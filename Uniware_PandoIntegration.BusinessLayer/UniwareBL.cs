@@ -14,7 +14,7 @@ using Uniware_PandoIntegration.Entities;
 
 namespace Uniware_PandoIntegration.BusinessLayer
 {
-    
+
     public class UniwareBL
     {
         public bool InsertCode(List<Element> elements)
@@ -848,7 +848,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtinstcode.Columns.Add("width");
                 dtinstcode.Columns.Add("itemDetailFieldsText");
                 dtinstcode.Columns.Add("maxRetailPrice");
-                
+
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
@@ -858,7 +858,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["width"] = elements[i].width;
                     dr["itemDetailFieldsText"] = elements[i].itemDetailFieldsText;
                     dr["maxRetailPrice"] = elements[i].maxRetailPrice;
-                    
+
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertReturnOrderItemtypes(dtinstcode);
@@ -899,7 +899,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
         }
         public bool UpdateReturnOrderErrordetails(List<ErrorDetails> ErrorDt)
-        {            
+        {
             bool res;
             try
             {
@@ -918,7 +918,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res= SPWrapper.UpdateReurnOrdercodeError(dtsku);
+                res = SPWrapper.UpdateReurnOrdercodeError(dtsku);
 
             }
             catch (Exception ex)
@@ -958,7 +958,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public void UpdateSaleOrderFirst( string Reason)
+        public void UpdateSaleOrderFirst(string Reason)
         {
             try
             {
@@ -1024,7 +1024,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 for (int i = 0; i < itemDatun.ObjectParam.Count; i++)
                 {
                     DataRow drsku = dtsku.NewRow();
-                    drsku["name"] = itemDatun.ObjectParam [i].name;
+                    drsku["name"] = itemDatun.ObjectParam[i].name;
                     drsku["reference_number"] = itemDatun.ObjectParam[i].reference_number;
                     drsku["address"] = itemDatun.ObjectParam[i].address;
                     drsku["city"] = itemDatun.ObjectParam[i].city;
@@ -1104,7 +1104,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
         }
         public List<Element> GetWaybillgatePassCode()
         {
-          List<Element> codes = new List<Element>();
+            List<Element> codes = new List<Element>();
 
             try
             {
@@ -1126,14 +1126,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             {
                 DataTable dtinstcode = new DataTable();
                 dtinstcode.Columns.Add("Code");
-                dtinstcode.Columns.Add("reference");               
+                dtinstcode.Columns.Add("reference");
                 dtinstcode.Columns.Add("topartyname");
                 dtinstcode.Columns.Add("invoicecode");
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
                     dr["Code"] = elements[i].code;
-                    dr["reference"] = elements[i].reference;                   
+                    dr["reference"] = elements[i].reference;
                     dr["topartyname"] = elements[i].toPartyName;
                     dr["invoicecode"] = elements[i].invoiceCode;
                     dtinstcode.Rows.Add(dr);
@@ -1181,8 +1181,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
             try
             {
-                
-                return codes = Mapper.GetSKUCode(SPWrapper.GetWaybillSKUCde());                
+
+                return codes = Mapper.GetSKUCode(SPWrapper.GetWaybillSKUCde());
             }
             catch (Exception ex)
             {
@@ -1221,26 +1221,27 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
+
+        public static void CreateLog(string message)
+        {
+            Log.Information(message);
         }
-		public static void CreateLog(string message)
-		{
-			Log.Information(message);
-		}
-		public ServiceResponse<UserLogin> CheckLoginCredentials(string UserName, string Password)
+        public ServiceResponse<UserLogin> CheckLoginCredentials(string UserName, string Password)
         {
             ServiceResponse<UserLogin> serviceResponse;
             try
             {
                 serviceResponse = Mapper.CheckLoginCredentials(SPWrapper.CheckLoginCredentials(UserName, Password));
-				CreateLog($"ServiceResponse Object {JsonConvert.SerializeObject(serviceResponse)}");
+                CreateLog($"ServiceResponse Object {JsonConvert.SerializeObject(serviceResponse)}");
             }
             catch (Exception Ex)
             {
-				Log.Error($"Excetion at :", Ex);
+                Log.Error($"Excetion at :", Ex);
                 serviceResponse = null;
             }
             return serviceResponse;
         }
-        
+
     }
 }
+
