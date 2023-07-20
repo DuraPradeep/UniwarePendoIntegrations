@@ -367,6 +367,148 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
 
         }
+        public async Task<Uniware_PandoIntegration.Entities.PandoUniwariToken> GetTokensSTO()
+        {
+            PandoUniwariToken rootobject;
+            try
+            {
+                CreateLog(" GetToken For STOWaybill");
+                string URL = "https://stgsleepyhead.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+
+                HttpClient _client = new HttpClient()
+                {
+                    BaseAddress = new Uri(URL)
+                };
+                _client.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = _client.GetAsync(URL).Result;
+                var responses = response.Content.ReadAsStringAsync().Result;
+                rootobject = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(responses);
+                CreateLog($" Response:{responses}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return rootobject;
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                CreateLog($" Error: {ex.Message}");
+                throw ex;
+            }
+
+            return rootobject;
+        }
+
+        public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token)
+        {
+
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            try
+            {
+
+                CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                request.Headers.Add("Facility", "stgsleepyhead");
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(Details, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
+                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                //return responses;
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    //GetCode(Details, Token);
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($" Error: {ex.Message}");
+                throw ex;
+            }
+            return serviceResponse;
+        }
+        public async Task<ServiceResponse<string>> FetchingGetPassElements(string Details, string Token)
+        {
+
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            try
+            {
+
+                CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                request.Headers.Add("Facility", "stgsleepyhead");
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(Details, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
+                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                //return responses;
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    //GetCode(Details, Token);
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($" Error: {ex.Message}");
+                throw ex;
+            }
+            return serviceResponse;
+        }
+        public async Task<ServiceResponse<string>> GetSTOSkuDetails(string SkuCode, string Token)
+        {
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            try
+            {
+                CreateLog("STO itemType_Get -" + SkuCode + ": " + Token);
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/catalog/itemType/get");
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(SkuCode, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                //response.EnsureSuccessStatusCode();
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                //return responses;
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    //GetSkuDetails(SkuCode, Token);
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return serviceResponse;
+        }
 
 
     }

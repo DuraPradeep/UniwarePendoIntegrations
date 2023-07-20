@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/UniWare_PandoIntegration/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.pdb
+/UniWare_PandoIntegration/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.API/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.API/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.pdb

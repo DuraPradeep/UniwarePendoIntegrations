@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using System.Reflection.Emit;
 using System.Text.Json.Nodes;
@@ -639,5 +640,144 @@ namespace Uniware_PandoIntegration.API
             }
             return ResStatus;
         }
+
+        public List<Element> GatePass(string jdetail, string token, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            var list = _Token.FetchingGetPassCode(jdetail, token);
+            Element rootReturnorderAPI = new Element();
+            List<Element> listcode = new List<Element>();
+            
+            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ErrorDetails errorDetails = new ErrorDetails();
+                    errorDetails.Status = true;
+                   // errorDetails.Code = Code;
+                    errorDetails.Reason = list.Result.ObjectParam;
+                    errorCodeDetails.Add(errorDetails);
+                    GatePass(jdetail, token, Lcheckcount);
+                }
+                else
+                {
+                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
+
+                    rootReturnorderAPI = null;
+                }
+            }
+            else
+            {
+                var Dlist = JsonConvert.DeserializeObject<STOGatePass>(list.Result.ObjectParam);
+                for (int i = 0; i < Dlist.elements.Count; i++)
+                {
+                    Element code = new Element();
+                    code.code= Dlist.elements[i].code;
+                    listcode.Add(code);
+                }
+            }
+            
+            //return rootReturnorderAPI;
+            return listcode;
+        }
+        public STOlists GetGatePassElements(string jdetail, string token, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            var list = _Token.FetchingGetPassElements(jdetail, token);
+
+            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+            STOlists STOlists = new STOlists();
+            STOlists.gatePassItemDTOs = new List<GatePassItemDTO>();
+            STOlists.elements = new List<Element>();
+
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ErrorDetails errorDetails = new ErrorDetails();
+                    errorDetails.Status = true;
+                    // errorDetails.Code = Code;
+                    errorDetails.Reason = list.Result.ObjectParam;
+                    errorCodeDetails.Add(errorDetails);
+                    GetGatePassElements(jdetail, token, Lcheckcount);
+                }
+                else
+                {
+                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
+
+                    STOlists = null;
+                }
+            }
+            else
+            {
+                var Dlist = JsonConvert.DeserializeObject<STOwaybillGetCode>(list.Result.ObjectParam);
+                for (int i = 0; i < Dlist.elements.Count; i++)
+                {
+                    Element code = new Element();
+                    code.code = Dlist.elements[i].code;
+                    code.reference = Dlist.elements[i].code;
+                    code.toParty = Dlist.elements[i].code;
+                    code.invoiceCode = Dlist.elements[i].code;
+                    STOlists.elements.Add(code);
+                    for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
+                    {
+                        GatePassItemDTO gatePassItemDTO = new GatePassItemDTO();
+                        gatePassItemDTO.code= Dlist.elements[i].code;
+                        gatePassItemDTO.quantity= Dlist.elements[i].gatePassItemDTOs[j].quantity;
+                        gatePassItemDTO.itemTypeSKU = Dlist.elements[i].gatePassItemDTOs[j].itemTypeSKU;
+                        gatePassItemDTO.unitPrice= Dlist.elements[i].gatePassItemDTOs[j].unitPrice;
+                        STOlists.gatePassItemDTOs.Add(gatePassItemDTO);
+                    }
+                }
+            }
+            //return rootReturnorderAPI;
+            return STOlists;
+        }
+        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token,string code, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            var list = _Token.GetSTOSkuDetails(jdetail, token);            
+            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+            ItemTypeDTO itemType = new ItemTypeDTO();
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ErrorDetails errorDetails = new ErrorDetails();
+                    errorDetails.Status = true;
+                    // errorDetails.Code = Code;
+                    errorDetails.Reason = list.Result.ObjectParam;
+                    errorCodeDetails.Add(errorDetails);
+                    GetSTOWaybillSkuDetails(jdetail, token, code, Lcheckcount);
+                }
+                else
+                {
+                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
+
+                    itemType = null;
+                }
+            }
+            else
+            {
+                var itemtypes = JsonConvert.DeserializeObject<WaybillSTOItemtypeDTO>(list.Result.ObjectParam);
+                itemType.Code = code;
+                itemType.length = itemtypes.itemTypeDTO.length;
+                itemType.width = itemtypes.itemTypeDTO.width;
+                //itemType.height = itemtypes.itemTypeDTO.height;
+                itemType.weight = itemtypes.itemTypeDTO.weight;
+                itemType.itemDetailFieldsText = itemtypes.itemTypeDTO.itemDetailFieldsText;
+            }
+            //return rootReturnorderAPI;
+            return itemType;
+        }
+
     }
 }
