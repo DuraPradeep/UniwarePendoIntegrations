@@ -9,69 +9,69 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = UniWare_PandoIntegration
 build_property.RootNamespace = UniWare_PandoIntegration
-build_property.ProjectDir = D:\Duroflex\UniwarePando\UniWare_PandoIntegration\
+build_property.ProjectDir = D:\UniWare\UniWare_PandoIntegration\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\Duroflex\UniwarePando\UniWare_PandoIntegration
+build_property.MSBuildProjectDirectory = D:\UniWare\UniWare_PandoIntegration
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Details/Details.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Details/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGV0YWlsc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/DashBoard.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/DashBoard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEYXNoQm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/ErrorList.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/ErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Index.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Login.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Privacy.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_ErrorList.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Pv_ErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9FcnJvckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_ReturnOrderErrorList.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Pv_ReturnOrderErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9SZXR1cm5PcmRlckVycm9yTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_STOWaybillErrorList.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Pv_STOWaybillErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9TVE9XYXliaWxsRXJyb3JMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Home/Pv_WaybillErrorList.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Pv_WaybillErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9XYXliaWxsRXJyb3JMaXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Shared/Error.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/_ViewImports.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/_ViewStart.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Duroflex/UniwarePando/UniWare_PandoIntegration/Views/Shared/_Layout.cshtml]
+[D:/UniWare/UniWare_PandoIntegration/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-j0340q26ni

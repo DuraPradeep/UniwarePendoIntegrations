@@ -1175,6 +1175,55 @@ namespace Uniware_PandoIntegration.APIs
             }
             return res;
         }
+        public static DataSet GetWaybillSTOSendData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "Sp_sendDataToWaybillSTO"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            return ds;
+        }
+        public static string IsertWaybillPostData(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertWaybillSTOPostData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@Trigger_id", SqlDbType.VarChar, 100);
+                com.Parameters["@Trigger_id"].Direction = ParameterDirection.Output;
+                com.Parameters.AddWithValue("@SendRecords", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
         public static DataSet CheckLoginCredentials(string UserName, string Password)
         {
             con = GetConnection();

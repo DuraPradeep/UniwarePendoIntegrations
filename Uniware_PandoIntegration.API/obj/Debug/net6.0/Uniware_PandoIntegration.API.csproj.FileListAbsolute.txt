@@ -176,7 +176,6 @@ D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegratio
 D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.AssemblyInfoInputs.cache
 D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.AssemblyInfo.cs
 D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.csproj.CoreCompileInputs.cache
-D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.MvcApplicationPartsAssemblyInfo.cs
 D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.MvcApplicationPartsAssemblyInfo.cache
 D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\staticwebassets\msbuild.Uniware_PandoIntegration.API.Microsoft.AspNetCore.StaticWebAssets.props
 D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\staticwebassets\msbuild.build.Uniware_PandoIntegration.API.props
@@ -295,3 +294,4 @@ D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\obj\Debug\net6.0\refint\Un
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.pdb
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.genruntimeconfig.cache
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\obj\Debug\net6.0\ref\Uniware_PandoIntegration.API.dll
+D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\Uniware_PandoIntegration.API.MvcApplicationPartsAssemblyInfo.cs

@@ -18,6 +18,7 @@ using System.Net;
 using Serilog;
 using Microsoft.AspNetCore.Authorization;
 using Uniware_PandoIntegration.API.Folder;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -678,47 +679,52 @@ namespace Uniware_PandoIntegration.API.Controllers
             string token = HttpContext.Session.GetString("STOToken");
             List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
             List<Element> elements = new List<Element>();
-            var res=_MethodWrapper.GatePass(jsonre, token,0);
-            if (res.Count >= 0)
-            {
-                ObjBusinessLayer.insertGatePassCode(res);
-                var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCode();
-                for (int i = 0;i<GatePassCode.Count;i++)
-                {
-                    List<string> gatePassCodes = new List<string> { GatePassCode[i].code.ToString() };
-                    var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes= gatePassCodes });
-                    var elemnetsList=_MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, 0);
-                    if(elemnetsList != null)
-                    {
-                        gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
-                        elements.AddRange(elemnetsList.elements);
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                ObjBusinessLayer.insertGatePassElements(elements);
-                ObjBusinessLayer.insertItemTypeDTO(gatePassItemDTOs);
-                var Skucodes = ObjBusinessLayer.GetWaybillSKUCode();
-                List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
-                for (int k = 0; k<Skucodes.Count;k++)
-                {
-                    var skucode = JsonConvert.SerializeObject(new { skuCode= Skucodes[k].itemTypeSKU});
-                    var code= Skucodes[k].code;
-                    var Itemtypes=_MethodWrapper.GetSTOWaybillSkuDetails(skucode, token, code,0);
-                    if (Itemtypes != null)
-                    {
-                        itemTypeDTO.Add(Itemtypes);
-                    }
-                    else
-                        return;
-                }
-                ObjBusinessLayer.insertWaybillItemType(itemTypeDTO);
-            }
-            else
-                return;
+            //var res=_MethodWrapper.GatePass(jsonre, token,0);
+            //if (res.Count >= 0)
+            //{
+            //    ObjBusinessLayer.insertGatePassCode(res);
+            //    var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCode();
+            //    for (int i = 0;i<GatePassCode.Count;i++)
+            //    {
+            //        List<string> gatePassCodes = new List<string> { GatePassCode[i].code.ToString() };
+            //        var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes= gatePassCodes });
+            //        var elemnetsList=_MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, 0);
+            //        if(elemnetsList != null)
+            //        {
+            //            gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
+            //            elements.AddRange(elemnetsList.elements);
+            //        }
+            //        else
+            //        {
+            //            return;
+            //        }
+            //    }
+            //    ObjBusinessLayer.insertGatePassElements(elements);
+            //    ObjBusinessLayer.insertItemTypeDTO(gatePassItemDTOs);
+            //    var Skucodes = ObjBusinessLayer.GetWaybillSKUCode();
+            //    List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
+            //    for (int k = 0; k<Skucodes.Count;k++)
+            //    {
+            //        var skucode = JsonConvert.SerializeObject(new { skuCode= Skucodes[k].itemTypeSKU});
+            //        var code= Skucodes[k].code;
+            //        var Itemtypes=_MethodWrapper.GetSTOWaybillSkuDetails(skucode, token, code,0);
+            //        if (Itemtypes != null)
+            //        {
+            //            itemTypeDTO.Add(Itemtypes);
+            //        }
+            //        else
+            //            return;
+            //    }
+            //    ObjBusinessLayer.insertWaybillItemType(itemTypeDTO);
+            //    var Records = ObjBusinessLayer.GetAllWaybillSTOPost();
+            //}
+            //else
+            //    return;
+            var Records = ObjBusinessLayer.GetAllWaybillSTOPost();
+            var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
+                
         }
+       
 
 
 

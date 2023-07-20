@@ -414,6 +414,62 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
+        public static List<PostDataSTOWaybill> GetSendingWayBillSTOData(DataSet pds)
+        {
+            List<PostDataSTOWaybill> Finaldata = new List<PostDataSTOWaybill>();
+
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                    {
+                        PostDataSTOWaybill Sendingdata = new PostDataSTOWaybill();
+                        Sendingdata.indent_no = pds.Tables[0].Rows[i]["indent_no"].ToString();
+                        Sendingdata.delivery_number = pds.Tables[0].Rows[i]["delivery_number"].ToString();
+                        Sendingdata.mrp_price = pds.Tables[0].Rows[i]["mrp_price"].ToString();
+                        Sendingdata.material_code = pds.Tables[0].Rows[i]["material_code"].ToString();
+                        Sendingdata.actual_source = pds.Tables[0].Rows[i]["actual_source"].ToString();
+                        Sendingdata.source_system = pds.Tables[0].Rows[i]["source_system"].ToString();
+                        Sendingdata.gate_ref_id = pds.Tables[0].Rows[i]["gate_ref_id"].ToString();
+                        Sendingdata.division = pds.Tables[0].Rows[i]["division"].ToString();
+                        Sendingdata.quantity = pds.Tables[0].Rows[i]["quantity"].ToString();
+                        Sendingdata.quantity_unit = pds.Tables[0].Rows[i]["quantity_unit"].ToString();
+                        Sendingdata.weight = pds.Tables[0].Rows[i]["weight"].ToString();
+                        Sendingdata.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
+                        Sendingdata.volume = pds.Tables[0].Rows[i]["volume"].ToString();
+                        Sendingdata.volume_unit = pds.Tables[0].Rows[i]["volume_unit"].ToString();
+                        Sendingdata.ship_to = pds.Tables[0].Rows[i]["ship_to"].ToString();
+                        Sendingdata.sold_to = pds.Tables[0].Rows[i]["sold_to"].ToString();
+                        Sendingdata.type = pds.Tables[0].Rows[i]["type"].ToString();
+                        Sendingdata.invoice_number = pds.Tables[0].Rows[i]["invoice_number"].ToString();
+                        Sendingdata.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
+                        Sendingdata.category = pds.Tables[0].Rows[i]["category"].ToString();
+                        Sendingdata.invoice_date = pds.Tables[0].Rows[i]["invoice_date"].ToString();
+                        Sendingdata.line_item_no = pds.Tables[0].Rows[i]["line_item_no"].ToString();
+                        Sendingdata.eway_bill_number = pds.Tables[0].Rows[i]["eway_bill_number"].ToString();
+                        Sendingdata.eway_bill_date = pds.Tables[0].Rows[i]["eway_bill_date"].ToString();
+                        Sendingdata.action_by = pds.Tables[0].Rows[i]["action_by"].ToString();
+                        Sendingdata.clear = pds.Tables[0].Rows[i]["clear"].ToString();
+                       
+
+
+                        Finaldata.Add(Sendingdata);
+                    }
+                    // serviceResponse.Errcode = 200;
+                }
+                else
+                {
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Finaldata;
+        }
 
         
         public static ServiceResponse<UserLogin> CheckLoginCredentials(DataSet pds)
