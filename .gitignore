@@ -25,3 +25,4 @@ PublishScripts/
 *.publishsettings
 /UniWare_PandoIntegration/obj/Debug/net6.0/UniWare_PandoIntegration.csproj.AssemblyReference.cache
 /.vs/UniWare_PandoIntegration/v17/.suo
+*.vsidx
