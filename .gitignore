@@ -30,3 +30,6 @@ PublishScripts/
 *.vsidx
 *bin/debug/net6/.dll
 *bin/debug/net6/.pdb
+/.vs/ProjectEvaluation/uniware_pandointegration.metadata.v6.1
+/.vs/ProjectEvaluation/uniware_pandointegration.projects.v6.1
+/.vs/UniWare_PandoIntegration/DesignTimeBuild/.dtbcache.v2
