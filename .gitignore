@@ -1,11 +1,25 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
+# Visual Studio cache files
+# files ending in .cache can be ignored
+*.[Cc]ache
+# but keep track of directories ending in .cache
+!?*.[Cc]ache/
 
-/UniWare_PandoIntegration/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.pdb
-/UniWare_PandoIntegration/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.dll
-/Uniware_PandoIntegration.API/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.dll
-/Uniware_PandoIntegration.API/bin/Debug/net6.0/Uniware_PandoIntegration.Entities.pdb
-/.vs/ProjectEvaluation
-/UniWare_PandoIntegration/obj/Debug/net6.0/UniWare_PandoIntegration.assets.cache
-/Uniware_PandoIntegration.BusinessLayer/obj/Debug/Uniware_PandoIntegration.BusinessLayer.csproj.AssemblyReference.cache
+# NuGet v3's project.json files produces more ignorable files
+*.nuget.props
+*.nuget.targets
+
+# in these scripts will be unencrypted
+PublishScripts/
+
+# NuGet Packages
+*.nupkg
+# NuGet Symbol Packages
+*.snupkg
+
+ # Files built by Visual Studio
+*.obj
+*.pdb
+*.publishsettings
