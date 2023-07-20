@@ -12,6 +12,12 @@ namespace Uniware_PandoIntegration.Entities
         public string itemSku { get; set; }
         public string Triggerid { get; set; }
         public String Reason { get; set; }
+        public String Reason { get; set; }
+        public String Reason { get; set; }
+        public String Reason { get; set; }
+        public String Reason { get; set; }
+        public String Reason { get; set; }
+        public String Reason { get; set; }
     }
    
 }
