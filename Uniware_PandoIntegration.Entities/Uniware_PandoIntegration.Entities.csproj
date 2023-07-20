@@ -58,8 +58,11 @@
     <Compile Include="saleOrderDTO.cs" />
     <Compile Include="SaleOrderSearch.cs" />
     <Compile Include="Datum.cs" />
+    <Compile Include="STOGatePass.cs" />
+    <Compile Include="STOwaybillGetCode.cs" />
     <Compile Include="UserLogin.cs" />
     <Compile Include="WaybillSend.cs" />
+    <Compile Include="WaybillSTOItemtypeDTO.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1043,6 +1043,138 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
 
         }
+        public static bool InsertGetPassCode(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertGetpassCode";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Getpasscode", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static DataSet GetWaybillgatepassCode()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetWaybillSTOCode"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {               
+                throw ex;
+            }
+            return ds;
+        }
+        public static bool InsertGetPassElements(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertSTOWaybillEmelents";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Elements", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static bool InsertItemTypeDTO(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertSTOWayItemTypeDTO";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@itemtypeDTO", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static DataSet GetWaybillSKUCde()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetSTOSkucode"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static bool InsertWaybillItemsType(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertWaybillItemtypes";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Itemtypes", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
     }
 
 }

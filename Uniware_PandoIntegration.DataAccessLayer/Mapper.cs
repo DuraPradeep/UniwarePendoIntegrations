@@ -373,5 +373,47 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return skucodes;
         }
 
+        public static List<Element> GetGatePassCode(DataSet pds)
+        {
+            List<Element> skucodes = new List<Element>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    Element sKucode = new Element();
+                    sKucode.code = pds.Tables[0].Rows[i]["Code"].ToString();
+                  
+                    skucodes.Add(sKucode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
+        public static List<GatePassItemDTO> GetSKUCode(DataSet pds)
+        {
+            List<GatePassItemDTO> skucodes = new List<GatePassItemDTO>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    GatePassItemDTO sKucode = new GatePassItemDTO();
+                    sKucode.code = pds.Tables[0].Rows[i]["Code"].ToString();
+                    sKucode.itemTypeSKU = pds.Tables[0].Rows[i]["itemtypeSKU"].ToString();
+
+                    skucodes.Add(sKucode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
+
     }
 }

@@ -1078,5 +1078,146 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
+        public bool insertGatePassCode(List<Element> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertGetPassCode(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<Element> GetWaybillgatePassCode()
+        {
+          List<Element> codes = new List<Element>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetGatePassCode(SPWrapper.GetWaybillgatepassCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public bool insertGatePassElements(List<Element> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("reference");               
+                dtinstcode.Columns.Add("topartyname");
+                dtinstcode.Columns.Add("invoicecode");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                    dr["reference"] = elements[i].reference;                   
+                    dr["topartyname"] = elements[i].toPartyName;
+                    dr["invoicecode"] = elements[i].invoiceCode;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertGetPassElements(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool insertItemTypeDTO(List<GatePassItemDTO> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("quantity");
+                dtinstcode.Columns.Add("itemtypeSKU");
+                dtinstcode.Columns.Add("unitprice");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                    dr["quantity"] = elements[i].quantity;
+                    dr["itemtypeSKU"] = elements[i].itemTypeSKU;
+                    dr["unitprice"] = elements[i].unitPrice;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertItemTypeDTO(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<GatePassItemDTO> GetWaybillSKUCode()
+        {
+            List<GatePassItemDTO> codes = new List<GatePassItemDTO>();
+
+            try
+            {
+                
+                return codes = Mapper.GetSKUCode(SPWrapper.GetWaybillSKUCde());                
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public bool insertWaybillItemType(List<ItemTypeDTO> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("weight");
+                dtinstcode.Columns.Add("length");
+                dtinstcode.Columns.Add("width");
+                dtinstcode.Columns.Add("itemdetailfieldstext");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].Code;
+                    dr["weight"] = elements[i].weight;
+                    dr["length"] = elements[i].length;
+                    dr["width"] = elements[i].width;
+                    dr["itemdetailfieldstext"] = elements[i].itemDetailFieldsText;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertWaybillItemsType(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
     }
 }

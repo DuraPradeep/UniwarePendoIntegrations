@@ -33,7 +33,7 @@ namespace Uniware_PandoIntegration.Entities
 
     }
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    public class Element
+    public partial class Element
     {
         public string code { get; set; }
         public string displayOrderCode { get; set; }
