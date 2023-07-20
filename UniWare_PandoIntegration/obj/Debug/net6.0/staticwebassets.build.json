@@ -1,10 +1,6 @@
 {
   "Version": 1,
-<<<<<<< HEAD
-  "Hash": "gnDD93ZnZTLo5ijaVDHWPohqrI5iunJfDfgsWknLy08=",
-=======
-  "Hash": "nVe85CBZZ28w80PBsFBfJFmWVPvoU1m+86jHLFv/WyE=",
->>>>>>> ed30316d7489b4c5ee15bf57b63e8d0990e3a476
+  "Hash": "7BAMRWMtB2ElnpPUBabvJEeTcnP0Qcg67E6NXWSDOQ0=",
   "Source": "UniWare_PandoIntegration",
   "BasePath": "_content/UniWare_PandoIntegration",
   "Mode": "Default",
@@ -55,11 +51,10 @@
       "OriginalItemSpec": "D:\\UniWare\\UniWare_PandoIntegration\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\UniWare_PandoIntegration.bundle.scp.css"
     },
     {
-<<<<<<< HEAD
-      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\fontawesome4.7.0.min.css",
+      "Identity": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\css\\fontawesome4.7.0.min.css",
       "SourceId": "UniWare_PandoIntegration",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\",
+      "ContentRoot": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\",
       "BasePath": "_content/UniWare_PandoIntegration",
       "RelativePath": "css/fontawesome4.7.0.min.css",
       "AssetKind": "All",
@@ -73,10 +68,7 @@
       "OriginalItemSpec": "wwwroot\\css\\fontawesome4.7.0.min.css"
     },
     {
-      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\Landing.css",
-=======
       "Identity": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\css\\Landing.css",
->>>>>>> ed30316d7489b4c5ee15bf57b63e8d0990e3a476
       "SourceId": "UniWare_PandoIntegration",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\",
@@ -212,11 +204,10 @@
       "OriginalItemSpec": "wwwroot\\Images\\user.png"
     },
     {
-<<<<<<< HEAD
-      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\bootstrap.min.js",
+      "Identity": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\js\\bootstrap.min.js",
       "SourceId": "UniWare_PandoIntegration",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\",
+      "ContentRoot": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\",
       "BasePath": "_content/UniWare_PandoIntegration",
       "RelativePath": "js/bootstrap.min.js",
       "AssetKind": "All",
@@ -230,10 +221,7 @@
       "OriginalItemSpec": "wwwroot\\js\\bootstrap.min.js"
     },
     {
-      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\jquery.toast.min.js",
-=======
       "Identity": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\js\\jquery.toast.min.js",
->>>>>>> ed30316d7489b4c5ee15bf57b63e8d0990e3a476
       "SourceId": "UniWare_PandoIntegration",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\",
@@ -845,11 +833,10 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-<<<<<<< HEAD
-      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\css\\fontawesome4.7.0.min.css",
+      "Identity": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\css\\fontawesome4.7.0.min.css",
       "SourceId": "UniWare_PandoIntegration",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\",
+      "ContentRoot": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\",
       "BasePath": "_content/UniWare_PandoIntegration",
       "RelativePath": "lib/bootstrap/dist/css/fontawesome4.7.0.min.css",
       "AssetKind": "All",
@@ -863,10 +850,7 @@
       "OriginalItemSpec": "wwwroot\\lib\\bootstrap\\dist\\css\\fontawesome4.7.0.min.css"
     },
     {
-      "Identity": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
-=======
       "Identity": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
->>>>>>> ed30316d7489b4c5ee15bf57b63e8d0990e3a476
       "SourceId": "UniWare_PandoIntegration",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\",

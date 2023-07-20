@@ -1263,6 +1263,188 @@ namespace Uniware_PandoIntegration.APIs
 
             return ds;
         }
+        public static bool InsertSTOAPIGetPassCode(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertSTOAPiGatePass";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@GatePasses", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+
+        public static DataSet GetSTOAPIgatepassCode()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_STOAPIGetgatepass"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static bool InsertSTOAPIGetPassElements(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertSTOAPIEmelents";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Elements", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static bool InsertSTOAPIItemTypeDTO(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertSTOAPIItemTypeDTO";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@itemtypeDTO", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static DataSet GetSTOAPISKUCde()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_getSTOAPIItemSku"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static bool InsertSTOAPiItemsType(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertSTOAPIItemtypes";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Itemtypes", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static DataSet GetSTOAPiSendData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetallDataSTOApi"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            return ds;
+        }
+        public static string IsertSTOAPIAllData(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "Pro_GetSTOAPIAllData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@Trigger_id", SqlDbType.VarChar, 100);
+                com.Parameters["@Trigger_id"].Direction = ParameterDirection.Output;
+                com.Parameters.AddWithValue("@AllRecords", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
     }
 
 }

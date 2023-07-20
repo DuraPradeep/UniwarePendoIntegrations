@@ -408,7 +408,7 @@ namespace Uniware_PandoIntegration.APIs
             try
             {
 
-                CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
+                //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
                 request.Headers.Add("Facility", "stgsleepyhead");
@@ -418,7 +418,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                //CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 if (response.IsSuccessStatusCode)
                 {
@@ -509,10 +509,9 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> PostDataToDeliverypackList(List<PostDataSTOWaybill> data)
+        public async Task<ServiceResponse<string>> WaybillSTOPostDataDeliverypackList(List<PostDataSTOWaybill> data)
         {
-            var responses = "";
-            //var jsondeserial = JsonSerializer.Deserialize<List<sendRoot>>(data);
+           
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
             var jsonre = JsonConvert.SerializeObject(new { data = data });
@@ -529,6 +528,48 @@ namespace Uniware_PandoIntegration.APIs
                 var content = new StringContent(jsonre, null, "application/json");
                 request.Content = content;
                 var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("$ Error: " + ex.Message);
+                throw ex;
+            }
+            return serviceResponse;
+
+        }
+
+        public async Task<ServiceResponse<string>> STOPApiostDataDeliverypackList(ServiceResponse<List<ReturnOrderSendData>>  data)
+        {
+
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+
+            var jsonre = JsonConvert.SerializeObject(new { data = data.ObjectParam });
+            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+            CreateLog($" Post Data to Pando waybill STO:-  {jsonre}");
+            //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
+            try
+            {
+                var client = new HttpClient();
+                var credentials = Encoding.ASCII.GetBytes(_credentials);
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
+                var content = new StringContent(jsonre, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
