@@ -7,40 +7,173 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/UniWare_PandoIntegration.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        i.fa.fa-bell {
+            font-size: 20px;
+            color: #dc3545;
+        }
+
+        a.logo {
+            text-decoration: none;
+        }
+
+        span.logo-text {
+            text-decoration: none;
+            font-family: cursive;
+            color: black;
+            font-size: 28px;
+            /* text-decoration: none; */
+            /* text-shadow: 2px 2px; */
+        }
+
+        footer.footer.text-center {
+            background: whitesmoke;
+        }
+
+        header.topbar {
+            padding: 0px 20px;
+            /*box-shadow: 1px 0px 7px rgba(0,0,0,0.05);*/
+            /*background: #fff*/
+            background: whitesmoke;
+        }
+
+        body {
+            background-color: #fff !important;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 100%;
+            display: none;
+            /*background: rgba(253 48 34,0.4);*/
+            background: rgba(0,0,0,0.4);
+        }
+
+        .cv-spinner {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px #ddd solid;
+            border-top: 4px #2e93e6 solid;
+            border-radius: 50%;
+            animation: sp-anime 0.8s infinite linear;
+        }
+
+        @@keyframes sp-anime {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <script>
+
+    </script>
 </head>
 <body>
- @*   <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UniWare_PandoIntegration</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <div id="overlay">
+        <div class="cv-spinner">
+            @*<img src="~/Images/Loader_durovideo.mp4" style="height: 57px;" alt="Loading" />*@
+            <video autoplay poster="~/Images/Loader_durovideo.mp4" muted loop id="myVideo" style="width: 50%; height: 200px;" class="">
+                <source src="~/Images/Loader_durovideo.mp4" type="video/mp4">
+            </video>
+            @*<span class="spinner"></span>*@
+        </div>
+    </div>
+    @* <div class="loader">
+    <div class="lds-ripple">
+    <div class="lds-pos"></div>
+    <div class="lds-pos"></div>
+    </div>
+    </div>*@
+    <div class="header_section" id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full" data-boxed-layout="full">
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <div class="col-md-11 navbar-header" data-logobg="skin5">
+                    <div class="navbar-brand">
+                        <a href="~/Home/Dashboard" class="logo">
+                            <span class="logo-text">
+                                @*<img src="d:\duroflex\uniwarepandointegration\uniware_pandointegration\uniware_pandointegration\images\uniware.png" />*@
+                                @* <img src="~/Images/uniware1.png" alt="D" class="dark-logo" style="height: 57px;" />*@
+                                Integration of Uniware & Pando
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse col-md-1" id="navbarSupportedContent" data-navbarbg="skin6">
+
+                    <ul class="navbar-nav float-start">
+                        <li class="nav-item dropdown"><a class="nav-link text-muted waves-effect waves-dark pro-pic" href="#" id="" role="button" aria-expanded="false"><i class="fa fa-bell"></i></a></li>
+                    </ul>
+                    <ul class="navbar-nav float-end">
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="~/Images/user.png" alt="user" class="rounded-circle" width="31" />
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown">
+
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("Logout", "Home")'; ">
+                                    <i class="fa fa-user me-1 ms-1"></i>
+                                    Logout
+                                </a>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+
+
                     </ul>
                 </div>
-            </div>
+            </nav>
+        </header>
+        @*   <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UniWare_PandoIntegration</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul class="navbar-nav flex-grow-1">
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>
+        </ul>
+        </div>
+        </div>
         </nav>
-    </header>*@
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </header>*@
+        <div class="container">
+            <main role="main" class="pb-3">
+                <div class="row" id="errorList">
+                    @RenderBody()
+                </div>
+
+            </main>
+        </div>
+        <footer class="footer text-center">
+            All Rights Reserved by Duroflex Pvt Ltd Designed and Developed by
+            <a href="#" target="_blank">&copy; @DateTime.Now.Year - UniWare_PandoIntegration</a>
+        </footer>
     </div>
 
-    @*<footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - UniWare_PandoIntegration - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

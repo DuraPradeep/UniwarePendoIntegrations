@@ -1,6 +1,8 @@
 ﻿@model List<Uniware_PandoIntegration.Entities.CodesErrorDetails>
 
-
+    @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
 
 <script src="~/js/jquery-3.7.0.min.js"></script>
@@ -113,7 +115,7 @@
     }
 </style>
 <script src="~/js/jquery-3.7.0.min.js"></script>
-<div class="container">
+<div class="container" id="errorList">
     <div class="tbl-header">
         <table cellpadding="0" cellspacing="0" border="0">
             <thead>

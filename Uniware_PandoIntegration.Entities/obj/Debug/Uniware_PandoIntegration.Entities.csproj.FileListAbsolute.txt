@@ -7,3 +7,12 @@ D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Ent
 D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
 D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
 D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb

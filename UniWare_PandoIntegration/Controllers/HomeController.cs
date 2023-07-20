@@ -24,9 +24,13 @@ namespace UniWare_PandoIntegration.Controllers
                         //HttpResponseMessage htp = await client.GetAsync("api/UniwarePando/GetErrorCodes");
                         //var codes = htp.Content.ReadAsStringAsync().Result;
                         ////response = codes;
-
-                        //return RedirectToAction("ErrorList");
-                        return View("DashBoard");
+                        ViewBag.Message = "Welcome to the Dashboard!!";
+                        return View("Dashboard");
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Invalid Credential!!";
+                        return View("Login");
                     }
                 }
             }
@@ -35,7 +39,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 throw ex;
             }
-           
+
             return View();
         }
 
@@ -44,11 +48,11 @@ namespace UniWare_PandoIntegration.Controllers
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation();
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
-            if(response.ObjectParam.Count> 0)
-            {                
+            if (response.ObjectParam.Count > 0)
+            {
                 ViewData["UserName"] = 1;
             }
-            return View(response.ObjectParam);
+            return View("~/Views/Home/Pv_ErrorList.cshtml", response.ObjectParam);
         }
 
         [HttpGet]
@@ -69,7 +73,7 @@ namespace UniWare_PandoIntegration.Controllers
                 var responses = ApiControl.Get("api/UniwarePando/Retrigger");
                 msg = "Failed Record Triggered Successfully";
             }
-            return Json(new {Message=msg});
+            return Json(new { Message = msg });
         }
         [HttpGet]
         public IActionResult Login()
@@ -77,6 +81,28 @@ namespace UniWare_PandoIntegration.Controllers
             return View();
         }
 
+        public ActionResult Dashboard()
+        {
+            ViewBag.Message = "Welcome to the Dashboard!!";
+            return View();
+        }
 
+        public ActionResult Logout()
+        {
+            ViewBag.Message = "Logout Sucessfuly!!";
+            return View("Login");
+        }
+        public ActionResult WaybillErrorList()
+        {
+            return View("~/Views/Home/Pv_WaybillErrorList.cshtml");
+        }
+        public ActionResult ReturnOrderErrorList()
+        {
+            return View("~/Views/Home/Pv_ReturnOrderErrorList.cshtml");
+        }
+        public ActionResult CancelOrderErrorList()
+        {
+            return View("~/Views/Home/Pv_CancelOrderErrorList.cshtml");
+        }
     }
 }

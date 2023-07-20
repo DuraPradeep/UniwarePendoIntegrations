@@ -7,9 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Jscript\" />
-    <Folder Include="Style\" />
-    <Folder Include="Views\Login\" />
+    <Compile Remove="Jscript\**" />
+    <Compile Remove="Style\**" />
+    <Compile Remove="Views\Login\**" />
+    <Content Remove="Jscript\**" />
+    <Content Remove="Style\**" />
+    <Content Remove="Views\Login\**" />
+    <EmbeddedResource Remove="Jscript\**" />
+    <EmbeddedResource Remove="Style\**" />
+    <EmbeddedResource Remove="Views\Login\**" />
+    <None Remove="Jscript\**" />
+    <None Remove="Style\**" />
+    <None Remove="Views\Login\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\DashBoard\" />
   </ItemGroup>
 

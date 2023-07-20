@@ -1,92 +1,290 @@
 ﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
+<h1 class="title_dashboard">Dashboard</h1>
+<script src="~/js/jquery-3.7.0.min.js"></script>
+<script src="~/js/toast.min.js"></script>
 <style>
+    /* Color and Images for Project Containers  */
 
-    .sales .ct-series-a .ct-line, .sales .ct-series-a .ct-point {
-        stroke: #e60a1d;
-        stroke-width: 3px;
-    }
-
-    .overviewcard {
-        color: red;
-    }
-
-    .float-container {
-        border: 3px solid #fff;
-        padding: 20px;
-    }
-
-    .float-child {
-        width: 20%;
+    /* Sizing for Project Containers  */
+    .column-4 {
         float: left;
-        padding: 20px;
-        box-shadow: 10px 10px 5px lightblue;
-        margin-right: 30px;
+        width: 16%;
+        padding: 10px;
+        margin: 20px;
+        height: 119px;
     }
+
+   .project-tiles {
+        background-color: #dc3545;
+    }
+
+    
+
+    .project-text {
+        text-align: center;
+        font-size: 20px;
+        color:#fff;
+    }
+
+    .project-tiles:hover {
+        color: #dc3545;
+    }
+    /* Hover classes for individual project boxes */
+    .project-tiles:hover {
+        background-color: gray;
+    }
+
+    .dashboard_tiles {
+        margin-top: 30px;
+        padding: 50px;
+        box-shadow: 1px 1px 10px 2px gray;
+    }
+
+    .tile_list {
+        color: #dc3545;
+        font-weight: 700;
+        box-shadow: 1px 1px 10px 2px gray;
+    }
+
+    .tile_list:hover{
+            color: #fff;
+            background: #dc3545
+
+    }
+
+    .tile_list p{
+        margin:10px !important;
+    }
+
+    .title_dashboard{
+        color: #dc3545;
+        font-size: 2rem;
+        text-shadow: 2px 2px;
+    }
+
+/*    .loader {
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: #fff;
+    }
+
+    .lds-ripple {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 64px;
+        position: absolute;
+        top: calc(50% - 3.5px);
+        left: calc(50% - 3.5px);
+    }
+
+        .lds-ripple .lds-pos {
+            position: absolute;
+            border: 2px solid #2962FF;
+            opacity: 1;
+            border-radius: 50%;
+            animation: lds-ripple 1s cubic-bezier(0, 0.1, 0.5, 1) infinite;
+        }
+
+            .lds-ripple .lds-pos:nth-child(2) {
+                animation-delay: -0.5s;
+            }
+
+    @@keyframes lds-ripple {
+        0% {
+            top: 28px;
+            left: 28px;
+            width: 0;
+            height: 0;
+            opacity: 0;
+        }
+
+        5% {
+            top: 28px;
+            left: 28px;
+            width: 0;
+            height: 0;
+            opacity: 1;
+        }
+
+        100% {
+            top: -1px;
+            left: -1px;
+            width: 58px;
+            height: 58px;
+            opacity: 0;
+        }
+    }*/
+    .loader {
+        display:none;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 120px;
+        height: 120px;
+        margin: -76px 0 0 -76px;
+        /*background:white;*/
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+        z-index: 99999;
+
+}
+
+
+
+@@keyframes spin {
+        0% {
+            transform: rotate(0deg);
+           
+        }
+
+        100% {
+            transform: rotate(360deg);
+            
+        }
+}
+
+
 </style>
 <script>
-    function fn_Errorlist() {
-        alert("hitting");
-
+    function fn_BindTable() {
+        debugger;
+        $("#overlay").fadeIn(500);
         $.get("/Home/ErrorList", {}).done(function (data) {
+            $("#overlay").fadeOut(500);
             debugger;
-            $(".preloader").fadeOut();
-            $("#dv_PartialView").html(data);
+            $("#errorList").html(data);
+            //alert("fn_BindTable()");            
+            //window.location.href = "/Home/Errorlist";
+            //$('#errorList').load("ErrorList.cshtml");
         });
+    }
+    function fn_WaybillErrorList() {
+        debugger;
+        $.get("/Home/WaybillErrorList", {}).done(function (data) {
 
+            debugger;
+            $("#errorList").html(data);
+            
+        });
+    }
+    function fn_ReturnOrderErrorList() {
+        debugger;
+        $.get("/Home/ReturnOrderErrorList", {}).done(function (data) {
 
-        //$.ajax({
-        //    type: 'GET',
-        //    dataType: 'json',
-        //    url: '/Home/ErrorList',
-        //    success: function (data) {
+            debugger;
+            $("#errorList").html(data);
 
-        //        alert("success");
+        });
+    }
+    function fn_CancelOrderErrorList() {
+        debugger;
+        $.get("/Home/CancelOrderErrorList", {}).done(function (data) {
 
-        //    }
-        //    ,
-        //    error: function (XMLHttpRequest, textStatus, errorThrown) {
+            debugger;
+            $("#errorList").html(data);
 
-        //    }
-
-        //})
-    };
-        
+        });
+    }
 </script>
-<div class="row">
-    <div class="col-5 align-self-center">
-        @*<h4 class="page-title">Dashboard</h4>*@
+@*<div class="loader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
     </div>
-    <div class="col-7 align-self-center">
-        <div class="d-flex align-items-center justify-content-end">
-            <nav aria-label="breadcrumb">
-                @*<ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                <a href="#">Home</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                </ol>*@
-            </nav>
+</div>*@
+        @if (ViewBag.Message != null)
+        {
+            <script>
+
+                $(document).ready(function () {
+                    //debugger;
+                    const options = {
+                        style: {
+                            main: {
+                                background: "#dc3545",
+                                color: "#fff",
+                            },
+                        },
+                    };
+                    iqwerty.toast.toast('@ViewBag.Message', options);
+                    ////alert('@ViewBag.Message');
+
+                });
+
+
+            </script>
+        }
+<div class="dashboard_tiles">
+    <div class="row">
+
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_BindTable();">
+
+            <div class="card text-white text-center mb-4">
+                <div class="card-body tile_list">
+                    @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
+                    <p>
+                        Sale Order API
+                    </p>
+                </div>
+            </div>
+
         </div>
+
+        <d iv class="col-lg-4 mb-4 mb-lg-0" onclick="fn_WaybillErrorList();">
+
+            <div class="card text-white mb-4 text-center">
+                <div class="card-body tile_list">
+                    <p>Waybill Generation API</p>
+                </div>
+            </div>
+        </d>
+
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReturnOrderErrorList()">
+
+            <div class="card text-white text-center mb-4">
+                <div class="card-body tile_list">
+                    <p>Return Order API</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_CancelOrderErrorList()">
+
+            <div class="card text-white text-center mb-4">
+                <div class="card-body tile_list">
+                    @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
+                    <p>Cancel Order </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TestErrorList()">
+
+            <div class="card text-white mb-4 text-center">
+                <div class="card-body tile_list">
+                    <p>Test API</p>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </div>
 
-
-<div class="float-container">
-    <div class="float-child" style="background:azure " onclick="fn_Errorlist()">
-        <div class="overviewcard__icon" id="myList">
-            <img src="~/dashboard/checklist.gif" alt="homepage" class="light-logo" style="height: 80px;width: 80px;" />
-        </div>
-        <div class="overviewcard__info"><h3 class="card-title mb-0" style="color:red">Sale Order API</h3></div>
-    </div>
-    <div class="float-child" style="background:azure ">
-        <div class="overviewcard__icon #77467b" id="myList">
-            <img src="~/dashboard/checklist.gif" alt="homepage" class="light-logo" style="height: 80px;width: 80px;" />
-        </div>
-        <div class="overviewcard__info"><h3 class="card-title mb-0" style="color:red">Way Bill Generation</h3></div>
-    </div>
-
-
-</div>
-<div id="dv_PartialView"></div>
 
