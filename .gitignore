@@ -33,3 +33,4 @@ PublishScripts/
 /.vs/ProjectEvaluation/uniware_pandointegration.metadata.v6.1
 /.vs/ProjectEvaluation/uniware_pandointegration.projects.v6.1
 /.vs/UniWare_PandoIntegration/DesignTimeBuild/.dtbcache.v2
+*.lock
