@@ -34,3 +34,8 @@ PublishScripts/
 /.vs/ProjectEvaluation/uniware_pandointegration.projects.v6.1
 /.vs/UniWare_PandoIntegration/DesignTimeBuild/.dtbcache.v2
 *.lock
+/Uniware_PandoIntegration.Entities/obj/Debug/Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
+/Uniware_PandoIntegration.Entities/obj/Debug/Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
+/Uniware_PandoIntegration.API/obj/Debug/net6.0/Uniware_PandoIntegration.API.csproj.AssemblyReference.cache
+/Uniware_PandoIntegration.APIs/obj/Debug/Uniware_PandoIntegration.Common.csproj.AssemblyReference.cache
+/Uniware_PandoIntegration.DataAccessLayer/obj/Debug/Uniware_PandoIntegration.DataAccessLayer.csproj.AssemblyReference.cache
