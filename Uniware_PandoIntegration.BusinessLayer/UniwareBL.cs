@@ -967,5 +967,116 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
+        public void BLReturnOrderError(string Reason)
+        {
+            try
+            {
+                SPWrapper.UpdateReturnOrderError(Reason);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public string InsertAllsendingDataReturnorder(ServiceResponse<List<ReturnOrderSendData>> itemDatun)
+        {
+            string res;
+            try
+            {
+                string id = "Tri_" + GenerateNumeric();
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("name");
+                dtsku.Columns.Add("reference_number");
+                dtsku.Columns.Add("address");
+                dtsku.Columns.Add("city");
+                dtsku.Columns.Add("state");
+                dtsku.Columns.Add("pincode");
+                dtsku.Columns.Add("region");
+                dtsku.Columns.Add("mobile_number");
+                dtsku.Columns.Add("email");
+                dtsku.Columns.Add("customer_type");
+                dtsku.Columns.Add("category");
+                dtsku.Columns.Add("delivery_number");
+                dtsku.Columns.Add("mrp_price");
+                dtsku.Columns.Add("material_code");
+                dtsku.Columns.Add("source_system");
+                dtsku.Columns.Add("material_taxable_amount");
+                dtsku.Columns.Add("division");
+                dtsku.Columns.Add("quantity");
+                dtsku.Columns.Add("quantity_unit");
+                dtsku.Columns.Add("weight");
+                dtsku.Columns.Add("weight_unit");
+                dtsku.Columns.Add("volume");
+                dtsku.Columns.Add("volume_unit");
+                dtsku.Columns.Add("ship_to");
+                dtsku.Columns.Add("sold_to");
+                dtsku.Columns.Add("type");
+                dtsku.Columns.Add("invoice_number");
+                dtsku.Columns.Add("invoice_amount");
+                dtsku.Columns.Add("invoice_date");
+                dtsku.Columns.Add("line_item_no");
+                dtsku.Columns.Add("pickup_reference_number");
+                dtsku.Columns.Add("TriggerID");
+
+
+                for (int i = 0; i < itemDatun.ObjectParam.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["name"] = itemDatun.ObjectParam [i].name;
+                    drsku["reference_number"] = itemDatun.ObjectParam[i].reference_number;
+                    drsku["address"] = itemDatun.ObjectParam[i].address;
+                    drsku["city"] = itemDatun.ObjectParam[i].city;
+                    drsku["state"] = itemDatun.ObjectParam[i].state;
+                    drsku["pincode"] = itemDatun.ObjectParam[i].pincode;
+                    drsku["region"] = itemDatun.ObjectParam[i].region;
+                    drsku["mobile_number"] = itemDatun.ObjectParam[i].mobile_number;
+                    drsku["email"] = itemDatun.ObjectParam[i].email;
+                    drsku["customer_type"] = itemDatun.ObjectParam[i].customer_type;
+                    drsku["category"] = itemDatun.ObjectParam[i].category;
+                    drsku["delivery_number"] = itemDatun.ObjectParam[i].delivery_number;
+                    drsku["mrp_price"] = itemDatun.ObjectParam[i].mrp_price;
+                    drsku["material_code"] = itemDatun.ObjectParam[i].material_code;
+                    drsku["source_system"] = itemDatun.ObjectParam[i].source_system;
+                    drsku["material_taxable_amount"] = itemDatun.ObjectParam[i].material_taxable_amount;
+                    drsku["division"] = itemDatun.ObjectParam[i].division;
+                    drsku["quantity"] = itemDatun.ObjectParam[i].quantity;
+                    drsku["quantity_unit"] = itemDatun.ObjectParam[i].quantity_unit;
+                    drsku["weight"] = itemDatun.ObjectParam[i].weight;
+                    drsku["weight_unit"] = itemDatun.ObjectParam[i].weight_unit;
+                    drsku["volume"] = itemDatun.ObjectParam[i].volume;//"End_Customer";
+                    drsku["volume_unit"] = itemDatun.ObjectParam[i].volume_unit;//"abc_sleepyhead";                    
+                    drsku["ship_to"] = itemDatun.ObjectParam[i].ship_to;
+                    drsku["sold_to"] = itemDatun.ObjectParam[i].sold_to;//"EA";
+                    drsku["type"] = itemDatun.ObjectParam[i].type;//"CFT";
+                    drsku["invoice_number"] = itemDatun.ObjectParam[i].invoice_number;//"KG";
+                    drsku["invoice_amount"] = itemDatun.ObjectParam[i].invoice_amount;//"";
+                    drsku["invoice_date"] = itemDatun.ObjectParam[i].invoice_date;//"";
+                    drsku["line_item_no"] = itemDatun.ObjectParam[i].line_item_no;//"Secondary";
+                    drsku["pickup_reference_number"] = itemDatun.ObjectParam[i].pickup_reference_number;//"";
+                    drsku["TriggerID"] = id;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.IsertReturnOrderPostData(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public void UpdateReturnOrderPostDataError(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.UpdateReturnOrderPostDataError(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

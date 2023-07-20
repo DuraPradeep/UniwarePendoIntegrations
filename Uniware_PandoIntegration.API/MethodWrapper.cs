@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
@@ -81,10 +82,10 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Add(ed);
                     // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
                     PassCode(jsoncodes, token, code, Lcheckcount);
-
                 }
                 else
                 {
+                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
                     parentList = null;
                 }
             }
@@ -192,7 +193,6 @@ namespace Uniware_PandoIntegration.API
                 }
 
             }
-            var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
             return parentList;
         }
         public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount)
@@ -217,6 +217,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
+                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
                     errorskuDetails = null;
                 }
             }
@@ -232,7 +233,6 @@ namespace Uniware_PandoIntegration.API
                 // itemTdto.Add(itemsSku);
             }
             //var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
-            var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
             return itemsSku;
         }
         public ServiceResponse<string> Action(List<Data> sendcode, string triggerid, int checkcount)
@@ -247,11 +247,11 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
                     Action(sendcode, triggerid, Lcheckcount);
                 }
                 else
                 {
+                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
                     resfinal = null;
                 }
 
@@ -293,6 +293,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
+                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
                     parentList = null;
                 }
             }
@@ -397,7 +398,6 @@ namespace Uniware_PandoIntegration.API
                     parentList.saleOrderItems.Add(sitem);
                 }
             }
-            var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
             return parentList;
         }
 
@@ -421,6 +421,11 @@ namespace Uniware_PandoIntegration.API
                     errorskuDetails.Add(ed);
                     RetriggerSkuCode(jskucode, token, code, skucode, Lcheckcount);
                 }
+                else
+                {
+                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
+                    return itemsSku = null;
+                }
 
             }
             else
@@ -436,14 +441,13 @@ namespace Uniware_PandoIntegration.API
                 itemsSku.weight = resl.itemTypeDTO.weight;
                 //itemTdto.Add(itemsSku);
             }
-            var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
             return itemsSku;
         }
         public ServiceResponse<string> RetriggerPostDataDelivery(List<Data> allsenddata, string triggerid, int checkcount)
         {
             int Lcheckcount = checkcount;
-            ServiceResponse<string> resfinal = null;
-            resfinal = _Token.PostDataToDeliverypackList(allsenddata).Result;
+            //ServiceResponse<string> resfinal = null;
+            var resfinal = _Token.PostDataToDeliverypackList(allsenddata).Result;
             if (resfinal.Errcode < 200 || resfinal.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -452,6 +456,10 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
                     RetriggerPostDataDelivery(allsenddata, triggerid, Lcheckcount);
+                }
+                else
+                {
+                    return resfinal = null;
                 }
             }
             return resfinal;
@@ -490,6 +498,11 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     GetReturnorderCode(json, token, Lcheckcount);
                 }
+                else
+                {
+                    ObjBusinessLayer.BLReturnOrderError(results.Result.ObjectParam);
+
+                }
             }
             else
             {
@@ -526,8 +539,11 @@ namespace Uniware_PandoIntegration.API
                     GetReurnOrderget(jdetail, token, Code, Lcheckcount);
                 }
                 else
-                    rootReturnorderAPI = null;
+                {
+                    var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
 
+                    rootReturnorderAPI = null;
+                }
             }
             else
             {
@@ -558,7 +574,6 @@ namespace Uniware_PandoIntegration.API
                     rootReturnorderAPI.returnAddressDetailsList.Add(returnAddressDetailsList);
                 }
             }
-            var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
 
             return rootReturnorderAPI;
         }
@@ -583,6 +598,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
+                    var skuerror = ObjBusinessLayer.UpdateReturnOrderSKUErrordetails(errorskuDetails);
                     itemsSku = null;
                 }
             }
@@ -599,12 +615,11 @@ namespace Uniware_PandoIntegration.API
                 itemsSku.maxRetailPrice = resl.itemTypeDTO.maxRetailPrice;
                 //itemTdto.Add(itemsSku);
             }
-            var skuerror = ObjBusinessLayer.UpdateReturnOrderSKUErrordetails(errorskuDetails);
 
             return itemsSku;
         }
 
-        public Task<ServiceResponse<string>> PostDataReturnOrder(ServiceResponse<List<ReturnOrderSendData>> AllData, int checkcount)
+        public Task<ServiceResponse<string>> PostDataReturnOrder(ServiceResponse<List<ReturnOrderSendData>> AllData,string Trigerid, int checkcount)
         {
             int Lcheckcount = checkcount;
            var ResStatus= _Token.PostDataReturnOrderAPI(AllData.ObjectParam);
@@ -614,8 +629,8 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam);
-                    PostDataReturnOrder(AllData, Lcheckcount);
+                    ObjBusinessLayer.UpdateReturnOrderPostDataError(true, ResStatus.Result.ObjectParam, Trigerid);
+                    PostDataReturnOrder(AllData, Trigerid, Lcheckcount);
                 }
                 {
                     return ResStatus = null;

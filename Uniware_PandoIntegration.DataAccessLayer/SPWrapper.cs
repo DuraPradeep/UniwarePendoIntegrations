@@ -947,7 +947,6 @@ namespace Uniware_PandoIntegration.APIs
 
         public static void UpdateSaleOrderSearchError( string reason)
         {
-
             try
             {
                 con = GetConnection();
@@ -957,6 +956,80 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Reason", reason);
               
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static void UpdateReturnOrderError(string reason)
+        {
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_ReturnOrderCodeError";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Reason", reason);
+
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static string IsertReturnOrderPostData(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InertReturnOrderSendData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@Trigger_id", SqlDbType.VarChar, 100);
+                com.Parameters["@Trigger_id"].Direction = ParameterDirection.Output;
+                com.Parameters.AddWithValue("@AllRecords", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static void UpdateReturnOrderPostDataError(bool status, string reason, string Triggerid)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_UpdateErrorStatusPostData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@status", status);
+                com.Parameters.AddWithValue("@Reason", reason);
+                com.Parameters.AddWithValue("@trigger_id", Triggerid);
                 con.Open();
                 com.ExecuteNonQuery();
 

@@ -68,7 +68,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //var list = getCode(json, token, 0);
             var list= _MethodWrapper.getCode(json, token,0);
             //var resCode = ObjBusinessLayer.InsertCode(elmt);
-            if (list.Count!=0)
+            if (list.Count>0)
             {
                 var resCode = ObjBusinessLayer.InsertCode(list);
                 var ds = ObjBusinessLayer.GetCode();
@@ -507,17 +507,17 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             //GenerateToken generateToken=new GenerateToken(null) ;
             var token = _jWTManager.GenerateJWTTokens();
-            //log.Info($" log Object {JsonConvert.SerializeObject(token)}");
-            //try
-            //{
-            //    if (token == null)
-            //    {
-            //        log.Error($" Error Object {JsonConvert.SerializeObject(token)}");
-            //        return Unauthorized();
-            //    }
-            //    log.Debug($" Debug Object {JsonConvert.SerializeObject(token)}");
-            //}
-            //catch (Exception ex) { log.Error($" Error Object {JsonConvert.SerializeObject(ex)}"); }
+            _logger.LogInformation($" log Object {JsonConvert.SerializeObject(token)}");
+            try
+            {
+                if (token == null)
+                {
+                    _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(token)}");
+                    return Unauthorized();
+                }
+                _logger.LogInformation($" Debug Object {JsonConvert.SerializeObject(token)}");
+            }
+            catch (Exception ex) { _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(ex)}"); }
             return Ok(token);
         }
         [Authorize]
@@ -602,17 +602,9 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             var json = JsonConvert.SerializeObject(requestReturnOrder);
             string token = HttpContext.Session.GetString("Token");
-            //var results = _Token.ReturnOrderGetCode(json, token);
-            //var Dresult = JsonConvert.DeserializeObject<RootReturnOrder>(results.Result.ObjectParam);
-            //List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
-            //for (int i = 0; i < Dresult.returnOrders.Count; i++)
-            //{
-            //    ReturnorderCode elmts = new ReturnorderCode();
-            //    elmts.code = Dresult.returnOrders[i].code;
-            //    returnorderCode.Add(elmts);
-            //}
+            
             var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0);
-            if (resuordercode != null)
+            if (resuordercode.Count>0)
             {
                 ObjBusinessLayer.insertReturnOrdercoder(resuordercode);
                 var codes = ObjBusinessLayer.GetReturnOrderCodes();
@@ -655,23 +647,21 @@ namespace Uniware_PandoIntegration.API.Controllers
                     if (skudetails != null)
                     {
                         itemTdto.Add(skudetails);
-                        ObjBusinessLayer.insertReturOrderItemtypes(itemTdto);
-                        var sendata = ObjBusinessLayer.GetReturnOrderSendData();                        
-                        var status=_MethodWrapper.PostDataReturnOrder(sendata, 0);
+                        
                         //return status;
                     }
                     else
                         return;
-                }                
+                }
+                ObjBusinessLayer.insertReturOrderItemtypes(itemTdto);
+                var sendata = ObjBusinessLayer.GetReturnOrderSendData();
+                var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
+                var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
             }
             else
             {
                 return;
-            }
-           
-            
-            
-           
+            }           
             
         }
 
