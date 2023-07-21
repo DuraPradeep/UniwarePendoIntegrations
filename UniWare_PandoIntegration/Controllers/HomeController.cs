@@ -29,7 +29,7 @@ namespace UniWare_PandoIntegration.Controllers
                     {
 
 						HttpContext.Session.SetString("UserName", serviceResponseg.ObjectParam.UserName);
-                        
+                        HttpContext.Session.SetString("NotificationCount", "1");
                         ViewBag.Message = "Welcome "+ HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
                         return View("Dashboard");
                     }
@@ -57,7 +57,9 @@ namespace UniWare_PandoIntegration.Controllers
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
-            }
+
+
+			}
             return View("~/Views/Home/Pv_ErrorList.cshtml", response.ObjectParam);
         }
 
@@ -112,6 +114,21 @@ namespace UniWare_PandoIntegration.Controllers
             return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
         }
 
+        public ActionResult NotificationErrorListCount()
+        {
+            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ApiControl = new ApiOperation();
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
+            int count = 0;
+            if (response.ObjectParam.Count > 0)
+            {
 
+                count = 1;
+                //HttpContext.Session.SetString("NotificationCount", "1");
+
+            }
+            return Json(count);
+           
+        }
     }
 }

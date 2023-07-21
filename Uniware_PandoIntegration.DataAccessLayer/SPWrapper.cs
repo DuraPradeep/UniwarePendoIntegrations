@@ -1214,6 +1214,31 @@ namespace Uniware_PandoIntegration.APIs
 
             return ds;
         }
+
+        public static void UpdateSTOWaybillErrorCodesError(string reason)
+        {
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "Pro_STOWaybillCodeError";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Reason", reason);
+
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
     }
 
 }

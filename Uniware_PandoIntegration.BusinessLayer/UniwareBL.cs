@@ -1240,8 +1240,19 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 serviceResponse = null;
             }
             return serviceResponse;
-        }
+        }        
 
+        public void STOWaybillErrorCodes(string Reason)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOWaybillErrorCodesError(Reason);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

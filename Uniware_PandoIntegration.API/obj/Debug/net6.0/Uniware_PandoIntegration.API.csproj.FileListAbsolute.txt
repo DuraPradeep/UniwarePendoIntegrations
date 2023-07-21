@@ -195,8 +195,6 @@ D:\UniWare\Uniware_PandoIntegration.API\obj\Debug\net6.0\ref\Uniware_PandoIntegr
 D:\UniWare\Uniware_PandoIntegration.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\UniWare\Uniware_PandoIntegration.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
 D:\UniWare\Uniware_PandoIntegration.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\appsettings.Development.json
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\appsettings.json
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\amd64\Microsoft.VC90.CRT\msvcr90.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\amd64\sqlceca40.dll
@@ -213,6 +211,8 @@ D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\x86\sqlce
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\x86\sqlceme40.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\x86\sqlceqp40.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\x86\sqlcese40.dll
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\appsettings.Development.json
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\appsettings.json
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\Uniware_PandoIntegration.API.exe
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\Uniware_PandoIntegration.API.deps.json
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.API\bin\Debug\net6.0\Uniware_PandoIntegration.API.runtimeconfig.json

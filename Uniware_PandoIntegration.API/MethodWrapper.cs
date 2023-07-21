@@ -655,18 +655,14 @@ namespace Uniware_PandoIntegration.API
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ErrorDetails errorDetails = new ErrorDetails();
-                    errorDetails.Status = true;
-                   // errorDetails.Code = Code;
-                    errorDetails.Reason = list.Result.ObjectParam;
-                    errorCodeDetails.Add(errorDetails);
+                    Lcheckcount += 1;                  
+
                     GatePass(jdetail, token, Lcheckcount);
                 }
                 else
                 {
                     //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-
+                    ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam);
                     rootReturnorderAPI = null;
                 }
             }

@@ -12,5 +12,6 @@ namespace Uniware_PandoIntegration.Entities
         public string SkuCode { get; set; }
         public bool Status { get; set; }
         public string Reason { get; set; }
+
     }
 }
