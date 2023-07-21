@@ -509,6 +509,46 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
+        public async Task<ServiceResponse<string>> PostDataToDeliverypackList(List<PostDataSTOWaybill> data)
+        {
+            var responses = "";
+            //var jsondeserial = JsonSerializer.Deserialize<List<sendRoot>>(data);
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+
+            var jsonre = JsonConvert.SerializeObject(new { data = data });
+            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+            CreateLog($" Post Data to Pando waybill STO:-  {jsonre}");
+            //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
+            try
+            {
+                var client = new HttpClient();
+                var credentials = Encoding.ASCII.GetBytes(_credentials);
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
+                var content = new StringContent(jsonre, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("$ Error: " + ex.Message);
+                throw ex;
+            }
+            return serviceResponse;
+
+        }
 
 
     }

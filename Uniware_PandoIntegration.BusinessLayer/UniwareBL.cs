@@ -1240,7 +1240,106 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 serviceResponse = null;
             }
             return serviceResponse;
+<<<<<<< HEAD
         }        
+=======
+        }
+        public List<PostDataSTOWaybill> GetAllWaybillSTOPost()
+        {
+            List<PostDataSTOWaybill> AllRes = new List<PostDataSTOWaybill>();
+            try
+            {
+                //CreateLog($" Get Code from DB ");
+
+                AllRes = Mapper.GetSendingWayBillSTOData(SPWrapper.GetWaybillSTOSendData());
+                //CreateLog($" Get Code from DB Data{AllRes} ");
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+        public string InsertWaybillSTOsendingData(List<PostDataSTOWaybill> itemDatun)
+        {
+            string res;
+            try
+            {
+                string id = "Tri_" + GenerateNumeric();
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("TriggerID");
+                dtsku.Columns.Add("indent_no");
+                dtsku.Columns.Add("delivery_number");
+                dtsku.Columns.Add("mrp_price");
+                dtsku.Columns.Add("material_code");
+                dtsku.Columns.Add("actual_source");
+                dtsku.Columns.Add("source_system");
+                dtsku.Columns.Add("gate_ref_id");
+                dtsku.Columns.Add("division");
+                dtsku.Columns.Add("quantity");
+                dtsku.Columns.Add("quantity_unit");
+                dtsku.Columns.Add("weight");
+                dtsku.Columns.Add("weight_unit");
+                dtsku.Columns.Add("volume");
+                dtsku.Columns.Add("volume_unit");
+                dtsku.Columns.Add("ship_to");
+                dtsku.Columns.Add("sold_to");
+                dtsku.Columns.Add("type");
+                dtsku.Columns.Add("invoice_number");
+                dtsku.Columns.Add("invoice_amount");
+                dtsku.Columns.Add("category");
+                dtsku.Columns.Add("invoice_date");
+                dtsku.Columns.Add("line_item_no");
+                dtsku.Columns.Add("eway_bill_number");
+                dtsku.Columns.Add("eway_bill_date");
+                dtsku.Columns.Add("action_by");
+                dtsku.Columns.Add("clear");
+
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["TriggerID"] = id;
+                    drsku["indent_no"] = itemDatun[i].indent_no;
+                    drsku["delivery_number"] = itemDatun[i].delivery_number;
+                    drsku["mrp_price"] = itemDatun[i].mrp_price;
+                    drsku["material_code"] = itemDatun[i].material_code;
+                    drsku["actual_source"] = itemDatun[i].actual_source;
+                    drsku["source_system"] = itemDatun[i].source_system;
+                    drsku["gate_ref_id"] = itemDatun[i].gate_ref_id;
+                    drsku["division"] = itemDatun[i].division;
+                    drsku["quantity"] = itemDatun[i].quantity;
+                    drsku["quantity_unit"] = itemDatun[i].quantity_unit;
+                    drsku["weight"] = itemDatun[i].weight;
+                    drsku["weight_unit"] = itemDatun[i].weight_unit;
+                    drsku["volume"] = itemDatun[i].volume;
+                    drsku["volume_unit"] = itemDatun[i].volume_unit;
+                    drsku["ship_to"] = itemDatun[i].ship_to;
+                    drsku["sold_to"] = itemDatun[i].sold_to;
+                    drsku["type"] = itemDatun[i].type;
+                    drsku["invoice_number"] = itemDatun[i].invoice_number;
+                    drsku["invoice_amount"] = itemDatun[i].invoice_amount;
+                    drsku["category"] = itemDatun[i].category;
+                    drsku["invoice_date"] = itemDatun[i].invoice_date;
+                    drsku["line_item_no"] = itemDatun[i].line_item_no;
+                    drsku["eway_bill_number"] = itemDatun[i].eway_bill_number;
+                    drsku["eway_bill_date"] = itemDatun[i].eway_bill_date;
+                    drsku["action_by"] = itemDatun[i].action_by;
+                    drsku["clear"] = itemDatun[i].clear;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.IsertWaybillPostData(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+>>>>>>> c7f1167b9ea4ea15600eaa373f53b004fee574fe
 
         public void STOWaybillErrorCodes(string Reason)
         {
@@ -1256,3 +1355,6 @@ namespace Uniware_PandoIntegration.BusinessLayer
     }
 }
 
+
+       
+    
