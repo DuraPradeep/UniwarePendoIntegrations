@@ -40,3 +40,4 @@ PublishScripts/
 *.lock
 bin/
  
+/.vs/UniWare_PandoIntegration/v17/.futdcache.v2
