@@ -1240,9 +1240,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 serviceResponse = null;
             }
             return serviceResponse;
-<<<<<<< HEAD
-        }        
-=======
+
         }
         public List<PostDataSTOWaybill> GetAllWaybillSTOPost()
         {
