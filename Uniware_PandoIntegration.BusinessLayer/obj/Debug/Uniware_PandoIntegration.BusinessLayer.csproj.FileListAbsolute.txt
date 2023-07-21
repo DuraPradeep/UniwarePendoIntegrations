@@ -73,12 +73,12 @@ D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniwar
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.BusinessLayer.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.BusinessLayer.pdb
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Exchange.WebServices.Auth.dll
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Newtonsoft.Json.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.APIs.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.DataAccessLayer.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.Entities.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\System.Net.Http.Formatting.dll
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Newtonsoft.Json.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\System.ValueTuple.dll
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.Primitives.dll
@@ -93,9 +93,9 @@ D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniwar
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.Entities.pdb
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Exchange.WebServices.Auth.pdb
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Exchange.WebServices.Auth.xml
+D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Newtonsoft.Json.xml
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.xml
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\System.Net.Http.Formatting.xml
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Newtonsoft.Json.xml
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\System.ValueTuple.xml
 D:\Duroflex\UniwarePando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.Primitives.xml

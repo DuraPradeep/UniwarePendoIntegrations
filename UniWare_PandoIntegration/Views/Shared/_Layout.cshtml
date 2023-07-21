@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor Accessor
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,9 +110,7 @@
                 color: white;
             }
     </style>
-    <script>
-
-    </script>
+    
 </head>
 <body>
     <div id="overlay">
@@ -220,5 +219,29 @@
     <script src="~/js/jquery-3.7.0.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $(document).ready(function (ev) {
+            Notificationerrorcode();
+        });
+        function Notificationerrorcode() {
+            debugger;
+            //var length = 'HttpContext.Session.Getstring("Errorcodeoccur")'
+            
+                $.ajax({
+                    url: "/Home/NotificationErrorListCount",
+                    type: 'GET',
+                    success: function (data) {
+                        debugger;
+                    //alert(data);//var UserName = @HttpContextAccessor.HttpContext.Session.GetString("NotificationCount")
+                    if (data == 1) {
+                           
+                        $("#Count").html(data);
+                    }
+                    }
+                });
+            //debugger;
+            
+        }
+    </script>
 </body>
 </html>

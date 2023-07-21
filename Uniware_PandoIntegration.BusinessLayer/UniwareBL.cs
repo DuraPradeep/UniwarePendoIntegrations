@@ -1240,6 +1240,9 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 serviceResponse = null;
             }
             return serviceResponse;
+<<<<<<< HEAD
+        }        
+=======
         }
         public List<PostDataSTOWaybill> GetAllWaybillSTOPost()
         {
@@ -1584,6 +1587,17 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
+        public void STOWaybillErrorCodes(string Reason)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOWaybillErrorCodesError(Reason);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

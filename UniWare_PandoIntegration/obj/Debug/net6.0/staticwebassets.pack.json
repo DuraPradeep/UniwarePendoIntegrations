@@ -13,7 +13,19 @@
       "PackagePath": "staticwebassets\\Images\\Loader_durovideo.mp4"
     },
     {
+<<<<<<< HEAD
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\Images\\durologo.png",
+      "PackagePath": "staticwebassets\\Images\\durologo.png"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\Images\\durologo_white.png",
+      "PackagePath": "staticwebassets\\Images\\durologo_white.png"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\Images\\uniware.png",
+=======
       "Id": "D:\\UniWare\\UniWare_PandoIntegration\\wwwroot\\Images\\uniware.png",
+>>>>>>> c7f1167b9ea4ea15600eaa373f53b004fee574fe
       "PackagePath": "staticwebassets\\Images\\uniware.png"
     },
     {

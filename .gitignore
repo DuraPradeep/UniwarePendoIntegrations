@@ -6,6 +6,10 @@
 *.[Cc]ache
 # but keep track of directories ending in .cache
 !?*.[Cc]ache/
+bin/
+# Ignore any files in /bin and /obj Folders
+**/bin/*
+**/obj/*
 
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
@@ -34,8 +38,6 @@ PublishScripts/
 /.vs/ProjectEvaluation/uniware_pandointegration.projects.v6.1
 /.vs/UniWare_PandoIntegration/DesignTimeBuild/.dtbcache.v2
 *.lock
-/Uniware_PandoIntegration.Entities/obj/Debug/Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-/Uniware_PandoIntegration.Entities/obj/Debug/Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-/Uniware_PandoIntegration.API/obj/Debug/net6.0/Uniware_PandoIntegration.API.csproj.AssemblyReference.cache
-/Uniware_PandoIntegration.APIs/obj/Debug/Uniware_PandoIntegration.Common.csproj.AssemblyReference.cache
-/Uniware_PandoIntegration.DataAccessLayer/obj/Debug/Uniware_PandoIntegration.DataAccessLayer.csproj.AssemblyReference.cache
+bin/
+ 
+/.vs/UniWare_PandoIntegration/v17/.futdcache.v2
