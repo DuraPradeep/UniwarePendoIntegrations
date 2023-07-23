@@ -57,14 +57,15 @@
         overflow-x: auto;
         margin-top: 0px;
         border: 1px solid rgba(255,255,255,0.3);
-       /* background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-        background: linear-gradient(to right, #25c481, #25b7c4);*/
+        /* background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+                    background: linear-gradient(to right, #25c481, #25b7c4);*/
         font-size: large;
     }
 
     .tbl-content {
         background: whitesmoke;
     }
+
     th {
         padding: 20px 15px;
         text-align: left;
@@ -116,10 +117,9 @@
             <table cellpadding="0" cellspacing="0" border="0">
                 <thead>
                     <tr>
-                        <th>saleOrder/search</th>
-                        <th>saleorder/get</th>
-                        <th>itemType/get</th>
-                        <th>delivery-picklist</th>
+                        <th>Gate Pass Code</th>
+                        <th>itemType SKU</th>
+                        <th>Post Data Reasolt</th>
                         <th>Reason</th>
                     </tr>
                 </thead>
@@ -133,8 +133,6 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
-                                </td>
                                 <td>
                                     @item.CODE
                                 </td>
@@ -164,6 +162,6 @@
 
     <div id="id_triggerbtn" style="text-align: end;display: none; margin-top: 10px;border-radius: 94px;">
         @*<input type="button" value="Retrigger" />*@
-        <button class="btn btn-outline-dark" >Retrigger</button>
+        <button class="btn btn-outline-dark" onclick="fn_Retrigger()">Retrigger</button>
     </div>
 </div>

@@ -216,11 +216,11 @@ namespace Uniware_PandoIntegration.API
                     ed.SkuCode = skucode;
                     ed.Reason = resul.Result.ObjectParam;
                     errorskuDetails.Add(ed);
+                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
                     ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount);
                 }
                 else
                 {
-                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
                     errorskuDetails = null;
                 }
             }
@@ -250,11 +250,12 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
+                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
+
                     Action(sendcode, triggerid, Lcheckcount);
                 }
                 else
                 {
-                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
                     resfinal = null;
                 }
 
@@ -657,13 +658,11 @@ namespace Uniware_PandoIntegration.API
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
-                    Lcheckcount += 1;                  
-
+                    Lcheckcount += 1;  
                     GatePass(jdetail, token, Lcheckcount);
                 }
                 else
-                {
-                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
+                {                    
                     ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam);
                     rootReturnorderAPI = null;
                 }
@@ -682,7 +681,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlists GetGatePassElements(string jdetail, string token, int checkcount)
+        public STOlists GetGatePassElements(string jdetail, string token, string code, int checkcount)
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassElements(jdetail, token);
@@ -700,15 +699,14 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     ErrorDetails errorDetails = new ErrorDetails();
                     errorDetails.Status = true;
-                    // errorDetails.Code = Code;
+                    errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    GetGatePassElements(jdetail, token, Lcheckcount);
+                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails,1);
+                    GetGatePassElements(jdetail, token, code,Lcheckcount);
                 }
                 else
                 {
-                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-
                     STOlists = null;
                 }
             }
@@ -717,12 +715,12 @@ namespace Uniware_PandoIntegration.API
                 var Dlist = JsonConvert.DeserializeObject<STOwaybillGetCode>(list.Result.ObjectParam);
                 for (int i = 0; i < Dlist.elements.Count; i++)
                 {
-                    Element code = new Element();
-                    code.code = Dlist.elements[i].code;
-                    code.reference = Dlist.elements[i].code;
-                    code.toParty = Dlist.elements[i].code;
-                    code.invoiceCode = Dlist.elements[i].code;
-                    STOlists.elements.Add(code);
+                    Element codes = new Element();
+                    codes.code = Dlist.elements[i].code;
+                    codes.reference = Dlist.elements[i].code;
+                    codes.toParty = Dlist.elements[i].code;
+                    codes.invoiceCode = Dlist.elements[i].code;
+                    STOlists.elements.Add(codes);
                     for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
                     {
                         GatePassItemDTO gatePassItemDTO = new GatePassItemDTO();
@@ -737,7 +735,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return STOlists;
         }
-        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token,string code, int checkcount)
+        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token,string code,string itemsku, int checkcount)
         {
             int Lcheckcount = checkcount;
             var list = _Token.GetSTOSkuDetails(jdetail, token);            
@@ -751,15 +749,14 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     ErrorDetails errorDetails = new ErrorDetails();
                     errorDetails.Status = true;
-                    // errorDetails.Code = Code;
+                    errorDetails.Code = itemsku;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    GetSTOWaybillSkuDetails(jdetail, token, code, Lcheckcount);
+                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 0);
+                    GetSTOWaybillSkuDetails(jdetail, token, code, itemsku, Lcheckcount);
                 }
                 else
                 {
-                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-
                     itemType = null;
                 }
             }
@@ -786,7 +783,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    //ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam);
+                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
                     WaybillSTOPostData(AllData, triggerid, Lcheckcount);
                 }
                 {
@@ -799,6 +796,7 @@ namespace Uniware_PandoIntegration.API
         public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount)
         {
             int Lcheckcount = checkcount;
+            ServiceResponse<string> response = new ServiceResponse<string>();
             var list = _Token.FetchingGetPassCode(jdetail, token);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
@@ -810,18 +808,12 @@ namespace Uniware_PandoIntegration.API
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ErrorDetails errorDetails = new ErrorDetails();
-                    errorDetails.Status = true;
-                    // errorDetails.Code = Code;
-                    errorDetails.Reason = list.Result.ObjectParam;
-                    errorCodeDetails.Add(errorDetails);
+                    Lcheckcount += 1;                    
                     STOAPIGatePass(jdetail, token, Lcheckcount);
                 }
                 else
                 {
-                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-
+                    ObjBusinessLayer.STOAPIErrorCodes(list.Result.ObjectParam);
                     rootReturnorderAPI = null;
                 }
             }
@@ -839,7 +831,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, int checkcount)
+        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount)
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassElements(jdetail, token);
@@ -848,6 +840,7 @@ namespace Uniware_PandoIntegration.API
             STOlists STOlists = new STOlists();
             STOlists.gatePassItemDTOs = new List<GatePassItemDTO>();
             STOlists.elements = new List<Element>();
+            ServiceResponse<string> response = new ServiceResponse<string>();
 
             if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
             {
@@ -857,10 +850,11 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     ErrorDetails errorDetails = new ErrorDetails();
                     errorDetails.Status = true;
-                    // errorDetails.Code = Code;
+                     errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    GetSTOAPIGatePassElements(jdetail, token, Lcheckcount);
+                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails,1);
+                    GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount);
                 }
                 else
                 {
@@ -874,12 +868,12 @@ namespace Uniware_PandoIntegration.API
                 var Dlist = JsonConvert.DeserializeObject<STOwaybillGetCode>(list.Result.ObjectParam);
                 for (int i = 0; i < Dlist.elements.Count; i++)
                 {
-                    Element code = new Element();
-                    code.code = Dlist.elements[i].code;
-                    code.reference = Dlist.elements[i].code;
-                    code.toParty = Dlist.elements[i].code;
-                    code.invoiceCode = Dlist.elements[i].code;
-                    STOlists.elements.Add(code);
+                    Element codes = new Element();
+                    codes.code = Dlist.elements[i].code;
+                    codes.reference = Dlist.elements[i].code;
+                    codes.toParty = Dlist.elements[i].code;
+                    codes.invoiceCode = Dlist.elements[i].code;
+                    STOlists.elements.Add(codes);
                     for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
                     {
                         GatePassItemDTO gatePassItemDTO = new GatePassItemDTO();
@@ -894,7 +888,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return STOlists;
         }
-        public ItemTypeDTO GetSTOAPISkuDetails(string jdetail, string token, string code, int checkcount)
+        public ItemTypeDTO GetSTOAPISkuDetails(string jdetail, string token, string code, string skutype, int checkcount)
         {
             int Lcheckcount = checkcount;
             var list = _Token.GetSTOSkuDetails(jdetail, token);
@@ -909,15 +903,14 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     ErrorDetails errorDetails = new ErrorDetails();
                     errorDetails.Status = true;
-                     errorDetails.Code = code;
+                     errorDetails.Code = skutype;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    GetSTOAPISkuDetails(jdetail, token, code, Lcheckcount);
+                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 0);
+                    GetSTOAPISkuDetails(jdetail, token, code, skutype, Lcheckcount);
                 }
                 else
                 {
-                    
-
                     itemType = null;
                 }
             }
@@ -944,11 +937,11 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    //ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam);
+                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
                     STOAPiPostData(AllData, triggerid, Lcheckcount);
                 }
                 {
-                    return ResStatus = null;
+                    return ResStatus; ;
 
                 }
             }

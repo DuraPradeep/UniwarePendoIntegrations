@@ -1596,6 +1596,165 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
+        public bool UpdateWaybillGatepassError(List<ErrorDetails> ErrorDt,int type)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].Code;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateErrorWaybill(dtsku,type);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public void UpdateSTOWaybillPosterreoe(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOwaybillErrorpostdata(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void STOAPIErrorCodes(string Reason)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOAPIError(Reason);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool UpdateSTOAPIError(List<ErrorDetails> ErrorDt, int type)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].Code;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateSTOAPI(dtsku, type);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public void UpdateSTOAPIPosterreoe(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOAPIErrorpostdata(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLSTOAPI()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOAPIFailedCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLSTOWaybil()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOErrorstatusCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLWaybilStatus()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetWaybillPoststatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLReturnOrderStatus()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.ReturnOrderStatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
     }
 }
 

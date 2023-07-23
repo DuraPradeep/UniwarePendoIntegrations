@@ -7,6 +7,7 @@ using Uniware_PandoIntegration.APIs;
 using Uniware_PandoIntegration.Entities;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using System.Net.Security;
 
 namespace UniWare_PandoIntegration.Controllers
 {
@@ -57,11 +58,20 @@ namespace UniWare_PandoIntegration.Controllers
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
-
-
 			}
             return View("~/Views/Home/Pv_ErrorList.cshtml", response.ObjectParam);
         }
+        //public ActionResult STOPAPiErrorDetail()
+        //{
+        //    ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+        //    ApiControl = new ApiOperation();
+        //    response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
+        //    if (response.ObjectParam.Count > 0)
+        //    {
+        //        ViewData["UserName"] = 1;
+        //    }
+        //    return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml", response.ObjectParam);
+        //}
 
         [HttpGet]
         public JsonResult Retrigger()
@@ -103,31 +113,126 @@ namespace UniWare_PandoIntegration.Controllers
         }
         public ActionResult WaybillErrorList()
         {
-            return View("~/Views/Home/Pv_WaybillErrorList.cshtml");
+            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ApiControl = new ApiOperation();
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return View("~/Views/Home/Pv_WaybillErrorList.cshtml", response.ObjectParam);
+            //return View("~/Views/Home/Pv_WaybillErrorList.cshtml");
         }
         public ActionResult ReturnOrderErrorList()
         {
-            return View("~/Views/Home/Pv_ReturnOrderErrorList.cshtml");
+            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ApiControl = new ApiOperation();
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return View("~/Views/Home/Pv_ReturnOrderErrorList.cshtml", response.ObjectParam);
         }
         public ActionResult STOWaybillErrorList()
-        {           
-            return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
+        {
+            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ApiControl = new ApiOperation();
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return View("~/Views/Home/pv_STOWaybill.cshtml", response.ObjectParam);
+            //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
         }
+        public ActionResult STOAPIErrorList()
+        {
+            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ApiControl = new ApiOperation();
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return View("~/Views/Home/Pv_STOAPIErrorList.cshtml", response.ObjectParam);
+            //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
+        }
+        //public ActionResult WaybillErrorList()
+        //{
+        //    ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+        //    ApiControl = new ApiOperation();
+        //    response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/aybillErrorDetails");
+        //    if (response.ObjectParam.Count > 0)
+        //    {
+        //        ViewData["UserName"] = 1;
+        //    }
+        //    return View("~/Views/Home/Pv_STOAPIErrorList.cshtml", response.ObjectParam);
+        //    //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
+        //}
 
         public ActionResult NotificationErrorListCount()
         {
+            //sale order
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation();
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
             int count = 0;
+            List<string> strings = new List<string>();
+            string name;
             if (response.ObjectParam.Count > 0)
             {
-
-                count = 1;
-                //HttpContext.Session.SetString("NotificationCount", "1");
-
+                name = "Sale Order API";
+                count += 1;               
+                strings.Add(name);
             }
-            return Json(count);
+            //waybill
+            ServiceResponse<List<CodesErrorDetails>> waybill = new ServiceResponse<List<CodesErrorDetails>>();
+            //ApiControl = new ApiOperation();
+            waybill = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            if (waybill.ObjectParam.Count > 0)
+            {
+                name = "Waybill generation";
+                count += 1;
+                ViewData["UserName"] = 1;
+                strings.Add(name);
+            }
+            //return Order
+            ServiceResponse<List<CodesErrorDetails>> resturnorer = new ServiceResponse<List<CodesErrorDetails>>();
+            //ApiControl = new ApiOperation();
+            resturnorer = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
+            if (resturnorer.ObjectParam.Count > 0)
+            {
+                name = "return Order";
+                count += 1;
+                ViewData["UserName"] = 1;
+                strings.Add(name);
+            }
+            //STO Waybill
+            ServiceResponse<List<CodesErrorDetails>> STOwaybill = new ServiceResponse<List<CodesErrorDetails>>();
+            //ApiControl = new ApiOperation();
+            STOwaybill = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
+            if (STOwaybill.ObjectParam.Count > 0)
+            {
+                name = "STO Waybill";
+                count += 1;
+                ViewData["UserName"] = 1;
+                strings.Add(name);
+            }
+            //STO API
+            ServiceResponse<List<CodesErrorDetails>> STOAPI = new ServiceResponse<List<CodesErrorDetails>>();
+            //ApiControl = new ApiOperation();
+            STOAPI = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
+            if (STOAPI.ObjectParam.Count > 0)
+            {
+                name = "STO API";
+                count += 1;
+                ViewData["UserName"] = 1;
+                strings.Add(name);
+            }
+            var result = new { name = strings, ID = count };
+            //return Json(count,strings);
+            return Json(result);
            
         }
     }

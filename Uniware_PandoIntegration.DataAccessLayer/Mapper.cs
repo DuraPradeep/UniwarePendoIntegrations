@@ -573,5 +573,28 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
+        public static ServiceResponse<List<CodesErrorDetails>> ErrorWaybillPostData(DataSet pds)
+        {
+            ServiceResponse<List<CodesErrorDetails>> skucodes = new ServiceResponse<List<CodesErrorDetails>>();
+            List<CodesErrorDetails> userProfile = new List<CodesErrorDetails>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    CodesErrorDetails sKucode = new CodesErrorDetails();
+                    sKucode.Triggerid = pds.Tables[0].Rows[i]["triggerid"].ToString();
+                 
+                    //skucodes.Add(sKucode);
+                    userProfile.Add(sKucode);//new CodesErrorDetails();// Add(sKucode);
+                }
+                skucodes.ObjectParam = userProfile;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
     }
 }
