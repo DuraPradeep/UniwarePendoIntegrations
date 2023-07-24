@@ -1,7 +1,9 @@
-﻿namespace Uniware_PandoIntegration.API.Folder
+﻿using Uniware_PandoIntegration.Entities;
+
+namespace Uniware_PandoIntegration.API.Folder
 {
     public interface IUniwarePando
     {
-        string GenerateJWTTokens(); 
+        string GenerateJWTTokens(TokenEntity tokenEntity); 
     }
 }

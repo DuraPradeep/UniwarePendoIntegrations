@@ -46,7 +46,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             return new PandoUniwariToken();
         }
         [HttpPost]
-        public IActionResult GetCode(string fromdate = "1681368375000", string todate = "1681454775000", string datatype = "CREATED")
+        public IActionResult SaleOrderAPI(string fromdate = "1681368375000", string todate = "1681454775000", string datatype = "CREATED")
         {
             _logger.LogInformation("Token Api called.");
             PandoUniwariToken resu = _Token.GetTokens().Result;
@@ -58,14 +58,14 @@ namespace Uniware_PandoIntegration.API.Controllers
             //var readtoken=jwthandler.ReadToken(tokendetails);
 
 
-            ReqSalesOrderSearch reqSalesOrderSearch = new Entities.ReqSalesOrderSearch();
-            reqSalesOrderSearch.fromDate = fromdate;//= "1681368375000";
-            reqSalesOrderSearch.toDate = todate;//=1681454775000;
-            reqSalesOrderSearch.dateType = datatype;//=CREATED;
-            var json = JsonConvert.SerializeObject(reqSalesOrderSearch);
+            //ReqSalesOrderSearch reqSalesOrderSearch = new Entities.ReqSalesOrderSearch();
+            //reqSalesOrderSearch.fromDate = fromdate;//= "1681368375000";
+            //reqSalesOrderSearch.toDate = todate;//=1681454775000;
+            //reqSalesOrderSearch.dateType = datatype;//=CREATED;
+            //var json = JsonConvert.SerializeObject(reqSalesOrderSearch);
             string token = HttpContext.Session.GetString("Token");
             _logger.LogInformation("saleOrder/Get Api called.");
-
+            var json=JsonConvert.SerializeObject(new {fromDate= fromdate ,toDate=todate, dateType = datatype });
             //var list = getCode(json, token, 0);
             var list = _MethodWrapper.getCode(json, token, 0);
             //var resCode = ObjBusinessLayer.InsertCode(elmt);
@@ -258,10 +258,11 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         //Step-2
         [HttpGet]
-        public IActionResult GetJWTToken()
+        public IActionResult GetJWTToken(TokenEntity tokenEntity)
         {
             //GenerateToken generateToken=new GenerateToken(null) ;
-            var token = _jWTManager.GenerateJWTTokens();
+            var token = _jWTManager.GenerateJWTTokens(tokenEntity);
+            var result = "";
             _logger.LogInformation($" log Object {JsonConvert.SerializeObject(token)}");
             try
             {
@@ -270,10 +271,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                     _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(token)}");
                     return Unauthorized();
                 }
+                result = JsonConvert.SerializeObject(new { status = "Success", token = token });
                 _logger.LogInformation($" Debug Object {JsonConvert.SerializeObject(token)}");
             }
             catch (Exception ex) { _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(ex)}"); }
-            return Ok(token);
+            return Ok(result);
         }
         [Authorize]
         [HttpPost]       //[BasicAuthenticationFilter]       
@@ -349,13 +351,16 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult ReturnOrderAPI(string returnType = "CIR", string statusCode = "COMPLETE", string createdTo = "2023-07-11T14:20:40", string createdFrom = "2023-07-05T14:20:40")
         {
-            RequestReturnOrder requestReturnOrder = new RequestReturnOrder();
-            requestReturnOrder.returnType = returnType;
-            requestReturnOrder.statusCode = statusCode;
-            requestReturnOrder.createdTo = createdTo;
-            requestReturnOrder.createdFrom = createdFrom;
+            //RequestReturnOrder requestReturnOrder = new RequestReturnOrder();
+            //requestReturnOrder.returnType = returnType;
+            //requestReturnOrder.statusCode = statusCode;
+            //requestReturnOrder.createdTo = createdTo;
+            //requestReturnOrder.createdFrom = createdFrom;
+            //var todaydate = DateTime.Today;
+            //var unixepochdateda=todaydate.ToUniversalTime().Ticks;
 
-            var json = JsonConvert.SerializeObject(requestReturnOrder);
+            //var json = JsonConvert.SerializeObject(requestReturnOrder);
+            var json= JsonConvert.SerializeObject(new { returnType, statusCode,createdTo,createdFrom});
             string token = HttpContext.Session.GetString("Token");
 
             var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0);
@@ -429,7 +434,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             return new PandoUniwariToken();
         }
         [HttpPost]
-        public IActionResult STOWaybillGatePass(string fromDate= "2022-06-30T00:00:00", string toDate= "2022-07-02T00:00:00", string type= "STOCK_TRANSFER", string statusCode = "Return_awaited")
+        public IActionResult STOWaybill(string fromDate= "2022-06-30T00:00:00", string toDate= "2022-07-02T00:00:00", string type= "STOCK_TRANSFER", string statusCode = "Return_awaited")
         {
             var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate , type, statusCode });
             string token = HttpContext.Session.GetString("STOToken");
