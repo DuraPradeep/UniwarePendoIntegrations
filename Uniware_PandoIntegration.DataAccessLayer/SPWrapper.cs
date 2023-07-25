@@ -74,6 +74,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static bool InsertSaleOrderDTO(DataTable dt)
@@ -217,6 +218,7 @@ namespace Uniware_PandoIntegration.APIs
                 throw ex;
                 //CreateLog($"Error: {ex.Message}");
             }
+            finally { con.Close(); }
             return ds;
         }
         public static bool IsertItemtypes(DataTable dt)
@@ -264,6 +266,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close() ; }
             return ds;
         }
         public static DataSet PostStatus()
@@ -288,6 +291,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static string IsertAllsendingrec(DataTable dt)
@@ -388,6 +392,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }    
             return ds;
         }
         public static DataSet GetSendCode()
@@ -413,6 +418,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static DataSet GetSkuCodeforRetrigger()
@@ -438,6 +444,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
 
@@ -458,6 +465,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -703,6 +711,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -752,6 +761,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -819,6 +829,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -865,6 +876,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -1081,6 +1093,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {               
@@ -1147,6 +1160,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -1192,6 +1206,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -1246,6 +1261,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -1263,6 +1279,191 @@ namespace Uniware_PandoIntegration.APIs
 
             return ds;
         }
+        public static bool InsertSTOAPIGetPassCode(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertSTOAPiGatePass";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@GatePasses", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+
+        public static DataSet GetSTOAPIgatepassCode()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_STOAPIGetgatepass"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static bool InsertSTOAPIGetPassElements(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertSTOAPIEmelents";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Elements", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static bool InsertSTOAPIItemTypeDTO(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertSTOAPIItemTypeDTO";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@itemtypeDTO", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static DataSet GetSTOAPISKUCde()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_getSTOAPIItemSku"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static bool InsertSTOAPiItemsType(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertSTOAPIItemtypes";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Itemtypes", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return res;
+        }
+        public static DataSet GetSTOAPiSendData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetallDataSTOApi"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            return ds;
+        }
+        public static string IsertSTOAPIAllData(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "Pro_GetSTOAPIAllData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@Trigger_id", SqlDbType.VarChar, 100);
+                com.Parameters["@Trigger_id"].Direction = ParameterDirection.Output;
+                com.Parameters.AddWithValue("@AllRecords", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
 
         public static void UpdateSTOWaybillErrorCodesError(string reason)
         {
@@ -1274,7 +1475,6 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandText = "Pro_STOWaybillCodeError";
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Reason", reason);
-
                 con.Open();
                 com.ExecuteNonQuery();
 
@@ -1288,6 +1488,236 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
 
         }
+        public static bool UpdateErrorWaybill(DataTable dt,int type)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_StoWaybillGatepassError";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Codes", dt);
+                com.Parameters.AddWithValue("@type", type);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static void UpdateSTOwaybillErrorpostdata(bool status, string reason, string Triggerid)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_UpdateSTOWaybillErrorPostData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@status", status);
+                com.Parameters.AddWithValue("@Reason", reason);
+                com.Parameters.AddWithValue("@trigger_id", Triggerid);
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static void UpdateSTOAPIError(string reason)
+        {
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "Pro_STOAPIError";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Reason", reason);
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static bool UpdateSTOAPI(DataTable dt, int type)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_UpdateSTOAPIError";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Codes", dt);
+                com.Parameters.AddWithValue("@type", type);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+
+        public static void UpdateSTOAPIErrorpostdata(bool status, string reason, string Triggerid)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_UpdateSTOAPIErrorPostData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@status", status);
+                com.Parameters.AddWithValue("@Reason", reason);
+                com.Parameters.AddWithValue("@trigger_id", Triggerid);
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static DataSet GetSTOAPIFailedCode()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_STOAPiErrorStatus"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet GetSTOErrorstatusCode()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_WaybillStoStatus"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet GetWaybillPoststatus()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GeyWaybillposterror"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet ReturnOrderStatus()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_ReturnOrderStatus"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
     }
+
 
 }

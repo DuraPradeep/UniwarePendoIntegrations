@@ -500,5 +500,101 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return serviceResponse;
         }
+
+        public static List<Element> GetSTOAPIGatePassCode(DataSet pds)
+        {
+            List<Element> skucodes = new List<Element>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    Element sKucode = new Element();
+                    sKucode.code = pds.Tables[0].Rows[i]["Code"].ToString();
+
+                    skucodes.Add(sKucode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
+        public static ServiceResponse<List<ReturnOrderSendData>> GetSTOAPIAllData(DataSet pds)
+        {
+            ServiceResponse<List<ReturnOrderSendData>> skucodes = new ServiceResponse<List<ReturnOrderSendData>>();
+            List<ReturnOrderSendData> userProfile = new List<ReturnOrderSendData>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    ReturnOrderSendData returncode = new ReturnOrderSendData();
+                    returncode.name = pds.Tables[0].Rows[i]["name"].ToString();
+                    returncode.reference_number = pds.Tables[0].Rows[i]["reference_number"].ToString();
+                    returncode.address = pds.Tables[0].Rows[i]["address"].ToString();
+                    returncode.city = pds.Tables[0].Rows[i]["city"].ToString();
+                    returncode.state = pds.Tables[0].Rows[i]["state"].ToString();
+                    returncode.pincode = pds.Tables[0].Rows[i]["pincode"].ToString();
+                    returncode.region = pds.Tables[0].Rows[i]["region"].ToString();
+                    returncode.mobile_number = pds.Tables[0].Rows[i]["mobile_number"].ToString();
+                    returncode.email = pds.Tables[0].Rows[i]["email"].ToString();
+                    returncode.customer_type = pds.Tables[0].Rows[i]["customer_type"].ToString();
+                    returncode.category = pds.Tables[0].Rows[i]["category"].ToString();
+                    returncode.delivery_number = pds.Tables[0].Rows[i]["delivery_number"].ToString();
+                    returncode.mrp_price = pds.Tables[0].Rows[i]["mrp_price"].ToString();
+                    returncode.material_code = pds.Tables[0].Rows[i]["material_code"].ToString();
+                    returncode.source_system = pds.Tables[0].Rows[i]["source_system"].ToString();
+                    returncode.material_taxable_amount = pds.Tables[0].Rows[i]["material_taxable_amount"].ToString();
+                    returncode.division = pds.Tables[0].Rows[i]["division"].ToString();
+                    returncode.quantity = pds.Tables[0].Rows[i]["quantity"].ToString();
+                    returncode.quantity_unit = pds.Tables[0].Rows[i]["quantity_unit"].ToString();
+                    returncode.weight = pds.Tables[0].Rows[i]["weight"].ToString();
+                    returncode.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
+                    returncode.volume = pds.Tables[0].Rows[i]["volume"].ToString();
+                    returncode.volume_unit = pds.Tables[0].Rows[i]["volume_unit"].ToString();
+                    returncode.ship_to = pds.Tables[0].Rows[i]["ship_to"].ToString();
+                    returncode.sold_to = pds.Tables[0].Rows[i]["sold_to"].ToString();
+                    returncode.type = pds.Tables[0].Rows[i]["type"].ToString();
+                    returncode.invoice_number = pds.Tables[0].Rows[i]["invoice_number"].ToString();
+                    returncode.line_item_no = pds.Tables[0].Rows[i]["line_item_no"].ToString();
+                    returncode.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
+                    returncode.invoice_date = pds.Tables[0].Rows[i]["invoice_date"].ToString();
+                    returncode.pickup_reference_number = pds.Tables[0].Rows[i]["pickup_reference_number"].ToString();
+
+                    userProfile.Add(returncode);
+                }
+                skucodes.ObjectParam = userProfile;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
+        public static ServiceResponse<List<CodesErrorDetails>> ErrorWaybillPostData(DataSet pds)
+        {
+            ServiceResponse<List<CodesErrorDetails>> skucodes = new ServiceResponse<List<CodesErrorDetails>>();
+            List<CodesErrorDetails> userProfile = new List<CodesErrorDetails>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    CodesErrorDetails sKucode = new CodesErrorDetails();
+                    sKucode.Triggerid = pds.Tables[0].Rows[i]["triggerid"].ToString();
+                 
+                    //skucodes.Add(sKucode);
+                    userProfile.Add(sKucode);//new CodesErrorDetails();// Add(sKucode);
+                }
+                skucodes.ObjectParam = userProfile;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
     }
 }

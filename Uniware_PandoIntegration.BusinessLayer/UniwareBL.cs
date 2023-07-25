@@ -1240,6 +1240,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 serviceResponse = null;
             }
             return serviceResponse;
+
         }
 
         public List<PostDataSTOWaybill> GetAllWaybillSTOPost()
@@ -1265,7 +1266,6 @@ namespace Uniware_PandoIntegration.BusinessLayer
             {
                 string id = "Tri_" + GenerateNumeric();
                 DataTable dtsku = new DataTable();
-                dtsku.Columns.Add("TriggerID");
                 dtsku.Columns.Add("indent_no");
                 dtsku.Columns.Add("delivery_number");
                 dtsku.Columns.Add("mrp_price");
@@ -1292,12 +1292,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("eway_bill_date");
                 dtsku.Columns.Add("action_by");
                 dtsku.Columns.Add("clear");
+                dtsku.Columns.Add("TriggerID");
+
 
 
                 for (int i = 0; i < itemDatun.Count; i++)
                 {
                     DataRow drsku = dtsku.NewRow();
-                    drsku["TriggerID"] = id;
+                    
                     drsku["indent_no"] = itemDatun[i].indent_no;
                     drsku["delivery_number"] = itemDatun[i].delivery_number;
                     drsku["mrp_price"] = itemDatun[i].mrp_price;
@@ -1324,7 +1326,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["eway_bill_date"] = itemDatun[i].eway_bill_date;
                     drsku["action_by"] = itemDatun[i].action_by;
                     drsku["clear"] = itemDatun[i].clear;
-
+                    drsku["TriggerID"] = id;
                     dtsku.Rows.Add(drsku);
                 }
                 res = SPWrapper.IsertWaybillPostData(dtsku);
@@ -1338,6 +1340,254 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
+        public bool insertSTOAPIGatePassCode(List<Element> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertSTOAPIGetPassCode(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<Element> GetSTOAPIgatePassCode()
+        {
+            List<Element> codes = new List<Element>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetSTOAPIGatePassCode(SPWrapper.GetSTOAPIgatepassCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public bool insertSTOAPiGatePassElements(List<Element> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");               
+                dtinstcode.Columns.Add("topartyname");               
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                   
+                    dr["topartyname"] = elements[i].toPartyName;
+                  
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertSTOAPIGetPassElements(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool insertSTOAPiItemTypeDTO(List<GatePassItemDTO> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("quantity");
+                dtinstcode.Columns.Add("itemtypeSKU");
+                dtinstcode.Columns.Add("unitprice");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].code;
+                    dr["quantity"] = elements[i].quantity;
+                    dr["itemtypeSKU"] = elements[i].itemTypeSKU;
+                    dr["unitprice"] = elements[i].unitPrice;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertSTOAPIItemTypeDTO(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<GatePassItemDTO> GetSTOSKUCode()
+        {
+            List<GatePassItemDTO> codes = new List<GatePassItemDTO>();
+
+            try
+            {
+
+                return codes = Mapper.GetSKUCode(SPWrapper.GetSTOAPISKUCde());
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public bool insertSTOAPItemType(List<ItemTypeDTO> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("weight");
+                dtinstcode.Columns.Add("length");
+                dtinstcode.Columns.Add("width");
+                dtinstcode.Columns.Add("itemdetailfieldstext");
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Code"] = elements[i].Code;
+                    dr["weight"] = elements[i].weight;
+                    dr["length"] = elements[i].length;
+                    dr["width"] = elements[i].width;
+                    dr["itemdetailfieldstext"] = elements[i].itemDetailFieldsText;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertSTOAPiItemsType(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
+        public ServiceResponse<List<ReturnOrderSendData>> GetSTOAPISendData()
+        {
+            ServiceResponse<List<ReturnOrderSendData>> codes = new ServiceResponse<List<ReturnOrderSendData>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetSTOAPIAllData(SPWrapper.GetSTOAPiSendData());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public string InsertAllsendingDataSTOAPI(ServiceResponse<List<ReturnOrderSendData>> itemDatun)
+        {
+            string res;
+            try
+            {
+                string id = "Tri_" + GenerateNumeric();
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("name");
+                dtsku.Columns.Add("reference_number");
+                dtsku.Columns.Add("address");
+                dtsku.Columns.Add("city");
+                dtsku.Columns.Add("state");
+                dtsku.Columns.Add("pincode");
+                dtsku.Columns.Add("region");
+                dtsku.Columns.Add("mobile_number");
+                dtsku.Columns.Add("email");
+                dtsku.Columns.Add("customer_type");
+                dtsku.Columns.Add("category");
+                dtsku.Columns.Add("delivery_number");
+                dtsku.Columns.Add("mrp_price");
+                dtsku.Columns.Add("material_code");
+                dtsku.Columns.Add("source_system");
+                dtsku.Columns.Add("material_taxable_amount");
+                dtsku.Columns.Add("division");
+                dtsku.Columns.Add("quantity");
+                dtsku.Columns.Add("quantity_unit");
+                dtsku.Columns.Add("weight");
+                dtsku.Columns.Add("weight_unit");
+                dtsku.Columns.Add("volume");
+                dtsku.Columns.Add("volume_unit");
+                dtsku.Columns.Add("ship_to");
+                dtsku.Columns.Add("sold_to");
+                dtsku.Columns.Add("type");
+                dtsku.Columns.Add("invoice_number");
+                dtsku.Columns.Add("invoice_amount");
+                dtsku.Columns.Add("invoice_date");
+                dtsku.Columns.Add("line_item_no");
+                dtsku.Columns.Add("pickup_reference_number");
+                dtsku.Columns.Add("TriggerID");
+
+
+                for (int i = 0; i < itemDatun.ObjectParam.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["name"] = itemDatun.ObjectParam[i].name;
+                    drsku["reference_number"] = itemDatun.ObjectParam[i].reference_number;
+                    drsku["address"] = itemDatun.ObjectParam[i].address;
+                    drsku["city"] = itemDatun.ObjectParam[i].city;
+                    drsku["state"] = itemDatun.ObjectParam[i].state;
+                    drsku["pincode"] = itemDatun.ObjectParam[i].pincode;
+                    drsku["region"] = itemDatun.ObjectParam[i].region;
+                    drsku["mobile_number"] = itemDatun.ObjectParam[i].mobile_number;
+                    drsku["email"] = itemDatun.ObjectParam[i].email;
+                    drsku["customer_type"] = itemDatun.ObjectParam[i].customer_type;
+                    drsku["category"] = itemDatun.ObjectParam[i].category;
+                    drsku["delivery_number"] = itemDatun.ObjectParam[i].delivery_number;
+                    drsku["mrp_price"] = itemDatun.ObjectParam[i].mrp_price;
+                    drsku["material_code"] = itemDatun.ObjectParam[i].material_code;
+                    drsku["source_system"] = itemDatun.ObjectParam[i].source_system;
+                    drsku["material_taxable_amount"] = itemDatun.ObjectParam[i].material_taxable_amount;
+                    drsku["division"] = itemDatun.ObjectParam[i].division;
+                    drsku["quantity"] = itemDatun.ObjectParam[i].quantity;
+                    drsku["quantity_unit"] = itemDatun.ObjectParam[i].quantity_unit;
+                    drsku["weight"] = itemDatun.ObjectParam[i].weight;
+                    drsku["weight_unit"] = itemDatun.ObjectParam[i].weight_unit;
+                    drsku["volume"] = itemDatun.ObjectParam[i].volume;//"End_Customer";
+                    drsku["volume_unit"] = itemDatun.ObjectParam[i].volume_unit;//"abc_sleepyhead";                    
+                    drsku["ship_to"] = itemDatun.ObjectParam[i].ship_to;
+                    drsku["sold_to"] = itemDatun.ObjectParam[i].sold_to;//"EA";
+                    drsku["type"] = itemDatun.ObjectParam[i].type;//"CFT";
+                    drsku["invoice_number"] = itemDatun.ObjectParam[i].invoice_number;//"KG";
+                    drsku["invoice_amount"] = itemDatun.ObjectParam[i].invoice_amount;//"";
+                    drsku["invoice_date"] = itemDatun.ObjectParam[i].invoice_date;//"";
+                    drsku["line_item_no"] = itemDatun.ObjectParam[i].line_item_no;//"Secondary";
+                    drsku["pickup_reference_number"] = itemDatun.ObjectParam[i].pickup_reference_number;//"";
+                    drsku["TriggerID"] = id;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.IsertSTOAPIAllData(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
+
         public void STOWaybillErrorCodes(string Reason)
         {
             try
@@ -1348,6 +1598,165 @@ namespace Uniware_PandoIntegration.BusinessLayer
             {
                 throw ex;
             }
+        }
+        public bool UpdateWaybillGatepassError(List<ErrorDetails> ErrorDt,int type)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].Code;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateErrorWaybill(dtsku,type);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public void UpdateSTOWaybillPosterreoe(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOwaybillErrorpostdata(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void STOAPIErrorCodes(string Reason)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOAPIError(Reason);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool UpdateSTOAPIError(List<ErrorDetails> ErrorDt, int type)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].Code;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateSTOAPI(dtsku, type);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public void UpdateSTOAPIPosterreoe(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOAPIErrorpostdata(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLSTOAPI()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOAPIFailedCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLSTOWaybil()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOErrorstatusCode());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLWaybilStatus()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetWaybillPoststatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLReturnOrderStatus()
+        {
+            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.ReturnOrderStatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
         }
     }
 }

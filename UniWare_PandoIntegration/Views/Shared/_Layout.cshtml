@@ -146,11 +146,40 @@
 
                     <ul class="navbar-nav float-start">
                         <li class="nav-item dropdown">
-                            <a class="nav-link text-muted waves-effect waves-dark notification_bell_icon" href="#" id="" role="button" aria-expanded="false">
-                                <i class="fa fa-bell"></i> <span class="badge">
+                            <a class="dropdown-toggle text-muted waves-effect waves-dark pro-pic notification_bell_icon" href="#" id="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa fa-bell"></i>
+                                <span class="badge">
                                     <span id="Count">0</span>
                                 </span>
                             </a>
+                            <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown" href=""  >
+                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="sale" onclick="fn_saleorder()">
+                                    Sale Order API
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="waygen" onclick="fn_waybill()">
+                                    Waybill Generation
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="return" onclick="fn_returnorder()">
+                                    Return Order API
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="STO" onclick="fn_STOwaybill()">
+                                    STO Waybill
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="STOAPI" onclick="fn_STOApi()">
+                                    STO API
+                                </a>
+                            </ul>@*
+                            @*<ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown" onclick="" href="#" id="navbarDropdowns">
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="">
+                                    <i class="fa fa-user me-1 ms-1"></i>
+
+                                    @HttpContextAccessor.HttpContext.Session.GetString("UserName")
+                                </a>
+                               @* <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("Logout", "Home")'; ">
+                                    <i class="fa fa-user me-1 ms-1"></i>
+                                    Logout
+                                </a>*@
+                            </ul>
                         </li>
                     </ul>
                     <ul class="navbar-nav float-end">
@@ -230,17 +259,107 @@
                 $.ajax({
                     url: "/Home/NotificationErrorListCount",
                     type: 'GET',
-                    success: function (data) {
+                    success: function (data,result) {
                         debugger;
                     //alert(data);//var UserName = @HttpContextAccessor.HttpContext.Session.GetString("NotificationCount")
-                    if (data == 1) {
+                    //if (data.id == 1) {
                            
-                        $("#Count").html(data);
+                    //    $("#Count").html(data);
+                    //}
+                   //if(data.name[0] == "Sale Order API")
+                   //{
+                   //     //notification
+                   //     //$("#notification").css("display", "block");
+                   //     $("#sale").css("display", "block");
+                   //}
+                    if (data.name.includes('Sale Order API'))
+                    {
+                        $("#sale").css("display", "block");
                     }
+                    if (data.name.includes('Waybill generation')) {
+                        $("#waygen").css("display", "block");
+                    }
+                    if (data.name.includes('return Order')) {
+                        $("#return").css("display", "block");
+                    }
+                    if (data.name.includes('STO Waybill')) {
+                        $("#STO").css("display", "block");
+                    }
+                    if (data.name.includes('STO API')) {
+                        $("#STOAPI").css("display", "block");
+                    }
+
+                        $("#Count").html(data.id);
+                    
                     }
                 });
             //debugger;
-            
+           
+        }
+        function fn_saleorder() {
+            debugger;
+            //alert('hello');
+            $("#overlay").fadeIn(500);
+            $.get("/Home/ErrorList", {}).done(function (data) {
+                $("#overlay").fadeOut(500);
+                debugger;
+                $("#errorList").html(data);
+                //alert("fn_BindTable()");
+                //window.location.href = "/Home/Errorlist";
+                //$('#errorList').load("ErrorList.cshtml");
+            });
+        }
+        function fn_waybill() {
+            debugger;
+            //alert('hello');
+            $("#overlay").fadeIn(500);
+            $.get("/Home/WaybillErrorList", {}).done(function (data) {
+                $("#overlay").fadeOut(500);
+                debugger;
+                $("#errorList").html(data);
+                //alert("fn_BindTable()");
+                //window.location.href = "/Home/Errorlist";
+                //$('#errorList').load("ErrorList.cshtml");
+            });
+        }
+        function fn_returnorder() {
+            debugger;
+            //alert('hello');
+            $("#overlay").fadeIn(500);
+            $.get("/Home/ReturnOrderErrorList", {}).done(function (data) {
+                $("#overlay").fadeOut(500);
+                debugger;
+                $("#errorList").html(data);
+                //alert("fn_BindTable()");
+                //window.location.href = "/Home/Errorlist";
+                //$('#errorList').load("ErrorList.cshtml");
+            });
+        }
+        function fn_STOwaybill() {
+            debugger;
+            //alert('hello');
+            $("#overlay").fadeIn(500);
+            $.get("/Home/STOWaybillErrorList", {}).done(function (data) {
+                $("#overlay").fadeOut(500);
+                debugger;
+                $("#errorList").html(data);
+                //alert("fn_BindTable()");
+                //window.location.href = "/Home/Errorlist";
+                //$('#errorList').load("ErrorList.cshtml");
+            });
+        }
+        function fn_STOApi() {
+            debugger;
+            //alert('hello');
+            $("#overlay").fadeIn(500);
+            $.get("/Home/STOAPIErrorList", {}).done(function (data) {
+                $("#overlay").fadeOut(500);
+                debugger;
+                $("#errorList").html(data);
+                //alert("fn_BindTable()");
+                //window.location.href = "/Home/Errorlist";
+                //$('#errorList').load("ErrorList.cshtml");
+            });
         }
     </script>
 </body>

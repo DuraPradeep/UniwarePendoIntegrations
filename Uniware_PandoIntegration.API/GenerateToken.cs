@@ -31,8 +31,8 @@ namespace Uniware_PandoIntegration.API
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                   {
-                       new Claim(JwtRegisteredClaimNames.Name, "pradeep".ToString()),
-                       new Claim(JwtRegisteredClaimNames.UniqueName, "pradeepq".ToString()),
+                       new Claim(JwtRegisteredClaimNames.Name, "Pando".ToString()),
+                       new Claim(JwtRegisteredClaimNames.UniqueName, "Pando".ToString()),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
                   }),

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
@@ -82,11 +83,12 @@ namespace Uniware_PandoIntegration.API
                     ed.Status = true;
                     errorDetails.Add(ed);
                     // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
+                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
+
                     PassCode(jsoncodes, token, code, Lcheckcount);
                 }
                 else
                 {
-                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
                     parentList = null;
                 }
             }
@@ -214,11 +216,11 @@ namespace Uniware_PandoIntegration.API
                     ed.SkuCode = skucode;
                     ed.Reason = resul.Result.ObjectParam;
                     errorskuDetails.Add(ed);
+                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
                     ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount);
                 }
                 else
                 {
-                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
                     errorskuDetails = null;
                 }
             }
@@ -248,11 +250,12 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
+                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
+
                     Action(sendcode, triggerid, Lcheckcount);
                 }
                 else
                 {
-                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
                     resfinal = null;
                 }
 
@@ -647,7 +650,7 @@ namespace Uniware_PandoIntegration.API
             var list = _Token.FetchingGetPassCode(jdetail, token);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
-            
+            Log.Information("STO WayBill response: " + list.Result.ObjectParam);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
 
             if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
@@ -655,13 +658,11 @@ namespace Uniware_PandoIntegration.API
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
-                    Lcheckcount += 1;                  
-
+                    Lcheckcount += 1;  
                     GatePass(jdetail, token, Lcheckcount);
                 }
                 else
-                {
-                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
+                {                    
                     ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam);
                     rootReturnorderAPI = null;
                 }
@@ -680,7 +681,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlists GetGatePassElements(string jdetail, string token, int checkcount)
+        public STOlists GetGatePassElements(string jdetail, string token, string code, int checkcount)
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassElements(jdetail, token);
@@ -698,15 +699,14 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     ErrorDetails errorDetails = new ErrorDetails();
                     errorDetails.Status = true;
-                    // errorDetails.Code = Code;
+                    errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    GetGatePassElements(jdetail, token, Lcheckcount);
+                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails,1);
+                    GetGatePassElements(jdetail, token, code,Lcheckcount);
                 }
                 else
                 {
-                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-
                     STOlists = null;
                 }
             }
@@ -715,12 +715,12 @@ namespace Uniware_PandoIntegration.API
                 var Dlist = JsonConvert.DeserializeObject<STOwaybillGetCode>(list.Result.ObjectParam);
                 for (int i = 0; i < Dlist.elements.Count; i++)
                 {
-                    Element code = new Element();
-                    code.code = Dlist.elements[i].code;
-                    code.reference = Dlist.elements[i].code;
-                    code.toParty = Dlist.elements[i].code;
-                    code.invoiceCode = Dlist.elements[i].code;
-                    STOlists.elements.Add(code);
+                    Element codes = new Element();
+                    codes.code = Dlist.elements[i].code;
+                    codes.reference = Dlist.elements[i].code;
+                    codes.toParty = Dlist.elements[i].code;
+                    codes.invoiceCode = Dlist.elements[i].code;
+                    STOlists.elements.Add(codes);
                     for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
                     {
                         GatePassItemDTO gatePassItemDTO = new GatePassItemDTO();
@@ -735,7 +735,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return STOlists;
         }
-        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token,string code, int checkcount)
+        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token,string code,string itemsku, int checkcount)
         {
             int Lcheckcount = checkcount;
             var list = _Token.GetSTOSkuDetails(jdetail, token);            
@@ -749,15 +749,14 @@ namespace Uniware_PandoIntegration.API
                     Lcheckcount += 1;
                     ErrorDetails errorDetails = new ErrorDetails();
                     errorDetails.Status = true;
-                    // errorDetails.Code = Code;
+                    errorDetails.Code = itemsku;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    GetSTOWaybillSkuDetails(jdetail, token, code, Lcheckcount);
+                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 0);
+                    GetSTOWaybillSkuDetails(jdetail, token, code, itemsku, Lcheckcount);
                 }
                 else
                 {
-                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-
                     itemType = null;
                 }
             }
@@ -774,6 +773,179 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return itemType;
         }
+        public Task<ServiceResponse<string>> WaybillSTOPostData(List<PostDataSTOWaybill> AllData,string triggerid, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            var ResStatus = _Token.WaybillSTOPostDataDeliverypackList(AllData);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
+                    WaybillSTOPostData(AllData, triggerid, Lcheckcount);
+                }
+                {
+                    return ResStatus = null;
 
+                }
+            }
+            return ResStatus;
+        }
+        public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            ServiceResponse<string> response = new ServiceResponse<string>();
+            var list = _Token.FetchingGetPassCode(jdetail, token);
+            Element rootReturnorderAPI = new Element();
+            List<Element> listcode = new List<Element>();
+            Log.Information("STO APi response: " + list.Result.ObjectParam);
+            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;                    
+                    STOAPIGatePass(jdetail, token, Lcheckcount);
+                }
+                else
+                {
+                    ObjBusinessLayer.STOAPIErrorCodes(list.Result.ObjectParam);
+                    rootReturnorderAPI = null;
+                }
+            }
+            else
+            {
+                var Dlist = JsonConvert.DeserializeObject<STOGatePass>(list.Result.ObjectParam);
+                for (int i = 0; i < Dlist.elements.Count; i++)
+                {
+                    Element code = new Element();
+                    code.code = Dlist.elements[i].code;
+                    listcode.Add(code);
+                }
+            }
+
+            //return rootReturnorderAPI;
+            return listcode;
+        }
+        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            var list = _Token.FetchingGetPassElements(jdetail, token);
+            Log.Information("STOAPI Response: " + jdetail);
+            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+            STOlists STOlists = new STOlists();
+            STOlists.gatePassItemDTOs = new List<GatePassItemDTO>();
+            STOlists.elements = new List<Element>();
+            ServiceResponse<string> response = new ServiceResponse<string>();
+
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ErrorDetails errorDetails = new ErrorDetails();
+                    errorDetails.Status = true;
+                     errorDetails.Code = code;
+                    errorDetails.Reason = list.Result.ObjectParam;
+                    errorCodeDetails.Add(errorDetails);
+                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails,1);
+                    GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount);
+                }
+                else
+                {
+                    //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
+
+                    STOlists = null;
+                }
+            }
+            else
+            {
+                var Dlist = JsonConvert.DeserializeObject<STOwaybillGetCode>(list.Result.ObjectParam);
+                for (int i = 0; i < Dlist.elements.Count; i++)
+                {
+                    Element codes = new Element();
+                    codes.code = Dlist.elements[i].code;
+                    codes.reference = Dlist.elements[i].code;
+                    codes.toParty = Dlist.elements[i].code;
+                    codes.invoiceCode = Dlist.elements[i].code;
+                    STOlists.elements.Add(codes);
+                    for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
+                    {
+                        GatePassItemDTO gatePassItemDTO = new GatePassItemDTO();
+                        gatePassItemDTO.code = Dlist.elements[i].code;
+                        gatePassItemDTO.quantity = Dlist.elements[i].gatePassItemDTOs[j].quantity;
+                        gatePassItemDTO.itemTypeSKU = Dlist.elements[i].gatePassItemDTOs[j].itemTypeSKU;
+                        gatePassItemDTO.unitPrice = Dlist.elements[i].gatePassItemDTOs[j].unitPrice;
+                        STOlists.gatePassItemDTOs.Add(gatePassItemDTO);
+                    }
+                }
+            }
+            //return rootReturnorderAPI;
+            return STOlists;
+        }
+        public ItemTypeDTO GetSTOAPISkuDetails(string jdetail, string token, string code, string skutype, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            var list = _Token.GetSTOSkuDetails(jdetail, token);
+            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+            Log.Information("STOAPI Sku Response: "+list.Result.ObjectParam);
+            ItemTypeDTO itemType = new ItemTypeDTO();
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ErrorDetails errorDetails = new ErrorDetails();
+                    errorDetails.Status = true;
+                     errorDetails.Code = skutype;
+                    errorDetails.Reason = list.Result.ObjectParam;
+                    errorCodeDetails.Add(errorDetails);
+                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 0);
+                    GetSTOAPISkuDetails(jdetail, token, code, skutype, Lcheckcount);
+                }
+                else
+                {
+                    itemType = null;
+                }
+            }
+            else
+            {
+                var itemtypes = JsonConvert.DeserializeObject<WaybillSTOItemtypeDTO>(list.Result.ObjectParam);
+                itemType.Code = code;
+                itemType.length = itemtypes.itemTypeDTO.length;
+                itemType.width = itemtypes.itemTypeDTO.width;
+                //itemType.height = itemtypes.itemTypeDTO.height;
+                itemType.weight = itemtypes.itemTypeDTO.weight;
+                itemType.itemDetailFieldsText = itemtypes.itemTypeDTO.itemDetailFieldsText;
+            }
+            //return rootReturnorderAPI;
+            return itemType;
+        }
+        public Task<ServiceResponse<string>> STOAPiPostData(ServiceResponse<List<ReturnOrderSendData>> AllData, string triggerid, int checkcount)
+        {
+            int Lcheckcount = checkcount;
+            var ResStatus = _Token.STOPApiostDataDeliverypackList(AllData);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
+                    STOAPiPostData(AllData, triggerid, Lcheckcount);
+                }
+                {
+                    return ResStatus; ;
+
+                }
+            }
+            return ResStatus;
+        }
     }
 }

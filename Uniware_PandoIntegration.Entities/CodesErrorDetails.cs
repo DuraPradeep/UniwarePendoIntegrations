@@ -11,7 +11,7 @@ namespace Uniware_PandoIntegration.Entities
         public string CODE { get; set; }
         public string itemSku { get; set; }
         public string Triggerid { get; set; }
-        public String Reason { get; set; }
+        public string Reason { get; set; }
     }
    
 }

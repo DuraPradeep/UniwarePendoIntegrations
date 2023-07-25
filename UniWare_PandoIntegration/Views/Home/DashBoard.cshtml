@@ -174,9 +174,9 @@
     }
     function fn_WaybillErrorList() {
         debugger;
-        //$("#overlay").fadeIn(500);
+        $("#overlay").fadeIn(500);
         $.get("/Home/WaybillErrorList", {}).done(function (data) {
-            //$("#overlay").fadeOut(500);
+            $("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
             
@@ -184,9 +184,9 @@
     }
     function fn_ReturnOrderErrorList() {
         debugger;
-        //$("#overlay").fadeIn(500);
+        $("#overlay").fadeIn(500);
         $.get("/Home/ReturnOrderErrorList", {}).done(function (data) {
-            //$("#overlay").fadeOut(500);
+            $("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
 
@@ -194,14 +194,25 @@
     }
     function fn_STOWaybillErrorList() {
         debugger;
-        //$("#overlay").fadeIn(500);
+        $("#overlay").fadeIn(500);
         $.get("/Home/STOWaybillErrorList", {}).done(function (data) {
-            //$("#overlay").fadeOut(500);
+            $("#overlay").fadeOut(500);
+            debugger;
+            $("#errorList").html(data); 
+
+        });
+    }
+    function fn_STOAPI() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/Home/STOAPIErrorList", {}).done(function (data) {
+            $("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
 
         });
     }
+    
 </script>
 @*<div class="loader">
     <div class="lds-ripple">
@@ -244,7 +255,6 @@
                     </p>
                 </div>
             </div>
-
         </div>
 
         <d iv class="col-lg-4 mb-4 mb-lg-0" onclick="fn_WaybillErrorList();">
@@ -272,18 +282,18 @@
 
             <div class="card text-white text-center mb-4">
                 <div class="card-body tile_list">
-                    @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
+                @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
                     <p>STO Waybill API </p>
                 </div>
             </div>
 
         </div>
 
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TestErrorList()">
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_STOAPI()">
 
             <div class="card text-white mb-4 text-center">
                 <div class="card-body tile_list">
-                    <p>Test API</p>
+                    <p>STO API</p>
                 </div>
             </div>
 
