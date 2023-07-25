@@ -109,6 +109,77 @@
                 background-color: #dc3545;
                 color: white;
             }
+
+        .Menu_NOtification_Wrap .Notification_body .single_notify:last-child {
+         
+            border-bottom: 0px !important;
+        }
+        .Menu_NOtification_Wrap .notification_Header {
+            padding: 10px 15px;
+            border-radius: 10px 10px 0 0;
+            background: #dc3545;
+            color: white;
+        }
+
+        .Menu_NOtification_Wrap {
+            background: #fff;
+            box-shadow: 0 10px 15px rgba(6,0,8,.22);
+            border-radius: 10px;
+            position: absolute;
+            right: 0;
+            width: 320px;
+            transform: translateY(30px) translateX(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+            padding-top:0px !important;
+        }
+
+            .Menu_NOtification_Wrap {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(20px) translateX(20px);
+            }
+
+            .Menu_NOtification_Wrap .Notification_body {
+                padding: 20px;
+                height: 150px;
+                overflow: auto;
+            }
+
+            .Menu_NOtification_Wrap .Notification_body .single_notify {
+                margin-bottom: 10px;
+                border-bottom: 1px solid whitesmoke;
+            }
+
+            .single_notify:hover {
+                background: whitesmoke;
+                cursor:pointer;
+               
+            }
+            .Menu_NOtification_Wrap .Notification_body .single_notify .notify_thumb {
+                margin-right: 15px;
+            }
+
+            .Menu_NOtification_Wrap .Notification_body .single_notify .notify_thumb span {
+                width: 35px;
+                height: 35px;
+                border-radius: 5px;
+                font-size: 18px;
+                text-align: center;
+                background-color: #dc3545;
+                font-weight: 700;
+                text-transform: uppercase;
+                padding: 8px 6px;
+                min-width: 19px;
+            }
+
+        p.error_popup_list {
+            margin-bottom: 0px;
+        }
+        a.error_popup_list {
+            text-decoration: none;
+        }
     </style>
     
 </head>
@@ -146,29 +217,87 @@
 
                     <ul class="navbar-nav float-start">
                         <li class="nav-item dropdown">
-                            <a class="dropdown-toggle text-muted waves-effect waves-dark pro-pic notification_bell_icon" href="#" id="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="dropdown-toggle text-muted waves-effect waves-dark pro-pic notification_bell_icon" href="#" id="" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
                                 <i class="fa fa-bell"></i>
                                 <span class="badge">
-                                    <span id="Count">0</span>
+                                    <span id="Count_zero"></span>
+                                    <span id="Count"></span>
                                 </span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown" href=""  >
-                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="sale" onclick="fn_saleorder()">
-                                    Sale Order API
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="waygen" onclick="fn_waybill()">
-                                    Waybill Generation
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="return" onclick="fn_returnorder()">
-                                    Return Order API
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="STO" onclick="fn_STOwaybill()">
-                                    STO Waybill
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" style="display:none" id="STOAPI" onclick="fn_STOApi()">
-                                    STO API
-                                </a>
-                            </ul>@*
+                            @*<ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown" href=""  >*@
+                                <div class="Menu_NOtification_Wrap dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" id="NotificationDraftdata">
+                                    <div class="notification_Header">
+                                        <h5>Error Notifications</h5>                                        
+                                    </div>
+                                    <div class="Notification_body">
+                                        <div style="display:none!important;" id="sale" onclick="fn_saleorder()" class="single_notify d-flex align-items-center">
+                                            <div class="notify_thumb">
+                                                <a href="#">
+                                                    <span class="badge badge-pill label-purple"> N</span>
+                                                </a>
+                                            </div>
+                                            <div class="notify_content" href="javascript:void(0)">
+                                                <p class="error_popup_list">
+                                                    Sale Order API
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div style="display:none!important;" id="waygen" onclick="fn_waybill()" class="single_notify d-flex align-items-center">
+                                            <div class="notify_thumb">
+                                                <a href="#">
+                                                    <span class="badge badge-pill label-purple"> N</span>
+                                                </a>
+                                            </div>
+                                            <div class="notify_content" href="javascript:void(0)">
+                                                <p class="error_popup_list">
+                                                    Waybill Generation
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div style="display:none!important;" id="return" onclick="fn_returnorder()" class="single_notify d-flex align-items-center">
+                                            <div class="notify_thumb">
+                                                <a href="#">
+                                                    <span class="badge badge-pill label-purple"> N</span>
+                                                </a>
+                                            </div>
+                                            <div class="notify_content" href="javascript:void(0)">
+                                                <p class="error_popup_list">
+                                                    Return Order API
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div style="display:none!important;" id="STO" onclick="fn_STOwaybill()" class="single_notify d-flex align-items-center">
+                                            <div class="notify_thumb">
+                                                <a href="#">
+                                                    <span class="badge badge-pill label-purple"> N</span>
+                                                </a>
+                                            </div>
+                                            <div class="notify_content" href="javascript:void(0)">
+                                                <p class="error_popup_list">
+                                                    STO Waybill
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div style="display:none!important;" id="STOAPI" onclick="fn_STOApi()" class="single_notify d-flex align-items-center">
+                                            <div class="notify_thumb">
+                                                <a href="#">
+                                                    <span class="badge badge-pill label-purple"> N</span>
+                                                </a>
+                                            </div>
+                                            <div class="notify_content" href="javascript:void(0)">
+                                                <p class="error_popup_list">
+                                                    STO API
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                   
+                                    </div>
+                                </div>
+                               
+                               
+
+                            @*</ul>*@
                             @*<ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown" onclick="" href="#" id="navbarDropdowns">
                                 <a class="dropdown-item" href="javascript:void(0)" onclick="">
                                     <i class="fa fa-user me-1 ms-1"></i>
@@ -178,8 +307,8 @@
                                @* <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("Logout", "Home")'; ">
                                     <i class="fa fa-user me-1 ms-1"></i>
                                     Logout
-                                </a>*@
-                            </ul>
+                                </a>
+                            </ul>*@
                         </li>
                     </ul>
                     <ul class="navbar-nav float-end">
@@ -288,8 +417,23 @@
                     if (data.name.includes('STO API')) {
                         $("#STOAPI").css("display", "block");
                     }
+                    if (data.id == 0){
+                        $("a").removeClass("dropdown-toggle");
+                        $(".badge").css("background-color", "whitesmoke");
+                        $("i.fa.fa-bell").css("color", "blue");
+                        $("#Count").css("display", "none");
+                        $("a").css("cursor", "default");
+                        $(".Menu_NOtification_Wrap ").css("display", "none");
+                        
 
+                    }
+                    else{
+                        $("#Count").css("display", "block");
+                        //$(".Menu_NOtification_Wrap ").css("display", "block");
                         $("#Count").html(data.id);
+                    }
+
+                        //$("#Count").html(data.id);
                     
                     }
                 });
