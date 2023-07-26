@@ -1324,6 +1324,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return serviceResponse;
 
         }
+
         public List<PostDataSTOWaybill> GetAllWaybillSTOPost()
         {
             List<PostDataSTOWaybill> AllRes = new List<PostDataSTOWaybill>();
@@ -1420,6 +1421,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
+
         public bool insertSTOAPIGatePassCode(List<Element> elements)
         {
             bool res;
@@ -1667,6 +1669,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
+
         public void STOWaybillErrorCodes(string Reason)
         {
             try
@@ -1892,5 +1895,5 @@ namespace Uniware_PandoIntegration.BusinessLayer
 }
 
 
-       
-    
+
+
