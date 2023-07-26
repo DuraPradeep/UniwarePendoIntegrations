@@ -20,7 +20,7 @@ namespace Uniware_PandoIntegration.API
 
         //string IUniwarePando.GenerateJWTTokens { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public string GenerateJWTTokens()
+        public string GenerateJWTTokens(TokenEntity tokenEntity)
             {
             try
             {
@@ -31,7 +31,8 @@ namespace Uniware_PandoIntegration.API
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                   {
-                       new Claim(JwtRegisteredClaimNames.Name, "Pando".ToString()),
+                       new Claim(JwtRegisteredClaimNames.Name, tokenEntity.username),
+                        new Claim(JwtRegisteredClaimNames.Sid, tokenEntity.password),
                        new Claim(JwtRegisteredClaimNames.UniqueName, "Pando".ToString()),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
