@@ -269,31 +269,31 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close() ; }
             return ds;
         }
-        public static DataSet PostStatus()
-        {
-            con = GetConnection();
-            com = new SqlCommand();
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
-            try
-            {
-                com = new SqlCommand()
-                {
-                    Connection = con,
-                    CommandText = "select TriggerId from TriggerDataRecords where Status=1"
-                };
-                con.Open();
-                da = new SqlDataAdapter(com);
-                da.Fill(ds);
-            }
-            catch (Exception ex)
-            {
-                //CreateLog(ex.Message);
-                throw ex;
-            }
-            finally { con.Close(); }
-            return ds;
-        }
+        //public static DataSet PostStatus()
+        //{
+        //    con = GetConnection();
+        //    com = new SqlCommand();
+        //    DataSet ds = new DataSet();
+        //    SqlDataAdapter da = new SqlDataAdapter();
+        //    try
+        //    {
+        //        com = new SqlCommand()
+        //        {
+        //            Connection = con,
+        //            CommandText = "select TriggerId from TriggerDataRecords where Status=1"
+        //        };
+        //        con.Open();
+        //        da = new SqlDataAdapter(com);
+        //        da.Fill(ds);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //CreateLog(ex.Message);
+        //        throw ex;
+        //    }
+        //    finally { con.Close(); }
+        //    return ds;
+        //}
         public static string IsertAllsendingrec(DataTable dt)
         {
             string res;
@@ -720,7 +720,30 @@ namespace Uniware_PandoIntegration.APIs
             }
             return ds;
         }
-
+        public static string IsertwaybillPostData(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertwaybillPostData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@Trigger_id", SqlDbType.VarChar, 100);
+                com.Parameters["@Trigger_id"].Direction = ParameterDirection.Output;
+                com.Parameters.AddWithValue("@AllRecords", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
 
         public static bool InsertReturnOrderCode(DataTable dt)
         {
@@ -885,7 +908,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             return ds;
         }
-        public static void UpdateWaybillError(bool status, string reason)
+        public static void UpdateWaybillError(bool status, string reason,string Triggerid)
         {
 
             try
@@ -895,6 +918,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.Connection = con;
                 com.CommandText = "UpdateErrorStatus";
                 com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@triggerid", Triggerid);
                 com.Parameters.AddWithValue("@status", status);
                 com.Parameters.AddWithValue("@Reason", reason);           
                 con.Open();
@@ -908,7 +932,7 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
 
         }
-        public static bool UpdateReurnOrdercodeError(DataTable dt )
+        public static bool UpdateReurnOrdercodeError(DataTable dt ,int type)
         {
             bool status = false;
             try
@@ -919,30 +943,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandText = "sp_ReturnOrderErrorCode";
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@ErrorlIst", dt);
-                
-                con.Open();
-                com.ExecuteNonQuery();
-                status = true;
-            }
-            catch (Exception ex)
-            {
-                //CreateLog($"Error: {ex.Message}");
-                throw ex;
-            }
-            finally { con.Close(); }
-            return status;
-        }
-        public static bool UpdateReurnOrderSKUError(DataTable dt)
-        {
-            bool status = false;
-            try
-            {
-                con = GetConnection();
-                com = new SqlCommand();
-                com.Connection = con;
-                com.CommandText = "sp_ErrorReturnSaleOrder";
-                com.CommandType = CommandType.StoredProcedure;
-                com.Parameters.AddWithValue("@ErrorlIst", dt);
+                com.Parameters.AddWithValue("@type", type);
 
                 con.Open();
                 com.ExecuteNonQuery();
@@ -956,6 +957,30 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return status;
         }
+        //public static bool UpdateReurnOrderSKUError(DataTable dt)
+        //{
+        //    bool status = false;
+        //    try
+        //    {
+        //        con = GetConnection();
+        //        com = new SqlCommand();
+        //        com.Connection = con;
+        //        com.CommandText = "sp_ErrorReturnSaleOrder";
+        //        com.CommandType = CommandType.StoredProcedure;
+        //        com.Parameters.AddWithValue("@ErrorlIst", dt);
+
+        //        con.Open();
+        //        com.ExecuteNonQuery();
+        //        status = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //CreateLog($"Error: {ex.Message}");
+        //        throw ex;
+        //    }
+        //    finally { con.Close(); }
+        //    return status;
+        //}
 
         public static void UpdateSaleOrderSearchError( string reason)
         {
@@ -1715,6 +1740,84 @@ namespace Uniware_PandoIntegration.APIs
                 throw ex;
             }
             finally { con.Close(); }
+            return ds;
+        }
+
+        public static DataSet GetWaybillgatepassCodeRetrigger()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_waybillGetGatePassForretrigger"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static DataSet GetSTOAPIgatepassCodeRetrigger()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_getSToGatepassforretrigger"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+
+        public static DataSet GetReturnOrderCodeRetrigger()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_returnorderCodeforretrigger"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
             return ds;
         }
     }

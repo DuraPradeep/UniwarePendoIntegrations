@@ -291,20 +291,20 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return AllRes;
         }
-        public ServiceResponse<List<PostErrorDetails>> PostDataStatus()
-        {
-            ServiceResponse<List<PostErrorDetails>> Triggerid = new ServiceResponse<List<PostErrorDetails>>();
-            try
-            {
-                Triggerid = Mapper.PostErrorDetails(SPWrapper.PostStatus());
-            }
-            catch (Exception ex)
-            {
+        //public ServiceResponse<List<PostErrorDetails>> PostDataStatus()
+        //{
+        //    ServiceResponse<List<PostErrorDetails>> Triggerid = new ServiceResponse<List<PostErrorDetails>>();
+        //    try
+        //    {
+        //        Triggerid = Mapper.PostErrorDetails(SPWrapper.PostStatus());
+        //    }
+        //    catch (Exception ex)
+        //    {
 
-                throw ex;
-            }
-            return Triggerid;
-        }
+        //        throw ex;
+        //    }
+        //    return Triggerid;
+        //}
         //public static void CreateLog(string message)
         //{
         //    Log.Information(message);
@@ -711,7 +711,89 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return AllRes;
         }
+        public string InsertAllsendingDataReturnorder(List<WaybillSend> itemDatun)
+        {
+            string res;
+            try
+            {
+                string id = "Tri_" + GenerateNumeric();
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("indent_no");
+                dtsku.Columns.Add("delivery_number");
+                dtsku.Columns.Add("mrp_price");
+                dtsku.Columns.Add("material_code");
+                dtsku.Columns.Add("actual_source");
+                dtsku.Columns.Add("source_system");
+                dtsku.Columns.Add("gate_ref_id");
+                dtsku.Columns.Add("division");
+                dtsku.Columns.Add("quantity");
+                dtsku.Columns.Add("quantity_unit");
+                dtsku.Columns.Add("weight");
+                dtsku.Columns.Add("weight_unit");
+                dtsku.Columns.Add("volume");
+                dtsku.Columns.Add("volume_unit");
+                dtsku.Columns.Add("ship_to");
+                dtsku.Columns.Add("sold_to");
+                dtsku.Columns.Add("type");
+                dtsku.Columns.Add("invoice_number");
+                dtsku.Columns.Add("invoice_amount");
+                dtsku.Columns.Add("category");
+                dtsku.Columns.Add("invoice_date");
+                dtsku.Columns.Add("line_item_no");
+                dtsku.Columns.Add("eway_bill_number");
+                dtsku.Columns.Add("eway_bill_date");
+                dtsku.Columns.Add("action_by");
+                dtsku.Columns.Add("action_type");
+                dtsku.Columns.Add("clear");
+                dtsku.Columns.Add("Trigger_ID");
+               
 
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["indent_no"] = itemDatun[i].indent_no;
+                    drsku["delivery_number"] = itemDatun[i].delivery_number;
+                    drsku["mrp_price"] = itemDatun[i].mrp_price;
+                    drsku["material_code"] = itemDatun[i].material_code;
+                    drsku["actual_source"] = itemDatun[i].actual_source;
+                    drsku["source_system"] = itemDatun[i].source_system;
+                    drsku["gate_ref_id"] = itemDatun[i].gate_ref_id;
+                    drsku["division"] = itemDatun[i].division;
+                    drsku["quantity"] = itemDatun[i].quantity;
+                    drsku["quantity_unit"] = itemDatun[i].quantity_unit;
+                    drsku["weight"] = itemDatun[i].weight;
+                    drsku["weight_unit"] = itemDatun[i].weight_unit;
+                    drsku["volume"] = itemDatun[i].volume;
+                    drsku["volume_unit"] = itemDatun[i].volume_unit;
+                    drsku["ship_to"] = itemDatun[i].ship_to;
+                    drsku["sold_to"] = itemDatun[i].sold_to;
+                    drsku["type"] = itemDatun[i].type;
+                    drsku["invoice_number"] = itemDatun[i].invoice_number;
+                    drsku["invoice_amount"] = itemDatun[i].invoice_amount;
+                    drsku["category"] = itemDatun[i].category;
+                    drsku["invoice_date"] = itemDatun[i].invoice_date;
+                    drsku["line_item_no"] = itemDatun[i].line_item_no;
+                    drsku["eway_bill_number"] = itemDatun[i].eway_bill_number;                   
+                    drsku["eway_bill_date"] = itemDatun[i].eway_bill_date;
+                    drsku["action_by"] = itemDatun[i].action_by;
+                    drsku["action_type"] = itemDatun[i].action_type;
+                    drsku["clear"] = itemDatun[i].clear;
+                    drsku["Trigger_ID"] = id;
+                    
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.IsertwaybillPostData(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
 
         public bool insertReturnOrdercoder(List<ReturnorderCode> elements)
         {
@@ -887,18 +969,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void UpdateWaybillErrordetails(bool status, string Reason)
+        public void UpdateWaybillErrordetails(bool status, string Reason,string triggerid)
         {
             try
             {
-                SPWrapper.UpdateWaybillError(status, Reason);
+                SPWrapper.UpdateWaybillError(status, Reason, triggerid);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public bool UpdateReturnOrderErrordetails(List<ErrorDetails> ErrorDt)
+        public bool UpdateReturnOrderErrordetails(List<ErrorDetails> ErrorDt, int type)
         {
             bool res;
             try
@@ -918,7 +1000,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.UpdateReurnOrdercodeError(dtsku);
+                res = SPWrapper.UpdateReurnOrdercodeError(dtsku,type);
 
             }
             catch (Exception ex)
@@ -928,7 +1010,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool UpdateReturnOrderSKUErrordetails(List<ErrorDetails> ErrorDt)
+        public bool UpdateReturnOrderSKUErrordetails(List<ErrorDetails> ErrorDt, int type)
         {
             bool res;
             try
@@ -948,7 +1030,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.UpdateReurnOrderSKUError(dtsku);
+                res = SPWrapper.UpdateReurnOrdercodeError(dtsku,type);
 
             }
             catch (Exception ex)
@@ -1746,6 +1828,57 @@ namespace Uniware_PandoIntegration.BusinessLayer
             {
                 //CreateLog($"get SKU Code From DB DB");
                 return codes = Mapper.GetErrorCodeDetailas(SPWrapper.ReturnOrderStatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public List<Element> GetWaybillgatePassCodeForretrigger()
+        {
+            List<Element> codes = new List<Element>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetGatePassCode(SPWrapper.GetWaybillgatepassCodeRetrigger());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public List<Element> GetSTOAPIgatePassCodeRetrigger()
+        {
+            List<Element> codes = new List<Element>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetSTOAPIGatePassCode(SPWrapper.GetSTOAPIgatepassCodeRetrigger());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodesForRetrigger()
+        {
+            ServiceResponse<List<ReturnorderCode>> codes = new ServiceResponse<List<ReturnorderCode>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetReturnOrderCode(SPWrapper.GetReturnOrderCodeRetrigger());
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)

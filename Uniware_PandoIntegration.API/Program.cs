@@ -102,6 +102,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -110,6 +111,20 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.Use(async (context, next) =>
+{
+    context.Response.GetTypedHeaders().CacheControl =
+      new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+      {
+          Public = true,
+          MaxAge = TimeSpan.FromSeconds(10)
+      };
+    context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
+      new string[] { "Accept-Encoding" };
+
+    await next();
+});
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();

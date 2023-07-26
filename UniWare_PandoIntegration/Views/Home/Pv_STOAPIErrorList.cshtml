@@ -18,8 +18,11 @@
     function fn_Retrigger() {
         debugger;
         const options = {
-            settings: {
-                duration: 5000,
+            style: {
+                main: {
+                    background: "#dc3545",
+                    color: "#fff",
+                },
             },
         };
         const styles = {
@@ -30,11 +33,20 @@
                 },
             },
         };
+        $("#overlay").fadeIn(500);
         $.ajax({
-            url: "/Home/Retrigger",
+            url: "/Home/STOAPIRetrigger",
             type: 'GET',
             success: function (res) {
-                iqwerty.toast.toast(res.message, styles);
+                iqwerty.toast.toast(res.message, options);
+                $.ajax({
+                    url: "/Home/STOAPIErrorList",
+                    type: 'Get',
+                    success: function (res) {
+                        $("#errorList").html(res);
+                        $("#overlay").fadeOut(500);
+                    }
+                });
             }
         });
     }
