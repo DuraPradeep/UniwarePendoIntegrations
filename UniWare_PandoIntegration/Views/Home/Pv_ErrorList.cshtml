@@ -38,7 +38,7 @@
                 },
             },
         };
-        $("#overlay").fadeIn(500);
+        $("#progressbar").fadeIn(500);
         $.ajax({
             url: "/Home/Retrigger",
             type: 'Get',
@@ -50,7 +50,7 @@
                     type: 'Get',
                     success: function (res) {                       
                             $("#errorList").html(res);
-                        $("#overlay").fadeOut(500);
+                        $("#progressbar").fadeOut(500);
                     }
                 });
                 
