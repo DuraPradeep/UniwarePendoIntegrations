@@ -33,8 +33,28 @@
       "PackagePath": "staticwebassets\\Images\\user.png"
     },
     {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\Font_Family.css",
+      "PackagePath": "staticwebassets\\css\\Font_Family.css"
+    },
+    {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\Landing.css",
       "PackagePath": "staticwebassets\\css\\Landing.css"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\css_bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\css_bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\css_dataTables.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\css_dataTables.bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\css_responsive.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\css_responsive.bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\font-awesome.min.css",
+      "PackagePath": "staticwebassets\\css\\font-awesome.min.css"
     },
     {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\css\\fontawesome4.7.0.min.css",
@@ -53,12 +73,28 @@
       "PackagePath": "staticwebassets\\js\\bootstrap.min.js"
     },
     {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\dataTables.bootstrap.min.js",
+      "PackagePath": "staticwebassets\\js\\dataTables.bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\dataTables.responsive.min.js",
+      "PackagePath": "staticwebassets\\js\\dataTables.responsive.min.js"
+    },
+    {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\jquery-3.7.0.min.js",
       "PackagePath": "staticwebassets\\js\\jquery-3.7.0.min.js"
     },
     {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\jquery.dataTables.min.js",
+      "PackagePath": "staticwebassets\\js\\jquery.dataTables.min.js"
+    },
+    {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\jquery.toast.min.js",
       "PackagePath": "staticwebassets\\js\\jquery.toast.min.js"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\responsive.bootstrap.min.js",
+      "PackagePath": "staticwebassets\\js\\responsive.bootstrap.min.js"
     },
     {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\js\\site.js",
@@ -299,6 +335,66 @@
     {
       "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-brands-400.eot",
+      "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.eot"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-brands-400.svg",
+      "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.svg"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-brands-400.ttf",
+      "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.ttf"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-brands-400.woff",
+      "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.woff"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-brands-400.woff2",
+      "PackagePath": "staticwebassets\\webfonts\\fa-brands-400.woff2"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-regular-400.eot",
+      "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.eot"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-regular-400.svg",
+      "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.svg"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-regular-400.ttf",
+      "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.ttf"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-regular-400.woff",
+      "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.woff"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-regular-400.woff2",
+      "PackagePath": "staticwebassets\\webfonts\\fa-regular-400.woff2"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-solid-900.eot",
+      "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.eot"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-solid-900.svg",
+      "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.svg"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-solid-900.ttf",
+      "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.ttf"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-solid-900.woff",
+      "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.woff"
+    },
+    {
+      "Id": "D:\\Duroflex\\UniwarePando\\UniWare_PandoIntegration\\wwwroot\\webfonts\\fa-solid-900.woff2",
+      "PackagePath": "staticwebassets\\webfonts\\fa-solid-900.woff2"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.UniWare_PandoIntegration.Microsoft.AspNetCore.StaticWebAssets.props",
