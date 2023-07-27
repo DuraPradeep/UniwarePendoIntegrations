@@ -103,12 +103,14 @@
 
             .notification_bell_icon .badge {
                 position: absolute;
-                top: -1px;
+                /*top: -1px;*/
+                top: 4px;
                 right: 0px;
                 padding: 2px 5px;
                 border-radius: 50%;
                 background-color: #dc3545;
                 color: white;
+                margin-right: -13px;
             }
 
         .Menu_NOtification_Wrap .Notification_body .single_notify:last-child {
@@ -191,6 +193,12 @@
     .animated a.dropdown-item {
     text-decoration: none;
 }
+a.dropdown-toggle.text-muted.waves-effect.waves-dark.pro-pic.notification_bell_icon:after {
+    display: none;
+}
+ul.navbar-nav.float-start {
+    padding-right: 10px;
+}
     </style>
     
 </head>
@@ -231,7 +239,7 @@
                             <a class="dropdown-toggle text-muted waves-effect waves-dark pro-pic notification_bell_icon" href="#" id="" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
                                 <i class="fa fa-bell"></i>
                                 <span class="badge">
-                                    <span id="Count_zero"></span>
+                                    @*<span id="Count_zero"></span>*@
                                     <span id="Count"></span>
                                 </span>
                             </a>
