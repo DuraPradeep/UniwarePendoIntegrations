@@ -16,3 +16,6 @@ html {
 body {
   margin-bottom: 60px;
 }
+div#stoApiId_length {
+    display: none;
+}
