@@ -118,7 +118,7 @@ namespace UniWare_PandoIntegration.Controllers
 
         public ActionResult Dashboard()
         {
-            ViewBag.Message = "Welcome to the Dashboard!!";
+            //ViewBag.Message = "Welcome to the Dashboard!!";
             return View();
         }
 
