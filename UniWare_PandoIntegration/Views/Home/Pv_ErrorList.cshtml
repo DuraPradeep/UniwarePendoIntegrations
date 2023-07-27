@@ -50,7 +50,7 @@
                 },
             },
         };
-        $("#progressbar").fadeIn(500);
+        $("#overlay").fadeIn(500);
         $.ajax({
             url: "/Home/Retrigger",
             type: 'Get',
@@ -62,7 +62,7 @@
                     type: 'Get',
                     success: function (res) {                       
                             $("#errorList").html(res);
-                        $("#progressbar").fadeOut(500);
+                        $("#overlay").fadeOut(500);
                     }
                 });
                 
