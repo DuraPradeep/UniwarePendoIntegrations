@@ -92,20 +92,22 @@ namespace UniWare_PandoIntegration.Controllers
             string msg;
             ApiControl = new ApiOperation();
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
+            ServiceResponse<IActionResult> responses = new ServiceResponse<IActionResult>();
             //triggerid = ApiControl.Get<ServiceResponse<List<PostErrorDetails>>>("api/UniwarePando/SendRecordStatus");
             var triggerids=HttpContext.Session.GetString("Saletriggerid");
             if (triggerids!=null)
             {
-                var postres = ApiControl.Get("api/UniwarePando/RetriggerPushData");
-                var responses = ApiControl.Get("api/UniwarePando/Retrigger");
+                var postres = ApiControl.Get<ServiceResponse<string>>("api/UniwarePando/RetriggerPushData");
+                responses = ApiControl.Get<ServiceResponse<IActionResult>>("api/UniwarePando/Retrigger");
                 //msg = "Posted Failed Records";
-                msg = responses;
+                msg = responses.ObjectParam.ToString();
             }
             else
             {
-                var responses = ApiControl.Get("api/UniwarePando/Retrigger");
+                responses = ApiControl.Get<ServiceResponse<IActionResult>>("api/UniwarePando/Retrigger");
                 msg = "Failed Record Triggered Successfully";
-                TempData["Success"] = msg;// = responses;
+                //msg= responses.ObjectParam.ToString();
+                
             }
             return Json(new { Message = msg });
             //return RedirectToAction("ErrorList","Home",new { msg });
@@ -393,8 +395,7 @@ namespace UniWare_PandoIntegration.Controllers
             }
             var result = new { name = strings, ID = count };
             //return Json(count,strings);
-            return Json(result);
-           
+            return Json(result);           
         }
     }
 }

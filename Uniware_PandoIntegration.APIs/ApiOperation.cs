@@ -18,7 +18,7 @@ namespace Uniware_PandoIntegration.APIs
                 BaseAddress = new Uri("https://localhost:7128"),
 
             };
-
+            client.Timeout = TimeSpan.FromMinutes(10);
             HttpResponseMessage response = client.GetAsync(uri).Result;
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.Dispose();
@@ -31,7 +31,7 @@ namespace Uniware_PandoIntegration.APIs
                 BaseAddress = new Uri("https://localhost:7128"),
 
             };
-
+            client.Timeout = TimeSpan.FromMinutes(10);
             HttpResponseMessage response = client.GetAsync(uri).Result;
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.Dispose();

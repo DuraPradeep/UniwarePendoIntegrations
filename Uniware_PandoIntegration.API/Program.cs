@@ -20,20 +20,7 @@ builder.Services.Add(new ServiceDescriptor(typeof(UniwareDB), new UniwareDB(conf
 builder.Services.Add(new ServiceDescriptor(typeof(SPWrapper), new SPWrapper(configuration.GetConnectionString("DBConnection"), configuration)));
 builder.Services.Add(new ServiceDescriptor(typeof(BasicAuthenticationFilterAttribute), new BasicAuthenticationFilterAttribute(configuration)));
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
-// Add services to the container.
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-//{
-//    options.RequireHttpsMetadata = false;
-//    options.SaveToken = true;
-//    options.TokenValidationParameters = new TokenValidationParameters()
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidAudience = builder.Configuration["Jwt:Audience"],
-//        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//    };
-//});
+
 var Key = Encoding.UTF8.GetBytes(configuration["JWT:Key"]);
 var tokenValidationParameters = new TokenValidationParameters
 {

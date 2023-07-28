@@ -13,6 +13,7 @@
 <script src="~/js/responsive.bootstrap.min.js"></script>
 <link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
+<script src="~/js/functions.js"></script>
 @*<link href="~/lib/bootstrap/dist/css/fontawesome4.7.0.min.css" rel="stylesheet" />
 <script src="~/js/jquery-3.7.0.min.js"></script>
 <script src="~/js/toast.min.js"></script>
@@ -69,7 +70,8 @@
                     url: "/Home/STOAPIErrorList",
                     type: 'Get',
                     success: function (res) {
-                        $("#errorList").html(res);
+                        //$("#errorList").html(res);
+                        fn_STOAPIDataObject();
                         $("#overlay").fadeOut(500);
                     }
                 });
@@ -155,6 +157,16 @@
     .dataTables_length {
         display: none;
     }
+
+    .back {
+        
+        font-family: aria;
+        color: #274f72;
+        font-size: 19px;
+        margin-left: 10px;
+        width: 58px;       
+        border-radius: 10px;
+    }
 </style>
 
 <div class="container">
@@ -163,6 +175,7 @@
     </div>*@
 
     <div class="row">
+        @*<a href=" ~ /Home/Dashboard" class="back">Back</a>*@
 
         <div class="col-md-12 table-responsive">
             @*<div class="table_records">

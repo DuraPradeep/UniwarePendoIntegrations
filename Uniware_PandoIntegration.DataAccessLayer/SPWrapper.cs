@@ -47,6 +47,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
 
         }
@@ -98,7 +99,8 @@ namespace Uniware_PandoIntegration.APIs
                 throw ex;
                  
             }
-           return res;
+            finally { con.Close(); }
+            return res;
 
         }
         public static bool Insertaddress(DataTable dt)
@@ -122,6 +124,7 @@ namespace Uniware_PandoIntegration.APIs
                 throw ex;
                
             }
+            finally { con.Close(); }
             return res;
             
         }
@@ -145,6 +148,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw;
             }
+            finally { con.Close(); }
             return res;
             
         }
@@ -168,6 +172,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
            
         }
@@ -193,6 +198,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetSkuCodeDB()
@@ -241,6 +247,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetAllSendRecords()
@@ -465,13 +472,14 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+               
             }
             catch (Exception ex)
             {
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static void CreateLog(string message)
@@ -512,6 +520,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static bool WaybillShipment(OmsToPandoRoot root,string primaryid)
@@ -546,6 +555,7 @@ namespace Uniware_PandoIntegration.APIs
 
                 throw;
             }
+            finally { con.Close(); }
             return res;
 
         }
@@ -570,6 +580,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static bool WaybillinsertCustomfield(DataTable ds)
@@ -592,6 +603,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static bool WaybillPickupAddress(PickupAddressDetails root, string primaryid)
@@ -624,6 +636,7 @@ namespace Uniware_PandoIntegration.APIs
 
                 throw;
             }
+            finally { con.Close(); }
             return res;
         }
         public static bool WaybillreturnAddress(ReturnAddressDetails root, string primaryid)
@@ -654,8 +667,9 @@ namespace Uniware_PandoIntegration.APIs
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
+            finally { con.Close(); }
             return res;
 
         }
@@ -688,8 +702,9 @@ namespace Uniware_PandoIntegration.APIs
             catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
+            finally { con.Close(); }
             return res;
 
         }
@@ -711,13 +726,14 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+               
             }
             catch (Exception ex)
             {
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static string IsertwaybillPostData(DataTable dt)
@@ -759,11 +775,13 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 com.ExecuteNonQuery();
                 res = true;
+                con.Close();
             }
             catch (Exception ex)
             {                
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
 
@@ -784,13 +802,14 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+                
             }
             catch (Exception ex)
             {
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static bool InsertReturnSaleOrderitem(DataTable dt)
@@ -812,6 +831,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static bool InsertReturnaddress(DataTable dt)
@@ -833,6 +853,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetReturnOrderSkuCode()
@@ -859,6 +880,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static bool InsertReturnOrderItemtypes(DataTable dt)
@@ -880,6 +902,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetReturnOrderSendData()
@@ -899,13 +922,14 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+               
             }
             catch (Exception ex)
             {
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static void UpdateWaybillError(bool status, string reason,string Triggerid)
@@ -1118,12 +1142,13 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+               
             }
             catch (Exception ex)
             {               
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static bool InsertGetPassElements(DataTable dt)
@@ -1145,6 +1170,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static bool InsertItemTypeDTO(DataTable dt)
@@ -1166,6 +1192,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetWaybillSKUCde()
@@ -1185,12 +1212,13 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+           
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static bool InsertWaybillItemsType(DataTable dt)
@@ -1212,6 +1240,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetWaybillSTOSendData()
@@ -1231,13 +1260,14 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+              
             }
             catch (Exception ex)
             {
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static string IsertWaybillPostData(DataTable dt)
@@ -1286,18 +1316,17 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+                
             }
             catch (Exception ex)
             {
-                //log.Error($"ServiceResponse Object {JsonConvert.SerializeObject(ex)}");
 
-                // LoggingAdapter.WriteLog("Insert Country Details" + ex.Message + Environment.NewLine);
+                throw ex;
             }
             finally
             {
                 con.Close();
-                con = null;
+                
             }
 
             //  int lintId = 0;
@@ -1323,6 +1352,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
 
@@ -1343,12 +1373,13 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+                
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static bool InsertSTOAPIGetPassElements(DataTable dt)
@@ -1370,6 +1401,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static bool InsertSTOAPIItemTypeDTO(DataTable dt)
@@ -1391,6 +1423,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetSTOAPISKUCde()
@@ -1437,6 +1470,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetSTOAPiSendData()
@@ -1456,13 +1490,14 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+               
             }
             catch (Exception ex)
             {
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static string IsertSTOAPIAllData(DataTable dt)
@@ -1732,7 +1767,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+                
             }
             catch (Exception ex)
             {
@@ -1760,12 +1795,13 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+               
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
         public static DataSet GetSTOAPIgatepassCodeRetrigger()
@@ -1785,12 +1821,13 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+                
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
 
@@ -1811,13 +1848,14 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                con.Close();
+                
             }
             catch (Exception ex)
             {
                 //CreateLog(ex.Message);
                 throw ex;
             }
+            finally { con.Close(); }
             return ds;
         }
     }

@@ -165,13 +165,13 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> PostDataToDeliverypackList(List<Data> data)
+        public async Task<ServiceResponse<string>> PostDataToDeliverypackList(string jsonre)//List<Data> data
         {
             var responses = "";
             //var jsondeserial = JsonSerializer.Deserialize<List<sendRoot>>(data);
             ServiceResponse<string> serviceResponse=new ServiceResponse<string>();
 
-             var jsonre = JsonConvert.SerializeObject(new { data =data});
+             //var jsonre = JsonConvert.SerializeObject(new { data =data});
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
             CreateLog($" Post Data to Pando:-  {jsonre}");
             //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
@@ -324,49 +324,49 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> PostDataReturnOrderAPI(List<ReturnOrderSendData> data)
-        {
-            var responses = "";
-            //var jsondeserial = JsonSerializer.Deserialize<List<sendRoot>>(data);
-            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+        //public async Task<ServiceResponse<string>> PostDataReturnOrderAPI(string jsonre)
+        //{
+        //    var responses = "";
+        //    //var jsondeserial = JsonSerializer.Deserialize<List<sendRoot>>(data);
+        //    ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-            var jsonre = JsonConvert.SerializeObject(new { data = data });
-            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Post Data of Return Order API:-  {jsonre}");
-            //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
-            try
-            {
-                var client = new HttpClient();
-                var credentials = Encoding.ASCII.GetBytes(_credentials);
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
-                //request.Headers.Add("Authorization", "Bearer" + Token);
-                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
-                var content = new StringContent(jsonre, null, "application/json");
-                request.Content = content;
-                var response = await client.SendAsync(request);
-                //response.EnsureSuccessStatusCode();
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                //return responses;
-                if (response.IsSuccessStatusCode)
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
-                }
-                else
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    //PostDataToDeliverypaclList(data);
-                }
-            }
-            catch (Exception ex)
-            {
-                CreateLog("$ Error: " + ex.Message);
-                throw ex;
-            }
-            return serviceResponse;
+        //    //var jsonre = JsonConvert.SerializeObject(new { data = data });
+        //    string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+        //    CreateLog($" Post Data of Return Order API:-  {jsonre}");
+        //    //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
+        //    try
+        //    {
+        //        var client = new HttpClient();
+        //        var credentials = Encoding.ASCII.GetBytes(_credentials);
+        //        var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+        //        //request.Headers.Add("Authorization", "Bearer" + Token);
+        //        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
+        //        var content = new StringContent(jsonre, null, "application/json");
+        //        request.Content = content;
+        //        var response = await client.SendAsync(request);
+        //        //response.EnsureSuccessStatusCode();
+        //        serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+        //        CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+        //        //return responses;
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //            return serviceResponse;
+        //        }
+        //        else
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //            //PostDataToDeliverypaclList(data);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CreateLog("$ Error: " + ex.Message);
+        //        throw ex;
+        //    }
+        //    return serviceResponse;
 
-        }
+        //}
         public async Task<Uniware_PandoIntegration.Entities.PandoUniwariToken> GetTokensSTO()
         {
             PandoUniwariToken rootobject;
@@ -509,87 +509,87 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> WaybillSTOPostDataDeliverypackList(List<PostDataSTOWaybill> data)
-        {
+        //public async Task<ServiceResponse<string>> WaybillSTOPostDataDeliverypackList(string jsonre)//List<PostDataSTOWaybill> data
+        //{
            
-            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+        //    ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-            var jsonre = JsonConvert.SerializeObject(new { data = data });
-            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Post Data to Pando waybill STO:-  {jsonre}");
-            //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
-            try
-            {
-                var client = new HttpClient();
-                var credentials = Encoding.ASCII.GetBytes(_credentials);
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+        //    //var jsonre = JsonConvert.SerializeObject(new { data = data });
+        //    string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+        //    CreateLog($" Post Data to Pando waybill STO:-  {jsonre}");
+        //    //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
+        //    try
+        //    {
+        //        var client = new HttpClient();
+        //        var credentials = Encoding.ASCII.GetBytes(_credentials);
+        //        var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
 
-                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
-                var content = new StringContent(jsonre, null, "application/json");
-                request.Content = content;
-                var response = await client.SendAsync(request);
-                serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                if (response.IsSuccessStatusCode)
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
-                }
-                else
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                }
-            }
-            catch (Exception ex)
-            {
-                CreateLog("$ Error: " + ex.Message);
-                throw ex;
-            }
-            return serviceResponse;
+        //        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
+        //        var content = new StringContent(jsonre, null, "application/json");
+        //        request.Content = content;
+        //        var response = await client.SendAsync(request);
+        //        serviceResponse.Errcode = ((int)response.StatusCode);
+        //        serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+        //        CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //            return serviceResponse;
+        //        }
+        //        else
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CreateLog("$ Error: " + ex.Message);
+        //        throw ex;
+        //    }
+        //    return serviceResponse;
 
-        }
+        //}
 
-        public async Task<ServiceResponse<string>> STOPApiostDataDeliverypackList(ServiceResponse<List<ReturnOrderSendData>>  data)
-        {
+        //public async Task<ServiceResponse<string>> STOPApiostDataDeliverypackList(string jsonre)
+        //{
 
-            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+        //    ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-            var jsonre = JsonConvert.SerializeObject(new { data = data.ObjectParam });
-            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Post Data to Pando waybill STO:-  {jsonre}");
-            //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
-            try
-            {
-                var client = new HttpClient();
-                var credentials = Encoding.ASCII.GetBytes(_credentials);
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+        //    //var jsonre = JsonConvert.SerializeObject(new { data = data.ObjectParam });
+        //    string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+        //    CreateLog($" Post Data to Pando waybill STO:-  {jsonre}");
+        //    //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
+        //    try
+        //    {
+        //        var client = new HttpClient();
+        //        var credentials = Encoding.ASCII.GetBytes(_credentials);
+        //        var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
 
-                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
-                var content = new StringContent(jsonre, null, "application/json");
-                request.Content = content;
-                var response = await client.SendAsync(request);
-                serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                if (response.IsSuccessStatusCode)
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
-                }
-                else
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                }
-            }
-            catch (Exception ex)
-            {
-                CreateLog("$ Error: " + ex.Message);
-                throw ex;
-            }
-            return serviceResponse;
+        //        request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
+        //        var content = new StringContent(jsonre, null, "application/json");
+        //        request.Content = content;
+        //        var response = await client.SendAsync(request);
+        //        serviceResponse.Errcode = ((int)response.StatusCode);
+        //        serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+        //        CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //            return serviceResponse;
+        //        }
+        //        else
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CreateLog("$ Error: " + ex.Message);
+        //        throw ex;
+        //    }
+        //    return serviceResponse;
 
-        }
+        //}
 
 
     }

@@ -139,8 +139,15 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
 
                 var sendcode = ObjBusinessLayer.GetAllSendData();
-                var resutt = _MethodWrapper.Action(sendcode, triggerid, 0);
-                return Accepted(resutt.ObjectParam);
+                if (sendcode.Count > 0)
+                {
+                    var resutt = _MethodWrapper.Action(sendcode, triggerid, 0);
+                    return Accepted(resutt.ObjectParam);
+                }
+                else
+                {
+                    return BadRequest("Please retrigger");
+                }
             }
             else
             {
@@ -175,7 +182,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             {
                 var jsoncodes = JsonConvert.SerializeObject(ds[i]);
                 string codes = ds[i].code;
-                parentList = _MethodWrapper.RetriggerCode(jsoncodes, token, codes, 0);
+                //parentList = _MethodWrapper.RetriggerCode(jsoncodes, token, codes, 0);
+                parentList = _MethodWrapper.PassCodeer(jsoncodes, token, codes, 0);
                 if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
                 {
                     //    return;
@@ -210,7 +218,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var code = sku[i].code;
                 var skucode = sku[i].SkuCode;
                 var jskucode = JsonConvert.SerializeObject(sKucodes);
-                var resku = _MethodWrapper.RetriggerSkuCode(jskucode, token, code, skucode, 0);
+                //var resku = _MethodWrapper.RetriggerSkuCode(jskucode, token, code, skucode, 0);
+                var resku = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0);                
                 if (resku.Code != null)
                 {
                     itemTdto.Add(resku);
@@ -222,9 +231,17 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
             var allsenddata = ObjBusinessLayer.GetAllRecrdstosend();
-            var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
-            var postretrigger = _MethodWrapper.RetriggerPostDataDelivery(allsenddata, triggerid, 0);
-            return Accepted(postretrigger.ObjectParam);
+            if (allsenddata.Count > 0)
+            {
+                var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
+                //var postretrigger = _MethodWrapper.RetriggerPostDataDelivery(allsenddata, triggerid, 0);
+                var postretrigger = _MethodWrapper.Action(allsenddata, triggerid, 0);
+                return Accepted(postretrigger.ObjectParam);
+            }
+            else
+            {
+                return BadRequest("Please Retrigger");
+            }
 
         }
         [HttpPost]
@@ -233,7 +250,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             var allsenddata = ObjBusinessLayer.GetAllRecrdstosend();
             var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
 
-            var postretrigger = _MethodWrapper.RetriggerPostDataDelivery(allsenddata, triggerid, 0);
+            //var postretrigger = _MethodWrapper.RetriggerPostDataDelivery(allsenddata, triggerid, 0);
+            var postretrigger = _MethodWrapper.Action(allsenddata, triggerid, 0);
             return Accepted(postretrigger.ObjectParam);
 
         }
@@ -344,7 +362,6 @@ namespace Uniware_PandoIntegration.API.Controllers
             return Accepted(postres.Result.ObjectParam);
         }
 
-
         [HttpPost]
         public IActionResult ReturnOrderAPI(string returnType = "CIR", string statusCode = "COMPLETE", string createdTo = "2023-07-11T14:20:40", string createdFrom = "2023-07-05T14:20:40")
         {
@@ -357,6 +374,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             //var unixepochdateda=todaydate.ToUniversalTime().Ticks;
 
             //var json = JsonConvert.SerializeObject(requestReturnOrder);
+            PandoUniwariToken resu = _Token.GetTokens().Result;
+            HttpContext.Session.SetString("Token", resu.access_token.ToString());
             var json = JsonConvert.SerializeObject(new { returnType, statusCode, createdTo, createdFrom });
             string token = HttpContext.Session.GetString("Token");
 
@@ -412,9 +431,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                 }
                 ObjBusinessLayer.insertReturOrderItemtypes(itemTdto);
                 var sendata = ObjBusinessLayer.GetReturnOrderSendData();
-                var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
-                var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
-                return Accepted(status.Result.ObjectParam);
+                if (sendata.ObjectParam.Count > 0)
+                {
+                    var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
+                    var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
+                    return Accepted(status.Result.ObjectParam);
+                }
+                else
+                    return BadRequest("Please Retrigger");
             }
             else
             {
@@ -475,10 +499,13 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             ObjBusinessLayer.insertReturOrderItemtypes(itemTdto);
             var sendata = ObjBusinessLayer.GetReturnOrderSendData();
-            var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
-            var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
-            return Accepted(status.Result.ObjectParam);
-
+            if (sendata.ObjectParam.Count > 0)
+            {
+                var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
+                var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
+                return Accepted(status.Result.ObjectParam);
+            }
+            else return BadRequest("Please Retrigger");
 
         }
         [HttpGet]
@@ -546,9 +573,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                 }
                 ObjBusinessLayer.insertWaybillItemType(itemTypeDTO);
                 var Records = ObjBusinessLayer.GetAllWaybillSTOPost();
-                var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
-                var status = _MethodWrapper.WaybillSTOPostData(Records, triggerid, 0);
-                return Accepted(status.Result.ObjectParam);
+                if (Records.Count > 0)
+                {
+                    var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
+                    var status = _MethodWrapper.WaybillSTOPostData(Records, triggerid, 0);
+                    return Accepted(status.Result.ObjectParam);
+                }
+                else return BadRequest("Please Retrigger");
             }
             else
                 return BadRequest("Please Retrigger");
@@ -621,7 +652,6 @@ namespace Uniware_PandoIntegration.API.Controllers
             List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
             List<Element> elements = new List<Element>();
             Log.Information("STO API Called : " + jsonre + " " + token);
-
             var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0);
             if (res.Count > 0)
             {
@@ -664,9 +694,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                 }
                 ObjBusinessLayer.insertSTOAPItemType(itemTypeDTO);
                 var allrecords = ObjBusinessLayer.GetSTOAPISendData();
-                var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
-                var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
-                return Accepted(status.Result.ObjectParam);
+                if (allrecords.ObjectParam.Count > 0)
+                {
+                    var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
+                    var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
+                    return Accepted(status.Result.ObjectParam);
+                }
+                else { return BadRequest("Please Retrigger"); }
+
             }
             return BadRequest("Please Retrigger");
 
@@ -691,11 +726,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                     gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
                     elements.AddRange(elemnetsList.elements);
                 }
-                //else
-                //{
-                //    return BadRequest("Please Retrigger");
-                //}
-
 
             }
             ObjBusinessLayer.insertSTOAPiGatePassElements(elements);
@@ -717,10 +747,13 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             ObjBusinessLayer.insertSTOAPItemType(itemTypeDTO);
             var allrecords = ObjBusinessLayer.GetSTOAPISendData();
-            var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
-            var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
-            return Accepted(status.Result.ObjectParam);
-
+            if (allrecords.ObjectParam.Count > 0)
+            {
+                var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
+                var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
+                return Accepted(status.Result.ObjectParam);
+            }
+            else return BadRequest("Please Retrigger");
 
         }
         [HttpGet]

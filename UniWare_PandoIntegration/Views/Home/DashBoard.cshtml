@@ -15,6 +15,7 @@
 <script src="~/js/responsive.bootstrap.min.js"></script>
 <link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
+<script src="~/js/functions.js"></script>
 <style>
     /* Color and Images for Project Containers  */
 
@@ -129,39 +130,39 @@
             fn_SaleOrder();
         });
     }
-    function fn_SaleOrder() {
-        debugger;
-        //$("#overlay").fadeIn(500);
-        $.get("/Home/ErrorListDataObject", {}).done(function (data) {
-            console.log(data);
-            //$("#overlay").fadeOut(500);
-            debugger;
-            //$("a").removeClass("dropdown-toggle");
+    //function fn_SaleOrder() {
+    //    debugger;
+    //    //$("#overlay").fadeIn(500);
+    //    $.get("/Home/ErrorListDataObject", {}).done(function (data) {
+    //        //console.log(data);
+    //        //$("#overlay").fadeOut(500);
+    //        debugger;
+    //        //$("a").removeClass("dropdown-toggle");
 
-            if (data.length != 0) {
-                debugger;
-                $('#saleorderTblId').DataTable({
-                    "processing": true,
-                    "info": true,
-                    "stateSave": true,
-                    data: data,
+    //        if (data.length != 0) {
+    //            debugger;
+    //            $('#saleorderTblId').DataTable({
+    //                "processing": true,
+    //                "info": true,
+    //                "stateSave": true,
+    //                data: data,
 
-                    "columns": [
-                        //{ data:  },
-                        { data: "code" },
-                        { data: "itemSku" },
-                        { data: "triggerid" },
-                        { data: "reason" }
-                    ]
-                })
-                //$("#overlay").fadeOut(500);
-            }
-            else {
-                iqwerty.toast.toast("No Failed Records Found!!");
-                //$("#overlay").fadeOut(500);
-            }
-        });
-    }
+    //                "columns": [
+    //                    //{ data:  },
+    //                    { data: "code" },
+    //                    { data: "itemSku" },
+    //                    { data: "triggerid" },
+    //                    { data: "reason" }
+    //                ]
+    //            })
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //        else {
+    //            iqwerty.toast.toast("No Failed Records Found!!");
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //    });
+    //}
     function fn_WaybillErrorList() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -169,42 +170,40 @@
             $("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
-            fn_WaybillErrorListDataObject();
-           
-            
+            fn_WaybillErrorListDataObject();            
         });
     }
-    function fn_WaybillErrorListDataObject() {
-        debugger;
-        //$("#overlay").fadeIn(500);
-        $.get("/Home/WaybillErrorListDataObject", {}).done(function (data) {
-            console.log(data);
-            //$("#overlay").fadeOut(500);
-            debugger;
-            //$("a").removeClass("dropdown-toggle");
+    //function fn_WaybillErrorListDataObject() {
+    //    debugger;
+    //    //$("#overlay").fadeIn(500);
+    //    $.get("/Home/WaybillErrorListDataObject", {}).done(function (data) {
+    //        console.log(data);
+    //        //$("#overlay").fadeOut(500);
+    //        debugger;
+    //        //$("a").removeClass("dropdown-toggle");
 
-            if (data.length != 0) {
-                debugger;
-                $('#wayBillTblId').DataTable({
-                    "processing": true,
-                    "info": true,
-                    "stateSave": true,
-                    data: data,
+    //        if (data.length != 0) {
+    //            debugger;
+    //            $('#wayBillTblId').DataTable({
+    //                "processing": true,
+    //                "info": true,
+    //                "stateSave": true,
+    //                data: data,
 
-                    "columns": [
+    //                "columns": [
                      
-                        { data: "triggerid" },
-                        { data: "reason" }
-                    ]
-                })
-                //$("#overlay").fadeOut(500);
-            }
-            else {
-                iqwerty.toast.toast("No Failed Records Found!!");
-                //$("#overlay").fadeOut(500);
-            }
-        });
-    }
+    //                    { data: "triggerid" },
+    //                    { data: "reason" }
+    //                ]
+    //            })
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //        else {
+    //            iqwerty.toast.toast("No Failed Records Found!!");
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //    });
+    //}
     
     function fn_ReturnOrderErrorList() {
         debugger;
@@ -218,39 +217,39 @@
 
         });
     }
-    function fn_ReturnOrderErrorListDataObject() {
-        debugger;
-        //$("#overlay").fadeIn(500);
-        $.get("/Home/ReturnOrderErrorListDataObject", {}).done(function (data) {
-            console.log(data);
-            //$("#overlay").fadeOut(500);
-            debugger;
-            //$("a").removeClass("dropdown-toggle");
+    //function fn_ReturnOrderErrorListDataObject() {
+    //    debugger;
+    //    //$("#overlay").fadeIn(500);
+    //    $.get("/Home/ReturnOrderErrorListDataObject", {}).done(function (data) {
+    //        console.log(data);
+    //        //$("#overlay").fadeOut(500);
+    //        debugger;
+    //        //$("a").removeClass("dropdown-toggle");
 
-            if (data.length != 0) {
-                debugger;
-                $('#returnOrderTblId').DataTable({
-                    "processing": true,
-                    "info": true,
-                    "stateSave": true,
-                    data: data,
+    //        if (data.length != 0) {
+    //            debugger;
+    //            $('#returnOrderTblId').DataTable({
+    //                "processing": true,
+    //                "info": true,
+    //                "stateSave": true,
+    //                data: data,
 
-                    "columns": [
-                        //{ data:  },
-                        { data: "code" },
-                        { data: "itemSku" },
-                        { data: "triggerid" },
-                        { data: "reason" }
-                    ]
-                })
-                //$("#overlay").fadeOut(500);
-            }
-            else {
-                iqwerty.toast.toast("No Failed Records Found!!");
-                //$("#overlay").fadeOut(500);
-            }
-        });
-    }
+    //                "columns": [
+    //                    //{ data:  },
+    //                    { data: "code" },
+    //                    { data: "itemSku" },
+    //                    { data: "triggerid" },
+    //                    { data: "reason" }
+    //                ]
+    //            })
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //        else {
+    //            iqwerty.toast.toast("No Failed Records Found!!");
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //    });
+    //}
     function fn_STOWaybillErrorList() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -263,39 +262,39 @@
 
         });
     }
-    function fn_STOWaybillErrorListDataObject() {
-        debugger;
-        //$("#overlay").fadeIn(500);
-        $.get("/Home/STOWaybillErrorListDataObject", {}).done(function (data) {
-            console.log(data);
-            //$("#overlay").fadeOut(500);
-            debugger;
-            //$("a").removeClass("dropdown-toggle");
+    //function fn_STOWaybillErrorListDataObject() {
+    //    debugger;
+    //    //$("#overlay").fadeIn(500);
+    //    $.get("/Home/STOWaybillErrorListDataObject", {}).done(function (data) {
+    //        console.log(data);
+    //        //$("#overlay").fadeOut(500);
+    //        debugger;
+    //        //$("a").removeClass("dropdown-toggle");
 
-            if (data.length != 0) {
-                debugger;
-                $('#stoWayBillTblId').DataTable({
-                    "processing": true,
-                    "info": true,
-                    "stateSave": true,
-                    data: data,
+    //        if (data.length != 0) {
+    //            debugger;
+    //            $('#stoWayBillTblId').DataTable({
+    //                "processing": true,
+    //                "info": true,
+    //                "stateSave": true,
+    //                data: data,
 
-                    "columns": [
-                        //{ data:  },
-                        { data: "code" },
-                        { data: "itemSku" },
-                        { data: "triggerid" },
-                        { data: "reason" }
-                    ]
-                })
-                //$("#overlay").fadeOut(500);
-            }
-            else {
-                iqwerty.toast.toast("No Failed Records Found!!");
-                //$("#overlay").fadeOut(500);
-            }
-        });
-    }
+    //                "columns": [
+    //                    //{ data:  },
+    //                    { data: "code" },
+    //                    { data: "itemSku" },
+    //                    { data: "triggerid" },
+    //                    { data: "reason" }
+    //                ]
+    //            })
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //        else {
+    //            iqwerty.toast.toast("No Failed Records Found!!");
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //    });
+    //}
     
     function fn_STOAPI() {
         debugger;
@@ -307,38 +306,38 @@
             
         });
     }
-    function fn_STOAPIDataObject() {
-        debugger;
-        //$("#overlay").fadeIn(500);
-        $.get("/Home/STOAPIErrorListData", {}).done(function (data) {
-            console.log(data);
-            //$("#overlay").fadeOut(500);
-            debugger;
-            //$("a").removeClass("dropdown-toggle");
+    //function fn_STOAPIDataObject() {
+    //    debugger;
+    //    //$("#overlay").fadeIn(500);
+    //    $.get("/Home/STOAPIErrorListData", {}).done(function (data) {
+    //        console.log(data);
+    //        //$("#overlay").fadeOut(500);
+    //        debugger;
+    //        //$("a").removeClass("dropdown-toggle");
           
-           if (data.length != 0) {
-            debugger;
-                $('#stoApiId').DataTable({
-                "processing": true,
-                "info": true,
-                "stateSave": true,
-                data: data,
+    //       if (data.length != 0) {
+    //        debugger;
+    //            $('#stoApiId').DataTable({
+    //            "processing": true,
+    //            "info": true,
+    //            "stateSave": true,
+    //            data: data,
                 
-                "columns": [
-                    { data: "code" },
-                    { data: "itemSku" },
-                    { data: "triggerid" },
-                    { data: "reason" }
-                ]
-            })
-            //$("#overlay").fadeOut(500);
-            }
-            else {
-                iqwerty.toast.toast("No Failed Records Found!!");
-                //$("#overlay").fadeOut(500);
-            }
-        });
-    }
+    //            "columns": [
+    //                { data: "code" },
+    //                { data: "itemSku" },
+    //                { data: "triggerid" },
+    //                { data: "reason" }
+    //            ]
+    //        })
+    //        //$("#overlay").fadeOut(500);
+    //        }
+    //        else {
+    //            iqwerty.toast.toast("No Failed Records Found!!");
+    //            //$("#overlay").fadeOut(500);
+    //        }
+    //    });
+    //}
 </script>
 @*<div class="loader">
     <div class="lds-ripple">
