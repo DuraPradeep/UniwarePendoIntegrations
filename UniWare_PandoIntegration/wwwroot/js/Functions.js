@@ -73,7 +73,7 @@ function fn_ReturnOrderErrorListDataObject() {
             table = $('#returnOrderTblId').DataTable();
             table.clear();
             table.destroy();
-        }
+        }        
         if (data.length != 0) {
             debugger;
             $('#returnOrderTblId').DataTable({
@@ -99,16 +99,19 @@ function fn_ReturnOrderErrorListDataObject() {
     });
 }
 function fn_STOWaybillErrorListDataObject() {
-
+    debugger;
+   
     $.get("/Home/STOWaybillErrorListDataObject", {}).done(function (data) {
-       
+        debugger;
         if ($.fn.dataTable.isDataTable('#stoWayBillTblId')) {
             table = $('#stoWayBillTblId').DataTable();
             table.clear();
             table.destroy();
         }
+       
+
         if (data.length != 0) {
-            
+            $("#id_triggerbtn").css("display", "block");      
             $('#stoWayBillTblId').DataTable({
                 "processing": true,
                 "info": true,
@@ -129,6 +132,7 @@ function fn_STOWaybillErrorListDataObject() {
             iqwerty.toast.toast("No Failed Records Found!!");
            
         }
+        
     });
 }
 

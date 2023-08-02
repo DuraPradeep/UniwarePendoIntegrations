@@ -24,9 +24,10 @@ namespace Uniware_PandoIntegration.APIs
         {
             Log.Information(message);
         }
-        public async Task<Uniware_PandoIntegration.Entities.PandoUniwariToken> GetTokens()
+        public async Task<ServiceResponse<string>> GetTokens()
         {
-            PandoUniwariToken rootobject;
+            //PandoUniwariToken rootobject;
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
                 CreateLog(" Token api Started");
@@ -40,11 +41,13 @@ namespace Uniware_PandoIntegration.APIs
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = _client.GetAsync(URL).Result;
                 var responses = response.Content.ReadAsStringAsync().Result;
-                rootobject = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(responses);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
+                //rootobject = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(responses);
                 CreateLog($" Response:{responses}");
                 if (response.IsSuccessStatusCode)
                 {
-                    return rootobject;
+                    return serviceResponse;
 
                 }                
 
@@ -55,7 +58,7 @@ namespace Uniware_PandoIntegration.APIs
                 throw ex;
             }
 
-            return rootobject;
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<string>> GetCode(string Details, string Token)
@@ -367,9 +370,10 @@ namespace Uniware_PandoIntegration.APIs
         //    return serviceResponse;
 
         //}
-        public async Task<Uniware_PandoIntegration.Entities.PandoUniwariToken> GetTokensSTO()
+        public async Task<ServiceResponse<string>> GetTokensSTO()
         {
-            PandoUniwariToken rootobject;
+            //PandoUniwariToken rootobject;
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
                 CreateLog(" GetToken For STOWaybill");
@@ -383,14 +387,14 @@ namespace Uniware_PandoIntegration.APIs
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = _client.GetAsync(URL).Result;
                 var responses = response.Content.ReadAsStringAsync().Result;
-                rootobject = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(responses);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
+                //rootobject = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(responses);
                 CreateLog($" Response:{responses}");
                 if (response.IsSuccessStatusCode)
                 {
-                    return rootobject;
-
+                    return serviceResponse;
                 }
-
             }
             catch (Exception ex)
             {
@@ -398,7 +402,7 @@ namespace Uniware_PandoIntegration.APIs
                 throw ex;
             }
 
-            return rootobject;
+            return serviceResponse;
         }
 
         public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token)

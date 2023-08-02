@@ -1,10 +1,17 @@
+using System.Configuration;
+using Uniware_PandoIntegration.APIs;
+
 var builder = WebApplication.CreateBuilder(args);
+IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-var app = builder.Build();
+builder.Services.Add(new ServiceDescriptor(typeof(ApiOperation), new ApiOperation(configuration.GetSection("baseaddress:Url").Value)));
+
+
+ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

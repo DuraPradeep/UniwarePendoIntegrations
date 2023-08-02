@@ -1,4 +1,8 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+@{
     Layout = null;
 }
 
@@ -10,6 +14,8 @@
 <script src="~/js/jquery.datatables.min.js"></script>
 <script src="~/js/datatables.bootstrap.min.js"></script>
 <script src="~/js/datatables.responsive.min.js"></script>
+
+
 <script src="~/js/responsive.bootstrap.min.js"></script>
 <link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
@@ -20,13 +26,67 @@
     });
     function geterrorcode() {
         debugger;
+        var check =0;
         //var length = 'HttpContext.Session.Getstring("Errorcodeoccur")'
-        var UserName = '@Html.Raw(this.ViewData["UserName"])'
+        //var count = @HttpContextAccessor.HttpContext.Session.GetString("Stowaybill")
+        // if (count == null)
+        //{
+            check = @HttpContextAccessor.HttpContext.Session.GetString("StowaybillError")
+            //    //var UserName = '@Html.Raw(this.ViewData["UserName"])'
+            //    debugger;
+            if (check == 1) {
+                debugger;
+                $("#id_triggerbtn").css("display", "block");
+            }
+            //else if (check == 0) {
+            //    $("#id_triggerbtn").css("display", "none");
+            //}
+        //}
+        //else
+        //{
+        //    $("#id_triggerbtn").css("display", "none");
+        //}
+    }
+    function fn_STOWaybillErrorListDataObjects() {
         debugger;
-        if (UserName == 1) {
+        var bool = "";
+        $.get("/Home/STOWaybillErrorListDataObject", {}).done(function (data) {
             debugger;
-            $("#id_triggerbtn").css("display", "block");
-        }
+            if ($.fn.dataTable.isDataTable('#stoWayBillTblId')) {
+                table = $('#stoWayBillTblId').DataTable();
+                table.clear();
+                table.destroy();
+            }
+            if (data.length == 0) {
+                $("#id_triggerbtn").css("display", "none");                
+            }
+
+            if (data.length != 0) {
+                $("#id_triggerbtn").css("display", "block");
+                $('#stoWayBillTblId').DataTable({
+                    "processing": true,
+                    "info": true,
+                    "stateSave": true,
+                    data: data,
+
+                    "columns": [
+                        //{ data:  },
+                        { data: "code" },
+                        { data: "itemSku" },
+                        { data: "triggerid" },
+                        { data: "reason" }
+                    ]
+                })
+
+            }
+            else {
+                iqwerty.toast.toast("No Failed Records Found!!");
+
+            }
+
+        });
+        return bool;
+        debugger;
     }
     function fn_Retrigger() {
         debugger;
@@ -47,6 +107,7 @@
             },
         };
         $("#overlay").fadeIn(500);
+        debugger;
         $.ajax({
             url: "/Home/STOWaybillRetrigger",
             type: 'GET',
@@ -56,8 +117,14 @@
                     url: "/Home/STOWaybillErrorList",
                     type: 'Get',
                     success: function (res) {
+                        debugger;
                         //$("#errorList").html(res);
-                        fn_STOWaybillErrorListDataObject();
+                       //var rest= fn_STOWaybillErrorListDataObject();
+                       // console.log(fn_STOWaybillErrorListDataObject());
+                        fn_STOWaybillErrorListDataObjects();
+                        debugger;
+                        //geterrorcode();
+                        //$("#id_triggerbtn").css("display", "none");
                         $("#overlay").fadeOut(500);
                     }
                 });
@@ -84,7 +151,7 @@
         margin-top: 0px;
         border: 1px solid rgba(255,255,255,0.3);
         /* background: -webkit-linear-gradient(left, #25c481, #25b7c4);
-                    background: linear-gradient(to right, #25c481, #25b7c4);*/
+                            background: linear-gradient(to right, #25c481, #25b7c4);*/
         font-size: large;
     }
 
@@ -196,7 +263,7 @@
 
     <div id="id_triggerbtn" style="text-align: end;display: none; margin-top: 10px;border-radius: 94px;">
         @*<input type="button" value="Retrigger" />*@
-        @*<button class="btn btn-outline-dark" onclick="fn_Retrigger()">Retrigger</button>
+@*<button class="btn btn-outline-dark" onclick="fn_Retrigger()">Retrigger</button>
     </div>
 </div>*@
 

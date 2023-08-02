@@ -15,8 +15,13 @@ namespace UniWare_PandoIntegration.Controllers
     {
         
         ApiOperation ApiControl;
-
-
+        private readonly IConfiguration iconfiguration;
+        private readonly string Apibase;
+        public HomeController(IConfiguration configuration)
+        {
+            //this.iconfiguration = iconfiguration;
+            Apibase = configuration.GetSection("baseaddress:Url").Value;
+        }
 		[HttpPost]
         public ActionResult Login(string UserName, string Password)
         {
@@ -24,7 +29,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    ApiControl = new ApiOperation();
+                    ApiControl = new ApiOperation(Apibase);
 					ServiceResponse<UserLogin> serviceResponseg = ApiControl.Get<ServiceResponse<UserLogin>, string, string>(UserName, Password, "UserName", "Password", "Api/Login/GetUserNamePassword");
                     if (serviceResponseg.ObjectParam.UserName == UserName && serviceResponseg.ObjectParam.Password == Password)
                     {
@@ -59,7 +64,7 @@ namespace UniWare_PandoIntegration.Controllers
             //    HttpContext.Session.SetString("response", msg);
             //}
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
@@ -77,7 +82,7 @@ namespace UniWare_PandoIntegration.Controllers
         public JsonResult ErrorListDataObject()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
             if (response.ObjectParam.Count > 0)
             {
@@ -90,24 +95,25 @@ namespace UniWare_PandoIntegration.Controllers
         public JsonResult Retrigger()
         {
             string msg;
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
-            ServiceResponse<IActionResult> responses = new ServiceResponse<IActionResult>();
+            //ServiceResponse<IActionResult> responses = new ServiceResponse<IActionResult>();
+            var responses ="";
             //triggerid = ApiControl.Get<ServiceResponse<List<PostErrorDetails>>>("api/UniwarePando/SendRecordStatus");
             var triggerids=HttpContext.Session.GetString("Saletriggerid");
             if (triggerids!=null)
             {
-                var postres = ApiControl.Get<ServiceResponse<string>>("api/UniwarePando/RetriggerPushData");
-                responses = ApiControl.Get<ServiceResponse<IActionResult>>("api/UniwarePando/Retrigger");
-                //msg = "Posted Failed Records";
-                msg = responses.ObjectParam.ToString();
+                var postres = ApiControl.Get("api/UniwarePando/RetriggerPushData");
+                responses = ApiControl.Get("api/UniwarePando/Retrigger");
+                msg = "Posted Failed Records";
+                //msg = responses.ObjectParam.ToString();
             }
             else
             {
-                responses = ApiControl.Get<ServiceResponse<IActionResult>>("api/UniwarePando/Retrigger");
-                msg = "Failed Record Triggered Successfully";
-                //msg= responses.ObjectParam.ToString();
-                
+                responses = ApiControl.Get("api/UniwarePando/Retrigger");
+                //msg = "Failed Record Triggered Successfully";
+                msg = responses.ToString();
+
             }
             return Json(new { Message = msg });
             //return RedirectToAction("ErrorList","Home",new { msg });
@@ -134,7 +140,7 @@ namespace UniWare_PandoIntegration.Controllers
         public ActionResult WaybillErrorList()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
@@ -147,20 +153,21 @@ namespace UniWare_PandoIntegration.Controllers
         public JsonResult WaybillRetrigger()
         {
             string msg;
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
             
             
                 var responses = ApiControl.Get("api/UniwarePando/PostWaybillGeneration");
-                
-                msg = responses;
+
+            //msg = responses;
+            msg = "Trigger success fully";
           
             return Json(new { Message = msg });
         }
         public JsonResult WaybillErrorListDataObject()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
@@ -172,7 +179,7 @@ namespace UniWare_PandoIntegration.Controllers
         public ActionResult ReturnOrderErrorList()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
@@ -191,7 +198,7 @@ namespace UniWare_PandoIntegration.Controllers
         public JsonResult ReturnOrderErrorListDataObject()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
             if (response.ObjectParam.Count > 0)
             {
@@ -203,26 +210,29 @@ namespace UniWare_PandoIntegration.Controllers
         public JsonResult ReturnOrderRetrigger()
         {
             string msg;
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             var triggerids = HttpContext.Session.GetString("ReturnTriId");
-            if (triggerids == null)
+            if (triggerids != null)
             {
                 var postres = ApiControl.Get("api/UniwarePando/ReturnorderFinalData");
                 var responses = ApiControl.Get("api/UniwarePando/ReturnOrderAPIRetrigger");
-                msg = responses;
+                msg = responses.ToString();
+                //msg = "Posted Failed Records";
             }
             else
             {
                 var responses = ApiControl.Get("api/UniwarePando/ReturnOrderAPIRetrigger");
-                msg = responses;
+                msg = responses.ToString();
+                //msg = "Failed Record Triggered Successfully";
             }
             return Json(new { Message = msg });
         }
         [HttpGet]
         public ActionResult STOWaybillErrorList()
         {
+            HttpContext.Session.Remove("StowaybillError");
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
@@ -230,18 +240,21 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     HttpContext.Session.SetString("STOWaybillTriId", response.ObjectParam[i].Triggerid);
                 }
-
             }
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                HttpContext.Session.SetString("StowaybillError", "1");
+            }
+            else
+            {
+                HttpContext.Session.SetString("StowaybillError", "0");
             }
             return View("~/Views/Home/pv_STOWaybill.cshtml", response.ObjectParam);            
         }
         public JsonResult STOWaybillErrorListDataObject()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
@@ -250,22 +263,24 @@ namespace UniWare_PandoIntegration.Controllers
             return Json(response.ObjectParam);
            
         }
-        [HttpPost]
+        [HttpGet]
         public JsonResult STOWaybillRetrigger()
         {
             string msg;
-            ApiControl= new ApiOperation();
+            ApiControl= new ApiOperation(Apibase);
             var triggerids = HttpContext.Session.GetString("STOWaybillTriId");
-            if (triggerids == null)
+            if (triggerids != null)
             {
                 var postres = ApiControl.Get("api/UniwarePando/STOwaybillFinalData");
                 var responses = ApiControl.Get("api/UniwarePando/STOWaybillRetrigger");
                 msg = responses;
+                //msg = "Posted Failed Records";
             }
             else
             {
                 var responses = ApiControl.Get("api/UniwarePando/STOWaybillRetrigger");
                 msg = responses;
+                //msg = "Failed Record Triggered Successfully";
             }
             return Json(new { Message = msg });
         }
@@ -273,7 +288,7 @@ namespace UniWare_PandoIntegration.Controllers
         public ActionResult STOAPIErrorList()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
@@ -294,7 +309,7 @@ namespace UniWare_PandoIntegration.Controllers
         public JsonResult STOAPIErrorListData()
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
@@ -306,7 +321,7 @@ namespace UniWare_PandoIntegration.Controllers
         //public ActionResult WaybillErrorList()
         //{
         //    ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-        //    ApiControl = new ApiOperation();
+        //    ApiControl = new ApiOperation(Apibase);
         //    response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/aybillErrorDetails");
         //    if (response.ObjectParam.Count > 0)
         //    {
@@ -319,17 +334,18 @@ namespace UniWare_PandoIntegration.Controllers
         public JsonResult STOAPIRetrigger()
         {
             string msg;
+            ApiControl=new ApiOperation(Apibase);
             var triggerids = HttpContext.Session.GetString("STOAPITriId");
-            if (triggerids == null)
+            if (triggerids != null)
             {
                 var postres = ApiControl.Get("api/UniwarePando/STOAPIFinaldata");
                 var responses = ApiControl.Get("api/UniwarePando/STOAPIRetrigger");
-                msg = responses;
+                msg = responses.ToString();
             }
             else
             {
                 var responses = ApiControl.Get("api/UniwarePando/STOAPIRetrigger");
-                msg = responses;
+                msg = responses.ToString();
             }
             return Json(new { Message = msg });
         }
@@ -338,7 +354,7 @@ namespace UniWare_PandoIntegration.Controllers
         {
             //sale order
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-            ApiControl = new ApiOperation();
+            ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
             int count = 0;
             List<string> strings = new List<string>();

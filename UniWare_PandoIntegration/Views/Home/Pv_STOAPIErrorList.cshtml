@@ -42,6 +42,45 @@
             $("#id_triggerbtn").css("display", "block");
         }
     }
+    function fn_STOAPIDataObjects() {
+        debugger;
+        //$("#overlay").fadeIn(500);
+        $.get("/Home/STOAPIErrorListData", {}).done(function (data) {
+            console.log(data);
+            //$("#overlay").fadeOut(500);
+            debugger;
+            //$("a").removeClass("dropdown-toggle");
+            if ($.fn.dataTable.isDataTable('#stoApiId')) {
+                table = $('#stoApiId').DataTable();
+                table.clear();
+                table.destroy();
+            }
+            if (data.length == 0) {
+                $("#id_triggerbtn").css("display", "none");
+            }
+            if (data.length != 0) {
+                $("#id_triggerbtn").css("display", "none");
+                $('#stoApiId').DataTable({
+                    "processing": true,
+                    "info": true,
+                    "stateSave": true,
+                    data: data,
+
+                    "columns": [
+                        { data: "code" },
+                        { data: "itemSku" },
+                        { data: "triggerid" },
+                        { data: "reason" }
+                    ]
+                })
+                //$("#overlay").fadeOut(500);
+            }
+            else {
+                iqwerty.toast.toast("No Failed Records Found!!");
+                //$("#overlay").fadeOut(500);
+            }
+        });
+    }
     function fn_Retrigger() {
         debugger;
         const options = {
@@ -71,7 +110,7 @@
                     type: 'Get',
                     success: function (res) {
                         //$("#errorList").html(res);
-                        fn_STOAPIDataObject();
+                        fn_STOAPIDataObjects();
                         $("#overlay").fadeOut(500);
                     }
                 });

@@ -19,6 +19,7 @@ using Serilog;
 using Microsoft.AspNetCore.Authorization;
 using Uniware_PandoIntegration.API.Folder;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Primitives;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -38,56 +39,182 @@ namespace Uniware_PandoIntegration.API.Controllers
         private UniwareBL ObjBusinessLayer = new();
         MethodWrapper _MethodWrapper = new MethodWrapper();
         [HttpGet]
-        public PandoUniwariToken GetToken()
+        public IActionResult GetToken()
         {
-            BearerToken _Token = new BearerToken();
-            PandoUniwariToken resu = _Token.GetTokens().Result;
-            HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            return new PandoUniwariToken();
+            //BearerToken _Token = new BearerToken();
+            //PandoUniwariToken resu = _Token.GetTokens().Result;
+            var resu = _Token.GetTokens().Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            if (resu.ObjectParam != null)
+            {
+                string token = deres.access_token.ToString();
+                //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+                HttpContext.Session.SetString("token", token);
+                //return new PandoUniwariToken();
+                return Accepted(resu.ObjectParam);
+            }
+            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            //string token = HttpContext.Session.GetString("Token");
+            //string token = deres.access_token.ToString();
+            ////HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            //HttpContext.Session.SetString("token", token);
+            else
+            {
+                return BadRequest("Something Went Wrong");
+            }
         }
         [HttpPost]
         public IActionResult SaleOrderAPI(string fromdate = "1681368375000", string todate = "1681454775000", string datatype = "CREATED")
         {
-            _logger.LogInformation("Token Api called.");
-            PandoUniwariToken resu = _Token.GetTokens().Result;
-            HttpContext.Session.SetString("Token", resu.access_token.ToString());
-
-            //HttpContext.Session.SetString("Token", resu.expires_in.ToString());
-            //var jwthandler = new JwtSecurityTokenHandler();
-            //var tokendetails = HttpContext.Session.GetString("Token");
-            //var readtoken=jwthandler.ReadToken(tokendetails);
-
-
-            //ReqSalesOrderSearch reqSalesOrderSearch = new Entities.ReqSalesOrderSearch();
-            //reqSalesOrderSearch.fromDate = fromdate;//= "1681368375000";
-            //reqSalesOrderSearch.toDate = todate;//=1681454775000;
-            //reqSalesOrderSearch.dateType = datatype;//=CREATED;
-            //var json = JsonConvert.SerializeObject(reqSalesOrderSearch);
+            //_logger.LogInformation("Token Api called.");
+            //PandoUniwariToken resu = _Token.GetTokens().Result;
+            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            //var resu = _Token.GetTokens().Result;
+            //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            //if (resu.ObjectParam != null) { }
+            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
             string token = HttpContext.Session.GetString("Token");
-            _logger.LogInformation("saleOrder/Get Api called.");
-            var json = JsonConvert.SerializeObject(new { fromDate = fromdate, toDate = todate, dateType = datatype });
-            //var list = getCode(json, token, 0);
-            var list = _MethodWrapper.getCode(json, token, 0);
-            //var resCode = ObjBusinessLayer.InsertCode(elmt);
-            if (list.Count > 0)
+            if (token != null)
             {
-                var resCode = ObjBusinessLayer.InsertCode(list);
-                var ds = ObjBusinessLayer.GetCode();
+                //string token = deres.access_token.ToString();
 
-                parentList parentList = new parentList();
-                _logger.LogInformation("Saleorder/search Api called.");
+                //HttpContext.Session.SetString("Token", resu.expires_in.ToString());
+                //var jwthandler = new JwtSecurityTokenHandler();
+                //var tokendetails = HttpContext.Session.GetString("Token");
+                //var readtoken=jwthandler.ReadToken(tokendetails);
+
+                //ReqSalesOrderSearch reqSalesOrderSearch = new Entities.ReqSalesOrderSearch();
+                //reqSalesOrderSearch.fromDate = fromdate;//= "1681368375000";
+                //reqSalesOrderSearch.toDate = todate;//=1681454775000;
+                //reqSalesOrderSearch.dateType = datatype;//=CREATED;
+                //var json = JsonConvert.SerializeObject(reqSalesOrderSearch);
+                //string token = HttpContext.Session.GetString("Token");
+                _logger.LogInformation("saleOrder/Get Api called.");
+                var json = JsonConvert.SerializeObject(new { fromDate = fromdate, toDate = todate, dateType = datatype });
+                //var list = getCode(json, token, 0);
+                var list = _MethodWrapper.getCode(json, token, 0);
+                //var resCode = ObjBusinessLayer.InsertCode(elmt);
+                if (list.Count > 0)
+                {
+                    var resCode = ObjBusinessLayer.InsertCode(list);
+                    var ds = ObjBusinessLayer.GetCode();
+
+                    parentList parentList = new parentList();
+                    _logger.LogInformation("Saleorder/search Api called.");
+                    List<Address> address = new List<Address>();
+                    List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
+                    List<ShippingPackage> shipingdet = new List<ShippingPackage>();
+                    List<Items> qtyitems = new List<Items>();
+                    List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
+                    for (int i = 0; i < ds.Count; i++)
+                    {
+                        var jsoncodes = JsonConvert.SerializeObject(ds[i]);
+                        string code = ds[i].code;
+                        //parentList = PassCode(jsoncodes, token, code, 0);
+
+                        parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code);
+                        if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                        {
+                            //    return;
+                            //}
+                            //else
+                            //{
+                            saleOrderItems.AddRange(parentList.saleOrderItems);
+                            address.AddRange(parentList.address);
+                            shipingdet.AddRange(parentList.Shipment);
+                            qtyitems.AddRange(parentList.qtyitems);
+                            elements.AddRange(parentList.elements);
+                        }
+
+
+                    }
+
+                    var sires = ObjBusinessLayer.insertsalesorderitem(saleOrderItems);
+                    var resshipng = ObjBusinessLayer.InsertBill(shipingdet);
+                    var resitems = ObjBusinessLayer.insertItems(qtyitems);
+                    var resads = ObjBusinessLayer.InsertAddrsss(address);
+                    var resdto = ObjBusinessLayer.insertSalesDTO(elements);
+
+
+                    var sku = ObjBusinessLayer.GetSKucodesBL();
+                    _logger.LogInformation("ItemType/Get Api called.");
+
+                    List<SKucode> skus = new List<SKucode>();
+                    List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
+                    for (int i = 0; i < sku.Count; i++)
+                    {
+                        skucode sKucodes = new skucode();
+                        sKucodes.skuCode = sku[i].SkuCode;
+                        var code = sku[i].code;
+                        var skucode = sku[i].SkuCode;
+                        var jskucode = JsonConvert.SerializeObject(sKucodes);
+
+                        //var insertskucode = ReturnSkuCode(jskucode, token, skucode,0);
+                        var insertskucode = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0);
+                        if (insertskucode.Code != null)
+                        {
+                            itemTdto.Add(insertskucode);
+                        }
+                        //else
+                        //return;
+                        //Console.WriteLine(i);
+                    }
+                    var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
+                    var allsenddata = ObjBusinessLayer.GetAllRecrdstosend();
+                    var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
+
+                    var sendcode = ObjBusinessLayer.GetAllSendData();
+                    if (sendcode.Count > 0)
+                    {
+                        var resutt = _MethodWrapper.Action(sendcode, triggerid, 0);
+                        return Accepted(resutt.ObjectParam);
+                    }
+                    else
+                    {
+                        return BadRequest("Please retrigger");
+                    }
+                }
+                else
+                {
+                    return BadRequest("Please Retrigger");
+                }
+            }
+            else return BadRequest("Please Pass Valid Token");
+        }
+
+
+        [HttpGet]
+        public string Retrigger()
+        {
+            //PandoUniwariToken res = _Token.GetTokens().Result;
+            //HttpContext.Session.SetString("Token", res.access_token.ToString());
+            _logger.LogInformation("Sale Order Retriggered ");
+            //PandoUniwariToken resu = _Token.GetTokens().Result;
+            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            var resu = _Token.GetTokens().Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            if (resu.ObjectParam != null)
+            {
+                string token = deres.access_token.ToString();
+                //string token = HttpContext.Session.GetString("Token");
+                var ds = ObjBusinessLayer.GetCodeforRetrigger();
+
+                List<ErrorDetails> errorDetails = new List<ErrorDetails>();
+                List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
+                salesorderRoot details = new salesorderRoot();
                 List<Address> address = new List<Address>();
                 List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
                 List<ShippingPackage> shipingdet = new List<ShippingPackage>();
                 List<Items> qtyitems = new List<Items>();
                 List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
+                parentList parentList = new parentList();
+                _logger.LogInformation("Retrigger:-Saleorder/search Api called.");
                 for (int i = 0; i < ds.Count; i++)
                 {
                     var jsoncodes = JsonConvert.SerializeObject(ds[i]);
-                    string code = ds[i].code;
-                    //parentList = PassCode(jsoncodes, token, code, 0);
-
-                    parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code);
+                    string codes = ds[i].code;
+                    //parentList = _MethodWrapper.RetriggerCode(jsoncodes, token, codes, 0);
+                    parentList = _MethodWrapper.PassCodeer(jsoncodes, token, codes, 0);
                     if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
                     {
                         //    return;
@@ -95,13 +222,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //else
                         //{
                         saleOrderItems.AddRange(parentList.saleOrderItems);
-                        address.AddRange(parentList.address);
                         shipingdet.AddRange(parentList.Shipment);
                         qtyitems.AddRange(parentList.qtyitems);
+                        address.AddRange(parentList.address);
                         elements.AddRange(parentList.elements);
                     }
-
-
                 }
 
                 var sires = ObjBusinessLayer.insertsalesorderitem(saleOrderItems);
@@ -110,12 +235,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var resads = ObjBusinessLayer.InsertAddrsss(address);
                 var resdto = ObjBusinessLayer.insertSalesDTO(elements);
 
-
-                var sku = ObjBusinessLayer.GetSKucodesBL();
-                _logger.LogInformation("ItemType/Get Api called.");
-
+                var sku = ObjBusinessLayer.GetSKucodesForRetrigger();
+                _logger.LogInformation("Retrigger:-ItemType/Get Api called.");
                 List<SKucode> skus = new List<SKucode>();
                 List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
+
                 for (int i = 0; i < sku.Count; i++)
                 {
                     skucode sKucodes = new skucode();
@@ -123,124 +247,35 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var code = sku[i].code;
                     var skucode = sku[i].SkuCode;
                     var jskucode = JsonConvert.SerializeObject(sKucodes);
-
-                    //var insertskucode = ReturnSkuCode(jskucode, token, skucode,0);
-                    var insertskucode = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0);
-                    if (insertskucode.Code != null)
+                    //var resku = _MethodWrapper.RetriggerSkuCode(jskucode, token, code, skucode, 0);
+                    var resku = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0);
+                    if (resku.Code != null)
                     {
-                        itemTdto.Add(insertskucode);
+                        itemTdto.Add(resku);
                     }
                     //else
+                    //{
                     //return;
-                    //Console.WriteLine(i);
+                    //}
                 }
                 var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
                 var allsenddata = ObjBusinessLayer.GetAllRecrdstosend();
-                var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
-
-                var sendcode = ObjBusinessLayer.GetAllSendData();
-                if (sendcode.Count > 0)
+                if (allsenddata.Count > 0)
                 {
-                    var resutt = _MethodWrapper.Action(sendcode, triggerid, 0);
-                    return Accepted(resutt.ObjectParam);
+                    //var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
+                    //var postretrigger = _MethodWrapper.RetriggerPostDataDelivery(allsenddata, triggerid, 0);
+                    //var postretrigger = _MethodWrapper.Action(allsenddata, triggerid, 0);                
+                    return "Data Triggered Successfully";
                 }
                 else
                 {
-                    return BadRequest("Please retrigger");
+                    return "Get Some Issue Please Retrigger";
                 }
+
             }
             else
             {
-                return BadRequest("Please Retrigger");
-            }
-
-        }
-
-
-        [HttpGet]
-        public IActionResult Retrigger()
-        {
-            //PandoUniwariToken res = _Token.GetTokens().Result;
-            //HttpContext.Session.SetString("Token", res.access_token.ToString());
-            _logger.LogInformation("Retrigger:- Token Api called.");
-            PandoUniwariToken resu = _Token.GetTokens().Result;
-            HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            string token = HttpContext.Session.GetString("Token");
-            var ds = ObjBusinessLayer.GetCodeforRetrigger();
-
-            List<ErrorDetails> errorDetails = new List<ErrorDetails>();
-            List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
-            salesorderRoot details = new salesorderRoot();
-            List<Address> address = new List<Address>();
-            List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
-            List<ShippingPackage> shipingdet = new List<ShippingPackage>();
-            List<Items> qtyitems = new List<Items>();
-            List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
-            parentList parentList = new parentList();
-            _logger.LogInformation("Retrigger:-Saleorder/search Api called.");
-            for (int i = 0; i < ds.Count; i++)
-            {
-                var jsoncodes = JsonConvert.SerializeObject(ds[i]);
-                string codes = ds[i].code;
-                //parentList = _MethodWrapper.RetriggerCode(jsoncodes, token, codes, 0);
-                parentList = _MethodWrapper.PassCodeer(jsoncodes, token, codes, 0);
-                if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
-                {
-                    //    return;
-                    //}
-                    //else
-                    //{
-                    saleOrderItems.AddRange(parentList.saleOrderItems);
-                    shipingdet.AddRange(parentList.Shipment);
-                    qtyitems.AddRange(parentList.qtyitems);
-                    address.AddRange(parentList.address);
-                    elements.AddRange(parentList.elements);
-                }
-            }
-
-            //var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
-            var sires = ObjBusinessLayer.insertsalesorderitem(saleOrderItems);
-            var resshipng = ObjBusinessLayer.InsertBill(shipingdet);
-            var resitems = ObjBusinessLayer.insertItems(qtyitems);
-            var resads = ObjBusinessLayer.InsertAddrsss(address);
-            var resdto = ObjBusinessLayer.insertSalesDTO(elements);
-
-            var sku = ObjBusinessLayer.GetSKucodesForRetrigger();
-            _logger.LogInformation("Retrigger:-ItemType/Get Api called.");
-
-            List<SKucode> skus = new List<SKucode>();
-            List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
-
-            for (int i = 0; i < sku.Count; i++)
-            {
-                skucode sKucodes = new skucode();
-                sKucodes.skuCode = sku[i].SkuCode;
-                var code = sku[i].code;
-                var skucode = sku[i].SkuCode;
-                var jskucode = JsonConvert.SerializeObject(sKucodes);
-                //var resku = _MethodWrapper.RetriggerSkuCode(jskucode, token, code, skucode, 0);
-                var resku = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0);                
-                if (resku.Code != null)
-                {
-                    itemTdto.Add(resku);
-                }
-                //else
-                //{
-                //return;
-                //}
-            }
-            var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
-            var allsenddata = ObjBusinessLayer.GetAllRecrdstosend();
-            if (allsenddata.Count > 0)
-            {
-                var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
-                //var postretrigger = _MethodWrapper.RetriggerPostDataDelivery(allsenddata, triggerid, 0);
-                var postretrigger = _MethodWrapper.Action(allsenddata, triggerid, 0);
-                return Accepted(postretrigger.ObjectParam);
-            }
-            else
-            {
-                return BadRequest("Please Retrigger");
+                return "Please Pass valid Token";
             }
 
         }
@@ -263,13 +298,6 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             return returndata;
         }
-        //[HttpGet]
-        //public ServiceResponse<List<PostErrorDetails>> SendRecordStatus()
-        //{
-        //    var status = ObjBusinessLayer.PostDataStatus();
-        //    return status;
-        //}
-
 
         //Step-2
         [HttpGet]
@@ -296,7 +324,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]       //[BasicAuthenticationFilter]       
         public IActionResult Waybill(OmsToPandoRoot Records)
         {
-            _logger.LogInformation($"Waybill GetData From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
+            _logger.LogInformation($"Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
             try
             {
                 RootResponse rootResponse = new RootResponse();
@@ -355,10 +383,12 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult PostWaybillGeneration()
         {
+            _logger.LogInformation($"Waybill Post ,{DateTime.Now.ToLongTimeString()}");
             var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
             var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
             var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid);
             //return postres;
+            _logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
             return Accepted(postres.Result.ObjectParam);
         }
 
@@ -374,16 +404,101 @@ namespace Uniware_PandoIntegration.API.Controllers
             //var unixepochdateda=todaydate.ToUniversalTime().Ticks;
 
             //var json = JsonConvert.SerializeObject(requestReturnOrder);
-            PandoUniwariToken resu = _Token.GetTokens().Result;
-            HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            var json = JsonConvert.SerializeObject(new { returnType, statusCode, createdTo, createdFrom });
+            //var resu = _Token.GetTokens().Result;
+            //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             string token = HttpContext.Session.GetString("Token");
-
-            var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0);
-            if (resuordercode.Count > 0)
+            if (token != null)
             {
-                ObjBusinessLayer.insertReturnOrdercoder(resuordercode);
-                var codes = ObjBusinessLayer.GetReturnOrderCodes();
+                //string token = deres.access_token.ToString();
+                //PandoUniwariToken resu = _Token.GetTokens().Result;
+                //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+                var json = JsonConvert.SerializeObject(new { returnType, statusCode, createdTo, createdFrom });
+                //string token = HttpContext.Session.GetString("Token");
+
+
+                var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0);
+                if (resuordercode.Count > 0)
+                {
+                    ObjBusinessLayer.insertReturnOrdercoder(resuordercode);
+                    var codes = ObjBusinessLayer.GetReturnOrderCodes();
+                    List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+                    List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
+                    List<ReturnAddressDetailsList> returnAddressDetailsLists = new List<ReturnAddressDetailsList>();
+                    for (int j = 0; j < codes.ObjectParam.Count; j++)
+                    {
+                        ReturnOrderGet returnOrderGet = new ReturnOrderGet();
+                        returnOrderGet.reversePickupCode = codes.ObjectParam[j].code;
+                        var jdetail = JsonConvert.SerializeObject(returnOrderGet);
+                        var Code = codes.ObjectParam[j].code;
+                        var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0);
+                        if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
+                        {
+                            returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
+                            returnSaleOrderItems.AddRange(list.returnSaleOrderItems);
+                        }
+                        //else
+                        //    return BadRequest("Please Retrigger");
+
+                    }
+                    ObjBusinessLayer.insertReturnSaleOrderitem(returnSaleOrderItems);
+                    ObjBusinessLayer.insertReturnaddress(returnAddressDetailsLists);
+                    var skucodes = ObjBusinessLayer.GetReturnOrderSkuCodes();
+
+                    List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
+                    List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
+
+                    for (int i = 0; i < skucodes.ObjectParam.Count; i++)
+                    {
+                        skucode sKucodes = new skucode();
+                        sKucodes.skuCode = skucodes.ObjectParam[i].skuCode;
+                        var code = skucodes.ObjectParam[i].Code;
+                        var skucode = skucodes.ObjectParam[i].skuCode;
+
+                        var jskucode = JsonConvert.SerializeObject(sKucodes);
+
+                        var skudetails = _MethodWrapper.getReturnOrderSkuCode(jskucode, token, code, skucode, 0);
+                        if (skudetails.Code != null)
+                        {
+                            itemTdto.Add(skudetails);
+
+                            //return status;
+                        }
+                        //else
+                        //    return BadRequest("Please Retrigger");
+                    }
+                    ObjBusinessLayer.insertReturOrderItemtypes(itemTdto);
+                    var sendata = ObjBusinessLayer.GetReturnOrderSendData();
+                    if (sendata.ObjectParam.Count > 0)
+                    {
+                        var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
+                        var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
+                        return Accepted(status.Result.ObjectParam);
+                    }
+                    else
+                        return BadRequest("Please Retrigger");
+                }
+                else
+                {
+                    return BadRequest("Please Retrigger");
+                }
+            }
+            return BadRequest("Please Pass Valid token");
+            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            //string token = HttpContext.Session.GetString("Token");
+
+
+        }
+        [HttpGet]
+        public string ReturnOrderAPIRetrigger()
+        {
+
+            Log.Information("Retriggered Return Order API");
+            var resu = _Token.GetTokens().Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            if (deres != null)
+            {
+                string token = deres.access_token.ToString();
+                var codes = ObjBusinessLayer.GetReturnOrderCodesForRetrigger();
                 List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
                 List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
                 List<ReturnAddressDetailsList> returnAddressDetailsLists = new List<ReturnAddressDetailsList>();
@@ -435,77 +550,19 @@ namespace Uniware_PandoIntegration.API.Controllers
                 {
                     var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
                     var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
-                    return Accepted(status.Result.ObjectParam);
+                    //return Accepted(status.Result.ObjectParam);
+                    return "Failed Data Triggered Successfully";
                 }
-                else
-                    return BadRequest("Please Retrigger");
+                else return "Get Some Issue Please Retrigger";
             }
             else
             {
-                return BadRequest("Please Retrigger");
+                return "Please Pass valid Token";
             }
 
-        }
-        [HttpGet]
-        public IActionResult ReturnOrderAPIRetrigger()
-        {
-            Log.Information("Retriggered Return Order API");
-            string token = HttpContext.Session.GetString("Token");
-            var codes = ObjBusinessLayer.GetReturnOrderCodesForRetrigger();
-            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
-            List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
-            List<ReturnAddressDetailsList> returnAddressDetailsLists = new List<ReturnAddressDetailsList>();
-            for (int j = 0; j < codes.ObjectParam.Count; j++)
-            {
-                ReturnOrderGet returnOrderGet = new ReturnOrderGet();
-                returnOrderGet.reversePickupCode = codes.ObjectParam[j].code;
-                var jdetail = JsonConvert.SerializeObject(returnOrderGet);
-                var Code = codes.ObjectParam[j].code;
-                var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0);
-                if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
-                {
-                    returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
-                    returnSaleOrderItems.AddRange(list.returnSaleOrderItems);
-                }
-                //else
-                //    return BadRequest("Please Retrigger");
+            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            //string token = HttpContext.Session.GetString("Token");
 
-            }
-            ObjBusinessLayer.insertReturnSaleOrderitem(returnSaleOrderItems);
-            ObjBusinessLayer.insertReturnaddress(returnAddressDetailsLists);
-            var skucodes = ObjBusinessLayer.GetReturnOrderSkuCodes();
-
-            List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
-            List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
-
-            for (int i = 0; i < skucodes.ObjectParam.Count; i++)
-            {
-                skucode sKucodes = new skucode();
-                sKucodes.skuCode = skucodes.ObjectParam[i].skuCode;
-                var code = skucodes.ObjectParam[i].Code;
-                var skucode = skucodes.ObjectParam[i].skuCode;
-
-                var jskucode = JsonConvert.SerializeObject(sKucodes);
-
-                var skudetails = _MethodWrapper.getReturnOrderSkuCode(jskucode, token, code, skucode, 0);
-                if (skudetails.Code != null)
-                {
-                    itemTdto.Add(skudetails);
-
-                    //return status;
-                }
-                //else
-                //    return BadRequest("Please Retrigger");
-            }
-            ObjBusinessLayer.insertReturOrderItemtypes(itemTdto);
-            var sendata = ObjBusinessLayer.GetReturnOrderSendData();
-            if (sendata.ObjectParam.Count > 0)
-            {
-                var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata);
-                var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0);
-                return Accepted(status.Result.ObjectParam);
-            }
-            else return BadRequest("Please Retrigger");
 
         }
         [HttpGet]
@@ -519,25 +576,107 @@ namespace Uniware_PandoIntegration.API.Controllers
         }
 
         [HttpGet]
-        public PandoUniwariToken GetTokenForSTO()
+        public IActionResult GetTokenForSTO()
         {
-            BearerToken _Token = new BearerToken();
-            PandoUniwariToken resu = _Token.GetTokensSTO().Result;
-            HttpContext.Session.SetString("STOToken", resu.access_token.ToString());
-            return new PandoUniwariToken();
+            //BearerToken _Token = new BearerToken();
+            //PandoUniwariToken resu = _Token.GetTokensSTO().Result;
+            //HttpContext.Session.SetString("STOToken", resu.access_token.ToString());
+            //return new PandoUniwariToken();
+            var resu = _Token.GetTokensSTO().Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            if (resu.ObjectParam != null)
+            {
+                string token = deres.access_token.ToString();
+                HttpContext.Session.SetString("STOToken", token);
+                return Accepted(resu.ObjectParam);
+            }
+            else
+            {
+                return BadRequest("Something Went Wrong");
+            }
         }
         [HttpPost]
         public IActionResult STOWaybill(string fromDate = "2022-06-30T00:00:00", string toDate = "2022-07-02T00:00:00", string type = "STOCK_TRANSFER", string statusCode = "Return_awaited")
         {
-            var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
             string token = HttpContext.Session.GetString("STOToken");
-            List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
-            List<Element> elements = new List<Element>();
-            var res = _MethodWrapper.GatePass(jsonre, token, 0);
-            if (res.Count > 0)
+            if (token != null)
             {
-                ObjBusinessLayer.insertGatePassCode(res);
-                var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCode();
+                var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
+                List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
+                List<Element> elements = new List<Element>();
+                var res = _MethodWrapper.GatePass(jsonre, token, 0);
+                if (res.Count > 0)
+                {
+                    ObjBusinessLayer.insertGatePassCode(res);
+                    var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCode();
+                    for (int i = 0; i < GatePassCode.Count; i++)
+                    {
+                        string code = GatePassCode[i].code;
+                        List<string> gatePassCodes = new List<string> { GatePassCode[i].code.ToString() };
+                        var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
+                        var elemnetsList = _MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, code, 0);
+                        if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
+                        {
+                            gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
+                            elements.AddRange(elemnetsList.elements);
+                        }
+                        //else
+                        //{
+                        //    return BadRequest("Please Retrigger");
+                        //}
+                    }
+                    ObjBusinessLayer.insertGatePassElements(elements);
+                    ObjBusinessLayer.insertItemTypeDTO(gatePassItemDTOs);
+                    var Skucodes = ObjBusinessLayer.GetWaybillSKUCode();
+                    List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
+                    for (int k = 0; k < Skucodes.Count; k++)
+                    {
+                        string itemsku = Skucodes[k].itemTypeSKU;
+                        var skucode = JsonConvert.SerializeObject(new { skuCode = Skucodes[k].itemTypeSKU });
+                        var code = Skucodes[k].code;
+                        var Itemtypes = _MethodWrapper.GetSTOWaybillSkuDetails(skucode, token, code, itemsku, 0);
+                        if (Itemtypes.Code != null)
+                        {
+                            itemTypeDTO.Add(Itemtypes);
+                        }
+                        //else
+                        //    return BadRequest("Please Retrigger");
+                    }
+                    ObjBusinessLayer.insertWaybillItemType(itemTypeDTO);
+                    var Records = ObjBusinessLayer.GetAllWaybillSTOPost();
+                    if (Records.Count > 0)
+                    {
+                        var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
+                        var status = _MethodWrapper.WaybillSTOPostData(Records, triggerid, 0);
+                        return Accepted(status.Result.ObjectParam);
+                    }
+                    else return BadRequest("Please Retrigger");
+                }
+                else
+                    return BadRequest("Please Retrigger");
+            }
+            else
+            {
+                return BadRequest("Please Pass valid token");
+            }
+        }
+
+        [HttpGet]
+        public string STOWaybillRetrigger()
+        {
+            Log.Information("Retrigger STOwaybill api");
+            //BearerToken _Token = new BearerToken();
+            var resu = _Token.GetTokensSTO().Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            //HttpContext.Session.SetString("STOToken", deres.access_token.ToString());
+            //string token = HttpContext.Session.GetString("STOToken");
+            if (deres.token_type != null)
+            {
+                string token = deres.access_token.ToString();
+                List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
+                List<Element> elements = new List<Element>();
+
+                var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCodeForretrigger();
                 for (int i = 0; i < GatePassCode.Count; i++)
                 {
                     string code = GatePassCode[i].code;
@@ -575,64 +714,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var Records = ObjBusinessLayer.GetAllWaybillSTOPost();
                 if (Records.Count > 0)
                 {
-                    var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
-                    var status = _MethodWrapper.WaybillSTOPostData(Records, triggerid, 0);
-                    return Accepted(status.Result.ObjectParam);
+                    //var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
+                    //var status = _MethodWrapper.WaybillSTOPostData(Records, triggerid, 0);
+                    //return Accepted(status.Result.ObjectParam);
+                    return "Triggered Successfully";
                 }
-                else return BadRequest("Please Retrigger");
+                else return "Get Some Issue Please Retrigger";
             }
             else
-                return BadRequest("Please Retrigger");
-        }
-
-        [HttpGet]
-        public IActionResult STOWaybillRetrigger()
-        {
-            Log.Information("Retrigger STOwaybill api");
-            string token = HttpContext.Session.GetString("STOToken");
-            List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
-            List<Element> elements = new List<Element>();
-
-            var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCodeForretrigger();
-            for (int i = 0; i < GatePassCode.Count; i++)
             {
-                string code = GatePassCode[i].code;
-                List<string> gatePassCodes = new List<string> { GatePassCode[i].code.ToString() };
-                var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
-                var elemnetsList = _MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, code, 0);
-                if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
-                {
-                    gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
-                    elements.AddRange(elemnetsList.elements);
-                }
-                //else
-                //{
-                //    return BadRequest("Please Retrigger");
-                //}
+                return "Something went Wrong";
             }
-            ObjBusinessLayer.insertGatePassElements(elements);
-            ObjBusinessLayer.insertItemTypeDTO(gatePassItemDTOs);
-            var Skucodes = ObjBusinessLayer.GetWaybillSKUCode();
-            List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
-            for (int k = 0; k < Skucodes.Count; k++)
-            {
-                string itemsku = Skucodes[k].itemTypeSKU;
-                var skucode = JsonConvert.SerializeObject(new { skuCode = Skucodes[k].itemTypeSKU });
-                var code = Skucodes[k].code;
-                var Itemtypes = _MethodWrapper.GetSTOWaybillSkuDetails(skucode, token, code, itemsku, 0);
-                if (Itemtypes.Code != null)
-                {
-                    itemTypeDTO.Add(Itemtypes);
-                }
-                //else
-                //    return BadRequest("Please Retrigger");
-            }
-            ObjBusinessLayer.insertWaybillItemType(itemTypeDTO);
-            var Records = ObjBusinessLayer.GetAllWaybillSTOPost();
-            var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
-            var status = _MethodWrapper.WaybillSTOPostData(Records, triggerid, 0);
-            return Accepted(status.Result.ObjectParam);
-
         }
 
         [HttpGet]
@@ -647,16 +739,93 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult STOAPI(string fromDate = "2022-06-30T00:00:00", string toDate = "2022-07-02T00:00:00", string type = "STOCK_TRANSFER", string statusCode = "created")
         {
-            var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
             string token = HttpContext.Session.GetString("STOToken");
-            List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
-            List<Element> elements = new List<Element>();
-            Log.Information("STO API Called : " + jsonre + " " + token);
-            var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0);
-            if (res.Count > 0)
+            if (!string.IsNullOrEmpty(token))
             {
-                ObjBusinessLayer.insertSTOAPIGatePassCode(res);
-                var gatePass = ObjBusinessLayer.GetSTOAPIgatePassCode();
+                var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
+
+                List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
+                List<Element> elements = new List<Element>();
+                Log.Information("STO API Called : " + jsonre + " " + token);
+                var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0);
+                if (res.Count > 0)
+                {
+                    ObjBusinessLayer.insertSTOAPIGatePassCode(res);
+                    var gatePass = ObjBusinessLayer.GetSTOAPIgatePassCode();
+                    for (int i = 0; i < gatePass.Count; i++)
+                    {
+                        string code = gatePass[i].code;
+                        List<string> gatePassCodes = new List<string> { gatePass[i].code.ToString() };
+                        var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
+                        var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0);
+                        if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
+                        {
+                            gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
+                            elements.AddRange(elemnetsList.elements);
+                        }
+                        //else
+                        //{
+                        //    return BadRequest("Please Retrigger");
+                        //}
+
+
+                    }
+                    ObjBusinessLayer.insertSTOAPiGatePassElements(elements);
+                    ObjBusinessLayer.insertSTOAPiItemTypeDTO(gatePassItemDTOs);
+                    var skuitemtype = ObjBusinessLayer.GetSTOSKUCode();
+                    List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
+                    for (int k = 0; k < skuitemtype.Count; k++)
+                    {
+                        var skucode = JsonConvert.SerializeObject(new { skuCode = skuitemtype[k].itemTypeSKU });
+                        var code = skuitemtype[k].code;
+                        var skutype = skuitemtype[k].itemTypeSKU;
+                        var Itemtypes = _MethodWrapper.GetSTOAPISkuDetails(skucode, token, code, skutype, 0);
+                        if (Itemtypes.Code != null)
+                        {
+                            itemTypeDTO.Add(Itemtypes);
+                        }
+                        //else
+                        //    return BadRequest("Please Retrigger");
+                    }
+                    ObjBusinessLayer.insertSTOAPItemType(itemTypeDTO);
+                    var allrecords = ObjBusinessLayer.GetSTOAPISendData();
+                    if (allrecords.ObjectParam.Count > 0)
+                    {
+                        var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
+                        var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
+                        return Accepted(status.Result.ObjectParam);
+                    }
+                    else { return BadRequest("Please Retrigger"); }
+
+                }
+                else
+                {
+                    return BadRequest("Please Retrigger");
+                }
+            }
+            else
+            {
+                return BadRequest("Please Pass Valid token");
+            }
+
+        }
+
+        [HttpGet]
+        public string STOAPIRetrigger()
+        {
+            Log.Information("STOAPI Retriggered");
+            //string token = HttpContext.Session.GetString("STOToken");
+            //PandoUniwariToken resu = _Token.GetTokensSTO().Result;
+            //HttpContext.Session.SetString("STOToken", resu.access_token.ToString());
+            //string token = HttpContext.Session.GetString("STOToken");
+            var resu = _Token.GetTokensSTO().Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            if (deres.token_type != null)
+            {
+                string token = deres.access_token.ToString();
+                List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
+                List<Element> elements = new List<Element>();
+                var gatePass = ObjBusinessLayer.GetSTOAPIgatePassCodeRetrigger();
                 for (int i = 0; i < gatePass.Count; i++)
                 {
                     string code = gatePass[i].code;
@@ -668,11 +837,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                         gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
                         elements.AddRange(elemnetsList.elements);
                     }
-                    //else
-                    //{
-                    //    return BadRequest("Please Retrigger");
-                    //}
-
 
                 }
                 ObjBusinessLayer.insertSTOAPiGatePassElements(elements);
@@ -696,65 +860,18 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var allrecords = ObjBusinessLayer.GetSTOAPISendData();
                 if (allrecords.ObjectParam.Count > 0)
                 {
-                    var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
-                    var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
-                    return Accepted(status.Result.ObjectParam);
+                    //var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
+                    //var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
+                    //return Accepted(status.Result.ObjectParam);
+                    return "Retriggered Successfully";
                 }
-                else { return BadRequest("Please Retrigger"); }
-
+                //else return BadRequest("Please Retrigger");
+                else return "Get Some Issue Please Retrigger";
             }
-            return BadRequest("Please Retrigger");
-
-        }
-
-        [HttpGet]
-        public IActionResult STOAPIRetrigger()
-        {
-            Log.Information("STOAPI Retriggered");
-            string token = HttpContext.Session.GetString("STOToken");
-            List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
-            List<Element> elements = new List<Element>();
-            var gatePass = ObjBusinessLayer.GetSTOAPIgatePassCodeRetrigger();
-            for (int i = 0; i < gatePass.Count; i++)
+            else
             {
-                string code = gatePass[i].code;
-                List<string> gatePassCodes = new List<string> { gatePass[i].code.ToString() };
-                var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
-                var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0);
-                if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
-                {
-                    gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
-                    elements.AddRange(elemnetsList.elements);
-                }
-
+                return "Something went Wrong";
             }
-            ObjBusinessLayer.insertSTOAPiGatePassElements(elements);
-            ObjBusinessLayer.insertSTOAPiItemTypeDTO(gatePassItemDTOs);
-            var skuitemtype = ObjBusinessLayer.GetSTOSKUCode();
-            List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
-            for (int k = 0; k < skuitemtype.Count; k++)
-            {
-                var skucode = JsonConvert.SerializeObject(new { skuCode = skuitemtype[k].itemTypeSKU });
-                var code = skuitemtype[k].code;
-                var skutype = skuitemtype[k].itemTypeSKU;
-                var Itemtypes = _MethodWrapper.GetSTOAPISkuDetails(skucode, token, code, skutype, 0);
-                if (Itemtypes.Code != null)
-                {
-                    itemTypeDTO.Add(Itemtypes);
-                }
-                //else
-                //    return BadRequest("Please Retrigger");
-            }
-            ObjBusinessLayer.insertSTOAPItemType(itemTypeDTO);
-            var allrecords = ObjBusinessLayer.GetSTOAPISendData();
-            if (allrecords.ObjectParam.Count > 0)
-            {
-                var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
-                var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0);
-                return Accepted(status.Result.ObjectParam);
-            }
-            else return BadRequest("Please Retrigger");
-
         }
         [HttpGet]
         public IActionResult STOAPIFinaldata()

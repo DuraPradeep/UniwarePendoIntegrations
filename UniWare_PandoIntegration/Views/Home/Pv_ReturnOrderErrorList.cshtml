@@ -39,6 +39,44 @@
             $("#id_triggerbtn").css("display", "block");
         }
     }
+    function fn_ReturnOrderErrorListDataObjects() {
+        debugger;
+        $.get("/Home/ReturnOrderErrorListDataObject", {}).done(function (data) {
+            //console.log(data);
+
+            if ($.fn.dataTable.isDataTable('#returnOrderTblId')) {
+                table = $('#returnOrderTblId').DataTable();
+                table.clear();
+                table.destroy();
+            }
+            if (data.length == 0) {
+                $("#id_triggerbtn").css("display", "none");
+            }
+            if (data.length != 0) {
+                $("#id_triggerbtn").css("display", "block");
+                $('#returnOrderTblId').DataTable({
+                    "processing": true,
+                    "info": true,
+                    "stateSave": true,
+                    data: data,
+
+                    "columns": [
+                        //{ data:  },
+                        { data: "code" },
+                        { data: "itemSku" },
+                        { data: "triggerid" },
+                        { data: "reason" }
+                    ]
+                })
+                //$("#overlay").fadeOut(500);
+            }
+            else {
+                iqwerty.toast.toast("No Failed Records Found!!");
+                //$("#overlay").fadeOut(500);
+            }
+        });
+    }
+
     function fn_Retrigger() {
         debugger;
         const options = {
@@ -68,7 +106,7 @@
                     url: "/Home/ReturnOrderErrorList",
                     type: 'Get',
                     success: function (res) {
-                        fn_ReturnOrderErrorListDataObject();
+                        fn_ReturnOrderErrorListDataObjects();
                         $("#overlay").fadeOut(500);
                     }
                 });

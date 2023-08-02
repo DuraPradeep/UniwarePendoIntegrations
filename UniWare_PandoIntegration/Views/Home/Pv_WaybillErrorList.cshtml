@@ -27,6 +27,38 @@
             $("#id_triggerbtn").css("display", "block");
         }
     }
+    function fn_WaybillErrorListDataObjects() {
+
+        $.get("/Home/WaybillErrorListDataObject", {}).done(function (data) {
+
+            if ($.fn.dataTable.isDataTable('#wayBillTblId')) {
+                table = $('#wayBillTblId').DataTable();
+                table.clear();
+                table.destroy();
+            }
+            if (data.length == 0) {
+                $("#id_triggerbtn").css("display", "none");
+            }
+            if (data.length != 0) {
+                $("#id_triggerbtn").css("display", "block");
+                $('#wayBillTblId').DataTable({
+                    "processing": true,
+                    "info": true,
+                    "stateSave": true,
+                    data: data,
+
+                    "columns": [
+
+                        { data: "triggerid" },
+                        { data: "reason" }
+                    ]
+                })
+            }
+            else {
+                iqwerty.toast.toast("No Failed Records Found!!");
+            }
+        });
+    }
     function fn_Retrigger() {
         debugger;
         const options = {
@@ -55,7 +87,8 @@
                     url: "/Home/WaybillErrorList",
                     type: 'Get',
                     success: function (res) {
-                        $("#errorList").html(res);
+                        //$("#errorList").html(res);
+                        fn_WaybillErrorListDataObjects();
                         $("#overlay").fadeOut(500);
                     }
                 });

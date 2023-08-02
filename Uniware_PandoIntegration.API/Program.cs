@@ -98,7 +98,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseSwagger();
+app.UseSwaggerUI();
 app.Use(async (context, next) =>
 {
     context.Response.GetTypedHeaders().CacheControl =

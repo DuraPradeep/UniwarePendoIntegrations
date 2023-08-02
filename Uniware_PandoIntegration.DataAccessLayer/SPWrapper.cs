@@ -31,7 +31,7 @@ namespace Uniware_PandoIntegration.APIs
             bool res;
             try
             {
-                
+
                 con = GetConnection();
                 com = new SqlCommand();
                 com.Connection = con;
@@ -97,7 +97,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 //CreateLog(ex.Message);
                 throw ex;
-                 
+
             }
             finally { con.Close(); }
             return res;
@@ -122,11 +122,11 @@ namespace Uniware_PandoIntegration.APIs
             {
                 //CreateLog(ex.Message);
                 throw ex;
-               
+
             }
             finally { con.Close(); }
             return res;
-            
+
         }
         public static bool InsertShippingDetails(DataTable dt)
         {
@@ -150,7 +150,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             finally { con.Close(); }
             return res;
-            
+
         }
         public static bool InsertsalesorderItems(DataTable dt)
         {
@@ -165,7 +165,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.Parameters.AddWithValue("@tbltypes", dt);
                 con.Open();
                 com.ExecuteNonQuery();
-                res= true;
+                res = true;
             }
             catch (Exception ex)
             {
@@ -174,7 +174,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             finally { con.Close(); }
             return res;
-           
+
         }
 
         public static bool InsertItems(DataTable dt)
@@ -194,7 +194,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                
+
                 //CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
@@ -273,7 +273,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
-            finally { con.Close() ; }
+            finally { con.Close(); }
             return ds;
         }
         //public static DataSet PostStatus()
@@ -313,20 +313,20 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@Trigger_id", SqlDbType.VarChar, 100);
                 com.Parameters["@Trigger_id"].Direction = ParameterDirection.Output;
-                com.Parameters.AddWithValue("@tbltype", dt);                
+                com.Parameters.AddWithValue("@tbltype", dt);
                 con.Open();
                 com.ExecuteNonQuery();
                 res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
             }
             catch (Exception ex)
-            {               
+            {
                 throw ex;
             }
             finally { con.Close(); }
             return res;
         }
 
-        public static bool UpdateSalesorderDetails(DataTable dt,int type)
+        public static bool UpdateSalesorderDetails(DataTable dt, int type)
         {
             bool res;
             try
@@ -350,9 +350,9 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return res;
         }
-        public static void Updatedetailspostdata(bool status,string reason,string Triggerid)
+        public static void Updatedetailspostdata(bool status, string reason, string Triggerid)
         {
-           
+
             try
             {
                 con = GetConnection();
@@ -365,16 +365,16 @@ namespace Uniware_PandoIntegration.APIs
                 com.Parameters.AddWithValue("@trigger_id", Triggerid);
                 con.Open();
                 com.ExecuteNonQuery();
-               
+
             }
-            
+
             catch (Exception ex)
             {
                 //CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
             finally { con.Close(); }
-            
+
         }
         public static DataSet GetCoderetrigger()
         {
@@ -399,7 +399,7 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog(ex.Message);
                 throw ex;
             }
-            finally { con.Close(); }    
+            finally { con.Close(); }
             return ds;
         }
         public static DataSet GetSendCode()
@@ -472,7 +472,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-               
+
             }
             catch (Exception ex)
             {
@@ -523,11 +523,11 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return res;
         }
-        public static bool WaybillShipment(OmsToPandoRoot root,string primaryid)
+        public static bool WaybillShipment(OmsToPandoRoot root, string primaryid)
         {
             bool res = false;
             try
-            {                
+            {
                 con = GetConnection();
                 com = new SqlCommand();
                 com.Connection = con;
@@ -550,7 +550,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.ExecuteNonQuery();
                 res = true;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
 
                 throw;
@@ -565,7 +565,7 @@ namespace Uniware_PandoIntegration.APIs
             bool res = false;
             try
             {
-                
+
                 con = GetConnection();
                 com = new SqlCommand();
                 com.Connection = con;
@@ -588,7 +588,7 @@ namespace Uniware_PandoIntegration.APIs
             bool res = false;
             try
             {
-                
+
                 con = GetConnection();
                 com = new SqlCommand();
                 com.Connection = con;
@@ -610,7 +610,7 @@ namespace Uniware_PandoIntegration.APIs
         {
             bool res = false;
             try
-            {                
+            {
                 con = GetConnection();
                 com = new SqlCommand();
                 com.Connection = con;
@@ -626,7 +626,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.Parameters.AddWithValue("@city", root.city);
                 com.Parameters.AddWithValue("@state", root.state);
                 com.Parameters.AddWithValue("@country", root.country);
-                com.Parameters.AddWithValue("@gstin", root.gstin);   
+                com.Parameters.AddWithValue("@gstin", root.gstin);
                 con.Open();
                 com.ExecuteNonQuery();
                 res = true;
@@ -659,7 +659,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.Parameters.AddWithValue("@city", root.city);
                 com.Parameters.AddWithValue("@state", root.state);
                 com.Parameters.AddWithValue("@country", root.country);
-         
+
                 con.Open();
                 com.ExecuteNonQuery();
                 res = true;
@@ -726,7 +726,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-               
+
             }
             catch (Exception ex)
             {
@@ -778,7 +778,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Close();
             }
             catch (Exception ex)
-            {                
+            {
                 throw ex;
             }
             finally { con.Close(); }
@@ -802,7 +802,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                
+
             }
             catch (Exception ex)
             {
@@ -922,7 +922,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-               
+
             }
             catch (Exception ex)
             {
@@ -932,7 +932,7 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return ds;
         }
-        public static void UpdateWaybillError(bool status, string reason,string Triggerid)
+        public static void UpdateWaybillError(bool status, string reason, string Triggerid)
         {
 
             try
@@ -944,7 +944,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@triggerid", Triggerid);
                 com.Parameters.AddWithValue("@status", status);
-                com.Parameters.AddWithValue("@Reason", reason);           
+                com.Parameters.AddWithValue("@Reason", reason);
                 con.Open();
                 com.ExecuteNonQuery();
             }
@@ -956,7 +956,7 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
 
         }
-        public static bool UpdateReurnOrdercodeError(DataTable dt ,int type)
+        public static bool UpdateReurnOrdercodeError(DataTable dt, int type)
         {
             bool status = false;
             try
@@ -1006,7 +1006,7 @@ namespace Uniware_PandoIntegration.APIs
         //    return status;
         //}
 
-        public static void UpdateSaleOrderSearchError( string reason)
+        public static void UpdateSaleOrderSearchError(string reason)
         {
             try
             {
@@ -1016,7 +1016,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandText = "sp_Firsterror";
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@Reason", reason);
-              
+
                 con.Open();
                 com.ExecuteNonQuery();
 
@@ -1142,10 +1142,10 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-               
+
             }
             catch (Exception ex)
-            {               
+            {
                 throw ex;
             }
             finally { con.Close(); }
@@ -1212,7 +1212,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-           
+
             }
             catch (Exception ex)
             {
@@ -1260,7 +1260,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-              
+
             }
             catch (Exception ex)
             {
@@ -1316,7 +1316,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                
+
             }
             catch (Exception ex)
             {
@@ -1326,7 +1326,7 @@ namespace Uniware_PandoIntegration.APIs
             finally
             {
                 con.Close();
-                
+
             }
 
             //  int lintId = 0;
@@ -1373,7 +1373,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                
+
             }
             catch (Exception ex)
             {
@@ -1490,7 +1490,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-               
+
             }
             catch (Exception ex)
             {
@@ -1548,7 +1548,7 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
 
         }
-        public static bool UpdateErrorWaybill(DataTable dt,int type)
+        public static bool UpdateErrorWaybill(DataTable dt, int type)
         {
             bool res;
             try
@@ -1767,7 +1767,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                
+
             }
             catch (Exception ex)
             {
@@ -1795,7 +1795,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-               
+
             }
             catch (Exception ex)
             {
@@ -1821,7 +1821,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                
+
             }
             catch (Exception ex)
             {
@@ -1848,7 +1848,7 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-                
+
             }
             catch (Exception ex)
             {

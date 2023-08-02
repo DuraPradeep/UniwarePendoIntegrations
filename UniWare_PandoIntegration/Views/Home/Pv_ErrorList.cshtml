@@ -23,6 +23,46 @@
 
         geterrorcode();
     });
+    function fn_SaleOrders() {
+        debugger;
+
+        $.get("/Home/ErrorListDataObject", {}).done(function (data) {
+
+            debugger;
+            if ($.fn.dataTable.isDataTable('#saleorderTblId')) {
+                table = $('#saleorderTblId').DataTable();
+                table.clear();
+                table.destroy();
+            }
+            if (data.length == 0) {
+                $("#id_triggerbtn").css("display", "none");
+            }
+
+            if (data.length != 0) {
+                debugger;
+                $("#id_triggerbtn").css("display", "block");
+                $('#saleorderTblId').DataTable({
+                    "processing": true,
+                    "info": true,
+                    "stateSave": true,
+                    data: data,
+
+                    "columns": [
+
+                        { data: "code" },
+                        { data: "itemSku" },
+                        { data: "triggerid" },
+                        { data: "reason" }
+                    ]
+                })
+
+            }
+            else {
+                iqwerty.toast.toast("No Failed Records Found!!");
+            }
+        });
+    }
+
     function geterrorcode() {
         debugger;
         //var length = 'HttpContext.Session.Getstring("Errorcodeoccur")'
@@ -31,6 +71,10 @@
         if (UserName == 1) {
             debugger;
             $("#id_triggerbtn").css("display", "block");
+        }
+        else
+        {
+            $("#id_triggerbtn").css("display", "none");
         }
     }
     function fn_Retrigger() {
@@ -63,40 +107,7 @@
                     type: 'Get',
                     success: function (res) {
                         debugger;
-                        fn_SaleOrder();
-                        //$.get("/Home/ErrorListDataObject", {}).done(function (data) {
-                        //    //console.log(data);
-                        //    //$("#overlay").fadeOut(500);
-                        //    debugger;
-                        //    //$("a").removeClass("dropdown-toggle");
-                        //    if ($.fn.dataTable.isDataTable('#saleorderTblId')) {
-                        //        table = $('#saleorderTblId').DataTable();
-                        //        table.clear();
-                        //        table.destroy();
-                        //    }
-                        //    if (data.length != 0) {
-                        //        debugger;
-                        //        $('#saleorderTblId').DataTable({
-                        //            "processing": true,
-                        //            "info": true,
-                        //            "stateSave": true,
-                        //            data: data,
-
-                        //            "columns": [
-                        //                //{ data:  },
-                        //                { data: "code" },
-                        //                { data: "itemSku" },
-                        //                { data: "triggerid" },
-                        //                { data: "reason" }
-                        //            ]
-                        //        })
-                        //        //$("#overlay").fadeOut(500);
-                        //    }
-                        //    else {
-                        //        iqwerty.toast.toast("No Failed Records Found!!");
-                        //        //$("#overlay").fadeOut(500);
-                        //    }
-                        //});
+                        fn_SaleOrders();                        
                         $("#overlay").fadeOut(500);
                     }
                 });
