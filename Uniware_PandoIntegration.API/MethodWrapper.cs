@@ -251,6 +251,7 @@ namespace Uniware_PandoIntegration.API
             ServiceResponse<string> resfinal = null;
             var jsonre = JsonConvert.SerializeObject(new { data = sendcode });
             //resfinal = _Token.PostDataToDeliverypackList(sendcode).Result;
+            Log.Information($"Post Data to Pando: {jsonre}");
             resfinal = _Token.PostDataToDeliverypackList(jsonre).Result;
 
             if (resfinal.Errcode < 200 || resfinal.Errcode > 299)
@@ -639,6 +640,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
             //var ResStatus= _Token.PostDataReturnOrderAPI(jsonre);
+            Log.Information($"Return Order Data Post: {jsonre}");
             var ResStatus = _Token.PostDataToDeliverypackList(jsonre);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -794,6 +796,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             //var ResStatus = _Token.WaybillSTOPostDataDeliverypackList(jsonre);
+            Log.Information($"STO Waybill Post Data : {jsonre}");
             var ResStatus = _Token.PostDataToDeliverypackList(jsonre);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -952,6 +955,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
             //var ResStatus = _Token.STOPApiostDataDeliverypackList(jsonre);
+            Log.Information($"STO API Post Data : {jsonre}");
             var ResStatus = _Token.PostDataToDeliverypackList(jsonre);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)

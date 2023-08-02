@@ -176,7 +176,7 @@ namespace Uniware_PandoIntegration.APIs
 
              //var jsonre = JsonConvert.SerializeObject(new { data =data});
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Post Data to Pando:-  {jsonre}");
+            //CreateLog($" Post Data to Pando:-  {jsonre}");
             //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
             try
             {
@@ -449,7 +449,7 @@ namespace Uniware_PandoIntegration.APIs
             try
             {
 
-                CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
+                //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
                 request.Headers.Add("Facility", "stgsleepyhead");

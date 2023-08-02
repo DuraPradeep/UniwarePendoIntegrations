@@ -1858,6 +1858,50 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return ds;
         }
+        public static TokenEntity Tokencheck(string UserName, string Password)
+        {
+
+            con = GetConnection();
+            TokenEntity tokenEntity = new TokenEntity();
+            // con = GetConnection();
+            // con = new SqlConnection(connectionString);
+            com = new SqlCommand();
+           
+            try
+            {
+                com = new SqlCommand
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_tokenvalidate"
+                };
+                com.Parameters.AddWithValue("@username", UserName);
+                com.Parameters.AddWithValue("@password", Password);
+                con.Open();
+                SqlDataReader dr=com.ExecuteReader();
+                //da.Fill(ds);
+                while(dr.Read())
+                {
+                    tokenEntity.username = dr["username"].ToString();
+                    tokenEntity.password = dr["password"].ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+
+            }
+
+            //  int lintId = 0;
+
+            return tokenEntity;
+        }
     }
 
 

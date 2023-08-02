@@ -94,6 +94,14 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "RepoDb": {
+              "target": "Package",
+              "version": "[1.13.1, )"
+            },
+            "RepoDb.SqlServer": {
+              "target": "Package",
+              "version": "[1.13.1, )"
+            },
             "Serilog.AspNetCore": {
               "target": "Package",
               "version": "[7.0.0, )"

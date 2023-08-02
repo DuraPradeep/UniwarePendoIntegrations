@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -28,16 +27,19 @@
         height: 119px;
     }
 
-   .project-tiles {
+    .project-tiles {
         background-color: #dc3545;
     }
 
-    
+    .pointer {
+        cursor: pointer;
+    }
+
 
     .project-text {
         text-align: center;
         font-size: 20px;
-        color:#fff;
+        color: #fff;
     }
 
     .project-tiles:hover {
@@ -60,17 +62,16 @@
         box-shadow: 1px 1px 10px 2px gray;
     }
 
-    .tile_list:hover{
+        .tile_list:hover {
             color: #fff;
             background: #dc3545
+        }
 
-    }
+        .tile_list p {
+            margin: 10px !important;
+        }
 
-    .tile_list p{
-        margin:10px !important;
-    }
-
-    .title_dashboard{
+    .title_dashboard {
         color: #dc3545;
         font-size: 2rem;
         text-shadow: 2px 2px;
@@ -78,7 +79,7 @@
 
 
     .loader {
-        display:none;
+        display: none;
         position: absolute;
         left: 50%;
         top: 50%;
@@ -92,22 +93,19 @@
         -webkit-animation: spin 2s linear infinite;
         animation: spin 2s linear infinite;
         z-index: 99999;
-
-}
-
+    }
 
 
-@@keyframes spin {
+
+    @@keyframes spin {
         0% {
             transform: rotate(0deg);
-           
         }
 
         100% {
             transform: rotate(360deg);
-            
         }
-}
+    }
 
     a.logo:hover, a.notification_bell_icon:hover, a.waves-dark.pro-pic:hover {
         text-decoration: none !important;
@@ -170,7 +168,7 @@
             $("#overlay").fadeOut(500);
             debugger;
             $("#errorList").html(data);
-            fn_WaybillErrorListDataObject();            
+            fn_WaybillErrorListDataObject();
         });
     }
     //function fn_WaybillErrorListDataObject() {
@@ -191,7 +189,7 @@
     //                data: data,
 
     //                "columns": [
-                     
+
     //                    { data: "triggerid" },
     //                    { data: "reason" }
     //                ]
@@ -204,7 +202,7 @@
     //        }
     //    });
     //}
-    
+
     function fn_ReturnOrderErrorList() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -213,7 +211,7 @@
             debugger;
             $("#errorList").html(data);
             fn_ReturnOrderErrorListDataObject();
-            
+
 
         });
     }
@@ -258,7 +256,7 @@
             debugger;
             $("#errorList").html(data);
             fn_STOWaybillErrorListDataObject();
-            
+
 
         });
     }
@@ -295,7 +293,7 @@
     //        }
     //    });
     //}
-    
+
     function fn_STOAPI() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -303,7 +301,7 @@
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
             fn_STOAPIDataObject();
-            
+
         });
     }
     //function fn_STOAPIDataObject() {
@@ -314,7 +312,7 @@
     //        //$("#overlay").fadeOut(500);
     //        debugger;
     //        //$("a").removeClass("dropdown-toggle");
-          
+
     //       if (data.length != 0) {
     //        debugger;
     //            $('#stoApiId').DataTable({
@@ -322,7 +320,7 @@
     //            "info": true,
     //            "stateSave": true,
     //            data: data,
-                
+
     //            "columns": [
     //                { data: "code" },
     //                { data: "itemSku" },
@@ -345,34 +343,34 @@
         <div class="lds-pos"></div>
     </div>
 </div>*@
-        @if (ViewBag.Message != null)
-        {
-            <script>
+@if (ViewBag.Message != null)
+{
+    <script>
 
-                $(document).ready(function () {
-                    //debugger;
-                    const options = {
-                        style: {
-                            main: {
-                                background: "#dc3545",
-                                color: "#fff",
-                            },
-                        },
-                    };
-                    iqwerty.toast.toast('@ViewBag.Message', options);
-                    ////alert('@ViewBag.Message');
+        $(document).ready(function () {
+            //debugger;
+            const options = {
+                style: {
+                    main: {
+                        background: "#dc3545",
+                        color: "#fff",
+                    },
+                },
+            };
+            iqwerty.toast.toast('@ViewBag.Message', options);
+            ////alert('@ViewBag.Message');
 
-                });
+        });
 
 
-            </script>
-        }
+    </script>
+}
 <div class="dashboard_tiles">
     <div class="row">
 
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_BindTable();">
 
-            <div class="card text-white text-center mb-4">
+            <div class="card text-white text-center mb-4 pointer">
                 <div class="card-body tile_list">
                     @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
                     <p>
@@ -384,7 +382,7 @@
 
         <d iv class="col-lg-4 mb-4 mb-lg-0" onclick="fn_WaybillErrorList();">
 
-            <div class="card text-white mb-4 text-center">
+            <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
                     <p>Waybill Generation API</p>
                 </div>
@@ -393,7 +391,7 @@
 
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReturnOrderErrorList()">
 
-            <div class="card text-white text-center mb-4">
+            <div class="card text-white text-center mb-4 pointer">
                 <div class="card-body tile_list">
                     <p>Return Order API</p>
                 </div>
@@ -405,9 +403,9 @@
     <div class="row">
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_STOWaybillErrorList()">
 
-            <div class="card text-white text-center mb-4">
+            <div class="card text-white text-center mb-4 pointer">
                 <div class="card-body tile_list">
-                @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
+                    @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
                     <p>STO Waybill API </p>
                 </div>
             </div>
@@ -416,7 +414,7 @@
 
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_STOAPI()">
 
-            <div class="card text-white mb-4 text-center">
+            <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
                     <p>STO API</p>
                 </div>

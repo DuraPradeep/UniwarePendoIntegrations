@@ -4,6 +4,6 @@ namespace Uniware_PandoIntegration.API.Folder
 {
     public interface IUniwarePando
     {
-        string GenerateJWTTokens(TokenEntity tokenEntity); 
+        string GenerateJWTTokens(TokenEntity tokenEntity,out TokenEntity tokenEntity1); 
     }
 }

@@ -304,7 +304,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public IActionResult GetJWTToken(TokenEntity tokenEntity)
         {
             //GenerateToken generateToken=new GenerateToken(null) ;
-            var token = _jWTManager.GenerateJWTTokens(tokenEntity);
+            var token = _jWTManager.GenerateJWTTokens(tokenEntity,out tokenEntity);
             var result = "";
             _logger.LogInformation($" log Object {JsonConvert.SerializeObject(token)}");
             try
@@ -366,7 +366,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                 successResponse.courierName = Records.courierName;
                 _logger.LogInformation($" WayBill response {JsonConvert.SerializeObject(successResponse)}");
                 return new JsonResult(successResponse);
-
             }
             catch (Exception ex)
             {
@@ -599,9 +598,11 @@ namespace Uniware_PandoIntegration.API.Controllers
         public IActionResult STOWaybill(string fromDate = "2022-06-30T00:00:00", string toDate = "2022-07-02T00:00:00", string type = "STOCK_TRANSFER", string statusCode = "Return_awaited")
         {
             string token = HttpContext.Session.GetString("STOToken");
+
             if (token != null)
             {
                 var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
+                Log.Information("STO WaybillGetPass Code" + jsonre + ": " + token);
                 List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
                 List<Element> elements = new List<Element>();
                 var res = _MethodWrapper.GatePass(jsonre, token, 0);

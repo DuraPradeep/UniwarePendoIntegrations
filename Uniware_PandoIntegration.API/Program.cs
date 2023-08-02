@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using System.Data;
+using RepoDb;
 using Uniware_PandoIntegration.API.Folder;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,7 +66,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton(new BasicAuthenticationFilterAttribute());
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddSingleton<IUniwarePando>(new GenerateToken(configuration));
+builder.Services.AddSingleton<IUniwarePando>(new GenerateToken(configuration, configuration.GetConnectionString("DBConnection")));
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
