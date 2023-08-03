@@ -49,7 +49,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             {
                 string token = deres.access_token.ToString();
                 //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-                HttpContext.Session.SetString("token", token);
+                HttpContext.Session.SetString("Token", token);
                 //return new PandoUniwariToken();
                 return Accepted(resu.ObjectParam);
             }
@@ -57,7 +57,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //string token = HttpContext.Session.GetString("Token");
             //string token = deres.access_token.ToString();
             ////HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            //HttpContext.Session.SetString("token", token);
+            //HttpContext.Session.SetString("token", token);    
             else
             {
                 return BadRequest("Something Went Wrong");
@@ -384,11 +384,17 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             _logger.LogInformation($"Waybill Post ,{DateTime.Now.ToLongTimeString()}");
             var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
-            var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
-            var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid);
-            //return postres;
-            _logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
-            return Accepted(postres.Result.ObjectParam);
+            if( sendwaybilldata.Count>0 )
+            {
+                var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
+                var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid);
+                //return postres;
+                _logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
+                return Accepted(postres.Result.ObjectParam);
+            }
+            else
+                return BadRequest("There is no record for Post");
+          
         }
 
         [HttpPost]

@@ -453,8 +453,11 @@ div#NotificationDraftdata {
                         $("#Count").css("display", "none");
                         $("a").css("cursor", "default");
                         $(".Menu_NOtification_Wrap ").css("display", "none");
+                        //$("#NotificationDraftdata ").css("display", "none!important");// display: none!important;
+                        $('#NotificationDraftdata').attr("style", "display: none !important");
                         
-
+                        //const $elem = $("#elem");
+                        //$elem[0].style.setProperty('width', '100px', 'important');
                     }
                     else{
                         $("#Count").css("display", "block");

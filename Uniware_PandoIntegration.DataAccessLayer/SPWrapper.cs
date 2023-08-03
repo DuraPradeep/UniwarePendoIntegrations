@@ -748,7 +748,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@Trigger_id", SqlDbType.VarChar, 100);
                 com.Parameters["@Trigger_id"].Direction = ParameterDirection.Output;
-                com.Parameters.AddWithValue("@AllRecords", dt);
+                com.Parameters.AddWithValue("@Alldata", dt);
                 con.Open();
                 com.ExecuteNonQuery();
                 res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
