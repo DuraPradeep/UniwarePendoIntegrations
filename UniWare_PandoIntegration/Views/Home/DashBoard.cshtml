@@ -304,7 +304,7 @@
 
         });
     }
-    //function fn_STOAPIDataObject() {
+//function fn_STOAPIDataObject() {
     //    debugger;
     //    //$("#overlay").fadeIn(500);
     //    $.get("/Home/STOAPIErrorListData", {}).done(function (data) {
@@ -336,6 +336,29 @@
     //        }
     //    });
     //}
+    function fn_UpdateShipping() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/Home/UpdateShippingErrorList", {}).done(function (data) {
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            fn_UpdateShippingDataObject();
+
+        });
+    }
+    function fn_AllocateShipping() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/Home/AllocateShippingErrorList", {}).done(function (data) {
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            fn_AllocateShippingDataObject();
+
+        });
+    }
+
+
+
 </script>
 @*<div class="loader">
     <div class="lds-ripple">
@@ -421,7 +444,27 @@
             </div>
 
         </div>
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_UpdateShipping()">
 
+            <div class="card text-white mb-4 text-center pointer">
+                <div class="card-body tile_list">
+                    <p>Update Shipping</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_AllocateShipping()">
+
+            <div class="card text-white mb-4 text-center pointer">
+                <div class="card-body tile_list">
+                    <p>Allocate Shipping</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 

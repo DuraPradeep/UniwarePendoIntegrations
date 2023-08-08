@@ -304,7 +304,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public IActionResult GetJWTToken(TokenEntity tokenEntity)
         {
             //GenerateToken generateToken=new GenerateToken(null) ;
-            var token = _jWTManager.GenerateJWTTokens(tokenEntity,out tokenEntity);
+            var token = _jWTManager.GenerateJWTTokens(tokenEntity, out tokenEntity);
             var result = "";
             _logger.LogInformation($" log Object {JsonConvert.SerializeObject(token)}");
             try
@@ -384,7 +384,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             _logger.LogInformation($"Waybill Post ,{DateTime.Now.ToLongTimeString()}");
             var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
-            if( sendwaybilldata.Count>0 )
+            if (sendwaybilldata.Count > 0)
             {
                 var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
                 var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid);
@@ -394,7 +394,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             else
                 return BadRequest("There is no record for Post");
-          
+
         }
 
         [HttpPost]
@@ -902,7 +902,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             return returndata;
         }
         [HttpGet]
-        public ServiceResponse<List<CodesErrorDetails>> waybillErrorDetails()
+        public ServiceResponse<List<EndpointErrorDetails>> waybillErrorDetails()
         {
             var returndata = ObjBusinessLayer.BLWaybilStatus();
             return returndata;
@@ -913,6 +913,271 @@ namespace Uniware_PandoIntegration.API.Controllers
             var returndata = ObjBusinessLayer.BLReturnOrderStatus();
             return returndata;
         }
+        [HttpPost]
+        [Authorize]
+        public IActionResult UpdateShippingPackage(List<UpdateShippingpackage> shippingPackages)
+        {
+            List<UpdateShippingpackagedb> updatelist = new List<UpdateShippingpackagedb>();
+            List<ShippingBoxdb> shipbox = new List<ShippingBoxdb>();
+            List<CustomFieldValue> customFields = new List<CustomFieldValue>();
+            _logger.LogInformation($" UpdateShippingPackage Request {JsonConvert.SerializeObject(shippingPackages)}");
+            try
+            {
+                for (int i = 0; i < shippingPackages.Count; i++)
+                {
+                    UpdateShippingpackagedb updateShippingpackage = new UpdateShippingpackagedb();
+                    var randomid = ObjBusinessLayer.GenerateNumeric();
+                    updateShippingpackage.id = randomid;
+                    updateShippingpackage.shippingPackageCode = shippingPackages[i].shippingPackageCode.ToString();
+                    updateShippingpackage.shippingProviderCode = shippingPackages[i].shippingProviderCode.ToString();
+                    updateShippingpackage.trackingNumber = shippingPackages[i].trackingNumber.ToString();
+                    updateShippingpackage.actualWeight = shippingPackages[i].actualWeight;
+                    updateShippingpackage.noOfBoxes = shippingPackages[i].noOfBoxes;
+                    updatelist.Add(updateShippingpackage);
+                    //Shipping Box
+                    ShippingBoxdb shippingBox = new ShippingBoxdb();
+                    shippingBox.length = shippingPackages[i].shippingBox.length;
+                    shippingBox.height = shippingPackages[i].shippingBox.height;
+                    shippingBox.width = shippingPackages[i].shippingBox.width;
+                    //for (int l = 0; l < shippingPackages[i].shippingBox.Count; l++)
+                    //{
+                    //    ShippingBox shippingBox = new ShippingBox();
+                    //    shippingBox.Id = randomid;
+                    //    shippingBox.length = shippingPackages[i].shippingBox[l].length;
+                    //    shippingBox.height = shippingPackages[i].shippingBox[l].height;
+                    //    shippingBox.width = shippingPackages[i].shippingBox[l].width;
+                    shipbox.Add(shippingBox);
+                    //}
+                    for (int k = 0; k < shippingPackages[i].customFieldValues.Count; k++)
+                    {
+                        CustomFieldValue customFieldValue = new CustomFieldValue();
+                        customFieldValue.Id = randomid;
+                        customFieldValue.name = shippingPackages[i].customFieldValues[k].name;
+                        customFieldValue.value = shippingPackages[i].customFieldValues[k].value;
+                        customFields.Add(customFieldValue);
+                    }
+                }
+                ObjBusinessLayer.InsertUpdateShippingpackage(updatelist);
+                ObjBusinessLayer.InsertUpdateShippingpackageBox(shipbox);
+                ObjBusinessLayer.InsertCustomFields(customFields);
+
+                //return Accepted(Accepted(shippingPackages));
+                SuccessResponse successResponse = new SuccessResponse();
+                successResponse.status = "Success";
+                successResponse.waybill = "";
+                successResponse.shippingLabel = "";
+                //successResponse.courierName = Records.courierName;
+                _logger.LogInformation($" UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
+                return new JsonResult(successResponse);
+
+            }
+            catch (Exception ex)
+            {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.status = "Error";
+                errorResponse.reason = ex.Message;
+                errorResponse.message = "Please Retrigger";
+                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                return new JsonResult(errorResponse);
+
+            }
+
+        }
+        [HttpPost]
+        public IActionResult PostUpdateShipingData()
+        {
+            string token = HttpContext.Session.GetString("STOToken");
+            if (token != null)
+            {
+                var lists = ObjBusinessLayer.UpdateShipingPck();
+                if (lists.Count > 0)
+                {
+                    for (int i = 0; i < lists.Count; i++)
+                    {
+                        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
+                        updateShippingpackage.shippingBox = new ShippingBox();
+                        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+                        updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
+                        updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                        updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                        updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
+                        updateShippingpackage.actualWeight = lists[i].actualWeight;
+                        updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
+                        updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
+                        updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
+                        updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
+                        //for (int j = 0; j < lists[i].shippingBox.Count; j++)
+                        //{
+                        //    ShippingBox shippingBox = new ShippingBox();
+                        //    shippingBox.length = lists[i].shippingBox[j].length;
+                        //    shippingBox.width = lists[i].shippingBox[j].width;
+                        //    shippingBox.height = lists[i].shippingBox[j].height;
+                        //    updateShippingpackage.shippingBox.Add(shippingBox);
+                        //}
+                        for (int k = 0; k < lists[i].customFieldValues.Count; k++)
+                        {
+                            CustomFieldValue customFieldValue = new CustomFieldValue();
+                            customFieldValue.name = lists[i].customFieldValues[k].name;
+                            customFieldValue.value = lists[i].customFieldValues[k].value;
+                            updateShippingpackage.customFieldValues.Add(customFieldValue);
+                            //var res = JsonConvert.SerializeObject(new { customFieldValues = new { name = customFieldValue.name, value = customFieldValue.value } });
+                            //var dres=JsonConvert.DeserializeObject<CustomFieldValue>(res);
+                        }
+                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage);
+                        //var response = _Token.PostUpdateShippingpckg(updateShippingpackage);
+                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token);
+
+                        return Accepted(response.Result);
+                    }
+                    return Accepted("All Records Pushed Successfully");
+
+                }
+                else return BadRequest("There is no record for Post");
+
+            }
+            else
+                return BadRequest("Please Pass Valid Token");
+        }
+
+        [HttpGet]
+        public ServiceResponse<List<EndpointErrorDetails>> UpdateShippingErrorDetails()
+        {
+            var returndata = ObjBusinessLayer.BLUpdateShippingStatus();
+            return returndata;
+        }
+        [HttpGet]
+        public IActionResult RetriggerUpdateShipping()
+        {
+            var Token = _Token.GetTokensSTO().Result;
+            var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+            if (_Tokens.access_token != null)
+            {
+
+                var lists = ObjBusinessLayer.UpdateShipingPck();
+                if (lists.Count > 0)
+                {
+                    for (int i = 0; i < lists.Count; i++)
+                    {
+                        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
+                        updateShippingpackage.shippingBox = new ShippingBox();
+                        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+                        updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
+                        updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                        updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                        updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
+                        updateShippingpackage.actualWeight = lists[i].actualWeight;
+                        updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
+                        updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
+                        updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
+                        updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
+                        //for (int j = 0; j < lists[i].shippingBox.Count; j++)
+                        //{
+                        //    ShippingBox shippingBox = new ShippingBox();
+                        //    shippingBox.length = lists[i].shippingBox[j].length;
+                        //    shippingBox.width = lists[i].shippingBox[j].width;
+                        //    shippingBox.height = lists[i].shippingBox[j].height;
+                        //    updateShippingpackage.shippingBox.Add(shippingBox);
+                        //}
+                        for (int k = 0; k < lists[i].customFieldValues.Count; k++)
+                        {
+                            CustomFieldValue customFieldValue = new CustomFieldValue();
+                            customFieldValue.name = lists[i].customFieldValues[k].name;
+                            customFieldValue.value = lists[i].customFieldValues[k].value;
+                            updateShippingpackage.customFieldValues.Add(customFieldValue);
+                            //var res = JsonConvert.SerializeObject(new { customFieldValues = new { name = customFieldValue.name, value = customFieldValue.value } });
+                            //var dres=JsonConvert.DeserializeObject<CustomFieldValue>(res);
+                        }
+                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage);
+                        //var response = _Token.PostUpdateShippingpckg(updateShippingpackage);
+                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token);
+
+                        return Accepted(response.Result);
+                    }
+                    return Accepted("All Records Pushed Successfully");
+
+                }
+                else return BadRequest("There is no record for Post");
+            }
+            else
+            {
+                return BadRequest("Please pass Valid Token");
+            }
+           
+        }
+        [HttpPost]
+        [Authorize]
+        public IActionResult AllocateShipping(Allocateshipping allocateshippings)
+        {
+            _logger.LogInformation($"Request Allocate Shipping {JsonConvert.SerializeObject(allocateshippings)}");
+            try
+            {
+                ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings);
+                SuccessResponse successResponse = new SuccessResponse();
+                successResponse.status = "Success";
+                successResponse.waybill = "";
+                successResponse.shippingLabel = "";
+                //successResponse.courierName = Records.courierName;
+                _logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                return new JsonResult(successResponse);
+            }
+            catch (Exception ex)
+            {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.status = "Error";
+                errorResponse.reason = ex.Message;
+                errorResponse.message = "Please Retrigger";
+                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                return new JsonResult(errorResponse);
+                throw ex;
+            }
+            // return Accepted();
+
+        }
+        [HttpPost]
+        public IActionResult PostAllocateShipping()
+        {
+
+            _logger.LogInformation($"Post Data Allocate Shipping");
+            //string token = HttpContext.Session.GetString("STOToken");
+            var Token = _Token.GetTokensSTO().Result;
+            var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+            if (_Tokens.access_token != null)
+            {
+                var results = ObjBusinessLayer.PostGAllocateShippingData();
+                if (results.Count > 0)
+                {
+                    for (int i = 0; i < results.Count; i++)
+                    {
+                        Allocateshipping allocateshipping = new Allocateshipping();
+                        allocateshipping.shippingPackageCode= results[i].shippingPackageCode;
+                        allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+                        allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                        allocateshipping.shippingCourier = results[i].shippingCourier;
+                        allocateshipping.trackingNumber = results[i].trackingNumber;
+                        allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
+
+                        var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
+                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token);
+                        return Ok(response.Result.ObjectParam);
+                    }
+                    return Accepted("All Records Pushed Successfully");
+                }
+                else { return BadRequest("There is no record for Post"); }
+            }
+            else
+            {
+                return BadRequest("Please Pass valid Token");
+            }
+
+        }
+        [HttpGet]
+        public ServiceResponse<List<EndpointErrorDetails>> AloateShippingErrorDetails()
+        {
+            var returndata = ObjBusinessLayer.BLAlocateShippingStatus();
+            return returndata;
+        }
+
+        
 
     }
 

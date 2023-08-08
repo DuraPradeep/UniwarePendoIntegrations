@@ -494,6 +494,7 @@ namespace Uniware_PandoIntegration.API
                     WaybillGenerationPostData(AllData, Lcheckcount, triggerid);
                 }
                 {
+                    Emailtrigger.SendEmailToAdmin("Waybill Generation");
                     return ResStatus = null;
 
                 }
@@ -881,7 +882,7 @@ namespace Uniware_PandoIntegration.API
                 else
                 {
                     //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-                    Emailtrigger.SendEmailToAdmin("STO Waybill");
+                    Emailtrigger.SendEmailToAdmin("STO API");
                     STOlists = null;
                 }
             }
@@ -933,7 +934,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("STO Waybill");
+                    Emailtrigger.SendEmailToAdmin("STO API");
                     itemType = null;
                 }
             }
@@ -968,12 +969,64 @@ namespace Uniware_PandoIntegration.API
                     STOAPiPostData(AllData, triggerid, Lcheckcount);
                 }
                 {
+                    Emailtrigger.SendEmailToAdmin("STO API");
                     return ResStatus; ;
 
                 }
             }
             return ResStatus;
         }
+
+        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid,string Token)
+        {
+            int Lcheckcount = checkcount;
+            var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
+                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token);
+                }
+                {
+                    Emailtrigger.SendEmailToAdmin("Update Shipping Package");
+                    return ResStatus = null;
+
+                }
+            }
+            else
+            {
+                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode);
+                return ResStatus;
+
+            }
+
+        }
+        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token)
+        {
+            int Lcheckcount = checkcount;
+            var ResStatus = _Token.PostAllocateShipping(AllData, Token);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
+                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token);
+                }
+                {
+                    Emailtrigger.SendEmailToAdmin("Allocate Shipping");
+                    return ResStatus = null;
+
+                }
+            }
+            return ResStatus;
+        }
+
+
 
         protected virtual void Dispose(bool disposing)
         {

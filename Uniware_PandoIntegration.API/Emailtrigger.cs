@@ -12,11 +12,6 @@ namespace Uniware_PandoIntegration.API
         {
             try
             {
-                //CONTENT
-
-                //string content;
-
-                //content = "Triggered Sale Order API Failed, Failed Records Avaliable in Website Please Retrigger.";
                 string currentDirectory = Directory.GetCurrentDirectory();
                 string folderName = "Template";
                 var fullPath = Path.Combine(currentDirectory, folderName, "Retrigger.txt");

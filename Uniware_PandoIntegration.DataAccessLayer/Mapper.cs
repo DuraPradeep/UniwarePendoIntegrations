@@ -286,7 +286,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
                     ReturnorderCode returncode = new ReturnorderCode();
-                    returncode.code = pds.Tables[0].Rows[i]["code"].ToString();                  
+                    returncode.code = pds.Tables[0].Rows[i]["code"].ToString();
                     userProfile.Add(returncode);
                 }
                 skucodes.ObjectParam = userProfile;
@@ -307,7 +307,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
                     ReturnSaleOrderItem returncode = new ReturnSaleOrderItem();
-                    returncode.Code= pds.Tables[0].Rows[i]["code"].ToString();
+                    returncode.Code = pds.Tables[0].Rows[i]["code"].ToString();
                     returncode.skuCode = pds.Tables[0].Rows[i]["skuCode"].ToString();
                     userProfile.Add(returncode);
                 }
@@ -330,7 +330,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     ReturnOrderSendData returncode = new ReturnOrderSendData();
                     returncode.name = pds.Tables[0].Rows[i]["name"].ToString();
-                    returncode.reference_number= pds.Tables[0].Rows[i]["reference_number"].ToString();
+                    returncode.reference_number = pds.Tables[0].Rows[i]["reference_number"].ToString();
                     returncode.address = pds.Tables[0].Rows[i]["address"].ToString();
                     returncode.city = pds.Tables[0].Rows[i]["city"].ToString();
                     returncode.state = pds.Tables[0].Rows[i]["state"].ToString();
@@ -358,8 +358,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.invoice_number = pds.Tables[0].Rows[i]["invoice_number"].ToString();
                     returncode.line_item_no = pds.Tables[0].Rows[i]["line_item_no"].ToString();
                     returncode.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
-                    returncode.invoice_date= pds.Tables[0].Rows[i]["invoice_date"].ToString();
-                    returncode.pickup_reference_number= pds.Tables[0].Rows[i]["pickup_reference_number"].ToString();
+                    returncode.invoice_date = pds.Tables[0].Rows[i]["invoice_date"].ToString();
+                    returncode.pickup_reference_number = pds.Tables[0].Rows[i]["pickup_reference_number"].ToString();
 
                     userProfile.Add(returncode);
                 }
@@ -382,7 +382,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     Element sKucode = new Element();
                     sKucode.code = pds.Tables[0].Rows[i]["Code"].ToString();
-                  
+
                     skucodes.Add(sKucode);
                 }
             }
@@ -451,7 +451,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.eway_bill_date = pds.Tables[0].Rows[i]["eway_bill_date"].ToString();
                         Sendingdata.action_by = pds.Tables[0].Rows[i]["action_by"].ToString();
                         Sendingdata.clear = pds.Tables[0].Rows[i]["clear"].ToString();
-                       
+
 
 
                         Finaldata.Add(Sendingdata);
@@ -471,7 +471,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return Finaldata;
         }
 
-        
+
         public static ServiceResponse<UserLogin> CheckLoginCredentials(DataSet pds)
         {
             ServiceResponse<UserLogin> serviceResponse = new ServiceResponse<UserLogin>();
@@ -573,21 +573,106 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
-        public static ServiceResponse<List<CodesErrorDetails>> ErrorWaybillPostData(DataSet pds)
+        public static ServiceResponse<List<EndpointErrorDetails>> ErrorWaybillPostData(DataSet pds)
         {
-            ServiceResponse<List<CodesErrorDetails>> skucodes = new ServiceResponse<List<CodesErrorDetails>>();
-            List<CodesErrorDetails> userProfile = new List<CodesErrorDetails>();
+            ServiceResponse<List<EndpointErrorDetails>> skucodes = new ServiceResponse<List<EndpointErrorDetails>>();
+            List<EndpointErrorDetails> userProfile = new List<EndpointErrorDetails>();
             try
             {
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
-                    CodesErrorDetails sKucode = new CodesErrorDetails();
-                    sKucode.Triggerid = pds.Tables[0].Rows[i]["triggerid"].ToString();
-                 
+                    EndpointErrorDetails sKucode = new EndpointErrorDetails();
+                    sKucode.Reason = pds.Tables[0].Rows[i]["reason"].ToString();
+
                     //skucodes.Add(sKucode);
                     userProfile.Add(sKucode);//new CodesErrorDetails();// Add(sKucode);
                 }
                 skucodes.ObjectParam = userProfile;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
+        public static List<UpdateShippingpackage> GetUpdateShippingDetails(DataSet pds)
+        {
+            List<UpdateShippingpackage> skucodes = new List<UpdateShippingpackage>();
+
+            List<UpdateShippingpackage> userProfile = new List<UpdateShippingpackage>();
+            List<ShippingBox> ShippingBoxs = new List<ShippingBox>();
+            List<CustomFieldValue> CustomFieldValues = new List<CustomFieldValue>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    UpdateShippingpackage sKucode = new UpdateShippingpackage();
+                    sKucode.customFieldValues = new List<CustomFieldValue>();
+                    ShippingBox shippingBox = new ShippingBox();
+                    CustomFieldValue customFieldValue = new CustomFieldValue();
+
+                    sKucode.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
+                    sKucode.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+                    sKucode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    sKucode.shippingPackageTypeCode = pds.Tables[0].Rows[i]["shippingPackageTypeCode"].ToString();
+                    sKucode.actualWeight = Convert.ToInt32(pds.Tables[0].Rows[i]["actualWeight"]);
+                    sKucode.noOfBoxes = Convert.ToInt32(pds.Tables[0].Rows[i]["noOfBoxes"]);
+                    //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
+                    //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
+                    //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
+
+                    shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
+                    shippingBox.width = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
+                    shippingBox.height = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
+                    sKucode.shippingBox=shippingBox;
+                    customFieldValue.name = pds.Tables[0].Rows[i]["name"].ToString();
+                    customFieldValue.value = pds.Tables[0].Rows[i]["value"].ToString();
+                    //userProfile.Add(sKucode);
+                    //sKucode.shippingBox. Add(shippingBox);
+                    sKucode.customFieldValues.Add(customFieldValue);
+                    //ShippingBoxs.Add(shippingBox);
+                    //CustomFieldValues.Add(customFieldValue);
+                    userProfile.Add(sKucode);
+                }
+                //skucodes.Add( userProfile);
+                skucodes = userProfile;
+                //userProfile.AddRange(sKucode)
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return skucodes;
+        }
+
+        public static List<Allocateshipping> GetAllocateShipping(DataSet pds)
+        {
+            List<Allocateshipping> skucodes = new List<Allocateshipping>();
+
+            List<Allocateshipping> userProfile = new List<Allocateshipping>();
+
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    Allocateshipping sKucode = new Allocateshipping();
+
+
+                    sKucode.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
+                    sKucode.shippingLabelMandatory = pds.Tables[0].Rows[i]["shippingLabelMandatory"].ToString();
+                    sKucode.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+                    sKucode.shippingCourier = pds.Tables[0].Rows[i]["shippingCourier"].ToString();
+                    sKucode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    sKucode.generateUniwareShippingLabel = pds.Tables[0].Rows[i]["generateUniwareShippingLabel"].ToString();
+
+                    userProfile.Add(sKucode);
+
+                }
+                //skucodes.Add( userProfile);
+                skucodes = userProfile;
+                //userProfile.AddRange(sKucode)
             }
             catch (Exception ex)
             {

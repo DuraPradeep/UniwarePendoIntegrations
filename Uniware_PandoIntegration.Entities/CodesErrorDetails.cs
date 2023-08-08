@@ -13,5 +13,9 @@ namespace Uniware_PandoIntegration.Entities
         public string Triggerid { get; set; }
         public string Reason { get; set; }
     }
+    public class EndpointErrorDetails
+    {
+        public string Reason { get; set; }
+    }
    
 }

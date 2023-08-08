@@ -527,7 +527,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public static string GenerateNumeric()
+        public string GenerateNumeric()
         {
             int numbers = 5;
             Random objrandom = new Random();
@@ -1806,9 +1806,9 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public ServiceResponse<List<CodesErrorDetails>> BLWaybilStatus()
+        public ServiceResponse<List<EndpointErrorDetails>> BLWaybilStatus()
         {
-            ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
+            ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
 
             try
             {
@@ -1891,6 +1891,259 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
+
+        public void InsertUpdateShippingpackageBox(List<ShippingBoxdb> itemDatun)
+        {
+            string res;
+            try
+            {
+          
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Id");
+                dtsku.Columns.Add("length");
+                dtsku.Columns.Add("width");
+                dtsku.Columns.Add("height");
+                
+
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Id"] = itemDatun[i].Id;
+                    drsku["length"] = itemDatun[i].length;
+                    drsku["width"] = itemDatun[i].height;
+                    drsku["height"] = itemDatun[i].width;
+                  
+
+                    dtsku.Rows.Add(drsku);
+                }
+                SPWrapper.IsertShippingBox(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            
+        }
+        public void InsertUpdateShippingpackage(List<UpdateShippingpackagedb> itemDatun)
+        {
+            string res;
+            try
+            {                
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Id");
+                dtsku.Columns.Add("shippingPackageCode");
+                dtsku.Columns.Add("shippingProviderCode");
+                dtsku.Columns.Add("trackingNumber");
+                dtsku.Columns.Add("shippingPackageTypeCode");
+                dtsku.Columns.Add("actualWeight");
+                dtsku.Columns.Add("noOfBoxes");
+
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Id"] = itemDatun[i].id;
+                    drsku["shippingPackageCode"] = itemDatun[i].shippingPackageCode;
+                    drsku["shippingProviderCode"] = itemDatun[i].shippingProviderCode;
+                    drsku["trackingNumber"] = itemDatun[i].trackingNumber;
+                    drsku["shippingPackageTypeCode"] = itemDatun[i].shippingPackageTypeCode;
+                    drsku["actualWeight"] = itemDatun[i].actualWeight;
+                    drsku["noOfBoxes"] = itemDatun[i].noOfBoxes; ;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                SPWrapper.IsertshippingUpdate(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+
+        }
+        public void InsertCustomFields(List<CustomFieldValue> itemDatun)
+        {
+            string res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Id");
+                dtsku.Columns.Add("name");
+                dtsku.Columns.Add("value");
+                
+
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Id"] = itemDatun[i].Id;
+                    drsku["name"] = itemDatun[i].name;
+                    drsku["value"] = itemDatun[i].value;
+                    dtsku.Rows.Add(drsku);
+                }
+                SPWrapper.IsertCustomFields(dtsku);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+
+        }
+        public List<UpdateShippingpackage> UpdateShipingPck()
+        {
+            List<UpdateShippingpackage> codes = new List<UpdateShippingpackage>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetUpdateShippingData());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+
+        public void InsertAllocate_Shipping(Allocateshipping itemDatun)
+        {
+            string res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("shippingPackageCode");
+                dtsku.Columns.Add("shippingLabelMandatory");
+                dtsku.Columns.Add("shippingProviderCode");
+                dtsku.Columns.Add("shippingCourier");
+                dtsku.Columns.Add("trackingNumber");
+                dtsku.Columns.Add("generateUniwareShippingLabel");
+                //for (int i = 0; i < itemDatun.Count; i++)
+                //{
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["shippingPackageCode"] = itemDatun.shippingPackageCode;
+                    drsku["shippingLabelMandatory"] = itemDatun.shippingLabelMandatory;
+                    drsku["shippingProviderCode"] = itemDatun.shippingProviderCode;
+                    drsku["shippingCourier"] = itemDatun.shippingCourier;
+                    drsku["trackingNumber"] = itemDatun.trackingNumber;
+                    drsku["generateUniwareShippingLabel"] = itemDatun.generateUniwareShippingLabel;
+                    dtsku.Rows.Add(drsku);
+                //}
+                SPWrapper.IsertAllocate_Shipping(dtsku);
+                
+            }
+            catch (Exception ex)
+            {
+               
+                throw ex;
+            }
+
+        }
+        public List<Allocateshipping> PostGAllocateShippingData()
+        {
+            List<Allocateshipping> codes = new List<Allocateshipping>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingData());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+
+        public string UpdateShippingDataPost(UpdateShippingpackage updateShippingpackage)
+        {
+            var id = GenerateNumeric();            
+            return SPWrapper.IsertUpdateShippingrecords(updateShippingpackage, id);
+        }
+        public void UpdateShippingErrordetails(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.UpdateShippingError(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ServiceResponse<List<EndpointErrorDetails>> BLUpdateShippingStatus()
+        {
+            ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetUpdateShippingStatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public void AllocateErrorDetails(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.AllocateShippingError(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string AllocateShippingDataPost(Allocateshipping updateShippingpackage)
+        {
+            var id = GenerateNumeric();            
+            return SPWrapper.IsertAllocateShippingrecords(updateShippingpackage, id);
+        }
+        public ServiceResponse<List<EndpointErrorDetails>> BLAlocateShippingStatus()
+        {
+            ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetAlocateShippingStatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public void UpdateShippingErrordetails(string Shippingpck)
+        {
+            try
+            {
+                SPWrapper.UpdateShippingErrorDetais(Shippingpck);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }
 

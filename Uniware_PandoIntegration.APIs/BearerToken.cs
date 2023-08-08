@@ -388,8 +388,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = _client.GetAsync(URL).Result;
                 var responses = response.Content.ReadAsStringAsync().Result;
                 serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                //rootobject = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(responses);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($" Response:{responses}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -421,7 +420,7 @@ namespace Uniware_PandoIntegration.APIs
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); 
                 //CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 if (response.IsSuccessStatusCode)
@@ -515,7 +514,7 @@ namespace Uniware_PandoIntegration.APIs
         }
         //public async Task<ServiceResponse<string>> WaybillSTOPostDataDeliverypackList(string jsonre)//List<PostDataSTOWaybill> data
         //{
-           
+
         //    ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
         //    //var jsonre = JsonConvert.SerializeObject(new { data = data });
@@ -595,6 +594,84 @@ namespace Uniware_PandoIntegration.APIs
 
         //}
 
+        public async Task<ServiceResponse<string>> PostUpdateShippingpckg(UpdateShippingpackage data, string Token)
+        {
 
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+
+            var jsonre = JsonConvert.SerializeObject(new { data = data });
+            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+            CreateLog($" Update Shipping package:-  {jsonre}");
+
+            try
+            {               
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                request.Headers.Add("Facility", "Hosur_Avigna");
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(jsonre, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");                
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($" Error:{ex.Message}");
+                throw ex;
+            }
+            return serviceResponse;
+
+        }
+        public async Task<ServiceResponse<string>> PostAllocateShipping(Allocateshipping data,string Token)
+        {
+
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+
+            var jsonre = JsonConvert.SerializeObject(new { data = data });
+            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+            CreateLog($" Allocate Shipping:-  {jsonre}");
+            try
+            {                
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                request.Headers.Add("Facility", "Hosur_Avigna");
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(jsonre, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($" Error:{ex.Message}");
+                throw ex;
+            }
+            return serviceResponse;
+
+        }
     }
 }

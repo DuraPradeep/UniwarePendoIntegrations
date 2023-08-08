@@ -53,7 +53,6 @@ function fn_WaybillErrorListDataObject() {
 
                 "columns": [
 
-                    { data: "triggerid" },
                     { data: "reason" }
                 ]
             })           
@@ -161,6 +160,71 @@ function fn_STOAPIDataObject() {
                     { data: "code" },
                     { data: "itemSku" },
                     { data: "triggerid" },
+                    { data: "reason" }
+                ]
+            })
+            //$("#overlay").fadeOut(500);
+        }
+        else {
+            iqwerty.toast.toast("No Failed Records Found!!");
+            //$("#overlay").fadeOut(500);
+        }
+    });
+}
+
+function fn_UpdateShippingDataObject() {
+    debugger;
+    //$("#overlay").fadeIn(500);
+    $.get("/Home/UpdateShippingErrorListData", {}).done(function (data) {
+        console.log(data);
+        //$("#overlay").fadeOut(500);
+        debugger;
+        //$("a").removeClass("dropdown-toggle");
+        if ($.fn.dataTable.isDataTable('#UpdateShippingTblId')) {
+            table = $('#UpdateShippingTblId').DataTable();
+            table.clear();
+            table.destroy();
+        }
+        if (data.length != 0) {
+            debugger;
+            $('#UpdateShippingTblId').DataTable({
+                "processing": true,
+                "info": true,
+                "stateSave": true,
+                data: data,
+                "columns": [
+                    { data: "reason" }
+                ]
+            })
+            //$("#overlay").fadeOut(500);
+        }
+        else {
+            iqwerty.toast.toast("No Failed Records Found!!");
+            //$("#overlay").fadeOut(500);
+        }
+    });
+}
+function fn_AllocateShippingDataObject() {
+    debugger;
+    //$("#overlay").fadeIn(500);
+    $.get("/Home/AlocateShippingErrorListData", {}).done(function (data) {
+        console.log(data);
+        //$("#overlay").fadeOut(500);
+        debugger;
+        //$("a").removeClass("dropdown-toggle");
+        if ($.fn.dataTable.isDataTable('#AlocateShippingTblId')) {
+            table = $('#AlocateShippingTblId').DataTable();
+            table.clear();
+            table.destroy();
+        }
+        if (data.length != 0) {
+            debugger;
+            $('#AlocateShippingTblId').DataTable({
+                "processing": true,
+                "info": true,
+                "stateSave": true,
+                data: data,
+                "columns": [
                     { data: "reason" }
                 ]
             })

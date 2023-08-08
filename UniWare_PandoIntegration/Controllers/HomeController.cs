@@ -139,9 +139,9 @@ namespace UniWare_PandoIntegration.Controllers
         [HttpGet]
         public ActionResult WaybillErrorList()
         {
-            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -160,15 +160,15 @@ namespace UniWare_PandoIntegration.Controllers
                 var responses = ApiControl.Get("api/UniwarePando/PostWaybillGeneration");
 
             //msg = responses;
-            msg = "Trigger success fully";
+            msg = "Trigger successfully";
           
             return Json(new { Message = msg });
         }
         public JsonResult WaybillErrorListDataObject()
         {
-            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -318,18 +318,7 @@ namespace UniWare_PandoIntegration.Controllers
             return Json(response.ObjectParam);
             //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
         }
-        //public ActionResult WaybillErrorList()
-        //{
-        //    ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
-        //    ApiControl = new ApiOperation(Apibase);
-        //    response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/aybillErrorDetails");
-        //    if (response.ObjectParam.Count > 0)
-        //    {
-        //        ViewData["UserName"] = 1;
-        //    }
-        //    return View("~/Views/Home/Pv_STOAPIErrorList.cshtml", response.ObjectParam);
-        //    //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
-        //}
+       
         [HttpGet]
         public JsonResult STOAPIRetrigger()
         {
@@ -366,9 +355,9 @@ namespace UniWare_PandoIntegration.Controllers
                 strings.Add(name);
             }
             //waybill
-            ServiceResponse<List<CodesErrorDetails>> waybill = new ServiceResponse<List<CodesErrorDetails>>();
+            ServiceResponse<List<EndpointErrorDetails>> waybill = new ServiceResponse<List<EndpointErrorDetails>>();
             //ApiControl = new ApiOperation();
-            waybill = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            waybill = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
             if (waybill.ObjectParam.Count > 0)
             {
                 name = "Waybill generation";
@@ -409,9 +398,106 @@ namespace UniWare_PandoIntegration.Controllers
                 ViewData["UserName"] = 1;
                 strings.Add(name);
             }
+            ServiceResponse<List<EndpointErrorDetails>> UpdateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
+            UpdateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/UpdateShippingErrorDetails");
+            if (UpdateShiping.ObjectParam.Count>0)
+            {
+                name = "Update Shipping";
+                count += 1;
+                ViewData["UserName"] = 1;
+                strings.Add(name);
+            }
+            ServiceResponse<List<EndpointErrorDetails>> AlocateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
+            AlocateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");
+            if (UpdateShiping.ObjectParam.Count > 0)
+            {
+                name = "Allocate Shipping";
+                count += 1;
+                ViewData["UserName"] = 1;
+                strings.Add(name);
+            }
+
             var result = new { name = strings, ID = count };
             //return Json(count,strings);
             return Json(result);           
+        }
+
+        [HttpGet]
+        public ActionResult UpdateShippingErrorList()
+        {           
+            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ApiControl = new ApiOperation(Apibase);
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/UpdateShippingErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return View("~/Views/Home/pv_UpdateShipping.cshtml", response.ObjectParam);
+
+        }
+       
+        public JsonResult UpdateShippingErrorListData()
+        {
+            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            ApiControl = new ApiOperation(Apibase);
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/UpdateShippingErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return Json(response.ObjectParam);
+            //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
+        }
+        [HttpGet]
+        public JsonResult UpdateShippingRetrigger()
+        {
+            string msg;
+            ApiControl = new ApiOperation(Apibase);
+            ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
+
+
+            var responses = ApiControl.Get("api/UniwarePando/RetriggerUpdateShipping");
+
+            msg = responses;
+            //msg = "Trigger successfully";
+
+            return Json(new { Message = msg });
+        }
+        [HttpGet]
+        public ActionResult AllocateShippingErrorList()
+        {
+            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
+            ApiControl = new ApiOperation(Apibase);
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");           
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return View("~/Views/Home/Pv_AlocateShipping.cshtml", response.ObjectParam);
+            //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
+        }
+        [HttpGet]
+        public JsonResult AlocateShippingRetrigger()
+        {
+            string msg;
+            ApiControl = new ApiOperation(Apibase);
+
+            var responses = ApiControl.Get("api/UniwarePando/PostAllocateShipping");
+
+            msg = responses;
+            return Json(new { Message = msg });
+        }
+        public JsonResult AlocateShippingErrorListData()
+        {
+            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
+            ApiControl = new ApiOperation(Apibase);
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return Json(response.ObjectParam);
+            //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
         }
     }
 }

@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Allocateshipping.cs" />
     <Compile Include="ApiStatus.cs" />
     <Compile Include="CodesErrorDetails.cs" />
     <Compile Include="ErrorDetails.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="STOGatePass.cs" />
     <Compile Include="STOwaybillGetCode.cs" />
     <Compile Include="TokenEntity.cs" />
+    <Compile Include="UpdateShippingpackage.cs" />
     <Compile Include="UserLogin.cs" />
     <Compile Include="WaybillSend.cs" />
     <Compile Include="WaybillSTOItemtypeDTO.cs" />

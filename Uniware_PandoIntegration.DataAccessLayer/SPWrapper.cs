@@ -1736,7 +1736,7 @@ namespace Uniware_PandoIntegration.APIs
                 {
                     Connection = con,
                     CommandType = CommandType.StoredProcedure,
-                    CommandText = "sp_GeyWaybillposterror"
+                    CommandText = "sp_GetWaybillposterror"
                 };
                 con.Open();
                 da = new SqlDataAdapter(com);
@@ -1901,6 +1901,343 @@ namespace Uniware_PandoIntegration.APIs
             //  int lintId = 0;
 
             return tokenEntity;
+        }
+
+        public static void IsertshippingUpdate(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_UpdateShippingpackage";
+                com.CommandType = CommandType.StoredProcedure;                
+                com.Parameters.AddWithValue("@records", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            
+        }
+        public static void IsertShippingBox(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_ShipingBox";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Records", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static void IsertCustomFields(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_CustomFiels";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Records", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static DataSet GetUpdateShippingData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_postUpdateshipping"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
+        public static void IsertAllocate_Shipping(DataTable dt)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_Allocate_Shipping";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Records", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+
+        public static DataSet GetAllocateShippingData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_getAllocate_Shipping"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
+
+        public static string IsertUpdateShippingrecords(UpdateShippingpackage dt,string triggerid)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_insertUpdateshippingFullData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
+                com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
+                com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                com.Parameters.AddWithValue("@shippingPackageTypeCode", dt.shippingPackageTypeCode);
+                com.Parameters.AddWithValue("@actualWeight", dt.actualWeight);
+                com.Parameters.AddWithValue("@noOfBoxes", dt.noOfBoxes);
+                com.Parameters.AddWithValue("@length", dt.shippingBox.length);
+                com.Parameters.AddWithValue("@width", dt.shippingBox.width);
+                com.Parameters.AddWithValue("@height", dt.shippingBox.height);
+                com.Parameters.AddWithValue("@name", dt.customFieldValues[0].name);
+                com.Parameters.AddWithValue("@value", dt.customFieldValues[0].value);
+                com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+                com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
+                com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+
+        public static void UpdateShippingError(bool status, string reason, string Triggerid)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "UpdateShippingErrorStatus";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@triggerid", Triggerid);
+                com.Parameters.AddWithValue("@status", status);
+                com.Parameters.AddWithValue("@Reason", reason);
+                con.Open();
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static DataSet GetUpdateShippingStatus()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetUpateShippingerror"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
+        public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_AllocateShippingPostData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
+                com.Parameters.AddWithValue("@shippingLabelMandatory", dt.shippingLabelMandatory);
+                com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
+                com.Parameters.AddWithValue("@shippingCourier", dt.shippingCourier);
+                com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                com.Parameters.AddWithValue("@generateUniwareShippingLabel", dt.generateUniwareShippingLabel);
+                com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+                
+                com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
+                com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static void AllocateShippingError(bool status, string reason, string Triggerid)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "AllocateShippingErrorStatus";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@triggerid", Triggerid);
+                com.Parameters.AddWithValue("@status", status);
+                com.Parameters.AddWithValue("@Reason", reason);
+                con.Open();
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+
+
+        public static DataSet GetAlocateShippingStatus()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetAllocateShippingerror"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+        public static void UpdateShippingErrorDetais(string Shippingpck)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_GetUpateShippingDataForRetrigger";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@shippingpackagecode", Shippingpck);                
+                con.Open();
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
         }
     }
 

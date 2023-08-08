@@ -40,6 +40,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/Pv_AlocateShipping.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9BbG9jYXRlU2hpcHBpbmcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/UniWare/UniWare_PandoIntegration/Views/Home/Pv_ErrorList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQdl9FcnJvckxpc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -54,6 +58,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/UniWare/UniWare_PandoIntegration/Views/Home/pv_STOWaybill.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxwdl9TVE9XYXliaWxsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/UniWare/UniWare_PandoIntegration/Views/Home/pv_UpdateShipping.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxwdl9VcGRhdGVTaGlwcGluZy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/UniWare/UniWare_PandoIntegration/Views/Home/Pv_WaybillErrorList.cshtml]
