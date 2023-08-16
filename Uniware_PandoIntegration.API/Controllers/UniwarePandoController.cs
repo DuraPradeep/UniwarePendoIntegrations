@@ -301,7 +301,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         //Step-2
         [HttpGet]
-        public IActionResult GetJWTToken(TokenEntity tokenEntity)
+        public IActionResult authToken(TokenEntity tokenEntity)
         {
             //GenerateToken generateToken=new GenerateToken(null) ;
             var token = _jWTManager.GenerateJWTTokens(tokenEntity, out tokenEntity);
@@ -1048,6 +1048,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpGet]
         public IActionResult RetriggerUpdateShipping()
         {
+            _logger.LogInformation($" UpdateShippingPackage ");
             var Token = _Token.GetTokensSTO().Result;
             var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
             if (_Tokens.access_token != null)

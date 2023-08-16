@@ -38,6 +38,7 @@ namespace Uniware_PandoIntegration.Entities
         public string type { get; set; }
         public string line_item_no { get; set; }
         public string pickup_reference_number { get; set; }
+        public string cust_refid { get; set; }
     }
 
     public class sendRoot

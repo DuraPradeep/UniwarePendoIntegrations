@@ -346,6 +346,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("type");
                 dtsku.Columns.Add("weight_unit");
                 dtsku.Columns.Add("cust_category");
+                dtsku.Columns.Add("cust_refid");
 
                 for (int i = 0; i < itemDatun.Count; i++)
                 {
@@ -372,14 +373,15 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["Sold_to"] = itemDatun[i].sold_to;
                     drsku["Line_item_no"] = itemDatun[i].line_item_no;
                     drsku["pickup_reference_number"] = itemDatun[i].pickup_reference_number;
-                    drsku["Customer_type"] = itemDatun[i].customer_type;//"End_Customer";
-                    drsku["source_system"] = itemDatun[i].source_system;//"abc_sleepyhead";                    
+                    drsku["Customer_type"] = itemDatun[i].customer_type;
+                    drsku["source_system"] = itemDatun[i].source_system;
                     drsku["division"] = itemDatun[i].division;
-                    drsku["quantity_unit"] = itemDatun[i].quantity_unit;//"EA";
-                    drsku["volume_unit"] = itemDatun[i].volume_unit;//"CFT";
-                    drsku["type"] = itemDatun[i].type;//"Secondary";
-                    drsku["weight_unit"] = itemDatun[i].weight_unit;//"KG";
-                    drsku["cust_category"] = itemDatun[i].cust_category;//"";
+                    drsku["quantity_unit"] = itemDatun[i].quantity_unit;
+                    drsku["volume_unit"] = itemDatun[i].volume_unit;
+                    drsku["type"] = itemDatun[i].type;
+                    drsku["weight_unit"] = itemDatun[i].weight_unit;
+                    drsku["cust_category"] = itemDatun[i].cust_category;
+                    drsku["cust_refid"] = itemDatun[i].cust_refid;
                     dtsku.Rows.Add(drsku);
                 }
                 res = SPWrapper.IsertAllsendingrec(dtsku);

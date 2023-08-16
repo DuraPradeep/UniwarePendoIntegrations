@@ -26,14 +26,14 @@ namespace Uniware_PandoIntegration.API
                 content = content.Replace("{Country}", "India");
 
                 string emailId;
-                emailId = "cw.ajay@duroflexworld.com";
-                //var emailIds = "Asad.khan@duroflexworld.com,cw.pradeep@duroflexworld.com";
-                var emailIds = "cw.keerti@duroflexworld.com";
+                //emailId = "cw.ajay@duroflexworld.com";
+                 emailId = "Asad.khan@duroflexworld.com,vivek.acharya@duroflexworld.com,mukul.bansal@duroflexworld.com";
+                //var emailIds = "cw.keerti@duroflexworld.com";
                 using (MailMessage mail = new MailMessage())
                 {
                     mail.From = new MailAddress("itsupport@duroflexworld.com");
                     mail.To.Add(emailId);
-                    mail.Bcc.Add(emailIds);
+                   // mail.Bcc.Add(emailIds);
                     mail.Subject = "!Failed Records";
                     mail.Body = content;
                     mail.IsBodyHtml = true;

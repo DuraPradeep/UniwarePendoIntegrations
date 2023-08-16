@@ -99,6 +99,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.type = pds.Tables[0].Rows[i]["type"].ToString();
                         Sendingdata.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
                         Sendingdata.cust_category = pds.Tables[0].Rows[i]["cust_category"].ToString();
+                        Sendingdata.cust_refid = pds.Tables[0].Rows[i]["cust_refid"].ToString();
 
 
                         Finaldata.Add(Sendingdata);
@@ -157,6 +158,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.type = pds.Tables[0].Rows[i]["type"].ToString();
                         Sendingdata.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
                         Sendingdata.cust_category = pds.Tables[0].Rows[i]["cust_category"].ToString();
+                        Sendingdata.cust_refid = pds.Tables[0].Rows[i]["cust_refid"].ToString();
 
 
 
