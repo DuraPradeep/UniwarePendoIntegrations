@@ -175,6 +175,7 @@ namespace Uniware_PandoIntegration.API
                     shipdetails.code = details.saleOrderDTO.code;
                     shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
                     shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
+                    shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
                     //shipingdet.Add(shipdetails);
                     parentList.Shipment.Add(shipdetails);
                     Items qty = new Items();
@@ -570,8 +571,9 @@ namespace Uniware_PandoIntegration.API
                     returnSaleOrderItem.Code = Code;
                     returnSaleOrderItem.reversePickupCode = Dlist.returnSaleOrderItems[k].reversePickupCode;
                     returnSaleOrderItem.skuCode = Dlist.returnSaleOrderItems[k].skuCode;
+                    returnSaleOrderItem.saleOrderCode = Dlist.returnSaleOrderItems[k].saleOrderCode;
                     returnSaleOrderItem.quantity = Dlist.returnSaleOrderItems.Count.ToString();
-                    //returnSaleOrderItems.Add(returnSaleOrderItem);
+                   
                     rootReturnorderAPI.returnSaleOrderItems.Add(returnSaleOrderItem);
                 }
                 for (int l = 0; l < Dlist.returnAddressDetailsList.Count; l++)

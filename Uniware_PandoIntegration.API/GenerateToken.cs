@@ -25,13 +25,11 @@ namespace Uniware_PandoIntegration.API
             this.connectionstring = connectionstring;
         }
 
-        //string IUniwarePando.GenerateJWTTokens { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        
         public string GenerateJWTTokens(TokenEntity tokenEntity, out TokenEntity TokenEntity)
         {
             try
             {
-
                 TokenEntity = SPWrapper.Tokencheck(tokenEntity.username, tokenEntity.password);
                 //var BLSTOWaybill= BLSTOWaybil();
                 if (TokenEntity.username == null)
@@ -39,6 +37,7 @@ namespace Uniware_PandoIntegration.API
                     TokenEntity = new TokenEntity();
                     return null;
                 }
+
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -56,8 +55,8 @@ namespace Uniware_PandoIntegration.API
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-
-                return new JwtSecurityTokenHandler().WriteToken(token);
+                var bearer = new JwtSecurityTokenHandler().WriteToken(token);
+                return "Bearer " + bearer;
 
                 //return userName;
             }

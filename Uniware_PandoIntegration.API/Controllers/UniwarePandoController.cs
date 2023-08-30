@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using Uniware_PandoIntegration.API.Folder;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Primitives;
+using Uniware_PandoIntegration.API.ActionFilter;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -64,16 +65,16 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
         }
         [HttpPost]
-        public IActionResult SaleOrderAPI(string fromdate = "1681368375000", string todate = "1681454775000", string datatype = "CREATED")
+        public IActionResult SaleOrderAPI(/*string fromdate = "1693074600000", string todate = "1693182600000", string datatype = "UPDATED", string status= "Processing"*/)
         {
+            string fromdate = "1693074600000"; string todate = "1693182600000"; string datatype = "UPDATED"; string status = "Processing";
             //_logger.LogInformation("Token Api called.");
-            //PandoUniwariToken resu = _Token.GetTokens().Result;
-            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            //var resu = _Token.GetTokens().Result;
-            //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-            //if (resu.ObjectParam != null) { }
-            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            string token = HttpContext.Session.GetString("Token");
+            //datatype="CREATED"
+      
+            var resu = _Token.GetTokens().Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            //string token = HttpContext.Session.GetString("Token");
+            string token = deres.access_token.ToString();
             if (token != null)
             {
                 //string token = deres.access_token.ToString();
@@ -82,15 +83,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //var jwthandler = new JwtSecurityTokenHandler();
                 //var tokendetails = HttpContext.Session.GetString("Token");
                 //var readtoken=jwthandler.ReadToken(tokendetails);
-
-                //ReqSalesOrderSearch reqSalesOrderSearch = new Entities.ReqSalesOrderSearch();
-                //reqSalesOrderSearch.fromDate = fromdate;//= "1681368375000";
-                //reqSalesOrderSearch.toDate = todate;//=1681454775000;
-                //reqSalesOrderSearch.dateType = datatype;//=CREATED;
-                //var json = JsonConvert.SerializeObject(reqSalesOrderSearch);
-                //string token = HttpContext.Session.GetString("Token");
                 _logger.LogInformation("saleOrder/Get Api called.");
-                var json = JsonConvert.SerializeObject(new { fromDate = fromdate, toDate = todate, dateType = datatype });
+                var json = JsonConvert.SerializeObject(new { fromDate = fromdate, toDate = todate, dateType = datatype, status = status });
                 //var list = getCode(json, token, 0);
                 var list = _MethodWrapper.getCode(json, token, 0);
                 //var resCode = ObjBusinessLayer.InsertCode(elmt);
@@ -114,21 +108,14 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                         parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code);
                         if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
-                        {
-                            //    return;
-                            //}
-                            //else
-                            //{
+                        {                           
                             saleOrderItems.AddRange(parentList.saleOrderItems);
                             address.AddRange(parentList.address);
                             shipingdet.AddRange(parentList.Shipment);
                             qtyitems.AddRange(parentList.qtyitems);
                             elements.AddRange(parentList.elements);
                         }
-
-
                     }
-
                     var sires = ObjBusinessLayer.insertsalesorderitem(saleOrderItems);
                     var resshipng = ObjBusinessLayer.InsertBill(shipingdet);
                     var resitems = ObjBusinessLayer.insertItems(qtyitems);
@@ -300,7 +287,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         }
 
         //Step-2
-        [HttpGet]
+        [HttpPost]
         public IActionResult authToken(TokenEntity tokenEntity)
         {
             //GenerateToken generateToken=new GenerateToken(null) ;
@@ -312,17 +299,18 @@ namespace Uniware_PandoIntegration.API.Controllers
                 if (token == null)
                 {
                     _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(token)}");
-                    return Unauthorized();
+                    return Unauthorized(new {status= "INVALID_CREDENTIALS",token= "Invalid credentials" });
                 }
-                result = JsonConvert.SerializeObject(new { status = "Success", token = token });
+                result = JsonConvert.SerializeObject(new { status = "SUCCESS", token = token });
                 _logger.LogInformation($" Debug Object {JsonConvert.SerializeObject(token)}");
             }
             catch (Exception ex) { _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(ex)}"); }
             return Ok(result);
         }
+        //[CustomAuthorizationFilter]
         [Authorize]
         [HttpPost]       //[BasicAuthenticationFilter]       
-        public IActionResult Waybill(OmsToPandoRoot Records)
+        public IActionResult waybill(OmsToPandoRoot Records)
         {
             _logger.LogInformation($"Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
             try
@@ -359,21 +347,25 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code);
 
 
-                SuccessResponse successResponse = new SuccessResponse();
-                successResponse.status = "Success";
-                successResponse.waybill = "";
-                successResponse.shippingLabel = "";
-                successResponse.courierName = Records.courierName;
-                _logger.LogInformation($" WayBill response {JsonConvert.SerializeObject(successResponse)}");
-                return new JsonResult(successResponse);
+                //SuccessResponse successResponse = new SuccessResponse();
+                //successResponse.status = "Success";
+                //successResponse.waybill = "";
+                //successResponse.shippingLabel = "";
+                //successResponse.courierName = Records.courierName;
+                ErrorResponse errorResponse = new ErrorResponse();
+
+                errorResponse.status = "FAILED";
+                errorResponse.reason = "AWB not generated";
+                errorResponse.message = "AWB generation is in queue, please check after a few mins";
+                _logger.LogInformation($" WayBill response {JsonConvert.SerializeObject(errorResponse)}");
+                return new JsonResult(errorResponse);
             }
             catch (Exception ex)
             {
                 ErrorResponse errorResponse = new ErrorResponse();
-
-                errorResponse.status = "Error";
+                errorResponse.status = "FAILED";
                 errorResponse.reason = ex.Message;
-                errorResponse.message = "Please Retrigger";
+                errorResponse.message = "Resource requires authentication. Please check your authorization token.";
                 _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
                 return new JsonResult(errorResponse);
                 throw;

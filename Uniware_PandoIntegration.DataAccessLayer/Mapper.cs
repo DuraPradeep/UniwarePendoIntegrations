@@ -254,7 +254,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.line_item_no = pds.Tables[0].Rows[i]["line_item_no"].ToString();
                         Sendingdata.eway_bill_number = pds.Tables[0].Rows[i]["eway_bill_number"].ToString();
                         Sendingdata.eway_bill_date = pds.Tables[0].Rows[i]["eway_bill_date"].ToString();
-                        Sendingdata.action_by = pds.Tables[0].Rows[i]["eway_bill_date"].ToString();
+                        Sendingdata.action_by = pds.Tables[0].Rows[i]["action_by"].ToString();
                         Sendingdata.action_type = pds.Tables[0].Rows[i]["action_type"].ToString();
                         Sendingdata.clear = pds.Tables[0].Rows[i]["clear"].ToString();
                         Sendingdata.weight = pds.Tables[0].Rows[i]["weight"].ToString();
@@ -263,6 +263,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.sold_to = pds.Tables[0].Rows[i]["sold_to"].ToString();
                         Sendingdata.invoice_number = pds.Tables[0].Rows[i]["invoice_number"].ToString();
                         Sendingdata.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
+                        Sendingdata.cust_refid= pds.Tables[0].Rows[i]["cust_refid"].ToString();
                         Finaldata.Add(Sendingdata);
                     }
                     // serviceResponse.Errcode = 200;
@@ -362,6 +363,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
                     returncode.invoice_date = pds.Tables[0].Rows[i]["invoice_date"].ToString();
                     returncode.pickup_reference_number = pds.Tables[0].Rows[i]["pickup_reference_number"].ToString();
+                    returncode.cust_refid = pds.Tables[0].Rows[i].ToString();
 
                     userProfile.Add(returncode);
                 }

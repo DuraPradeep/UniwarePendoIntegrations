@@ -203,14 +203,14 @@ namespace Uniware_PandoIntegration.Entities
         public double? estimatedWeight { get; set; }
         public double? actualWeight { get; set; }
         public string customer { get; set; }
-        public long created { get; set; }
-        public long updated { get; set; }
+        public long? created { get; set; }
+        public long? updated { get; set; }
         public long? dispatched { get; set; }
         public object delivered { get; set; }
         public int? invoice { get; set; }
         public string invoiceCode { get; set; }
         public string invoiceDisplayCode { get; set; }
-        public long invoiceDate { get; set; }
+        public long? invoiceDate { get; set; }
         public int? noOfItems { get; set; }
         public string city { get; set; }
         public double? collectableAmount { get; set; }

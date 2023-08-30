@@ -139,12 +139,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtshipping.Columns.Add("Code");
                 dtshipping.Columns.Add("invoiceCode");
                 dtshipping.Columns.Add("invoiceDate");
+                dtshipping.Columns.Add("Status");
                 for (int k = 0; k < shippingPackages.Count; k++)
                 {
                     DataRow drbilling = dtshipping.NewRow();
                     drbilling["Code"] = shippingPackages[k].code;
                     drbilling["invoiceCode"] = shippingPackages[k].invoiceCode;
                     drbilling["invoiceDate"] = shippingPackages[k].invoiceDate;
+                    drbilling["Status"] = shippingPackages[k].status;
                     dtshipping.Rows.Add(drbilling);
                 }
                 res = SPWrapper.InsertShippingDetails(dtshipping);
@@ -747,6 +749,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("action_by");
                 dtsku.Columns.Add("action_type");
                 dtsku.Columns.Add("clear");
+                dtsku.Columns.Add("cust_refid");
                 dtsku.Columns.Add("Trigger_ID");
                
 
@@ -781,6 +784,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["action_by"] = itemDatun[i].action_by;
                     drsku["action_type"] = itemDatun[i].action_type;
                     drsku["clear"] = itemDatun[i].clear;
+                    drsku["cust_refid"] = itemDatun[i].cust_refid;
                     drsku["Trigger_ID"] = id;
                     
 
@@ -847,6 +851,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtinstcode.Columns.Add("reversePickupCode");
                 dtinstcode.Columns.Add("skuCode");
                 dtinstcode.Columns.Add("quantity");
+                dtinstcode.Columns.Add("saleOrderCode");
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
@@ -854,6 +859,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["reversePickupCode"] = elements[i].reversePickupCode;
                     dr["skuCode"] = elements[i].skuCode;
                     dr["quantity"] = elements[i].quantity;
+                    dr["saleOrderCode"] = elements[i].saleOrderCode;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertReturnSaleOrderitem(dtinstcode);

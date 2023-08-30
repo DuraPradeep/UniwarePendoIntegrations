@@ -35,5 +35,6 @@ namespace Uniware_PandoIntegration.Entities
         public string action_by { get; set; }
         public string action_type { get; set; }
         public string clear { get; set; }
+        public string cust_refid { get; set; }
     }
 }

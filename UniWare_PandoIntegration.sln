@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uniware_PandoIntegration.Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uniware_PandoIntegration.API", "Uniware_PandoIntegration.API\Uniware_PandoIntegration.API.csproj", "{8A683F02-DFB2-493A-B20A-63A424CD63D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniWare_PandoIntegration", "UniWare_PandoIntegration\UniWare_PandoIntegration.csproj", "{96FAAB92-8858-442C-8FAD-499E2F91C094}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniWare_PandoIntegration", "UniWare_PandoIntegration\UniWare_PandoIntegration.csproj", "{96FAAB92-8858-442C-8FAD-499E2F91C094}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

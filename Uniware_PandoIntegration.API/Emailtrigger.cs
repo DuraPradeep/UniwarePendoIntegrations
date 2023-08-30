@@ -25,9 +25,8 @@ namespace Uniware_PandoIntegration.API
                 content = content.Replace("{Address}", "Duroflex Private Limited. #30/6, NR Trident Tec Park, Hosur Main Road, HSR Layout, Sector 6,Bengaluru, Karnataka, India 560068");
                 content = content.Replace("{Country}", "India");
 
-                string emailId;
-                //emailId = "cw.ajay@duroflexworld.com";
-                 emailId = "Asad.khan@duroflexworld.com,vivek.acharya@duroflexworld.com,mukul.bansal@duroflexworld.com";
+                string emailId = "cw.ajay@duroflexworld.com";
+                 //emailId = "Asad.khan@duroflexworld.com,vivek.acharya@duroflexworld.com,mukul.bansal@duroflexworld.com";
                 //var emailIds = "cw.keerti@duroflexworld.com";
                 using (MailMessage mail = new MailMessage())
                 {

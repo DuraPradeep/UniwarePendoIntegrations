@@ -213,7 +213,6 @@ namespace Uniware_PandoIntegration.APIs
         {
             
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-
             var jsonre = JsonConvert.SerializeObject(new { data = data });
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
             CreateLog($" Way Bill Material Invoice Data:-  {jsonre}");

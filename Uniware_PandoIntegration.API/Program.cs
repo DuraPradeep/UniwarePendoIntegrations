@@ -12,6 +12,9 @@ using System.Text;
 using System.Data;
 using RepoDb;
 using Uniware_PandoIntegration.API.Folder;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +37,16 @@ var tokenValidationParameters = new TokenValidationParameters
     IssuerSigningKey = new SymmetricSecurityKey(Key),
     RequireExpirationTime = false,
 };
+//builder.Services.AddAuthorization(options =>
+//{
+//    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(
+//        JwtBearerDefaults.AuthenticationScheme);
+
+//    defaultAuthorizationPolicyBuilder =
+//        defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
+
+//    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+//});
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -54,6 +67,16 @@ builder.Services.AddAuthentication(x =>
             return Task.CompletedTask;
         }
     };
+
+    //o.TokenValidationParameters = new TokenValidationParameters
+    //{
+    //    //ValidateLifetime = true,
+    //    //ValidateAudience = false
+    //    ValidateIssuerSigningKey = true,
+    //    IssuerSigningKey = new SymmetricSecurityKey(key),
+    //    ValidateIssuer = false,
+    //    ValidateAudience = false
+    //};
 });
 builder.Services.AddControllers();
 builder.Services.AddSession();
@@ -113,6 +136,16 @@ app.Use(async (context, next) =>
       new string[] { "Accept-Encoding" };
 
     await next();
+    if (context.Response.StatusCode == (int)HttpStatusCode.Unauthorized) // 401
+    {
+        context.Response.ContentType = "application/json";
+        await context.Response.WriteAsync(new ErrorDto()
+        {
+            status= "FAILED",
+            reason= "Unauthorized",
+            message = "Resource requires authentication. Please check your authorization token."
+        }.ToString());
+    }
 });
 app.UseSerilogRequestLogging();
 
