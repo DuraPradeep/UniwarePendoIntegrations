@@ -2045,9 +2045,35 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return ds;
         }
+        public static DataSet GetAllocateShippingDataForRetrigger()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "Retrigger_AllocateShipProvider"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
 
 
-        public static string IsertUpdateShippingrecords(UpdateShippingpackage dt,string triggerid)
+        public static string IsertUpdateShippingrecords(UpdateShippingpackage dt,string triggerid,string FacilityCode)
         {
             string res;
             try
@@ -2069,6 +2095,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.Parameters.AddWithValue("@name", dt.customFieldValues[0].name);
                 com.Parameters.AddWithValue("@value", dt.customFieldValues[0].value);
                 com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+                com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
                 com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
                 com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
                 con.Open();
@@ -2133,6 +2160,34 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return ds;
         }
+
+        public static DataSet GetUpdateShippingRetrigger()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_retriggerPostdata"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
 
         public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid)
         {
@@ -2228,6 +2283,28 @@ namespace Uniware_PandoIntegration.APIs
                 com.CommandText = "sp_GetUpateShippingDataForRetrigger";
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.AddWithValue("@shippingpackagecode", Shippingpck);                
+                con.Open();
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static void WaybillCancelId(string waybillId)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_CancelWaybill";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@waybillId", waybillId);
                 con.Open();
                 com.ExecuteNonQuery();
             }

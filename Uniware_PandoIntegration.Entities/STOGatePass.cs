@@ -16,15 +16,15 @@ namespace Uniware_PandoIntegration.Entities
         public List<Element> elements { get; set; }
     }
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    public partial class CustomFieldValue
-    {
-        public string fieldName { get; set; }
-        public string fieldValue { get; set; }
-        public string valueType { get; set; }
-        public string displayName { get; set; }
-        public bool required { get; set; }
-        public object possibleValues { get; set; }
-    }
+    //public partial class CustomFieldValue
+    //{
+    //    public string fieldName { get; set; }
+    //    public string fieldValue { get; set; }
+    //    public string valueType { get; set; }
+    //    public string displayName { get; set; }
+    //    public bool required { get; set; }
+    //    public object possibleValues { get; set; }
+    //}
 
     public partial class Element
     {

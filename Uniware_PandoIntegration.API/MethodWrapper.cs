@@ -141,7 +141,8 @@ namespace Uniware_PandoIntegration.API
                 }
                 //List SalesDTO Details
                 SaleOrderDTO em = new SaleOrderDTO();
-                em.code = details.saleOrderDTO.code;
+                em.code = code;
+                //em.code = details.saleOrderDTO.code;
                 em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
                 //elements.Add(em);
                 parentList.elements.Add(em);
@@ -151,7 +152,8 @@ namespace Uniware_PandoIntegration.API
                 for (int ads = 0; ads < details.saleOrderDTO.addresses.Count; ads++)
                 {
                     Address adrs = new Address();
-                    adrs.Code = details.saleOrderDTO.code;
+                    adrs.Code = code;
+                    //adrs.Code = details.saleOrderDTO.code;
                     adrs.name = details.saleOrderDTO.addresses[ads].name;
                     adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
                     adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
@@ -172,7 +174,8 @@ namespace Uniware_PandoIntegration.API
                 for (int sd = 0; sd < details.saleOrderDTO.shippingPackages.Count; sd++)
                 {
                     ShippingPackage shipdetails = new ShippingPackage();
-                    shipdetails.code = details.saleOrderDTO.code;
+                    shipdetails.code = code;
+                    //shipdetails.code = details.saleOrderDTO.code;
                     shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
                     shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
                     shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
@@ -189,7 +192,8 @@ namespace Uniware_PandoIntegration.API
                 for (int l = 0; l < details.saleOrderDTO.saleOrderItems.Count; l++)
                 {
                     SaleOrderItem sitem = new SaleOrderItem();
-                    sitem.code = details.saleOrderDTO.code;
+                    sitem.code = code;
+                    //sitem.code = details.saleOrderDTO.code;
                     sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
                     sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
                     sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;
@@ -979,10 +983,10 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid,string Token)
+        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid,string Token,string FacilityCode)
         {
             int Lcheckcount = checkcount;
-            var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token);
+            var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -990,7 +994,7 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token);
+                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode);
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Update Shipping Package");
@@ -1006,10 +1010,10 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token)
+        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token,string FacilityCode)
         {
             int Lcheckcount = checkcount;
-            var ResStatus = _Token.PostAllocateShipping(AllData, Token);
+            var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -1017,7 +1021,7 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token);
+                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token, FacilityCode);
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Allocate Shipping");

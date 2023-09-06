@@ -600,28 +600,27 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
-        public static List<UpdateShippingpackage> GetUpdateShippingDetails(DataSet pds)
+        public static List<UpdateShippingpackagedb> GetUpdateShippingDetails(DataSet pds)
         {
-            List<UpdateShippingpackage> skucodes = new List<UpdateShippingpackage>();
+            //List<UpdateShippingpackage> skucodes = new List<UpdateShippingpackage>();
 
-            List<UpdateShippingpackage> userProfile = new List<UpdateShippingpackage>();
-            List<ShippingBox> ShippingBoxs = new List<ShippingBox>();
-            List<CustomFieldValue> CustomFieldValues = new List<CustomFieldValue>();
+            List<UpdateShippingpackagedb> userProfile = new List<UpdateShippingpackagedb>();
+
             try
             {
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
-                    UpdateShippingpackage sKucode = new UpdateShippingpackage();
-                    sKucode.customFieldValues = new List<CustomFieldValue>();
+                    UpdateShippingpackagedb Updateship = new UpdateShippingpackagedb();
+                    Updateship.customFieldValues = new List<CustomFieldValue>();
                     ShippingBox shippingBox = new ShippingBox();
                     CustomFieldValue customFieldValue = new CustomFieldValue();
 
-                    sKucode.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
-                    sKucode.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
-                    sKucode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
-                    sKucode.shippingPackageTypeCode = pds.Tables[0].Rows[i]["shippingPackageTypeCode"].ToString();
-                    sKucode.actualWeight = Convert.ToInt32(pds.Tables[0].Rows[i]["actualWeight"]);
-                    sKucode.noOfBoxes = Convert.ToInt32(pds.Tables[0].Rows[i]["noOfBoxes"]);
+                    Updateship.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
+                    Updateship.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+                    Updateship.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    Updateship.shippingPackageTypeCode = pds.Tables[0].Rows[i]["shippingPackageTypeCode"].ToString();
+                    Updateship.actualWeight = Convert.ToInt32(pds.Tables[0].Rows[i]["actualWeight"]);
+                    Updateship.noOfBoxes = Convert.ToInt32(pds.Tables[0].Rows[i]["noOfBoxes"]);
                     //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
                     //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
                     //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
@@ -629,39 +628,42 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
                     shippingBox.width = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
                     shippingBox.height = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
-                    sKucode.shippingBox=shippingBox;
+                    Updateship.shippingBox=shippingBox;
                     customFieldValue.name = pds.Tables[0].Rows[i]["name"].ToString();
                     customFieldValue.value = pds.Tables[0].Rows[i]["value"].ToString();
+                    Updateship.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
                     //userProfile.Add(sKucode);
                     //sKucode.shippingBox. Add(shippingBox);
-                    sKucode.customFieldValues.Add(customFieldValue);
+                    Updateship.customFieldValues.Add(customFieldValue);
                     //ShippingBoxs.Add(shippingBox);
                     //CustomFieldValues.Add(customFieldValue);
-                    userProfile.Add(sKucode);
+                    userProfile.Add(Updateship);
                 }
                 //skucodes.Add( userProfile);
-                skucodes = userProfile;
+               // skucodes =
+               return userProfile;
                 //userProfile.AddRange(sKucode)
             }
             catch (Exception ex)
             {
 
-                throw ex;
+                //throw ex;
+                return userProfile=null;
             }
-            return skucodes;
+
         }
 
-        public static List<Allocateshipping> GetAllocateShipping(DataSet pds)
+        public static List<AllocateshippingDb> GetAllocateShipping(DataSet pds)
         {
             List<Allocateshipping> skucodes = new List<Allocateshipping>();
 
-            List<Allocateshipping> userProfile = new List<Allocateshipping>();
+            List<AllocateshippingDb> userProfile = new List<AllocateshippingDb>();
 
             try
             {
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
-                    Allocateshipping sKucode = new Allocateshipping();
+                    AllocateshippingDb sKucode = new AllocateshippingDb();
 
 
                     sKucode.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
@@ -670,12 +672,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sKucode.shippingCourier = pds.Tables[0].Rows[i]["shippingCourier"].ToString();
                     sKucode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
                     sKucode.generateUniwareShippingLabel = pds.Tables[0].Rows[i]["generateUniwareShippingLabel"].ToString();
+                    sKucode.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
 
                     userProfile.Add(sKucode);
 
                 }
                 //skucodes.Add( userProfile);
-                skucodes = userProfile;
+               return userProfile;
                 //userProfile.AddRange(sKucode)
             }
             catch (Exception ex)
@@ -683,7 +686,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
                 throw ex;
             }
-            return skucodes;
+            //return skucodes;
         }
     }
 }

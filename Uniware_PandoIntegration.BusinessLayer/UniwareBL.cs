@@ -1973,7 +1973,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void InsertCustomFields(List<CustomFieldValue> itemDatun)
+        public void InsertCustomFields(List<addCustomFieldValue> itemDatun)
         {
             string res;
             try
@@ -2003,14 +2003,31 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<UpdateShippingpackage> UpdateShipingPck()
+        public List<UpdateShippingpackagedb> UpdateShipingPck()
         {
-            List<UpdateShippingpackage> codes = new List<UpdateShippingpackage>();
+            List<UpdateShippingpackagedb> codes = new List<UpdateShippingpackagedb>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
                 return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetUpdateShippingData());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public List<UpdateShippingpackagedb> UpdateShipingPckRetrigger()
+        {
+            List<UpdateShippingpackagedb> codes = new List<UpdateShippingpackagedb>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetUpdateShippingRetrigger());
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2054,14 +2071,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<Allocateshipping> PostGAllocateShippingData()
+        public List<AllocateshippingDb> PostGAllocateShippingData()
         {
-            List<Allocateshipping> codes = new List<Allocateshipping>();
+            //List<Allocateshipping> codes = new List<Allocateshipping>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingData());
+                return Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingData());
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2072,12 +2089,31 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
+        public List<AllocateshippingDb> PostGAllocateShippingDataForRetrigger()
+        {
+            List<Allocateshipping> codes = new List<Allocateshipping>();
 
-        public string UpdateShippingDataPost(UpdateShippingpackage updateShippingpackage)
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingDataForRetrigger());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+
+        public string UpdateShippingDataPost(UpdateShippingpackage updateShippingpackage,string FacilityCode)
         {
             var id = GenerateNumeric();            
-            return SPWrapper.IsertUpdateShippingrecords(updateShippingpackage, id);
+            return SPWrapper.IsertUpdateShippingrecords(updateShippingpackage, id, FacilityCode);
         }
+
         public void UpdateShippingErrordetails(bool status, string Reason, string triggerid)
         {
             try
@@ -2145,6 +2181,17 @@ namespace Uniware_PandoIntegration.BusinessLayer
             try
             {
                 SPWrapper.UpdateShippingErrorDetais(Shippingpck);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void WaybillCancel(string Shippingpck)
+        {
+            try
+            {
+                SPWrapper.WaybillCancelId(Shippingpck);
             }
             catch (Exception ex)
             {

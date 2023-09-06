@@ -23,9 +23,15 @@ namespace Uniware_PandoIntegration.Entities
         public string totalAmount { get; set; }
         public string collectableAmount { get; set; }
         public string courierName { get; set; }
+        public CustomFieldValue customFieldValues { get; set; }
     }
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
-    public partial class CustomFieldValue
+    public  class CustomFieldValue
+    {     
+        public string name { get; set; }
+        public string value { get; set; }
+    }
+    public class addCustomFieldValue
     {
         public string Id { get; set; }
         public string name { get; set; }

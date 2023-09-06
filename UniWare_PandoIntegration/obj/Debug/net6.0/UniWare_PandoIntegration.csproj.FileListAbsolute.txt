@@ -256,7 +256,6 @@ D:\Duroflex\UniwarePando\UniWare_PandoIntegration\obj\Debug\net6.0\refint\UniWar
 D:\Duroflex\UniwarePando\UniWare_PandoIntegration\obj\Debug\net6.0\UniWare_PandoIntegration.pdb
 D:\Duroflex\UniwarePando\UniWare_PandoIntegration\obj\Debug\net6.0\UniWare_PandoIntegration.genruntimeconfig.cache
 D:\Duroflex\UniwarePando\UniWare_PandoIntegration\obj\Debug\net6.0\ref\UniWare_PandoIntegration.dll
-D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\UniWare_PandoIntegration.dll
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\amd64\Microsoft.VC90.CRT\msvcr90.dll
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\amd64\sqlceca40.dll
@@ -280,6 +279,7 @@ D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\UniWare_PandoIntegration.st
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\UniWare_PandoIntegration.exe
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\UniWare_PandoIntegration.deps.json
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\UniWare_PandoIntegration.runtimeconfig.json
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\UniWare_PandoIntegration.dll
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\UniWare_PandoIntegration.pdb
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\Humanizer.dll
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\MessagePack.dll
