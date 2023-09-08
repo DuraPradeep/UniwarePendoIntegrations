@@ -182,9 +182,9 @@ namespace Uniware_PandoIntegration.APIs
             {
                 var client = new HttpClient();
                 var credentials = Encoding.ASCII.GetBytes(_credentials);
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice");
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice");
 
-                //var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
 
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
                 var content = new StringContent(jsonre, null, "application/json");

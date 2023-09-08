@@ -56,9 +56,9 @@ namespace Uniware_PandoIntegration.Entities
     {
         public string name { get; set; }
         public string description { get; set; }
-        public string quantity { get; set; }
+        public int? quantity { get; set; }
         public string skuCode { get; set; }
-        public string itemPrice { get; set; }
+        public float? itemPrice { get; set; }
         public string imageURL { get; set; }
         public string hsnCode { get; set; }
         public string tags { get; set; }

@@ -482,7 +482,7 @@ namespace UniWare_PandoIntegration.Controllers
             string msg;
             ApiControl = new ApiOperation(Apibase);
 
-            var responses = ApiControl.Get("api/UniwarePando/PostAllocateShipping");
+            var responses = ApiControl.Get("api/UniwarePando/RetriggerAllocateShipping");
 
             msg = responses;
             return Json(new { Message = msg });
