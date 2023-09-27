@@ -2086,7 +2086,8 @@ namespace Uniware_PandoIntegration.APIs
                 com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
                 com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
                 com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
-                com.Parameters.AddWithValue("@shippingPackageTypeCode", dt.shippingPackageTypeCode);
+                //com.Parameters.AddWithValue("@shippingPackageTypeCode", dt.shippingPackageTypeCode);
+                com.Parameters.AddWithValue("@shippingPackageTypeCode", "");
                 com.Parameters.AddWithValue("@actualWeight", dt.actualWeight);
                 com.Parameters.AddWithValue("@noOfBoxes", dt.noOfBoxes);
                 com.Parameters.AddWithValue("@length", dt.shippingBox.length);

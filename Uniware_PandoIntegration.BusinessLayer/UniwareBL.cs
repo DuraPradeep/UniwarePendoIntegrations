@@ -784,7 +784,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["action_by"] = itemDatun[i].action_by;
                     drsku["action_type"] = itemDatun[i].action_type;
                     drsku["clear"] = itemDatun[i].clear;
-                    drsku["cust_refid"] = itemDatun[i].cust_refid;
+                    drsku["cust_refid"] = itemDatun[i].cust_ref_id;
                     drsku["Trigger_ID"] = id;
                     
 

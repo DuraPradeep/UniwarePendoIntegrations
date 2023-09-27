@@ -128,7 +128,7 @@ namespace Uniware_PandoIntegration.API
                                         var jsonq = JsonConvert.SerializeObject(helloq);
 
                                         List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
-                                        shippingPackage.items = itemsqq.FirstOrDefault();
+                                        shippingPackage.items = itemsqq[mi];
                                         break;
                                     }
                                     mi++;

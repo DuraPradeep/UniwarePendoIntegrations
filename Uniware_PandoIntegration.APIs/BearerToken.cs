@@ -603,7 +603,6 @@ namespace Uniware_PandoIntegration.APIs
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             var jsonre = JsonConvert.SerializeObject( data );           
             CreateLog($" Update Shipping package:-  {jsonre}");
-
             try
             {               
                 var client = new HttpClient();

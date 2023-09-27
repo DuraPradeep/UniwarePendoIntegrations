@@ -263,7 +263,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.sold_to = pds.Tables[0].Rows[i]["sold_to"].ToString();
                         Sendingdata.invoice_number = pds.Tables[0].Rows[i]["invoice_number"].ToString();
                         Sendingdata.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
-                        Sendingdata.cust_refid= pds.Tables[0].Rows[i]["cust_refid"].ToString();
+                        Sendingdata.cust_ref_id = pds.Tables[0].Rows[i]["cust_refid"].ToString();
                         Finaldata.Add(Sendingdata);
                     }
                     // serviceResponse.Errcode = 200;
