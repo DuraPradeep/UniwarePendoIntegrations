@@ -128,8 +128,9 @@ namespace Uniware_PandoIntegration.API
                                         var jsonq = JsonConvert.SerializeObject(helloq);
 
                                         List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
-                                        shippingPackage.items = itemsqq[mi];
-                                        break;
+                                        shippingPackage.items = new Items();
+                                        shippingPackage.items = itemsqq.FirstOrDefault();
+
                                     }
                                     mi++;
                                 }
@@ -577,7 +578,7 @@ namespace Uniware_PandoIntegration.API
                     returnSaleOrderItem.skuCode = Dlist.returnSaleOrderItems[k].skuCode;
                     returnSaleOrderItem.saleOrderCode = Dlist.returnSaleOrderItems[k].saleOrderCode;
                     returnSaleOrderItem.quantity = Dlist.returnSaleOrderItems.Count.ToString();
-                   
+
                     rootReturnorderAPI.returnSaleOrderItems.Add(returnSaleOrderItem);
                 }
                 for (int l = 0; l < Dlist.returnAddressDetailsList.Count; l++)
@@ -983,7 +984,7 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid,string Token,string FacilityCode)
+        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode)
         {
             int Lcheckcount = checkcount;
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode);
@@ -1010,7 +1011,7 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token,string FacilityCode)
+        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode)
         {
             int Lcheckcount = checkcount;
             var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode);

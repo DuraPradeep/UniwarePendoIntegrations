@@ -25,3 +25,12 @@ D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.
 D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
 D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
 D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
+C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
