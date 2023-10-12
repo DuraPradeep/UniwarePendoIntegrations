@@ -63,5 +63,17 @@ namespace Uniware_PandoIntegration.APIs
 			client.Dispose();
 			return response.Content.ReadAsAsync<T>().Result;
 		}
-	}
+        public string Post1<T, U>(U Posted, string uri)
+        {
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(t_BaseURL)
+            };
+            client.Timeout = TimeSpan.FromMinutes(10);
+            //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            HttpResponseMessage response = client.PostAsync<U>(uri, Posted, new JsonMediaTypeFormatter()).Result;
+            client.Dispose();
+            return response.Content.ReadAsStringAsync().Result;
+        }
+    }
 }

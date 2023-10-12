@@ -2205,7 +2205,7 @@ namespace Uniware_PandoIntegration.APIs
                 com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
                 com.Parameters.AddWithValue("@shippingCourier", dt.shippingCourier);
                 com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
-                com.Parameters.AddWithValue("@generateUniwareShippingLabel", dt.generateUniwareShippingLabel);
+                //com.Parameters.AddWithValue("@generateUniwareShippingLabel", dt.generateUniwareShippingLabel);
                 com.Parameters.AddWithValue("@Trigger_Id", triggerid);
                 
                 com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
@@ -2316,6 +2316,33 @@ namespace Uniware_PandoIntegration.APIs
             }
             finally { con.Close(); }
 
+        }
+        public static DataSet GetWaybillCancelData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_WaybillCancelData"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
         }
     }
 

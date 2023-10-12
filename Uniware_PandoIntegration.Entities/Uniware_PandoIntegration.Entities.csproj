@@ -65,6 +65,7 @@
     <Compile Include="STOwaybillGetCode.cs" />
     <Compile Include="TokenEntity.cs" />
     <Compile Include="UpdateShippingpackage.cs" />
+    <Compile Include="UploadExcels.cs" />
     <Compile Include="UserLogin.cs" />
     <Compile Include="WaybillSend.cs" />
     <Compile Include="WaybillSTOItemtypeDTO.cs" />

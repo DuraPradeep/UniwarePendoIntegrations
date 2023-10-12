@@ -14,25 +14,36 @@ using Serilog;
 using System.Net;
 using System.Runtime.Remoting.Channels;
 using System.Data;
+using System.Configuration;
 
 namespace Uniware_PandoIntegration.APIs
 {
     public class BearerToken
     {
         //private static readonly ILogger log = LogManager.GetLogger(typeof(SendEmail));
+        string ServerType = ConfigurationManager.AppSettings["ServerType"];//; AppSettings("ServerType");
+
         public void CreateLog(string message)
         {
             Log.Information(message);
         }
-        public async Task<ServiceResponse<string>> GetTokens()
+        public async Task<ServiceResponse<string>> GetTokens(string servertype)
         {
             //PandoUniwariToken rootobject;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
+                string URL = string.Empty;
                 CreateLog(" Token api Started");
-                string URL = "https://stgsleepyhead.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+                if (servertype.ToLower() == "qa")
+                {
+                    URL = "https://stgsleepyhead.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+                }
+                else if (servertype.ToLower() == "prod")
+                {
+                    URL = "https://sleepyhead.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
 
+                }
                 HttpClient _client = new HttpClient()
                 {
                     BaseAddress = new Uri(URL)
@@ -49,7 +60,7 @@ namespace Uniware_PandoIntegration.APIs
                 {
                     return serviceResponse;
 
-                }                
+                }
 
             }
             catch (Exception ex)
@@ -61,16 +72,25 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> GetCode(string Details, string Token)
+        public async Task<ServiceResponse<string>> GetCode(string Details, string Token, string servertype)
         {
-           
+
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-             
+
                 CreateLog(" Api saleOrder Search Started" + Details + ": " + Token);
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/saleOrder/search");
+                var request = new HttpRequestMessage();
+                if (servertype.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/saleOrder/search");
+                }
+                else if (servertype.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/saleOrder/search");
+
+                }
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
                 request.Content = content;
@@ -86,7 +106,7 @@ namespace Uniware_PandoIntegration.APIs
                 }
                 else
                 {
-                    serviceResponse.Errdesc=await response.Content.ReadAsStringAsync();
+                    serviceResponse.Errdesc = await response.Content.ReadAsStringAsync();
                     serviceResponse.Errcode = ((int)response.StatusCode);
                     //GetCode(Details, Token);
                 }
@@ -99,7 +119,7 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> GetCodeDetails(string Code, string Token)
+        public async Task<ServiceResponse<string>> GetCodeDetails(string Code, string Token, string Servertype)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
@@ -107,7 +127,17 @@ namespace Uniware_PandoIntegration.APIs
             {
                 CreateLog(" Api saleorder get:- " + Code + ": " + Token);
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/saleorder/get");
+                var request = new HttpRequestMessage();
+                if (Servertype.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/saleorder/get");
+
+                }
+                else if (Servertype.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/saleorder/get");
+
+                }
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Code, null, "application/json");
                 request.Content = content;
@@ -134,14 +164,23 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> GetSkuDetails(string SkuCode, string Token)
+        public async Task<ServiceResponse<string>> GetSkuDetails(string SkuCode, string Token, string Servertype)
         {
-            ServiceResponse<string> serviceResponse= new ServiceResponse<string>();
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-                CreateLog(" Api itemType_Get -" + SkuCode + ": " + Token);
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/catalog/itemType/get");
+                var request = new HttpRequestMessage();
+                if (Servertype.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/catalog/itemType/get");
+
+                }
+                else if (Servertype.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/catalog/itemType/get");
+
+                }
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(SkuCode, null, "application/json");
                 request.Content = content;
@@ -168,30 +207,44 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> PostDataToDeliverypackList(string jsonre)//List<Data> data
+        public async Task<ServiceResponse<string>> PostDataToDeliverypackList(string jsonre, string ServerType)//List<Data> data
         {
             var responses = "";
             //var jsondeserial = JsonSerializer.Deserialize<List<sendRoot>>(data);
-            ServiceResponse<string> serviceResponse=new ServiceResponse<string>();
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-             //var jsonre = JsonConvert.SerializeObject(new { data =data});
+            //var jsonre = JsonConvert.SerializeObject(new { data =data});
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
             //CreateLog($" Post Data to Pando:-  {jsonre}");
             //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
             try
             {
+                var credentials = new byte[100];
+                var request = new HttpRequestMessage();
                 var client = new HttpClient();
-                var credentials = Encoding.ASCII.GetBytes(_credentials);
+                if (ServerType.ToLower() == "qa")
+                {
+                    credentials = Encoding.ASCII.GetBytes(_credentials);
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    credentials = Encoding.ASCII.GetBytes(_credentials);
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+
+                }
+                //var credentials = Encoding.ASCII.GetBytes(_credentials);
                 //var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice");
 
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/optima/delivery-picklist");
 
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
                 var content = new StringContent(jsonre, null, "application/json");
                 request.Content = content;
-                var response = await client.SendAsync(request);                
+                var response = await client.SendAsync(request);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");               
+                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -199,7 +252,7 @@ namespace Uniware_PandoIntegration.APIs
                 }
                 else
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);                    
+                    serviceResponse.Errcode = ((int)response.StatusCode);
                 }
             }
             catch (Exception ex)
@@ -211,28 +264,40 @@ namespace Uniware_PandoIntegration.APIs
 
         }
 
-        public async Task<ServiceResponse<string>> PostDataTomaterialinvoice(List<WaybillSend> data)
+        public async Task<ServiceResponse<string>> PostDataTomaterialinvoice(string data, string ServerType)
         {
-            
+
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-            var jsonre = JsonConvert.SerializeObject(new { data = data });
+            //var jsonre = JsonConvert.SerializeObject(new { data = data });
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Way Bill Material Invoice Data:-  {jsonre}");
-            
+
             try
-            { 
+            {
                 var client = new HttpClient();
-                var credentials = Encoding.ASCII.GetBytes(_credentials);
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice ");
-                
+                var credentials = new byte[100];
+                var request = new HttpRequestMessage();
+                if (ServerType.ToLower() == "qa")
+                {
+                    credentials = Encoding.ASCII.GetBytes(_credentials);
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice ");
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    credentials = Encoding.ASCII.GetBytes(_credentials);
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.pando.in/inbound/api/transactions/order/material-invoice");
+
+                }
+                //var credentials = Encoding.ASCII.GetBytes(_credentials);
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice ");
+
                 request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
-                var content = new StringContent(jsonre, null, "application/json");
+                var content = new StringContent(data, null, "application/json");
                 request.Content = content;
                 var response = await client.SendAsync(request);
-             
+
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-             
+
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -241,7 +306,7 @@ namespace Uniware_PandoIntegration.APIs
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
-                   
+
                 }
             }
             catch (Exception ex)
@@ -253,7 +318,7 @@ namespace Uniware_PandoIntegration.APIs
 
         }
 
-        public async Task<ServiceResponse<string>> ReturnOrderGetCode(string Details, string Token)
+        public async Task<ServiceResponse<string>> ReturnOrderGetCode(string Details, string Token, string ServerType)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -261,8 +326,17 @@ namespace Uniware_PandoIntegration.APIs
             {
 
                 CreateLog("Return Order API Search Request" + Details + ": " + Token);
-                var client = new HttpClient(); 
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                var client = new HttpClient();
+                var request = new HttpRequestMessage();
+                if (ServerType.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                }
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
                 request.Headers.Add("Facility", "Hosur_Avigna");
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
@@ -291,7 +365,7 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> ReturnOrderGet(string Details, string Token)
+        public async Task<ServiceResponse<string>> ReturnOrderGet(string Details, string Token, string ServerType)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -300,7 +374,18 @@ namespace Uniware_PandoIntegration.APIs
 
                 CreateLog("Return Order API Get Request" + Details + ": " + Token);
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+                var request = new HttpRequestMessage();
+                if (ServerType.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+
+                }
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
                 request.Headers.Add("Facility", "Hosur_Avigna");
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
@@ -405,23 +490,30 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token)
+        public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token, string ServerType)
         {
-
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-
                 //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
-                request.Headers.Add("Facility", "stgsleepyhead");
+                var request = new HttpRequestMessage();
+                if (ServerType.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                }
+                //var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                request.Headers.Add("Facility", "Hosur_Avigna");
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); 
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 //CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 if (response.IsSuccessStatusCode)
@@ -442,17 +534,25 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> FetchingGetPassElements(string Details, string Token)
+        public async Task<ServiceResponse<string>> FetchingGetPassElements(string Details, string Token, string ServerType)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-
                 //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
-                request.Headers.Add("Facility", "stgsleepyhead");
+                var request = new HttpRequestMessage();
+                if (ServerType.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                }
+                //var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                request.Headers.Add("Facility", "Hosur_Avigna");
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
                 request.Content = content;
@@ -479,40 +579,40 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> GetSTOSkuDetails(string SkuCode, string Token)
-        {
-            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-            try
-            {
-                CreateLog("STO itemType_Get -" + SkuCode + ": " + Token);
-                var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/catalog/itemType/get");
-                request.Headers.Add("Authorization", "Bearer" + Token);
-                var content = new StringContent(SkuCode, null, "application/json");
-                request.Content = content;
-                var response = await client.SendAsync(request);
-                //response.EnsureSuccessStatusCode();
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                //return responses;
-                if (response.IsSuccessStatusCode)
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
-                }
-                else
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetSkuDetails(SkuCode, Token);
-                }
-            }
-            catch (Exception ex)
-            {
-                CreateLog($"Error: {ex.Message}");
-                throw ex;
-            }
-            return serviceResponse;
-        }
+        //public async Task<ServiceResponse<string>> GetSTOSkuDetails(string SkuCode, string Token)
+        //{
+        //    ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+        //    try
+        //    {
+        //        CreateLog("STO itemType_Get -" + SkuCode + ": " + Token);
+        //        var client = new HttpClient();
+        //        var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/catalog/itemType/get");
+        //        request.Headers.Add("Authorization", "Bearer" + Token);
+        //        var content = new StringContent(SkuCode, null, "application/json");
+        //        request.Content = content;
+        //        var response = await client.SendAsync(request);
+        //        //response.EnsureSuccessStatusCode();
+        //        serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+        //        CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+        //        //return responses;
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //            return serviceResponse;
+        //        }
+        //        else
+        //        {
+        //            serviceResponse.Errcode = ((int)response.StatusCode);
+        //            //GetSkuDetails(SkuCode, Token);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CreateLog($"Error: {ex.Message}");
+        //        throw ex;
+        //    }
+        //    return serviceResponse;
+        //}
         //public async Task<ServiceResponse<string>> WaybillSTOPostDataDeliverypackList(string jsonre)//List<PostDataSTOWaybill> data
         //{
 
@@ -595,18 +695,27 @@ namespace Uniware_PandoIntegration.APIs
 
         //}
 
-        public async Task<ServiceResponse<string>> PostUpdateShippingpckg(UpdateShippingpackage data, string Token,string FacilityCode)
+        public async Task<ServiceResponse<string>> PostUpdateShippingpckg(UpdateShippingpackage data, string Token, string FacilityCode, string Servertype)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
-            var jsonre = JsonConvert.SerializeObject( data );           
+            var jsonre = JsonConvert.SerializeObject(data);
             CreateLog($" Update Shipping package:-  {jsonre}");
             try
-            {               
+            {
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                var request = new HttpRequestMessage();
+                if (Servertype.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                }
+                else if (Servertype.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                }
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer " + Token);
                 var content = new StringContent(jsonre, null, "application/json");
@@ -614,7 +723,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");                
+                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -634,7 +743,7 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
 
         }
-        public async Task<ServiceResponse<string>> PostAllocateShipping(Allocateshipping data,string Token,string FacilityCode)
+        public async Task<ServiceResponse<string>> PostAllocateShipping(Allocateshipping data, string Token, string FacilityCode,string ServerType)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -644,9 +753,18 @@ namespace Uniware_PandoIntegration.APIs
             //string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
             CreateLog($" Allocate Shipping:-  {jsonre}");
             try
-            {                
+            {
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                var request = new HttpRequestMessage();
+                if(ServerType.ToLower()=="qa")
+                {
+                     request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                }
+                else if(ServerType.ToLower()=="prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                }
+                //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
                 request.Headers.Add("Facility", FacilityCode);
                 //request.Headers.Add("Facility", "Hosur_Avigna");
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -656,6 +774,46 @@ namespace Uniware_PandoIntegration.APIs
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($" Error:{ex.Message}");
+                throw ex;
+            }
+            return serviceResponse;
+
+        }
+        public async Task<ServiceResponse<string>> DeleteDataTomaterialinvoice(string data)
+        {
+
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            //var jsonre = JsonConvert.SerializeObject(new { data = data });
+            string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+
+            try
+            {
+                var client = new HttpClient();
+                var credentials = Encoding.ASCII.GetBytes(_credentials);
+                var request = new HttpRequestMessage(HttpMethod.Delete, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice ");
+
+                request.Headers.Add("Authorization", "Basic " + Convert.ToBase64String(credentials));
+                var content = new StringContent(data, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);

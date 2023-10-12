@@ -6,171 +6,188 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Yinka Enoch Adedokun">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link href="~/css/site.css" rel="stylesheet" />
-	<link rel="stylesheet" href="~/UniWare_PandoIntegration.styles.css" asp-append-version="true" />
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	<script src="~/js/jquery-3.7.0.min.js"></script>
-	<script src="~/js/bootstrap.min.js"></script>
-	<script src="~/js/toast.min.js"></script>
-	<title>Login</title>
-	<style>
-		.main-content{
-	width: 50%;
-	border-radius: 20px;
-	box-shadow: 0 5px 5px rgba(0,0,0,.4);
-	margin: 5em auto;
-	display: flex;
-}
-.company__info{
-	background-color: #dc3545;
-	border-top-left-radius: 20px;
-	border-bottom-left-radius: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	color: #fff;
-}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/UniWare_PandoIntegration.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery-3.7.0.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/toast.min.js"></script>
+    <title>Login</title>
+    <style>
+        .main-content {
+            width: 50%;
+            border-radius: 20px;
+            box-shadow: 0 5px 5px rgba(0,0,0,.4);
+            margin: 5em auto;
+            display: flex;
+        }
 
-	.company__logo img {
-		width: 205px;
-	}
-.fa-android{
-	font-size:3em;
-}
-@@media screen and (max-width: 640px) {
-	.main-content{width: 90%;}
-	.company__info{
-		/*display: none;*/
-	}
-	.login_form{
-		border-top-left-radius:20px;
-		border-bottom-left-radius:20px;
-	}
-}
-@@media screen and (min-width: 642px) and (max-width:800px){
-	.main-content{width: 70%;}
-}
-.row > h2{
-			color: #dc3545;
-}
-.login_form{
-	background-color: #fff;
-	border-top-right-radius:20px;
-	border-bottom-right-radius:20px;
-	border-top:1px solid #ccc;
-	border-right:1px solid #ccc;
-}
-form{
-	padding: 0 2em;
-}
-.form__input{
-	width: 100%;
-	border:0px solid transparent;
-	border-radius: 0;
-	border-bottom: 1px solid #aaa;
-	padding: 1em .5em .5em;
-	padding-left: 2em;
-	outline:none;
-	margin:1.5em auto;
-	transition: all .5s ease;
-}
-.form__input:focus{
-				border-bottom-color: #dc3545;
-				box-shadow: 0 0 5px rgba(220,53,6,.4);
-				,.4);
-				border-radius: 4px;
-}
-.btn{
-	transition: all .5s ease;
-	width: 70%;
-	border-radius: 30px;
-			color: #dc3545;
-	font-weight: 600;
-	background-color: #fff;
-			border: 1px solid #dc3545;
-	margin-top: 1.5em;
-	margin-bottom: 1em;
-			margin: auto;
-}
-.btn:hover, .btn:focus{
-				background-color: #dc3545;
-	color:#fff;
-}
-	</style>
+        .company__info {
+            background-color: #dc3545;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .company__logo img {
+            width: 205px;
+        }
+
+        .fa-android {
+            font-size: 3em;
+        }
+
+        @@media screen and (max-width: 640px) {
+            .main-content {
+                width: 90%;
+            }
+
+            .company__info {
+                /*display: none;*/
+            }
+
+            .login_form {
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+            }
+        }
+
+        @@media screen and (min-width: 642px) and (max-width:800px) {
+            .main-content {
+                width: 70%;
+            }
+        }
+
+        .row > h2 {
+            color: #dc3545;
+        }
+
+        .login_form {
+            background-color: #fff;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            border-top: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        form {
+            padding: 0 2em;
+        }
+
+        .form__input {
+            width: 100%;
+            border: 0px solid transparent;
+            border-radius: 0;
+            border-bottom: 1px solid #aaa;
+            padding: 1em .5em .5em;
+            padding-left: 2em;
+            outline: none;
+            margin: 1.5em auto;
+            transition: all .5s ease;
+        }
+
+            .form__input:focus {
+                border-bottom-color: #dc3545;
+                box-shadow: 0 0 5px rgba(220,53,6,.4);
+                ,.4);
+                border-radius: 4px;
+            }
+
+        .btn {
+            transition: all .5s ease;
+            width: 70%;
+            border-radius: 30px;
+            color: #dc3545;
+            font-weight: 600;
+            background-color: #fff;
+            border: 1px solid #dc3545;
+            margin-top: 1.5em;
+            margin-bottom: 1em;
+            margin: auto;
+        }
+
+            .btn:hover, .btn:focus {
+                background-color: #dc3545;
+                color: #fff;
+            }
+    </style>
 </head>
 
 <body>
-	@if (ViewBag.Message != null)
-	{
-		<script>
+    @if (ViewBag.Message != null)
+    {
+        <script>
 
-			$(document).ready(function () {
-				//debugger;
-				const options = {
-					style: {
-						main: {
-							background: "#dc3545",
-							color: "#fff",
-						},
-					},
-				};
-				iqwerty.toast.toast('@ViewBag.Message', options);
-				////alert('@ViewBag.Message');
+            $(document).ready(function () {
+                //debugger;
+                const options = {
+                    style: {
+                        main: {
+                            background: "#dc3545",
+                            color: "#fff",
+                        },
+                    },
+                };
+                iqwerty.toast.toast('@ViewBag.Message', options);
+                ////alert('@ViewBag.Message');
 
-			});
+            });
 
 
-		</script>
-	}
-	<!-- Main Content -->
-	<div class="container-fluid">
-		<div class="row main-content bg-success text-center">
-			<div class="col-md-4 text-center company__info">
+        </script>
+    }
+    <!-- Main Content -->
+    <div class="container-fluid">
+        <div class="row main-content bg-success text-center">
+            <div class="col-md-4 text-center company__info">
                 <span class="company__logo">
-					@*<h2>*@
-						<img src="~/images/durologo_white.png" />
-						@*<span class="fa fa-laptop"></span>*@
-					@*</h2>*@
-				</span>
-				@*<h4 class="company_title">Your Company Logo</h4>*@
-			</div>
-			<div class="col-md-8 col-xs-12 col-sm-12 login_form ">
-				<div class="container-fluid">
-					<div class="row">
-						<h2>Log In</h2>
-					</div>
-					<div class="row">
-						<form control="~/Home/Login" class="form-group" method="post">
-							<div class="row">
-								<input type="text" name="UserName" id="UserName" class="form__input" placeholder="Username">
-							</div>
-							<div class="row">
-								<!-- <span class="fa fa-lock"></span> -->
-								<input type="password" name="Password" id="Password" class="form__input" placeholder="Password">
-							</div>
-							@*<div class="row">
-								<input type="checkbox" name="remember_me" id="remember_me" class="">
-								<label for="remember_me">Remember Me!</label>
-							</div>*@
-							<div class="row">
-								<input type="submit" value="Submit" class="btn">
-							</div>
-						</form>
-					</div>
-					@*<div class="row">
-						<p>Don't have an account? <a href="#">Register Here</a></p>
-					</div>*@
-				</div>
-			</div>
-		</div>
-	</div>
-	
+                    @*<h2>*@
+                    <img src="~/images/durologo_white.png" />
+                    @*<span class="fa fa-laptop"></span>*@
+                    @*</h2>*@
+                </span>
+                @*<h4 class="company_title">Your Company Logo</h4>*@
+            </div>
+            <div class="col-md-8 col-xs-12 col-sm-12 login_form ">
+                <div class="container-fluid">
+                    <div class="row">
+                        <h2>Log In</h2>
+                    </div>
+                    <div class="row">
+                        <form control="~/Home/Login" class="form-group" method="post">
+                            <div class="row">
+                                <input type="text" name="UserName" id="UserName" class="form__input" placeholder="Username">
+                            </div>
+                            <div class="row">
+                                <!-- <span class="fa fa-lock"></span> -->
+                                <input type="password" name="Password" id="Password" class="form__input" placeholder="Password">
+                            </div>
+                            @*<div class="row">
+                            <input type="checkbox" name="remember_me" id="remember_me" class="">
+                            <label for="remember_me">Remember Me!</label>
+                            </div>*@
+                            <div class="row">
+                                <input type="submit" value="Submit" class="btn">
+                            </div>
+                        </form>
+                    </div>
+                    @*<div class="row">
+                    <p>Don't have an account? <a href="#">Register Here</a></p>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

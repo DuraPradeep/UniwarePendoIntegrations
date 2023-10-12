@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using Uniware_PandoIntegration.APIs;
@@ -100,7 +103,26 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
                         Sendingdata.cust_category = pds.Tables[0].Rows[i]["cust_category"].ToString();
                         Sendingdata.cust_refid = pds.Tables[0].Rows[i]["cust_refid"].ToString();
+                        //Sendingdata.exclude_truck_type.Add(pds.Tables[0].Rows[i]["cust_refid"].ToString())
+                        List<string> exclude_truck_ = new List<string>();
+                      
+                        string Details = ""; 
+                        string TruckName = "";
+                        IDictionary<string, string> numberNames = new Dictionary<string, string>();
 
+                        for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
+                        {
+
+                            numberNames.Add(pds.Tables[1].Rows[j]["TruckName"].ToString(), pds.Tables[1].Rows[j]["Details"].ToString());
+                            
+                            Sendingdata.numberNames= numberNames;
+
+                            var jon = JsonConvert.SerializeObject(numberNames);
+                            var jons = JsonConvert.SerializeObject(Sendingdata);
+                          
+                        }
+
+                       
 
                         Finaldata.Add(Sendingdata);
                     }
@@ -363,7 +385,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
                     returncode.invoice_date = pds.Tables[0].Rows[i]["invoice_date"].ToString();
                     returncode.pickup_reference_number = pds.Tables[0].Rows[i]["pickup_reference_number"].ToString();
-                    returncode.cust_refid = pds.Tables[0].Rows[i].ToString();
+                    returncode.cust_ref_id = pds.Tables[0].Rows[i]["cust_refid"].ToString();
 
                     userProfile.Add(returncode);
                 }
@@ -628,7 +650,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
                     shippingBox.width = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
                     shippingBox.height = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
-                    Updateship.shippingBox=shippingBox;
+                    Updateship.shippingBox = shippingBox;
                     customFieldValue.name = pds.Tables[0].Rows[i]["name"].ToString();
                     customFieldValue.value = pds.Tables[0].Rows[i]["value"].ToString();
                     Updateship.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
@@ -640,15 +662,15 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     userProfile.Add(Updateship);
                 }
                 //skucodes.Add( userProfile);
-               // skucodes =
-               return userProfile;
+                // skucodes =
+                return userProfile;
                 //userProfile.AddRange(sKucode)
             }
             catch (Exception ex)
             {
 
                 //throw ex;
-                return userProfile=null;
+                return userProfile = null;
             }
 
         }
@@ -671,14 +693,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sKucode.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
                     sKucode.shippingCourier = pds.Tables[0].Rows[i]["shippingCourier"].ToString();
                     sKucode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
-                    sKucode.generateUniwareShippingLabel = pds.Tables[0].Rows[i]["generateUniwareShippingLabel"].ToString();
+                    //sKucode.generateUniwareShippingLabel = pds.Tables[0].Rows[i]["generateUniwareShippingLabel"].ToString();
                     sKucode.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
 
                     userProfile.Add(sKucode);
 
                 }
                 //skucodes.Add( userProfile);
-               return userProfile;
+                return userProfile;
                 //userProfile.AddRange(sKucode)
             }
             catch (Exception ex)
@@ -687,6 +709,31 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             //return skucodes;
+        }
+        public static List<CancelData> GetWayBillCancelData(DataSet pds)
+        {
+            List<CancelData> Finaldata = new List<CancelData>();
+
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                    {
+                        CancelData Sendingdata = new CancelData();
+                        Sendingdata.indent_no = pds.Tables[0].Rows[i]["indent_no"].ToString();
+                        Sendingdata.material_invoice_number= pds.Tables[0].Rows[i]["material_invoice_number"].ToString();
+                        Sendingdata.material_code= pds.Tables[0].Rows[i]["material_code"].ToString();
+                        Finaldata.Add(Sendingdata);
+                    }
+                    // serviceResponse.Errcode = 200;
+                }                
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Finaldata;
         }
     }
 }

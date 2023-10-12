@@ -251,6 +251,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 //CreateLog($"item sku code insert DB:-{itemDTO}");
                 DataTable dtsku = new DataTable();
                 dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("itemSku");
                 dtsku.Columns.Add("itemDetailFieldsText");//itemDetailFieldsText  dtsku.Columns.Add("CategoryCode")
                 dtsku.Columns.Add("Width");
                 dtsku.Columns.Add("height");
@@ -260,6 +261,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 {
                     DataRow drsku = dtsku.NewRow();
                     drsku["Code"] = itemDTO[i].Code;
+                    drsku["itemSku"] = itemDTO[i].skuType;
                     drsku["itemDetailFieldsText"] = itemDTO[i].itemDetailFieldsText;
                     drsku["Width"] = itemDTO[i].width;
                     drsku["height"] = itemDTO[i].height;
@@ -2038,7 +2040,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void InsertAllocate_Shipping(Allocateshipping itemDatun)
+        public void InsertAllocate_Shipping(List<Allocateshipping> itemDatun)
         {
             string res;
             try
@@ -2049,18 +2051,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("shippingProviderCode");
                 dtsku.Columns.Add("shippingCourier");
                 dtsku.Columns.Add("trackingNumber");
-                dtsku.Columns.Add("generateUniwareShippingLabel");
-                //for (int i = 0; i < itemDatun.Count; i++)
-                //{
+                //dtsku.Columns.Add("generateUniwareShippingLabel");
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
                     DataRow drsku = dtsku.NewRow();
-                    drsku["shippingPackageCode"] = itemDatun.shippingPackageCode;
-                    drsku["shippingLabelMandatory"] = itemDatun.shippingLabelMandatory;
-                    drsku["shippingProviderCode"] = itemDatun.shippingProviderCode;
-                    drsku["shippingCourier"] = itemDatun.shippingCourier;
-                    drsku["trackingNumber"] = itemDatun.trackingNumber;
-                    drsku["generateUniwareShippingLabel"] = itemDatun.generateUniwareShippingLabel;
+                    drsku["shippingPackageCode"] = itemDatun[i].shippingPackageCode;
+                    drsku["shippingLabelMandatory"] = itemDatun[i].shippingLabelMandatory;
+                    drsku["shippingProviderCode"] = itemDatun[i].shippingProviderCode;
+                    drsku["shippingCourier"] = itemDatun[i].shippingCourier;
+                    drsku["trackingNumber"] = itemDatun[i].trackingNumber;
+                    //drsku["generateUniwareShippingLabel"] = itemDatun[i].generateUniwareShippingLabel;
                     dtsku.Rows.Add(drsku);
-                //}
+                }
                 SPWrapper.IsertAllocate_Shipping(dtsku);
                 
             }
@@ -2071,6 +2073,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
+        
         public List<AllocateshippingDb> PostGAllocateShippingData()
         {
             //List<Allocateshipping> codes = new List<Allocateshipping>();
@@ -2198,6 +2201,20 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
+        public List<CancelData> GetWaybillCancelData()
+        {
+            List<CancelData> AllRes = new List<CancelData>();
+            try
+            {
+                AllRes = Mapper.GetWayBillCancelData(SPWrapper.GetWaybillCancelData());
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+
 
     }
 }

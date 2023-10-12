@@ -51,7 +51,7 @@ namespace Uniware_PandoIntegration.API
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
                   }),
 
-                    Expires = DateTime.Now.AddMinutes(30),
+                    Expires = DateTime.Now.AddHours(24),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
