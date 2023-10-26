@@ -57,17 +57,17 @@ namespace Uniware_PandoIntegration.Entities
         public object inflowReceiptCode { get; set; }
         public object itemCondition { get; set; }
         public object reason { get; set; }
-        public int total { get; set; }
-        public int unitPrice { get; set; }
-        public int taxPercentage { get; set; }
-        public int integratedGstPercentage { get; set; }
-        public int unionTerritoryGstPercentage { get; set; }
-        public int stateGstPercentage { get; set; }
-        public int centralGstPercentage { get; set; }
-        public int compensationCessPercentage { get; set; }
-        public int quantity { get; set; }
-        public int receivedQuantity { get; set; }
-        public int pendingQuantity { get; set; }
+        public int? total { get; set; }
+        public decimal? unitPrice { get; set; }
+        public int? taxPercentage { get; set; }
+        public int? integratedGstPercentage { get; set; }
+        public int? unionTerritoryGstPercentage { get; set; }
+        public int? stateGstPercentage { get; set; }
+        public int? centralGstPercentage { get; set; }
+        public int? compensationCessPercentage { get; set; }
+        public int? quantity { get; set; }
+        public int? receivedQuantity { get; set; }
+        public int? pendingQuantity { get; set; }
         public string shelfCode { get; set; }
         public string hsnCode { get; set; }
         public object batchDTO { get; set; }

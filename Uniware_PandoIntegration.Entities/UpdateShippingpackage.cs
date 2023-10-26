@@ -19,6 +19,7 @@ namespace Uniware_PandoIntegration.Entities
         public int? noOfBoxes { get; set; }
         public List<CustomFieldValue> customFieldValues { get; set; }
     }
+    
     public class UpdateShippingpackageFacility
     {
         public string shippingPackageCode { get; set; }

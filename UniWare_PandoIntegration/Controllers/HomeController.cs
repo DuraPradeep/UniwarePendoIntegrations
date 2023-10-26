@@ -454,8 +454,6 @@ namespace UniWare_PandoIntegration.Controllers
             string msg;
             ApiControl = new ApiOperation(Apibase);
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
-
-
             var responses = ApiControl.Get("api/UniwarePando/RetriggerUpdateShipping");
 
             msg = responses;
@@ -481,9 +479,7 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-
             var responses = ApiControl.Get("api/UniwarePando/RetriggerAllocateShipping");
-
             msg = responses;
             return Json(new { Message = msg });
         }
@@ -492,6 +488,39 @@ namespace UniWare_PandoIntegration.Controllers
             ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
             response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return Json(response.ObjectParam);
+            //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
+        }
+        [HttpGet]
+        public ActionResult ReversePickUpErrorList()
+        {
+            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
+            ApiControl = new ApiOperation(Apibase);
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/ReversePickupErrorDetails");
+            if (response.ObjectParam.Count > 0)
+            {
+                ViewData["UserName"] = 1;
+            }
+            return View("~/Views/Home/pv_ReversePickup.cshtml", response.ObjectParam);           
+        }
+        [HttpGet]
+        public JsonResult ReversePickupRetrigger()
+        {
+            string msg;
+            ApiControl = new ApiOperation(Apibase);
+            var responses = ApiControl.Get("api/UniwarePando/RetriggerreversePickup");
+            msg = responses;
+            return Json(new { Message = msg });
+        }
+        public JsonResult ReversePickupErrorListData()
+        {
+            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
+            ApiControl = new ApiOperation(Apibase);
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/ReversePickupErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;

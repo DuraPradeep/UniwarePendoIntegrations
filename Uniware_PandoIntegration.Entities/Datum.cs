@@ -38,15 +38,15 @@ namespace Uniware_PandoIntegration.Entities
         public string type { get; set; }
         public string line_item_no { get; set; }
         public string pickup_reference_number { get; set; }
-        public string cust_refid { get; set; }
+        public string cust_ref_id { get; set; }
         public List<string> exclude_vehicle_type { get; set; }
-        public IDictionary<string, string> numberNames { get; set; }// = new Dictionary<string, string>();
+        //public IDictionary<string, string> numberNames { get; set; }// = new Dictionary<string, string>();
 
     }
     public class exclude_truck_type
     {
         public string Name { get; set; }
-        public string Value { get; set; }
+        //public string Value { get; set; }
     }
     public class sendRoot
     {

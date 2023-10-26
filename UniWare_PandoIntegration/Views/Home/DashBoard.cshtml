@@ -369,6 +369,18 @@
 
         });
     }
+    function fn_ReversePickUp() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/Home/ReversePickUpErrorList", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            fn_ReversePickupDataObject();
+
+        });
+    }
+
 
 </script>
 @*<div class="loader">
@@ -480,6 +492,14 @@
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
                     <p>Excel Upload</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReversePickUp()">
+            <div class="card text-white mb-4 text-center pointer">
+                <div class="card-body tile_list">
+                    <p>Reverse Pickup</p>
                 </div>
             </div>
 

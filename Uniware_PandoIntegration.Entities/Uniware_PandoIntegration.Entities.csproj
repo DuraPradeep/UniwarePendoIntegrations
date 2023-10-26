@@ -58,6 +58,7 @@
     <Compile Include="ReqSalesOrderSearch.cs" />
     <Compile Include="RequestReturnOrder.cs" />
     <Compile Include="ReturnorderCode.cs" />
+    <Compile Include="ReversePickup.cs" />
     <Compile Include="saleOrderDTO.cs" />
     <Compile Include="SaleOrderSearch.cs" />
     <Compile Include="Datum.cs" />

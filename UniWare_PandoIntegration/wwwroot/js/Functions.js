@@ -236,3 +236,35 @@ function fn_AllocateShippingDataObject() {
         }
     });
 }
+function fn_ReversePickupDataObject() {
+    debugger;
+    //$("#overlay").fadeIn(500);
+    $.get("/Home/AlocateShippingErrorListData", {}).done(function (data) {
+        console.log(data);
+        //$("#overlay").fadeOut(500);
+        debugger;
+        //$("a").removeClass("dropdown-toggle");
+        if ($.fn.dataTable.isDataTable('#ReversePickupTblId')) {
+            table = $('#ReversePickupTblId').DataTable();
+            table.clear();
+            table.destroy();
+        }
+        if (data.length != 0) {
+            debugger;
+            $('#ReversePickupTblId').DataTable({
+                "processing": true,
+                "info": true,
+                "stateSave": true,
+                data: data,
+                "columns": [
+                    { data: "reason" }
+                ]
+            })
+            //$("#overlay").fadeOut(500);
+        }
+        else {
+            iqwerty.toast.toast("No Failed Records Found!!");
+            //$("#overlay").fadeOut(500);
+        }
+    });
+}

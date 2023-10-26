@@ -102,31 +102,15 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.type = pds.Tables[0].Rows[i]["type"].ToString();
                         Sendingdata.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
                         Sendingdata.cust_category = pds.Tables[0].Rows[i]["cust_category"].ToString();
-                        Sendingdata.cust_refid = pds.Tables[0].Rows[i]["cust_refid"].ToString();
-                        //Sendingdata.exclude_truck_type.Add(pds.Tables[0].Rows[i]["cust_refid"].ToString())
-                        List<string> exclude_truck_ = new List<string>();
-                      
-                        string Details = ""; 
-                        string TruckName = "";
-                        IDictionary<string, string> numberNames = new Dictionary<string, string>();
-
+                        Sendingdata.cust_ref_id = pds.Tables[0].Rows[i]["cust_refid"].ToString();
+                        Sendingdata.exclude_vehicle_type = new List<string>();
                         for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
-                        {
-
-                            numberNames.Add(pds.Tables[1].Rows[j]["TruckName"].ToString(), pds.Tables[1].Rows[j]["Details"].ToString());
-                            
-                            Sendingdata.numberNames= numberNames;
-
-                            var jon = JsonConvert.SerializeObject(numberNames);
-                            var jons = JsonConvert.SerializeObject(Sendingdata);
-                          
+                        {                            
+                            Sendingdata.exclude_vehicle_type.Add(pds.Tables[1].Rows[j]["Details"].ToString());
                         }
-
-                       
-
                         Finaldata.Add(Sendingdata);
                     }
-                    // serviceResponse.Errcode = 200;
+                   
                 }
                 else
                 {
@@ -180,10 +164,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.type = pds.Tables[0].Rows[i]["type"].ToString();
                         Sendingdata.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
                         Sendingdata.cust_category = pds.Tables[0].Rows[i]["cust_category"].ToString();
-                        Sendingdata.cust_refid = pds.Tables[0].Rows[i]["cust_refid"].ToString();
-
-
-
+                        Sendingdata.cust_ref_id = pds.Tables[0].Rows[i]["cust_refid"].ToString();
+                        Sendingdata.exclude_vehicle_type = new List<string>();
+                        for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
+                        {
+                            Sendingdata.exclude_vehicle_type.Add(pds.Tables[1].Rows[j]["Details"].ToString());
+                        }
                         Finaldata.Add(Sendingdata);
                     }
                     // serviceResponse.Errcode = 200;
@@ -722,18 +708,71 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     {
                         CancelData Sendingdata = new CancelData();
                         Sendingdata.indent_no = pds.Tables[0].Rows[i]["indent_no"].ToString();
-                        Sendingdata.material_invoice_number= pds.Tables[0].Rows[i]["material_invoice_number"].ToString();
-                        Sendingdata.material_code= pds.Tables[0].Rows[i]["material_code"].ToString();
+                        Sendingdata.material_invoice_number = pds.Tables[0].Rows[i]["material_invoice_number"].ToString();
+                        Sendingdata.material_code = pds.Tables[0].Rows[i]["material_code"].ToString();
                         Finaldata.Add(Sendingdata);
                     }
                     // serviceResponse.Errcode = 200;
-                }                
+                }
             }
             catch (Exception ex)
             {
 
             }
             return Finaldata;
+        }
+        public static List<ReversePickup> GetReverseAllData(DataSet pds)
+        {
+            List<ReversePickup> userProfile = new List<ReversePickup>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    ReversePickup reversePickup = new ReversePickup();
+                    reversePickup.customFields = new List<CustomField>();
+
+                    PickUpAddress pickUpAddress = new PickUpAddress();
+                    Dimension dimension = new Dimension();
+                    CustomField customField=new CustomField();
+
+                    reversePickup.reversePickupCode = pds.Tables[0].Rows[i]["reversepickupcode"].ToString();
+                    reversePickup.pickupInstruction = pds.Tables[0].Rows[i]["pickupInstruction"].ToString();
+                    reversePickup.trackingLink = pds.Tables[0].Rows[i]["trackingLink"].ToString();
+                    reversePickup.shippingCourier = pds.Tables[0].Rows[i]["shippingCourier"].ToString();
+                    reversePickup.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    reversePickup.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+
+                    pickUpAddress.id= pds.Tables[0].Rows[i]["id"].ToString();
+                    pickUpAddress.name= pds.Tables[0].Rows[i]["name"].ToString();
+                    pickUpAddress.addressLine1= pds.Tables[0].Rows[i]["addressLine1"].ToString();
+                    pickUpAddress.addressLine2= pds.Tables[0].Rows[i]["addressLine2"].ToString();
+                    pickUpAddress.city= pds.Tables[0].Rows[i]["city"].ToString();
+                    pickUpAddress.state=pds.Tables[0].Rows[i]["state"].ToString();
+                    pickUpAddress.phone= pds.Tables[0].Rows[i]["phone"].ToString();
+                    pickUpAddress.pincode= pds.Tables[0].Rows[i]["pincode"].ToString();
+                    reversePickup.pickUpAddress = pickUpAddress;
+
+                    dimension.boxLength = pds.Tables[0].Rows[i]["boxLength"].ToString();
+                    dimension.boxWidth = pds.Tables[0].Rows[i]["boxWidth"].ToString();
+                    dimension.boxHeight = pds.Tables[0].Rows[i]["boxHeight"].ToString();
+                    dimension.boxWeight = pds.Tables[0].Rows[i]["boxWeight"].ToString();
+                    reversePickup.dimension = dimension;
+
+                    customField.name= pds.Tables[0].Rows[i]["name"].ToString();
+                    customField.value= pds.Tables[0].Rows[i]["value"].ToString();
+                    reversePickup.customFields.Add(customField);
+
+                    userProfile.Add(reversePickup);
+                }
+               
+                return userProfile;
+               
+            }
+            catch (Exception ex)
+            {
+                return userProfile = null;
+            }
+
         }
     }
 }

@@ -2344,6 +2344,265 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return ds;
         }
+        public static bool ReversePickupMain(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_ReversePickupMain";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@typeitems", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static bool ReversePickUpAddress(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_ReversePickUpAddress";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@typeitems", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static bool ReverseDimension(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_ReverseDimension";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@typeitems", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static bool ReverseCustomField(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_ReverseCustomField";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@typeitems", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static DataSet GetReverseAllData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetReversePickUpDetails"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
+        public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertReversePickupData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@reversePickupCode", dt.reversePickupCode);
+                com.Parameters.AddWithValue("@pickupInstruction", dt.pickupInstruction);
+                com.Parameters.AddWithValue("@trackingLink", dt.trackingLink);
+                com.Parameters.AddWithValue("@shippingCourier", dt.shippingCourier);
+                com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
+                com.Parameters.AddWithValue("@id", dt.pickUpAddress.id);
+                com.Parameters.AddWithValue("@Adrsname", dt.pickUpAddress.name);
+                com.Parameters.AddWithValue("@addressLine1", dt.pickUpAddress.addressLine1);
+                com.Parameters.AddWithValue("@addressLine2", dt.pickUpAddress.addressLine2);
+                com.Parameters.AddWithValue("@city", dt.pickUpAddress.city);
+                com.Parameters.AddWithValue("@state", dt.pickUpAddress.state);
+                com.Parameters.AddWithValue("@phone", dt.pickUpAddress.phone);
+                com.Parameters.AddWithValue("@pincode", dt.pickUpAddress.pincode);
+                com.Parameters.AddWithValue("@boxLength", dt.dimension.boxLength);
+                com.Parameters.AddWithValue("@boxWidth", dt.dimension.boxWidth);
+                com.Parameters.AddWithValue("@boxHeight", dt.dimension.boxHeight);
+                com.Parameters.AddWithValue("@boxWeight", dt.dimension.boxWeight);
+                com.Parameters.AddWithValue("@name", dt.customFields[0].name);
+                com.Parameters.AddWithValue("@value", dt.customFields[0].value);
+                com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+                com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
+                com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+                con.Open();
+                com.ExecuteNonQuery();
+                res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static void ReversePickUpError(bool status, string reason, string Triggerid)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "ReversePickUpErrorStatus";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@triggerid", Triggerid);
+                com.Parameters.AddWithValue("@status", status);
+                com.Parameters.AddWithValue("@Reason", reason);
+                con.Open();
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static void UpdateErrorDetailsReversePickup(string reversepickupcode)
+        {
+
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_UpdateReversePickUpdata";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@reversePickupCode", reversepickupcode);
+                con.Open();
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            finally { con.Close(); }
+
+        }
+        public static DataSet GetReversePickUpErrorStatus()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_getReversePickUpErrorList"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet GetReversePickupDataForRetrigger()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_RetriggerReversePickUpCode"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
     }
 
 

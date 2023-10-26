@@ -385,7 +385,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["type"] = itemDatun[i].type;
                     drsku["weight_unit"] = itemDatun[i].weight_unit;
                     drsku["cust_category"] = itemDatun[i].cust_category;
-                    drsku["cust_refid"] = itemDatun[i].cust_refid;
+                    drsku["cust_refid"] = itemDatun[i].cust_ref_id;
                     dtsku.Rows.Add(drsku);
                 }
                 res = SPWrapper.IsertAllsendingrec(dtsku);
@@ -940,6 +940,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtinstcode.Columns.Add("width");
                 dtinstcode.Columns.Add("itemDetailFieldsText");
                 dtinstcode.Columns.Add("maxRetailPrice");
+                dtinstcode.Columns.Add("height");
 
                 for (int i = 0; i < elements.Count; i++)
                 {
@@ -950,6 +951,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["width"] = elements[i].width;
                     dr["itemDetailFieldsText"] = elements[i].itemDetailFieldsText;
                     dr["maxRetailPrice"] = elements[i].maxRetailPrice;
+                    dr["height"] = elements[i].height;
 
                     dtinstcode.Rows.Add(dr);
                 }
@@ -1294,6 +1296,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtinstcode.Columns.Add("length");
                 dtinstcode.Columns.Add("width");
                 dtinstcode.Columns.Add("itemdetailfieldstext");
+                dtinstcode.Columns.Add("height");
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
@@ -1302,6 +1305,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["length"] = elements[i].length;
                     dr["width"] = elements[i].width;
                     dr["itemdetailfieldstext"] = elements[i].itemDetailFieldsText;
+                    dr["height"] = elements[i].height;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertWaybillItemsType(dtinstcode);
@@ -1552,6 +1556,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtinstcode.Columns.Add("length");
                 dtinstcode.Columns.Add("width");
                 dtinstcode.Columns.Add("itemdetailfieldstext");
+                dtinstcode.Columns.Add("height");
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
@@ -1560,6 +1565,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["length"] = elements[i].length;
                     dr["width"] = elements[i].width;
                     dr["itemdetailfieldstext"] = elements[i].itemDetailFieldsText;
+                    dr["height"] = elements[i].height;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertSTOAPiItemsType(dtinstcode);
@@ -2215,7 +2221,215 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return AllRes;
         }
 
+        public bool BLReversePickupMain(List<ReversePickupDb> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("CId");
+                dtinstcode.Columns.Add("reversePickupCode");
+                dtinstcode.Columns.Add("pickupInstruction");
+                dtinstcode.Columns.Add("trackingLink");
+                dtinstcode.Columns.Add("shippingCourier");
+                dtinstcode.Columns.Add("trackingNumber");
+                dtinstcode.Columns.Add("shippingProviderCode");
 
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["CId"] = elements[i].CId;
+                    dr["reversePickupCode"] = elements[i].reversePickupCode;
+                    dr["pickupInstruction"] = elements[i].pickupInstruction;
+                    dr["trackingLink"] = elements[i].trackingLink;
+                    dr["shippingCourier"] = elements[i].shippingCourier;
+                    dr["trackingNumber"] = elements[i].trackingNumber;
+                    dr["shippingProviderCode"] = elements[i].shippingProviderCode;
+
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.ReversePickupMain(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
+        public bool BLReversePickUpAddress(List<PickUpAddressDb> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("CId");
+                dtinstcode.Columns.Add("id");
+                dtinstcode.Columns.Add("name");
+                dtinstcode.Columns.Add("addressLine1");
+                dtinstcode.Columns.Add("addressLine2");
+                dtinstcode.Columns.Add("city");
+                dtinstcode.Columns.Add("state");
+                dtinstcode.Columns.Add("phone");
+                dtinstcode.Columns.Add("pincode");
+
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["CId"] = elements[i].CId;
+                    dr["id"] = elements[i].id;
+                    dr["name"] = elements[i].name;
+                    dr["addressLine1"] = elements[i].addressLine1;
+                    dr["addressLine2"] = elements[i].addressLine2;
+                    dr["city"] = elements[i].city;
+                    dr["state"] = elements[i].state;
+                    dr["phone"] = elements[i].phone;
+                    dr["pincode"] = elements[i].pincode;
+
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.ReversePickUpAddress(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool BLReverseDimension(List<DimensionDb> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("CId");
+                dtinstcode.Columns.Add("boxLength");
+                dtinstcode.Columns.Add("boxWidth");
+                dtinstcode.Columns.Add("boxHeight");
+                dtinstcode.Columns.Add("boxWeight");
+                
+
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["CId"] = elements[i].CId;
+                    dr["boxLength"] = elements[i].boxLength;
+                    dr["boxWidth"] = elements[i].boxWidth;
+                    dr["boxHeight"] = elements[i].boxHeight;
+                    dr["boxWeight"] = elements[i].boxWeight;
+                   
+
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.ReverseDimension(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool BLReverseCustomField(List<CustomFieldDb> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("CId");
+                dtinstcode.Columns.Add("name");
+                dtinstcode.Columns.Add("value");
+
+
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["CId"] = elements[i].CId;
+                    dr["name"] = elements[i].name;
+                    dr["value"] = elements[i].value;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.ReverseCustomField(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<ReversePickup> GetReverseAllData()
+        {
+            List<ReversePickup> codes = new List<ReversePickup>();
+            try
+            {               
+                return codes = Mapper.GetReverseAllData(SPWrapper.GetReverseAllData());              
+            }
+            catch (Exception ex)
+            {              
+                throw ex;
+            }
+
+        }
+        public string ReversePickUpData(ReversePickup updateShippingpackage)
+        {
+            var id = GenerateNumeric();
+            return SPWrapper.IsertRevrserePickUprecords(updateShippingpackage, id);
+        }
+        public void ReversePickUpErrorDetails(bool status, string Reason, string triggerid)
+        {
+            try
+            {
+                SPWrapper.ReversePickUpError(status, Reason, triggerid);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void BLUpdateErrorDetailsReversePickup(string reversepickupcode)
+        {
+            try
+            {
+                SPWrapper.UpdateErrorDetailsReversePickup(reversepickupcode);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ServiceResponse<List<EndpointErrorDetails>> BLGetReversePickUpErrorStatus()
+        {
+            ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetReversePickUpErrorStatus());
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public List<ReversePickup> GetRetriggerDataReversePickup()
+        {
+            List<ReversePickup> codes = new List<ReversePickup>();
+            try
+            {
+                return codes = Mapper.GetReverseAllData(SPWrapper.GetReversePickupDataForRetrigger());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }
 
