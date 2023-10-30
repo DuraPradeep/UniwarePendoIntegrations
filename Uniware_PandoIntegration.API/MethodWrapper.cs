@@ -516,7 +516,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
-            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode);
+            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim());
             if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -610,7 +610,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             ItemTypeDTO itemsSku = new ItemTypeDTO();
             List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
-            Log.Information(" Api itemType_Get -" + jskucode + ": " + token);
+            Log.Information(" Return Order Api itemType_Get -" + jskucode + ": " + token);
 
             var resul = _Token.GetSkuDetails(jskucode, token, Servertype);
             if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
@@ -715,7 +715,9 @@ namespace Uniware_PandoIntegration.API
         public STOlists GetGatePassElements(string jdetail, string token, string code, int checkcount,string ServerType,string FacilityCode)
         {
             int Lcheckcount = checkcount;
+            Log.Information("STO WayBill Elements: request " + jdetail);
             var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode);
+            Log.Information("STO WayBill Elements response " + list.Result.ObjectParam);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             STOlists STOlists = new STOlists();
@@ -771,7 +773,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             //var list = _Token.GetSTOSkuDetails(jdetail, token);
-            Log.Information(" Api itemType_Get -" + itemsku + ": " + token);
+            Log.Information(" STO Waybill itemType_Get -" + itemsku + ": " + token);
 
             var list = _Token.GetSkuDetails(jdetail, token,ServerType);
 

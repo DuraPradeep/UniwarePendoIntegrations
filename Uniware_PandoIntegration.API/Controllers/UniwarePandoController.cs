@@ -290,8 +290,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             return returndata;
         }
-
-        //Step-2
+       
         [HttpPost]
         public IActionResult authToken(TokenEntity tokenEntity)
         {
@@ -360,19 +359,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 {
                     var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
                     var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
-                    //return postres;
+                   
                     _logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
                     //return Accepted(postres.Result.ObjectParam);
                 }
-
-
-
-
-                //SuccessResponse successResponse = new SuccessResponse();
-                //successResponse.status = "Success";
-                //successResponse.waybill = "";
-                //successResponse.shippingLabel = "";
-                //successResponse.courierName = Records.courierName;
                 ErrorResponse errorResponse = new ErrorResponse();
 
                 errorResponse.status = "FAILED";
@@ -392,25 +382,25 @@ namespace Uniware_PandoIntegration.API.Controllers
                 throw;
             }
         }
-        [HttpPost]
-        public IActionResult PostWaybillGeneration()
-        {
-            string Servertype = iconfiguration["ServerType:type"];
+        //[HttpPost]
+        //public IActionResult PostWaybillGeneration()
+        //{
+        //    string Servertype = iconfiguration["ServerType:type"];
 
-            _logger.LogInformation($"Waybill Post ,{DateTime.Now.ToLongTimeString()}");
-            var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
-            if (sendwaybilldata.Count > 0)
-            {
-                var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
-                var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
-                //return postres;
-                _logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
-                return Accepted(postres.Result.ObjectParam);
-            }
-            else
-                return BadRequest("There is no record for Post");
+        //    _logger.LogInformation($"Waybill Post ,{DateTime.Now.ToLongTimeString()}");
+        //    var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
+        //    if (sendwaybilldata.Count > 0)
+        //    {
+        //        var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
+        //        var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
+        //        //return postres;
+        //        _logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
+        //        return Accepted(postres.Result.ObjectParam);
+        //    }
+        //    else
+        //        return BadRequest("There is no record for Post");
 
-        }
+        //}
 
         [HttpPost]
         public IActionResult ReturnOrderAPI(string returnType = "CIR", string statusCode = "COMPLETE", string createdTo = "2023-07-11T14:20:40", string createdFrom = "2023-07-05T14:20:40")
@@ -424,16 +414,18 @@ namespace Uniware_PandoIntegration.API.Controllers
             //var unixepochdateda=todaydate.ToUniversalTime().Ticks;
             string Servertype = iconfiguration["ServerType:type"];
 
-            string[] Facilities = {
-"Hosur_Avigna"
-,"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+            //            string[] Facilities = {
+            //"Hosur_Avigna"
+            //,"AVIGNA_DFX",
+            //"Gurgaon_New",
+            //"CHENNAI",
+            //"COCHIN",
+            //"KOLKATA",
+            //"Hydrabad_Item",
+            //"BHIWANDIITEM"
+            //                };
+            var Facilities = ObjBusinessLayer.GetFacilityList();
+
 
             //var json = JsonConvert.SerializeObject(requestReturnOrder);
             //var resu = _Token.GetTokens().Result;
@@ -448,10 +440,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //string token = HttpContext.Session.GetString("Token");
                 foreach (var FacilityCode in Facilities)
                 {
-                    var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0, Servertype, FacilityCode);
+
+                    var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0, Servertype, FacilityCode.facilityCode);
                     if (resuordercode.Count > 0)
                     {
-                        ObjBusinessLayer.insertReturnOrdercoder(resuordercode);
+                        ObjBusinessLayer.insertReturnOrdercoder(resuordercode,FacilityCode.facilityCode);
                         var codes = ObjBusinessLayer.GetReturnOrderCodes();
                         List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
                         List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
@@ -462,7 +455,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             returnOrderGet.reversePickupCode = codes.ObjectParam[j].code;
                             var jdetail = JsonConvert.SerializeObject(returnOrderGet);
                             var Code = codes.ObjectParam[j].code;
-                            var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, FacilityCode);
+                            var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, FacilityCode.facilityCode);
                             if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
                             {
                                 returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
@@ -621,41 +614,42 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
 
-        [HttpGet]
-        public IActionResult GetTokenForSTO()
-        {
-            //BearerToken _Token = new BearerToken();
-            //PandoUniwariToken resu = _Token.GetTokensSTO().Result;
-            //HttpContext.Session.SetString("STOToken", resu.access_token.ToString());
-            //return new PandoUniwariToken();
-            var resu = _Token.GetTokensSTO().Result;
-            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-            if (resu.ObjectParam != null)
-            {
-                string token = deres.access_token.ToString();
-                HttpContext.Session.SetString("STOToken", token);
-                return Accepted(resu.ObjectParam);
-            }
-            else
-            {
-                return BadRequest("Something Went Wrong");
-            }
-        }
+        //[HttpGet]
+        //public IActionResult GetTokenForSTO()
+        //{
+        //    //BearerToken _Token = new BearerToken();
+        //    //PandoUniwariToken resu = _Token.GetTokensSTO().Result;
+        //    //HttpContext.Session.SetString("STOToken", resu.access_token.ToString());
+        //    //return new PandoUniwariToken();
+        //    var resu = _Token.GetTokensSTO().Result;
+        //    var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+        //    if (resu.ObjectParam != null)
+        //    {
+        //        string token = deres.access_token.ToString();
+        //        HttpContext.Session.SetString("STOToken", token);
+        //        return Accepted(resu.ObjectParam);
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("Something Went Wrong");
+        //    }
+        //}
         [HttpPost]
         public IActionResult STOWaybill(string fromDate = "2023-10-06T06:00:00", string toDate = "2023-10-06T06:30:00", string type = "STOCK_TRANSFER", string statusCode = "Return_awaited")
         {
             string token = HttpContext.Session.GetString("Token");
             string Servertype = iconfiguration["ServerType:type"];
-            string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+            //            string[] Facilities = {
+            //"Hosur_Avigna",
+            //"AVIGNA_DFX",
+            //"Gurgaon_New",
+            //"CHENNAI",
+            //"COCHIN",
+            //"KOLKATA",
+            //"Hydrabad_Item",
+            //"BHIWANDIITEM"
+            //                };
+            var Facilities = ObjBusinessLayer.GetFacilityList();
 
             if (token != null)
             {
@@ -665,17 +659,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                     Log.Information("STO WaybillGetPass Code" + jsonre + ": " + token);
                     List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
                     List<Element> elements = new List<Element>();
-                    var res = _MethodWrapper.GatePass(jsonre, token, 0, Servertype, FacilityCode);
+                    var res = _MethodWrapper.GatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode);
                     if (res.Count > 0)
                     {
-                        ObjBusinessLayer.insertGatePassCode(res);
+                        ObjBusinessLayer.insertGatePassCode(res, FacilityCode.facilityCode);
                         var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCode();
                         for (int i = 0; i < GatePassCode.Count; i++)
                         {
                             string code = GatePassCode[i].code;
                             List<string> gatePassCodes = new List<string> { GatePassCode[i].code.ToString() };
                             var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
-                            var elemnetsList = _MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode);
+                            var elemnetsList = _MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode.facilityCode);
                             if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
                             {
                                 gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
@@ -723,7 +717,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = iconfiguration["ServerType:type"];
 
             //BearerToken _Token = new BearerToken();
-            var resu = _Token.GetTokensSTO().Result;
+            var resu = _Token.GetTokens(Servertype).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             //HttpContext.Session.SetString("STOToken", deres.access_token.ToString());
             //string token = HttpContext.Session.GetString("STOToken");
@@ -814,16 +808,17 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             if (!string.IsNullOrEmpty(token))
             {
-                string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+                //                string[] Facilities = {
+                //"Hosur_Avigna",
+                //"AVIGNA_DFX",
+                //"Gurgaon_New",
+                //"CHENNAI",
+                //"COCHIN",
+                //"KOLKATA",
+                //"Hydrabad_Item",
+                //"BHIWANDIITEM"
+                //                };
+                var Facilities = ObjBusinessLayer.GetFacilityList();
                 var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
 
                 List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
@@ -831,29 +826,23 @@ namespace Uniware_PandoIntegration.API.Controllers
                 Log.Information("STO API Called : " + jsonre + " " + token);
                 foreach (var FacilityCode in Facilities)
                 {
-                    var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode);
+                    var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode);
                     if (res.Count > 0)
                     {
 
-                        ObjBusinessLayer.insertSTOAPIGatePassCode(res);
+                        ObjBusinessLayer.insertSTOAPIGatePassCode(res,FacilityCode.facilityCode);
                         var gatePass = ObjBusinessLayer.GetSTOAPIgatePassCode();
                         for (int i = 0; i < gatePass.Count; i++)
                         {
                             string code = gatePass[i].code;
                             List<string> gatePassCodes = new List<string> { gatePass[i].code.ToString() };
                             var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
-                            var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode);
+                            var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode.facilityCode);
                             if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
                             {
                                 gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
                                 elements.AddRange(elemnetsList.elements);
                             }
-                            //else
-                            //{
-                            //    return BadRequest("Please Retrigger");
-                            //}
-
-
                         }
                         ObjBusinessLayer.insertSTOAPiGatePassElements(elements);
                         ObjBusinessLayer.insertSTOAPiItemTypeDTO(gatePassItemDTOs);
@@ -1133,65 +1122,65 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
 
         }
-        [HttpPost]
-        public IActionResult PostUpdateShipingData()
-        {
-            string token = HttpContext.Session.GetString("Token");
-            string Servertype = iconfiguration["ServerType:type"];
+        //[HttpPost]
+        //public IActionResult PostUpdateShipingData()
+        //{
+        //    string token = HttpContext.Session.GetString("Token");
+        //    string Servertype = iconfiguration["ServerType:type"];
 
-            if (token != null)
-            {
-                var lists = ObjBusinessLayer.UpdateShipingPck();
-                //var facilitycode = "";
-                if (lists.Count > 0)
-                {
-                    for (int i = 0; i < lists.Count; i++)
-                    {
-                        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                        updateShippingpackage.shippingBox = new ShippingBox();
-                        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
-                        updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
-                        updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
-                        updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                        //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
-                        updateShippingpackage.actualWeight = lists[i].actualWeight;
-                        updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
-                        updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
-                        updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
-                        updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
-                        var facilitycode = lists[i].FacilityCode;
-                        //for (int j = 0; j < lists[i].shippingBox.Count; j++)
-                        //{
-                        //    ShippingBox shippingBox = new ShippingBox();
-                        //    shippingBox.length = lists[i].shippingBox[j].length;
-                        //    shippingBox.width = lists[i].shippingBox[j].width;
-                        //    shippingBox.height = lists[i].shippingBox[j].height;
-                        //    updateShippingpackage.shippingBox.Add(shippingBox);
-                        //}
-                        for (int k = 0; k < lists[i].customFieldValues.Count; k++)
-                        {
-                            CustomFieldValue customFieldValue = new CustomFieldValue();
-                            customFieldValue.name = lists[i].customFieldValues[k].name;
-                            customFieldValue.value = lists[i].customFieldValues[k].value;
-                            updateShippingpackage.customFieldValues.Add(customFieldValue);
-                            //var res = JsonConvert.SerializeObject(new { customFieldValues = new { name = customFieldValue.name, value = customFieldValue.value } });
-                            //var dres=JsonConvert.DeserializeObject<CustomFieldValue>(res);
-                        }
-                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode);
-                        //var response = _Token.PostUpdateShippingpckg(updateShippingpackage);
-                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype);
+        //    if (token != null)
+        //    {
+        //        var lists = ObjBusinessLayer.UpdateShipingPck();
+        //        //var facilitycode = "";
+        //        if (lists.Count > 0)
+        //        {
+        //            for (int i = 0; i < lists.Count; i++)
+        //            {
+        //                UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
+        //                updateShippingpackage.shippingBox = new ShippingBox();
+        //                updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+        //                updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
+        //                updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+        //                updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+        //                //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
+        //                updateShippingpackage.actualWeight = lists[i].actualWeight;
+        //                updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
+        //                updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
+        //                updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
+        //                updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
+        //                var facilitycode = lists[i].FacilityCode;
+        //                //for (int j = 0; j < lists[i].shippingBox.Count; j++)
+        //                //{
+        //                //    ShippingBox shippingBox = new ShippingBox();
+        //                //    shippingBox.length = lists[i].shippingBox[j].length;
+        //                //    shippingBox.width = lists[i].shippingBox[j].width;
+        //                //    shippingBox.height = lists[i].shippingBox[j].height;
+        //                //    updateShippingpackage.shippingBox.Add(shippingBox);
+        //                //}
+        //                for (int k = 0; k < lists[i].customFieldValues.Count; k++)
+        //                {
+        //                    CustomFieldValue customFieldValue = new CustomFieldValue();
+        //                    customFieldValue.name = lists[i].customFieldValues[k].name;
+        //                    customFieldValue.value = lists[i].customFieldValues[k].value;
+        //                    updateShippingpackage.customFieldValues.Add(customFieldValue);
+        //                    //var res = JsonConvert.SerializeObject(new { customFieldValues = new { name = customFieldValue.name, value = customFieldValue.value } });
+        //                    //var dres=JsonConvert.DeserializeObject<CustomFieldValue>(res);
+        //                }
+        //                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode);
+        //                //var response = _Token.PostUpdateShippingpckg(updateShippingpackage);
+        //                var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype);
 
-                        //return Accepted(response.Result);
-                    }
-                    return Accepted("All Records Pushed Successfully");
+        //                //return Accepted(response.Result);
+        //            }
+        //            return Accepted("All Records Pushed Successfully");
 
-                }
-                else return BadRequest("There is no record for Post");
+        //        }
+        //        else return BadRequest("There is no record for Post");
 
-            }
-            else
-                return BadRequest("Please Pass Valid Token");
-        }
+        //    }
+        //    else
+        //        return BadRequest("Please Pass Valid Token");
+        //}
 
         [HttpGet]
         public ServiceResponse<List<EndpointErrorDetails>> UpdateShippingErrorDetails()
@@ -1202,10 +1191,10 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpGet]
         public IActionResult RetriggerUpdateShipping()
         {
-            _logger.LogInformation($" UpdateShippingPackage ");
+            _logger.LogInformation($" UpdateShippingPackage Retrigger");
             string Servertype = iconfiguration["ServerType:type"];
 
-            var Token = _Token.GetTokensSTO().Result;
+            var Token = _Token.GetTokens(Servertype).Result;
             var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
             if (_Tokens.access_token != null)
             {
@@ -1323,44 +1312,44 @@ namespace Uniware_PandoIntegration.API.Controllers
             // return Accepted();
 
         }
-        [HttpPost]
-        public IActionResult PostAllocateShipping()
-        {
-            string Servertype = iconfiguration["ServerType:type"];
+        //[HttpPost]
+        //public IActionResult PostAllocateShipping()
+        //{
+        //    string Servertype = iconfiguration["ServerType:type"];
 
-            _logger.LogInformation($"Post Data Allocate Shipping");
-            //string token = HttpContext.Session.GetString("STOToken");
-            var Token = _Token.GetTokensSTO().Result;
-            var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
-            if (_Tokens.access_token != null)
-            {
-                var results = ObjBusinessLayer.PostGAllocateShippingData();
-                if (results.Count > 0)
-                {
-                    for (int i = 0; i < results.Count; i++)
-                    {
-                        Allocateshipping allocateshipping = new Allocateshipping();
-                        allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
-                        allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
-                        allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
-                        allocateshipping.shippingCourier = results[i].shippingCourier;
-                        allocateshipping.trackingNumber = results[i].trackingNumber;
-                        //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
-                        var facility = results[i].FacilityCode;
-                        var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
-                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype);
-                        return Ok(response.Result.ObjectParam);
-                    }
-                    return Accepted("All Records Pushed Successfully");
-                }
-                else { return BadRequest("There is no record for Post"); }
-            }
-            else
-            {
-                return BadRequest("Please Pass valid Token");
-            }
+        //    _logger.LogInformation($"Post Data Allocate Shipping");
+        //    //string token = HttpContext.Session.GetString("STOToken");
+        //    var Token = _Token.GetTokens(Servertype).Result;
+        //    var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+        //    if (_Tokens.access_token != null)
+        //    {
+        //        var results = ObjBusinessLayer.PostGAllocateShippingData();
+        //        if (results.Count > 0)
+        //        {
+        //            for (int i = 0; i < results.Count; i++)
+        //            {
+        //                Allocateshipping allocateshipping = new Allocateshipping();
+        //                allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+        //                allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+        //                allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+        //                allocateshipping.shippingCourier = results[i].shippingCourier;
+        //                allocateshipping.trackingNumber = results[i].trackingNumber;
+        //                //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
+        //                var facility = results[i].FacilityCode;
+        //                var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
+        //                var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype);
+        //                return Ok(response.Result.ObjectParam);
+        //            }
+        //            return Accepted("All Records Pushed Successfully");
+        //        }
+        //        else { return BadRequest("There is no record for Post"); }
+        //    }
+        //    else
+        //    {
+        //        return BadRequest("Please Pass valid Token");
+        //    }
 
-        }
+        //}
         [HttpGet]
         public ServiceResponse<List<EndpointErrorDetails>> AloateShippingErrorDetails()
         {
@@ -1374,7 +1363,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = iconfiguration["ServerType:type"];
 
             //string token = HttpContext.Session.GetString("STOToken");
-            var Token = _Token.GetTokensSTO().Result;
+            var Token = _Token.GetTokens(Servertype).Result;
             var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
             if (_Tokens.access_token != null)
             {
@@ -1547,23 +1536,25 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             if (RO != null)
             {
-                string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+                //                string[] Facilities = {
+                //"Hosur_Avigna",
+                //"AVIGNA_DFX",
+                //"Gurgaon_New",
+                //"CHENNAI",
+                //"COCHIN",
+                //"KOLKATA",
+                //"Hydrabad_Item",
+                //"BHIWANDIITEM"
+                //                };
+                var Facilities = ObjBusinessLayer.GetFacilityList();
+
                 var targetList = RO.Select(x => new ReturnorderCode() { code = x.Code }).ToList();
 
                 if (targetList.Count > 0)
                 {
                     foreach (var FacilityCode in Facilities)
                     {
-                        ObjBusinessLayer.insertReturnOrdercoder(targetList);
+                        ObjBusinessLayer.insertReturnOrdercoder(targetList, FacilityCode.facilityCode);
                         var codes = ObjBusinessLayer.GetReturnOrderCodes();
                         List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
                         List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
@@ -1575,7 +1566,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                             var jdetail = JsonConvert.SerializeObject(new { reversePickupCode = codes.ObjectParam[j].code });
                             var Code = codes.ObjectParam[j].code;
-                            var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, FacilityCode);
+                            var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, FacilityCode.facilityCode);
                             if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
                             {
                                 returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
@@ -1634,16 +1625,18 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             if (STO != null)
             {
-                string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+                //                string[] Facilities = {
+                //"Hosur_Avigna",
+                //"AVIGNA_DFX",
+                //"Gurgaon_New",
+                //"CHENNAI",
+                //"COCHIN",
+                //"KOLKATA",
+                //"Hydrabad_Item",
+                //"BHIWANDIITEM"
+                //                };
+                var Facilities = ObjBusinessLayer.GetFacilityList();
+
                 var targetList = STO.Select(x => new Element() { code = x.Code }).ToList();
                 if (targetList.Count > 0)
                 {
@@ -1651,14 +1644,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                     {
                         List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
                         List<Element> elements = new List<Element>();
-                        ObjBusinessLayer.insertSTOAPIGatePassCode(targetList);
+                        ObjBusinessLayer.insertSTOAPIGatePassCode(targetList,FacilityCode.facilityCode);
                         var gatePass = ObjBusinessLayer.GetSTOAPIgatePassCode();
                         for (int i = 0; i < gatePass.Count; i++)
                         {
                             string code = gatePass[i].code;
                             List<string> gatePassCodes = new List<string> { gatePass[i].code.ToString() };
                             var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
-                            var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode);
+                            var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode.facilityCode);
                             if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
                             {
                                 gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
@@ -1717,6 +1710,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             return new JsonResult(ExecResult);
         }
+
+        [Authorize]
         [HttpPost]
         public IActionResult ReversePickup(List<ReversePickupDb> reversePickup)
         {
@@ -1778,16 +1773,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var lists = ObjBusinessLayer.GetReverseAllData();
                     if (lists.Count > 0)
                     {
-                        string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+                        //                        string[] Facilities = {
+                        //"Hosur_Avigna",
+                        //"AVIGNA_DFX",
+                        //"Gurgaon_New",
+                        //"CHENNAI",
+                        //"COCHIN",
+                        //"KOLKATA",
+                        //"Hydrabad_Item",
+                        //"BHIWANDIITEM"
+                        //                };
+                        var Facilities = ObjBusinessLayer.GetFacilityList();
                         for (int i = 0; i < lists.Count; i++)
                         {
                             foreach (var FacilityCode in Facilities)
@@ -1825,7 +1821,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 }
                                 var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
 
-                                var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, FacilityCode, Servertype);
+                                var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, FacilityCode.facilityCode, Servertype);
                             }
                         }
                     }
@@ -1870,16 +1866,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var lists = ObjBusinessLayer.GetReverseAllData();
                 if (lists.Count > 0)
                 {
-                    string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+//                    string[] Facilities = {
+//"Hosur_Avigna",
+//"AVIGNA_DFX",
+//"Gurgaon_New",
+//"CHENNAI",
+//"COCHIN",
+//"KOLKATA",
+//"Hydrabad_Item",
+//"BHIWANDIITEM"
+//                };
+                    var Facilities = ObjBusinessLayer.GetFacilityList();
                     for (int i = 0; i < lists.Count; i++)
                     {
                         foreach (var FacilityCode in Facilities)
@@ -1917,7 +1914,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             }
                             var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
 
-                            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, FacilityCode, Servertype);
+                            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, FacilityCode.ToString(), Servertype);
                             reversePickupResponse += response.Result.ObjectParam;
 
                         }

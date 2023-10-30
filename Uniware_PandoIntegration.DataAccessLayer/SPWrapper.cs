@@ -2603,6 +2603,33 @@ namespace Uniware_PandoIntegration.APIs
             return ds;
         }
 
+        public static DataSet GetFacilityCode()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "Sp_GetFacilityCode"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
     }
 
 

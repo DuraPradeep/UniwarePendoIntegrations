@@ -803,17 +803,19 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertReturnOrdercoder(List<ReturnorderCode> elements)
+        public bool insertReturnOrdercoder(List<ReturnorderCode> elements,string FacilityCode)
         {
             bool res;
             try
             {
                 DataTable dtinstcode = new DataTable();
                 dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("FacilityCode");
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
                     dr["Code"] = elements[i].code;
+                    dr["FacilityCode"] = FacilityCode;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertReturnOrderCode(dtinstcode);
@@ -1174,17 +1176,19 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
-        public bool insertGatePassCode(List<Element> elements)
+        public bool insertGatePassCode(List<Element> elements,string FacilityCode)
         {
             bool res;
             try
             {
                 DataTable dtinstcode = new DataTable();
                 dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("FacilityCode");
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
                     dr["Code"] = elements[i].code;
+                    dr["FacilityCode"] = FacilityCode;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertGetPassCode(dtinstcode);
@@ -1436,17 +1440,19 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertSTOAPIGatePassCode(List<Element> elements)
+        public bool insertSTOAPIGatePassCode(List<Element> elements,string FacilityCode)
         {
             bool res;
             try
             {
                 DataTable dtinstcode = new DataTable();
                 dtinstcode.Columns.Add("Code");
+                dtinstcode.Columns.Add("FacilityCode");
                 for (int i = 0; i < elements.Count; i++)
                 {
                     DataRow dr = dtinstcode.NewRow();
                     dr["Code"] = elements[i].code;
+                    dr["FacilityCode"] = FacilityCode;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertSTOAPIGetPassCode(dtinstcode);
@@ -2423,6 +2429,19 @@ namespace Uniware_PandoIntegration.BusinessLayer
             try
             {
                 return codes = Mapper.GetReverseAllData(SPWrapper.GetReversePickupDataForRetrigger());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<FacilityDetails> GetFacilityList()
+        {
+            List<FacilityDetails> codes = new List<FacilityDetails>();
+            try
+            {
+                return codes = Mapper.GetFacilityCode(SPWrapper.GetFacilityCode());
             }
             catch (Exception ex)
             {

@@ -774,5 +774,28 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
 
         }
+        public static List<FacilityDetails> GetFacilityCode(DataSet pds)
+        {
+            List<FacilityDetails> facilityList = new List<FacilityDetails>();
+
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                    {
+                        FacilityDetails facilityDetails = new FacilityDetails();
+                        facilityDetails.facilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
+                        facilityList.Add(facilityDetails);
+                    }
+                    // serviceResponse.Errcode = 200;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return facilityList;
+        }
     }
 }

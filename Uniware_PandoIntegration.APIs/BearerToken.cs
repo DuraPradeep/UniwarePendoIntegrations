@@ -210,12 +210,7 @@ namespace Uniware_PandoIntegration.APIs
         public async Task<ServiceResponse<string>> PostDataToDeliverypackList(string jsonre, string ServerType)//List<Data> data
         {
             var responses = "";
-            //var jsondeserial = JsonSerializer.Deserialize<List<sendRoot>>(data);
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-
-            //var jsonre = JsonConvert.SerializeObject(new { data =data});      
-            //CreateLog($" Post Data to Pando:-  {jsonre}");
-            //var dejson=JsonConvert.DeserializeObject<Datum>(jsonre);
             try
             {
                 var credentials = new byte[100];
@@ -339,7 +334,7 @@ namespace Uniware_PandoIntegration.APIs
                 {
                     request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
                 }
-                //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+              
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
@@ -347,8 +342,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                //return responses;
+                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");            
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -388,7 +382,6 @@ namespace Uniware_PandoIntegration.APIs
                     request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
 
                 }
-                //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
@@ -397,7 +390,6 @@ namespace Uniware_PandoIntegration.APIs
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
                 CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                //return responses;
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -406,7 +398,7 @@ namespace Uniware_PandoIntegration.APIs
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetCode(Details, Token);
+               
                 }
             }
             catch (Exception ex)
@@ -459,39 +451,39 @@ namespace Uniware_PandoIntegration.APIs
         //    return serviceResponse;
 
         //}
-        public async Task<ServiceResponse<string>> GetTokensSTO()
-        {
-            //PandoUniwariToken rootobject;
-            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-            try
-            {
-                CreateLog(" GetToken For STOWaybill");
-                string URL = "https://stgsleepyhead.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+        //public async Task<ServiceResponse<string>> GetTokensSTO()
+        //{
+        //    //PandoUniwariToken rootobject;
+        //    ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+        //    try
+        //    {
+        //        CreateLog(" GetToken For STOWaybill");
+        //        string URL = "https://stgsleepyhead.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
 
-                HttpClient _client = new HttpClient()
-                {
-                    BaseAddress = new Uri(URL)
-                };
-                _client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-                var response = _client.GetAsync(URL).Result;
-                var responses = response.Content.ReadAsStringAsync().Result;
-                serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response:{responses}");
-                if (response.IsSuccessStatusCode)
-                {
-                    return serviceResponse;
-                }
-            }
-            catch (Exception ex)
-            {
-                CreateLog($" Error: {ex.Message}");
-                throw ex;
-            }
+        //        HttpClient _client = new HttpClient()
+        //        {
+        //            BaseAddress = new Uri(URL)
+        //        };
+        //        _client.DefaultRequestHeaders.Accept.Add(
+        //            new MediaTypeWithQualityHeaderValue("application/json"));
+        //        var response = _client.GetAsync(URL).Result;
+        //        var responses = response.Content.ReadAsStringAsync().Result;
+        //        serviceResponse.Errcode = ((int)response.StatusCode);
+        //        serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+        //        CreateLog($" Response:{responses}");
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            return serviceResponse;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        CreateLog($" Error: {ex.Message}");
+        //        throw ex;
+        //    }
 
-            return serviceResponse;
-        }
+        //    return serviceResponse;
+        //}
 
         public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token, string ServerType,string FacilityCode)
         {
@@ -517,8 +509,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                //CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                //return responses;
+              
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -526,8 +517,7 @@ namespace Uniware_PandoIntegration.APIs
                 }
                 else
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetCode(Details, Token);
+                    serviceResponse.Errcode = ((int)response.StatusCode);                    
                 }
             }
             catch (Exception ex)
@@ -802,6 +792,7 @@ namespace Uniware_PandoIntegration.APIs
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
+            CreateLog($" Request- : {data}");
 
             try
             {
