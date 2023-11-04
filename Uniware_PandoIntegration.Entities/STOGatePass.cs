@@ -64,8 +64,10 @@ namespace Uniware_PandoIntegration.Entities
         public string eway_bill_number { get; set; }
         public string eway_bill_date { get; set; }
         public string action_by { get; set; }
+        public string action_type { get; set; }
         public string clear { get; set; }
-       
+        public string cust_ref_id { get; set; }
+
     }
 
 

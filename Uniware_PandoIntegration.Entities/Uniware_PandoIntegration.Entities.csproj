@@ -51,6 +51,7 @@
     <Compile Include="CodesErrorDetails.cs" />
     <Compile Include="ErrorDetails.cs" />
     <Compile Include="FacilityDetails.cs" />
+    <Compile Include="FacilityMaintain.cs" />
     <Compile Include="ItemTypes.cs" />
     <Compile Include="OmsToPandoRoot.cs" />
     <Compile Include="PandoUniwariToken.cs" />

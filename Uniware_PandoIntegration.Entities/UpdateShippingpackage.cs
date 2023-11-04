@@ -12,7 +12,7 @@ namespace Uniware_PandoIntegration.Entities
       
         public string shippingProviderCode { get; set; }
         public string trackingNumber { get; set; }
-        //public string shippingPackageTypeCode { get; set; }
+        public string shippingPackageTypeCode { get; set; }
         public int? actualWeight { get; set; }
         //public List<ShippingBox> shippingBox { get; set; }
         public ShippingBox shippingBox { get; set; }

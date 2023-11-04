@@ -2449,6 +2449,60 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
+        public List<FacilityMaintain> GetFacilityData()
+        {
+            List<FacilityMaintain> codes = new List<FacilityMaintain>();
+
+            try
+            {
+                return codes = Mapper.GetFacilityData(SPWrapper.GetFacilityMaintainData());               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public bool UploadFacilityMaster(List<FacilityMaintain> cloned)
+        {
+            bool res;
+            try
+            {
+                DataTable Facility = new DataTable();
+
+                Facility.Columns.Add("FacilityCode");
+                Facility.Columns.Add("FacilityName");
+                Facility.Columns.Add("Address");
+                Facility.Columns.Add("City");
+                Facility.Columns.Add("State");
+                Facility.Columns.Add("Pincode");
+                Facility.Columns.Add("Region");
+                Facility.Columns.Add("Mobile_number");
+                Facility.Columns.Add("email");
+                for (var i = 0; i < cloned.Count; i++)
+                {
+                    DataRow SOrow = Facility.NewRow();
+                    SOrow["FacilityCode"] = cloned[i].FacilityCode;
+                    SOrow["FacilityName"] = cloned[i].FacilityName;
+                    SOrow["Address"] = cloned[i].Address;
+                    SOrow["City"] = cloned[i].City;
+                    SOrow["State"] = cloned[i].State;
+                    SOrow["Pincode"] = cloned[i].Pincode;
+                    SOrow["Region"] = cloned[i].Region;
+                    SOrow["Mobile_number"] = cloned[i].Mobile;
+                    SOrow["email"] = cloned[i].Email;
+                    Facility.Rows.Add(SOrow);
+                }      
+                res = SPWrapper.UpdateFaciitymaster(Facility);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
     }
 }
 

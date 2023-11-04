@@ -282,6 +282,7 @@
     <Compile Include="ApiOperation.cs" />
     <Compile Include="BasicAuthenticationAttribute.cs" />
     <Compile Include="BearerToken.cs" />
+    <Compile Include="ListtoDataTableConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceResponse.cs" />
   </ItemGroup>

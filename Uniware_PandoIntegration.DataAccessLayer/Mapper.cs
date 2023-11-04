@@ -462,7 +462,9 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.eway_bill_number = pds.Tables[0].Rows[i]["eway_bill_number"].ToString();
                         Sendingdata.eway_bill_date = pds.Tables[0].Rows[i]["eway_bill_date"].ToString();
                         Sendingdata.action_by = pds.Tables[0].Rows[i]["action_by"].ToString();
+                        Sendingdata.action_type = pds.Tables[0].Rows[i]["action_type"].ToString();
                         Sendingdata.clear = pds.Tables[0].Rows[i]["clear"].ToString();
+                        Sendingdata.cust_ref_id = pds.Tables[0].Rows[i]["cust_ref_id"].ToString();
 
 
 
@@ -796,6 +798,33 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             }
             return facilityList;
+        }
+        public static List<FacilityMaintain> GetFacilityData(DataSet pds)
+        {
+            List<FacilityMaintain> FacilityList = new List<FacilityMaintain>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    FacilityMaintain returncode = new FacilityMaintain();
+                    returncode.FacilityCode = pds.Tables[0].Rows[i]["FacilityCode"].ToString();
+                    returncode.FacilityName = pds.Tables[0].Rows[i]["FacilityName"].ToString();
+                    returncode.Address = pds.Tables[0].Rows[i]["Address"].ToString();
+                    returncode.City = pds.Tables[0].Rows[i]["City"].ToString();
+                    returncode.State = pds.Tables[0].Rows[i]["State"].ToString();
+                    returncode.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
+                    returncode.Mobile = pds.Tables[0].Rows[i]["Mobile_number"].ToString();
+                    returncode.Region = pds.Tables[0].Rows[i]["Region"].ToString();
+                    returncode.Email = pds.Tables[0].Rows[i]["email"].ToString();
+                    FacilityList.Add(returncode);
+                }         
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
         }
     }
 }

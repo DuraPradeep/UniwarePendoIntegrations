@@ -726,7 +726,6 @@ namespace Uniware_PandoIntegration.APIs
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
-
             }
             catch (Exception ex)
             {
@@ -2628,6 +2627,56 @@ namespace Uniware_PandoIntegration.APIs
             }
             finally { con.Close(); }
             return ds;
+        }
+        public static DataSet GetFacilityMaintainData()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetFacilityData"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
+        public static bool UpdateFaciitymaster(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertandUpdateFacility";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@FacilityDetails", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
         }
 
     }

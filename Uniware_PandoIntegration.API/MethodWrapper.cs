@@ -818,7 +818,7 @@ namespace Uniware_PandoIntegration.API
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             //var ResStatus = _Token.WaybillSTOPostDataDeliverypackList(jsonre);
             Log.Information($"STO Waybill Post Data : {jsonre}");
-            var ResStatus = _Token.PostDataToDeliverypackList(jsonre, ServerType);
+            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
