@@ -351,6 +351,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("weight_unit");
                 dtsku.Columns.Add("cust_category");
                 dtsku.Columns.Add("cust_refid");
+                dtsku.Columns.Add("expected_delivery_date");
 
                 for (int i = 0; i < itemDatun.Count; i++)
                 {
@@ -386,6 +387,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["weight_unit"] = itemDatun[i].weight_unit;
                     drsku["cust_category"] = itemDatun[i].cust_category;
                     drsku["cust_refid"] = itemDatun[i].cust_ref_id;
+                    drsku["expected_delivery_date"] = itemDatun[i].expected_delivery_date;
                     dtsku.Rows.Add(drsku);
                 }
                 res = SPWrapper.IsertAllsendingrec(dtsku);
@@ -1141,16 +1143,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["quantity_unit"] = itemDatun.ObjectParam[i].quantity_unit;
                     drsku["weight"] = itemDatun.ObjectParam[i].weight;
                     drsku["weight_unit"] = itemDatun.ObjectParam[i].weight_unit;
-                    drsku["volume"] = itemDatun.ObjectParam[i].volume;//"End_Customer";
-                    drsku["volume_unit"] = itemDatun.ObjectParam[i].volume_unit;//"abc_sleepyhead";                    
+                    drsku["volume"] = itemDatun.ObjectParam[i].volume;
+                    drsku["volume_unit"] = itemDatun.ObjectParam[i].volume_unit;          
                     drsku["ship_to"] = itemDatun.ObjectParam[i].ship_to;
-                    drsku["sold_to"] = itemDatun.ObjectParam[i].sold_to;//"EA";
-                    drsku["type"] = itemDatun.ObjectParam[i].type;//"CFT";
-                    drsku["invoice_number"] = itemDatun.ObjectParam[i].invoice_number;//"KG";
-                    drsku["invoice_amount"] = itemDatun.ObjectParam[i].invoice_amount;//"";
-                    drsku["invoice_date"] = itemDatun.ObjectParam[i].invoice_date;//"";
-                    drsku["line_item_no"] = itemDatun.ObjectParam[i].line_item_no;//"Secondary";
-                    drsku["pickup_reference_number"] = itemDatun.ObjectParam[i].pickup_reference_number;//"";
+                    drsku["sold_to"] = itemDatun.ObjectParam[i].sold_to;
+                    drsku["type"] = itemDatun.ObjectParam[i].type;
+                    drsku["invoice_number"] = itemDatun.ObjectParam[i].invoice_number;
+                    drsku["invoice_amount"] = itemDatun.ObjectParam[i].invoice_amount;
+                    drsku["invoice_date"] = itemDatun.ObjectParam[i].invoice_date;
+                    drsku["line_item_no"] = itemDatun.ObjectParam[i].line_item_no;
+                    drsku["pickup_reference_number"] = itemDatun.ObjectParam[i].pickup_reference_number;
+                    drsku["cust_refid"] = itemDatun.ObjectParam[i].cust_ref_id;
+                    drsku["expected_delivery_date"] = itemDatun.ObjectParam[i].expected_delivery_date;
                     drsku["TriggerID"] = id;
 
                     dtsku.Rows.Add(drsku);
@@ -1666,16 +1670,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["quantity_unit"] = itemDatun.ObjectParam[i].quantity_unit;
                     drsku["weight"] = itemDatun.ObjectParam[i].weight;
                     drsku["weight_unit"] = itemDatun.ObjectParam[i].weight_unit;
-                    drsku["volume"] = itemDatun.ObjectParam[i].volume;//"End_Customer";
-                    drsku["volume_unit"] = itemDatun.ObjectParam[i].volume_unit;//"abc_sleepyhead";                    
+                    drsku["volume"] = itemDatun.ObjectParam[i].volume;
+                    drsku["volume_unit"] = itemDatun.ObjectParam[i].volume_unit;                 
                     drsku["ship_to"] = itemDatun.ObjectParam[i].ship_to;
-                    drsku["sold_to"] = itemDatun.ObjectParam[i].sold_to;//"EA";
-                    drsku["type"] = itemDatun.ObjectParam[i].type;//"CFT";
-                    drsku["invoice_number"] = itemDatun.ObjectParam[i].invoice_number;//"KG";
-                    drsku["invoice_amount"] = itemDatun.ObjectParam[i].invoice_amount;//"";
-                    drsku["invoice_date"] = itemDatun.ObjectParam[i].invoice_date;//"";
-                    drsku["line_item_no"] = itemDatun.ObjectParam[i].line_item_no;//"Secondary";
-                    drsku["pickup_reference_number"] = itemDatun.ObjectParam[i].pickup_reference_number;//"";
+                    drsku["sold_to"] = itemDatun.ObjectParam[i].sold_to;
+                    drsku["type"] = itemDatun.ObjectParam[i].type;
+                    drsku["invoice_number"] = itemDatun.ObjectParam[i].invoice_number;
+                    drsku["invoice_amount"] = itemDatun.ObjectParam[i].invoice_amount;
+                    drsku["invoice_date"] = itemDatun.ObjectParam[i].invoice_date;
+                    drsku["line_item_no"] = itemDatun.ObjectParam[i].line_item_no;
+                    drsku["pickup_reference_number"] = itemDatun.ObjectParam[i].pickup_reference_number;
+                    drsku["cust_refid"] = itemDatun.ObjectParam[i].cust_ref_id;
+                    drsku["expected_delivery_date"] = itemDatun.ObjectParam[i].expected_delivery_date;
                     drsku["TriggerID"] = id;
 
                     dtsku.Rows.Add(drsku);
@@ -2366,9 +2372,9 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<ReversePickup> GetReverseAllData()
+        public List<ReversePickupDb> GetReverseAllData()
         {
-            List<ReversePickup> codes = new List<ReversePickup>();
+            List<ReversePickupDb> codes = new List<ReversePickupDb>();
             try
             {               
                 return codes = Mapper.GetReverseAllData(SPWrapper.GetReverseAllData());              
@@ -2423,9 +2429,9 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<ReversePickup> GetRetriggerDataReversePickup()
+        public List<ReversePickupDb> GetRetriggerDataReversePickup()
         {
-            List<ReversePickup> codes = new List<ReversePickup>();
+            List<ReversePickupDb> codes = new List<ReversePickupDb>();
             try
             {
                 return codes = Mapper.GetReverseAllData(SPWrapper.GetReversePickupDataForRetrigger());

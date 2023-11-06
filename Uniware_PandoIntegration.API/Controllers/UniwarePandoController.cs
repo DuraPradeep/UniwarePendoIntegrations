@@ -353,7 +353,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code);
                 ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code);
 
-                //Data Pushed to Pamdo
+                //Data Pushed to Pando
                 var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
                 if (sendwaybilldata.Count > 0)
                 {
@@ -1720,21 +1720,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var lists = ObjBusinessLayer.GetReverseAllData();
                     if (lists.Count > 0)
                     {
-                        //                        string[] Facilities = {
-                        //"Hosur_Avigna",
-                        //"AVIGNA_DFX",
-                        //"Gurgaon_New",
-                        //"CHENNAI",
-                        //"COCHIN",
-                        //"KOLKATA",
-                        //"Hydrabad_Item",
-                        //"BHIWANDIITEM"
-                        //                };
-                        var Facilities = ObjBusinessLayer.GetFacilityList();
+                      
                         for (int i = 0; i < lists.Count; i++)
                         {
-                            foreach (var FacilityCode in Facilities)
-                            {
+                            //foreach (var FacilityCode in Facilities)
+                            //{
                                 ReversePickup updateShippingpackage = new ReversePickup();
                                 updateShippingpackage.pickUpAddress = new PickUpAddress();
                                 updateShippingpackage.dimension = new Dimension();
@@ -1768,8 +1758,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 }
                                 var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
 
-                                var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, FacilityCode.facilityCode, Servertype);
-                            }
+                                var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype);
+                            //}
                         }
                     }
                 }
@@ -1823,11 +1813,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                     //"Hydrabad_Item",
                     //"BHIWANDIITEM"
                     //                };
-                    var Facilities = ObjBusinessLayer.GetFacilityList();
+                    //var Facilities = ObjBusinessLayer.GetFacilityList();
                     for (int i = 0; i < lists.Count; i++)
                     {
-                        foreach (var FacilityCode in Facilities)
-                        {
+                        //foreach (var FacilityCode in Facilities)
+                        //{
                             ReversePickup updateShippingpackage = new ReversePickup();
                             updateShippingpackage.pickUpAddress = new PickUpAddress();
                             updateShippingpackage.dimension = new Dimension();
@@ -1861,10 +1851,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                             }
                             var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
 
-                            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, FacilityCode.ToString(), Servertype);
+                            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype);
                             reversePickupResponse += response.Result.ObjectParam;
 
-                        }
+                        //}
                     }
                     reversePickupResponse += "Please pass valid Token";
                 }

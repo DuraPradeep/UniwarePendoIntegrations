@@ -57,6 +57,7 @@ namespace Uniware_PandoIntegration.Entities
         public PickUpAddress pickUpAddress { get; set; }
         public Dimension dimension { get; set; }
         public List<CustomField> customFields { get; set; }
+        public string FaciityCode { get; set; }
     }
 
     public class CustomFieldDb

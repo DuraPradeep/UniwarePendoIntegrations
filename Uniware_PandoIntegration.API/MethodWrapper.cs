@@ -1090,7 +1090,7 @@ namespace Uniware_PandoIntegration.API
         public Task<ServiceResponse<string>> ReversePickUpdetails(ReversePickup AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype)
         {
             int Lcheckcount = checkcount;
-            var jsonre = JsonConvert.SerializeObject(new { data = AllData });
+            var jsonre = JsonConvert.SerializeObject(AllData);
             Log.Information($"Reverse PickUp Data:-  {jsonre}");
 
             var ResStatus = _Token.ReversePickUp(jsonre, Token, FacilityCode, Servertype);

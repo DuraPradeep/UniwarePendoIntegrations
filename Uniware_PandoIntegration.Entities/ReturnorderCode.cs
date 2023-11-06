@@ -86,5 +86,7 @@ namespace Uniware_PandoIntegration.Entities
         public string line_item_no { get; set; }
         public string pickup_reference_number { get; set; }
         public string cust_ref_id { get; set; }
+        public string expected_delivery_date { get; set; }
+        public List<string> exclude_vehicle_type { get; set; }
     }
 }

@@ -103,6 +103,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.weight_unit = pds.Tables[0].Rows[i]["weight_unit"].ToString();
                         Sendingdata.cust_category = pds.Tables[0].Rows[i]["cust_category"].ToString();
                         Sendingdata.cust_ref_id = pds.Tables[0].Rows[i]["cust_refid"].ToString();
+                        Sendingdata.expected_delivery_date = pds.Tables[0].Rows[i]["expected_delivery_date"].ToString();
                         Sendingdata.exclude_vehicle_type = new List<string>();
                         for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
                         {                            
@@ -372,7 +373,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.invoice_date = pds.Tables[0].Rows[i]["invoice_date"].ToString();
                     returncode.pickup_reference_number = pds.Tables[0].Rows[i]["pickup_reference_number"].ToString();
                     returncode.cust_ref_id = pds.Tables[0].Rows[i]["cust_refid"].ToString();
-
+                    returncode.expected_delivery_date = pds.Tables[0].Rows[i]["expected_delivery_date"].ToString();
+                    returncode.exclude_vehicle_type = new List<string>();
+                    for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
+                    {
+                        returncode.exclude_vehicle_type.Add(pds.Tables[1].Rows[j]["Details"].ToString());
+                    }
                     userProfile.Add(returncode);
                 }
                 skucodes.ObjectParam = userProfile;
@@ -575,7 +581,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.invoice_amount = pds.Tables[0].Rows[i]["invoice_amount"].ToString();
                     returncode.invoice_date = pds.Tables[0].Rows[i]["invoice_date"].ToString();
                     returncode.pickup_reference_number = pds.Tables[0].Rows[i]["pickup_reference_number"].ToString();
-
+                    returncode.cust_ref_id = pds.Tables[0].Rows[i]["cust_refid"].ToString();
+                    returncode.expected_delivery_date = pds.Tables[0].Rows[i]["expected_delivery_date"].ToString();
+                    returncode.exclude_vehicle_type = new List<string>();
+                    for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
+                    {
+                        returncode.exclude_vehicle_type.Add(pds.Tables[1].Rows[j]["Details"].ToString());
+                    }                   
                     userProfile.Add(returncode);
                 }
                 skucodes.ObjectParam = userProfile;
@@ -723,14 +735,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return Finaldata;
         }
-        public static List<ReversePickup> GetReverseAllData(DataSet pds)
+        public static List<ReversePickupDb> GetReverseAllData(DataSet pds)
         {
-            List<ReversePickup> userProfile = new List<ReversePickup>();
+            List<ReversePickupDb> userProfile = new List<ReversePickupDb>();
             try
             {
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
-                    ReversePickup reversePickup = new ReversePickup();
+                    ReversePickupDb reversePickup = new ReversePickupDb();
                     reversePickup.customFields = new List<CustomField>();
 
                     PickUpAddress pickUpAddress = new PickUpAddress();
@@ -743,6 +755,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     reversePickup.shippingCourier = pds.Tables[0].Rows[i]["shippingCourier"].ToString();
                     reversePickup.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
                     reversePickup.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+                    reversePickup.FaciityCode = pds.Tables[0].Rows[i]["Facility"].ToString();
 
                     pickUpAddress.id= pds.Tables[0].Rows[i]["id"].ToString();
                     pickUpAddress.name= pds.Tables[0].Rows[i]["name"].ToString();

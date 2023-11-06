@@ -40,7 +40,7 @@ namespace Uniware_PandoIntegration.Entities
         public string pickup_reference_number { get; set; }
         public string cust_ref_id { get; set; }
         public List<string> exclude_vehicle_type { get; set; }
-        //public IDictionary<string, string> numberNames { get; set; }// = new Dictionary<string, string>();
+        public string expected_delivery_date { get; set; }
 
     }
     public class exclude_truck_type

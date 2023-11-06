@@ -837,11 +837,11 @@ namespace Uniware_PandoIntegration.APIs
                 var request = new HttpRequestMessage();
                 if (ServerType.ToLower() == "qa")   
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/data/oms/returns/reversePickup/edit");
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
                 }
                 else if (ServerType.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
                 }
                 
                 request.Headers.Add("Facility", Facility);
