@@ -1643,6 +1643,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("invoice_date");
                 dtsku.Columns.Add("line_item_no");
                 dtsku.Columns.Add("pickup_reference_number");
+                dtsku.Columns.Add("cust_refid");
+                dtsku.Columns.Add("expected_delivery_date");
                 dtsku.Columns.Add("TriggerID");
 
 
@@ -2469,9 +2471,9 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool UploadFacilityMaster(List<FacilityMaintain> cloned)
+        public string UploadFacilityMaster(List<FacilityMaintain> cloned)
         {
-            bool res;
+            string res;
             try
             {
                 DataTable Facility = new DataTable();

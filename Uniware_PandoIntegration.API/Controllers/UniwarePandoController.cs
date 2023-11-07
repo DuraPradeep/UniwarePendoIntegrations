@@ -1664,6 +1664,9 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Request Reverse Pickup {JsonConvert.SerializeObject(reversePickup)}");
+
+
                 string Servertype = iconfiguration["ServerType:type"];
                 List<ReversePickupDb> reverseitems = new List<ReversePickupDb>();
                 List<PickUpAddressDb> pickaddressitems = new List<PickUpAddressDb>();
@@ -1794,6 +1797,8 @@ namespace Uniware_PandoIntegration.API.Controllers
         public IActionResult RetriggerreversePickup()
         {
             string Servertype = iconfiguration["ServerType:type"];
+            _logger.LogInformation("Retrigger Reverse Pickup");
+
             var resu = _Token.GetTokens(Servertype).Result;
             string reversePickupResponse = string.Empty;
             var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
@@ -1873,8 +1878,10 @@ namespace Uniware_PandoIntegration.API.Controllers
         public ActionResult FacilityMasterUploads(List<FacilityMaintain> FacilityList)
         {
             string ExecResult = string.Empty;
-            ObjBusinessLayer.UploadFacilityMaster(FacilityList);
-            return new JsonResult(ExecResult);
+            _logger.LogInformation($"Facility Master Updated. {JsonConvert.SerializeObject(FacilityList)}");
+
+            ExecResult = ObjBusinessLayer.UploadFacilityMaster(FacilityList);
+            return new JsonResult(ExecResult.Trim());
         }
 
 

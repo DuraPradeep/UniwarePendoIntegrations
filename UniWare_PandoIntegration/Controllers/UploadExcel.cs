@@ -1,4 +1,5 @@
-﻿using ExcelDataReader;
+﻿using ClosedXML.Excel;
+using ExcelDataReader;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -29,12 +30,6 @@ namespace UniWare_PandoIntegration.Controllers
         {
             return View();
         }
-        //[HttpGet]
-        //public ActionResult UploadExcels()
-        //{
-        //    return PartialView("~/Views/Home/pv_ExcelUploads.cshtml");
-        //}
-
         public IActionResult UploadExcelData(IFormFile upload)
         {
             if (upload != null)
@@ -143,7 +138,7 @@ namespace UniWare_PandoIntegration.Controllers
                 ApiControl = new ApiOperation(Apibase);                
                 var response = ApiControl.Post1<ServiceResponse<string>, List<UploadExcels>>(empList, "Api/UniwarePando/UploadExcel");
 
-                ViewBag.Message = response;
+                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
             return PartialView("~/Views/Home/Dashboard.cshtml");
@@ -224,15 +219,15 @@ namespace UniWare_PandoIntegration.Controllers
                 for (var i = 0; i < cloned.Rows.Count; i++)
                 {
                     DataRow SOrow = Facility.NewRow();
-                    SOrow["FacilityCode"] = cloned.Rows[i]["FacilityCode"];
-                    SOrow["FacilityName"] = cloned.Rows[i]["FacilityName"];
+                    SOrow["FacilityCode"] = cloned.Rows[i]["Facility Code"];
+                    SOrow["FacilityName"] = cloned.Rows[i]["Facility Name"];
                     SOrow["Address"] = cloned.Rows[i]["Address"];
                     SOrow["City"] = cloned.Rows[i]["City"];
                     SOrow["State"] = cloned.Rows[i]["State"];
-                    SOrow["Pincode"] = cloned.Rows[i]["Pincode"];
+                    SOrow["Pincode"] = cloned.Rows[i]["Pin Code"];
                     SOrow["Region"] = cloned.Rows[i]["Region"];
-                    SOrow["Mobile_number"] = cloned.Rows[i]["Mobile_number"];
-                    SOrow["email"] = cloned.Rows[i]["email"];
+                    SOrow["Mobile_number"] = cloned.Rows[i]["Mobile"];
+                    SOrow["email"] = cloned.Rows[i]["Email"];
                     Facility.Rows.Add(SOrow);
                 }
                 DataTable dataSet = new DataTable();
@@ -243,46 +238,158 @@ namespace UniWare_PandoIntegration.Controllers
                 //{
                     foreach (DataRow dr in dataSet.Rows)
                     {
-                        FacList.Add(new FacilityMaintain { FacilityCode = Convert.ToString(dr["Code"]), FacilityName = Convert.ToString(dr["Type"]) });
+                        FacList.Add(new FacilityMaintain { FacilityCode = Convert.ToString(dr["FacilityCode"]), 
+                            FacilityName = Convert.ToString(dr["FacilityName"]),
+                            Address= Convert.ToString(dr["Address"]) ,
+                            City= Convert.ToString(dr["City"]) ,
+                            State= Convert.ToString(dr["State"]) ,
+                            Pincode= Convert.ToString(dr["Pincode"]) ,
+                            Region= Convert.ToString(dr["Region"]) ,
+                            Mobile= Convert.ToString(dr["Mobile_number"]) ,
+                            Email= Convert.ToString(dr["email"])
+                        });
                     }
                 //}
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<FacilityMaintain>>(FacList, "Api/UniwarePando/UploadExcel");
-
-                ViewBag.Message = response;
+                var response = ApiControl.Post1<ServiceResponse<string>, List<FacilityMaintain>>(FacList, "Api/UniwarePando/FacilityMasterUploads").Trim();
+              
+                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
-            return View("~/Views/UploadExcel/UploadMaster.cshtml");
+            return View("~/Views/Home/Dashboard.cshtml");
         }
-        public void FacilityMasterDownload()
+        public ActionResult FacilityMasterDownload()
         {
 
             ApiControl = new ApiOperation(Apibase);
             ListcustomerModels = ApiControl.Get<List<FacilityMaintain>>("api/UniwarePando/GetFacilityMaster_Details");
-            ListtoDataTableConverter listtoDataTableConverter = new ListtoDataTableConverter();
-            var dt = listtoDataTableConverter.ToDataTable(ListcustomerModels);
-            string attachment = "attachment; filename=FacilityMaster.xls";
-            Response.Clear();
-            Response.Headers.Add("content-disposition", attachment);
-            Response.ContentType = "application/vnd.ms-excel";
-            string tab = "";
-            foreach (DataColumn dc in dt.Columns)
+
+            var listdata = ListcustomerModels;
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "Facility Master.xlsx";
+            try
             {
-                Response.WriteAsync(tab + dc.ColumnName);
-                tab = "\t";
-            }
-            Response.WriteAsync("\n");
-            int i;
-            foreach (DataRow dr in dt.Rows)
-            {
-                tab = "";
-                for (i = 0; i < dt.Columns.Count; i++)
+                using (var workbook = new XLWorkbook())
                 {
-                    Response.WriteAsync(tab + dr[i].ToString());
-                    tab = "\t";
+                    IXLWorksheet worksheet =
+                    workbook.Worksheets.Add("FacilityDetails");
+                    worksheet.Cell(1, 1).Value = "Facility Code";
+                    worksheet.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 1).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 1).Style.Font.Bold = true;
+                    worksheet.Cell(1, 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 2).Value = "Facility Name";
+                    worksheet.Cell(1, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 2).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 2).Style.Font.Bold = true;
+                    worksheet.Cell(1, 2).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 3).Value = "Address";
+                    worksheet.Cell(1, 3).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 3).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 3).Style.Font.Bold = true;
+                    worksheet.Cell(1, 3).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 4).Value = "City";
+                    worksheet.Cell(1, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 4).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 4).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    worksheet.Cell(1, 4).Style.Font.Bold = true;
+
+                    worksheet.Cell(1, 5).Value = "State";
+                    worksheet.Cell(1, 5).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 5).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 5).Style.Font.Bold = true;
+                    worksheet.Cell(1, 5).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 6).Value = "Pin Code";
+                    worksheet.Cell(1, 6).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 6).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 6).Style.Font.Bold = true;
+                    worksheet.Cell(1, 6).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 7).Value = "Mobile";
+                    worksheet.Cell(1, 7).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 7).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 7).Style.Font.Bold = true;
+                    worksheet.Cell(1, 7).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 8).Value = "Region";
+                    worksheet.Cell(1, 8).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 8).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 8).Style.Font.Bold = true;
+                    worksheet.Cell(1, 8).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 9).Value = "Email";
+                    worksheet.Cell(1, 9).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 9).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 9).Style.Font.Bold = true;
+                    worksheet.Cell(1, 9).Style.Fill.BackgroundColor = XLColor.LightBlue;                    
+
+                    worksheet.ShowGridLines = true;
+                    for (int index = 1; index <= listdata.Count; index++)
+                    {
+                            worksheet.Cell(index + 1, 1).Value = listdata[index - 1].FacilityCode;
+                            worksheet.Cell(index + 1, 2).Value = listdata[index - 1].FacilityName;
+                            worksheet.Cell(index + 1, 3).Value = listdata[index - 1].Address;
+                            worksheet.Cell(index + 1, 4).Value = listdata[index - 1].City;
+                            worksheet.Cell(index + 1, 5).Value = listdata[index - 1].State;
+                            worksheet.Cell(index + 1, 6).Value = listdata[index - 1].Pincode;
+                            worksheet.Cell(index + 1, 7).Value = listdata[index - 1].Mobile;
+                            worksheet.Cell(index + 1, 8).Value = listdata[index - 1].Region;
+                            worksheet.Cell(index + 1, 9).Value = listdata[index - 1].Email;
+
+                            worksheet.Cell(index + 1, 1).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 2).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 3).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 4).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 5).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 6).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 7).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 8).Style.Font.FontColor = XLColor.Black;
+                            worksheet.Cell(index + 1, 9).Style.Font.FontColor = XLColor.Black;
+                    }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, contentType, fileName);
+                    }
                 }
-                Response.WriteAsync("\n");
             }
+            catch (Exception ex)
+            {
+                return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            }
+
+
+
+
+            //ListtoDataTableConverter listtoDataTableConverter = new ListtoDataTableConverter();
+            //var dt = listtoDataTableConverter.ToDataTable(ListcustomerModels);
+            //string attachment = "attachment; filename=FacilityMaster.xlsx";
+            //Response.Clear();
+            //Response.Headers.Add("content-disposition", attachment);
+            //Response.ContentType = "application/vnd.ms-excel";
+            //string tab = "";
+            //foreach (DataColumn dc in dt.Columns)
+            //{
+            //    Response.WriteAsync(tab + dc.ColumnName);
+            //    tab = "\t";
+            //}
+            //Response.WriteAsync("\n");
+            //int i;
+            //foreach (DataRow dr in dt.Rows)
+            //{
+            //    tab = "";
+            //    for (i = 0; i < dt.Columns.Count; i++)
+            //    {
+            //        Response.WriteAsync(tab + dr[i].ToString());
+            //        tab = "\t";
+            //    }
+            //    Response.WriteAsync("\n");
+            //}
 
 
         }

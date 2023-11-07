@@ -2656,9 +2656,9 @@ namespace Uniware_PandoIntegration.APIs
             return ds;
         }
 
-        public static bool UpdateFaciitymaster(DataTable dt)
+        public static string UpdateFaciitymaster(DataTable dt)
         {
-            bool res;
+            string status;
             try
             {
                 con = GetConnection();
@@ -2666,17 +2666,19 @@ namespace Uniware_PandoIntegration.APIs
                 com.Connection = con;
                 com.CommandText = "sp_InsertandUpdateFacility";
                 com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                com.Parameters["@status"].Direction = ParameterDirection.Output;
                 com.Parameters.AddWithValue("@FacilityDetails", dt);
                 con.Open();
                 com.ExecuteNonQuery();
-                res = true;
+                status= Convert.ToString(com.Parameters["@status"].Value);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
             finally { con.Close(); }
-            return res;
+            return status;
         }
 
     }

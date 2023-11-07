@@ -87,6 +87,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.102.1, )"
+            },
             "ExcelDataReader": {
               "target": "Package",
               "version": "[3.6.0, )"

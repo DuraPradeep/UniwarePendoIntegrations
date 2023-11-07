@@ -774,3 +774,10 @@ D:\UniWare\UniWare_PandoIntegration\obj\Debug\net6.0\UniWare_PandoIntegration.ge
 D:\UniWare\UniWare_PandoIntegration\obj\Debug\net6.0\ref\UniWare_PandoIntegration.dll
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\ExcelDataReader.dll
 D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\ExcelDataReader.DataSet.dll
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\ClosedXML.dll
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\ExcelNumberFormat.dll
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\Irony.dll
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\SixLabors.Fonts.dll
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\System.IO.Packaging.dll
+D:\UniWare\UniWare_PandoIntegration\bin\Debug\net6.0\XLParser.dll
