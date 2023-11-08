@@ -839,5 +839,29 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return FacilityList;
         }
+        public static List<TrackingStatusDb> GetTrackingDetails(DataSet pds)
+        {
+            List<TrackingStatusDb> FacilityList = new List<TrackingStatusDb>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingStatusDb returncode = new TrackingStatusDb();
+                    returncode.providerCode = pds.Tables[0].Rows[i]["providerCode"].ToString();
+                    returncode.trackingStatus = pds.Tables[0].Rows[i]["trackingStatus"].ToString();
+                    returncode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    returncode.statusDate = pds.Tables[0].Rows[i]["statusDate"].ToString();
+                    returncode.shipmentTrackingStatusName = pds.Tables[0].Rows[i]["shipmentTrackingStatusName"].ToString();
+                    returncode.facilitycode = pds.Tables[0].Rows[i]["facilitycode"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
     }
 }

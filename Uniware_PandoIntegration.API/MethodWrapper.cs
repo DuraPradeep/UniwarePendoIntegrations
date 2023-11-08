@@ -22,7 +22,7 @@ namespace Uniware_PandoIntegration.API
         BearerToken _Token = new BearerToken();
         private bool disposedValue;
         Emailtrigger Emailtrigger = new Emailtrigger();
-        public List<Element> getCode(string json, string token, int checkcount,string servertype)
+        public List<Element> getCode(string json, string token, int checkcount, string servertype)
         {
             int Lcheckcount = checkcount;
             var result = _Token.GetCode(json, token, servertype);
@@ -56,7 +56,7 @@ namespace Uniware_PandoIntegration.API
             }
             return elmt;
         }
-        public parentList PassCodeer(string jsoncodes, string token, string code, int checkcounter,string Servertype)
+        public parentList PassCodeer(string jsoncodes, string token, string code, int checkcounter, string Servertype)
         {
             int LLcheckcount = checkcounter;
             parentList parentList = new parentList();
@@ -210,13 +210,13 @@ namespace Uniware_PandoIntegration.API
             LLcheckcount = 0;
             return parentList;
         }
-        public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount,string Servertype)
+        public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount, string Servertype)
         {
             int Lcheckcount = checkcount;
             ItemTypeDTO itemsSku = new ItemTypeDTO();
             List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
             Log.Information(" Return order Api itemType_Get -" + jskucode + ": " + token);
-            
+
             var resul = _Token.GetSkuDetails(jskucode, token, Servertype);
             //List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
             if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
@@ -254,7 +254,7 @@ namespace Uniware_PandoIntegration.API
             //var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
             return itemsSku;
         }
-        public ServiceResponse<string> Action(List<Data> sendcode, string triggerid, int checkcount,string ServerType)
+        public ServiceResponse<string> Action(List<Data> sendcode, string triggerid, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
             ServiceResponse<string> resfinal = null;
@@ -489,11 +489,11 @@ namespace Uniware_PandoIntegration.API
         //	}
         //	return resfinal;
         //}
-        public Task<ServiceResponse<string>> WaybillGenerationPostData(List<WaybillSend> AllData, int checkcount, string triggerid,string ServerType)
+        public Task<ServiceResponse<string>> WaybillGenerationPostData(List<WaybillSend> AllData, int checkcount, string triggerid, string ServerType)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
-            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre,ServerType);
+            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
@@ -502,7 +502,7 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    WaybillGenerationPostData(AllData, Lcheckcount, triggerid,ServerType);
+                    WaybillGenerationPostData(AllData, Lcheckcount, triggerid, ServerType);
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Waybill Generation");
@@ -512,7 +512,7 @@ namespace Uniware_PandoIntegration.API
             }
             return ResStatus;
         }
-        public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount,string ServerType,string FacilityCode)
+        public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode)
         {
             int Lcheckcount = checkcount;
             List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
@@ -543,7 +543,7 @@ namespace Uniware_PandoIntegration.API
             }
             return returnorderCode;
         }
-        public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount,string ServerType,string FacilityCode)
+        public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode)
         {
             int Lcheckcount = checkcount;
             var list = _Token.ReturnOrderGet(jdetail, token, ServerType, FacilityCode);
@@ -605,7 +605,7 @@ namespace Uniware_PandoIntegration.API
 
             return rootReturnorderAPI;
         }
-        public ItemTypeDTO getReturnOrderSkuCode(string jskucode, string token, string Code, string Skucode, int checkcount,string Servertype)
+        public ItemTypeDTO getReturnOrderSkuCode(string jskucode, string token, string Code, string Skucode, int checkcount, string Servertype)
         {
             int Lcheckcount = checkcount;
             ItemTypeDTO itemsSku = new ItemTypeDTO();
@@ -650,7 +650,7 @@ namespace Uniware_PandoIntegration.API
             return itemsSku;
         }
 
-        public Task<ServiceResponse<string>> PostDataReturnOrder(ServiceResponse<List<ReturnOrderSendData>> AllData, string Trigerid, int checkcount,string ServerType)
+        public Task<ServiceResponse<string>> PostDataReturnOrder(ServiceResponse<List<ReturnOrderSendData>> AllData, string Trigerid, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
@@ -675,10 +675,10 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public List<Element> GatePass(string jdetail, string token, int checkcount,string ServerType,string FacilityCode)
+        public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.FetchingGetPassCode(jdetail, token,ServerType, FacilityCode);
+            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
             Log.Information("STO WayBill response: " + list.Result.ObjectParam);
@@ -690,7 +690,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    GatePass(jdetail, token, Lcheckcount,ServerType, FacilityCode);
+                    GatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode);
                 }
                 else
                 {
@@ -712,7 +712,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlists GetGatePassElements(string jdetail, string token, string code, int checkcount,string ServerType,string FacilityCode)
+        public STOlists GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode)
         {
             int Lcheckcount = checkcount;
             Log.Information("STO WayBill Elements: request " + jdetail);
@@ -769,13 +769,13 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return STOlists;
         }
-        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token, string code, string itemsku, int checkcount,string ServerType)
+        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token, string code, string itemsku, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
             //var list = _Token.GetSTOSkuDetails(jdetail, token);
             Log.Information(" STO Waybill itemType_Get -" + itemsku + ": " + token);
 
-            var list = _Token.GetSkuDetails(jdetail, token,ServerType);
+            var list = _Token.GetSkuDetails(jdetail, token, ServerType);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             ItemTypeDTO itemType = new ItemTypeDTO();
@@ -791,7 +791,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
                     ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 0);
-                    GetSTOWaybillSkuDetails(jdetail, token, code, itemsku, Lcheckcount,ServerType);
+                    GetSTOWaybillSkuDetails(jdetail, token, code, itemsku, Lcheckcount, ServerType);
                 }
                 else
                 {
@@ -836,11 +836,11 @@ namespace Uniware_PandoIntegration.API
             }
             return ResStatus;
         }
-        public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount,string ServerType,string FacilityCode)
+        public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode)
         {
             int Lcheckcount = checkcount;
             ServiceResponse<string> response = new ServiceResponse<string>();
-            var list = _Token.FetchingGetPassCode(jdetail, token,ServerType, FacilityCode);
+            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
             Log.Information("STO APi response: " + list.Result.ObjectParam);
@@ -874,7 +874,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount,string ServerType,string Facilitycode)
+        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string Facilitycode)
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode);
@@ -931,11 +931,11 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return STOlists;
         }
-        public ItemTypeDTO GetSTOAPISkuDetails(string jdetail, string token, string code, string skutype, int checkcount,string ServerType)
+        public ItemTypeDTO GetSTOAPISkuDetails(string jdetail, string token, string code, string skutype, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
             //var list = _Token.GetSTOSkuDetails(jdetail, token);
-            var list = _Token.GetSkuDetails(jdetail, token,ServerType);
+            var list = _Token.GetSkuDetails(jdetail, token, ServerType);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             Log.Information("STOAPI Sku Response: " + list.Result.ObjectParam);
@@ -952,7 +952,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
                     ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 0);
-                    GetSTOAPISkuDetails(jdetail, token, code, skutype, Lcheckcount,ServerType);
+                    GetSTOAPISkuDetails(jdetail, token, code, skutype, Lcheckcount, ServerType);
                 }
                 else
                 {
@@ -973,7 +973,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return itemType;
         }
-        public Task<ServiceResponse<string>> STOAPiPostData(ServiceResponse<List<ReturnOrderSendData>> AllData, string triggerid, int checkcount,string ServerType)
+        public Task<ServiceResponse<string>> STOAPiPostData(ServiceResponse<List<ReturnOrderSendData>> AllData, string triggerid, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
@@ -999,7 +999,7 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode,string Servertype)
+        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype)
         {
             int Lcheckcount = checkcount;
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype);
@@ -1026,7 +1026,7 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode,string ServerType)
+        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType)
         {
             int Lcheckcount = checkcount;
             var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType);
@@ -1114,6 +1114,32 @@ namespace Uniware_PandoIntegration.API
                 ObjBusinessLayer.BLUpdateErrorDetailsReversePickup(AllData.reversePickupCode);
                 return ResStatus;
 
+            }
+
+        }
+        public Task<ServiceResponse<string>> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype)
+        {
+            int Lcheckcount = checkcount;
+            var jsonre = JsonConvert.SerializeObject(AllData);
+            Log.Information($"Tracking Status data:-  {jsonre}");
+
+            var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype);
+                }
+                {
+                    //Emailtrigger.SendEmailToAdmin("Reverse PickUp");
+                    return ResStatus = null;
+                }
+            }
+            else
+            {
+                return ResStatus;
             }
 
         }

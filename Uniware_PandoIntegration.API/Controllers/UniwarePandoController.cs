@@ -22,6 +22,7 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.Extensions.Primitives;
 using Uniware_PandoIntegration.API.ActionFilter;
 using Azure;
+using System.Collections;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -340,17 +341,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                     item.tags = Records.Shipment.items[i].tags;
                     items.Add(item);
                 }
-                //for (int i = 0; i < Records.Shipment.customFieldValues.Count; i++)
-                //{
-                //    CustomFieldValue customFieldValue = new CustomFieldValue();
-                //    customFieldValue.name = Records.Shipment.customFieldValues[i].name;
-                //    customFieldValue.value = Records.Shipment.customFieldValues[i].value;
-                //    customfields.Add(customFieldValue);
-                //}
+                for (int i = 0; i < Records.Shipment.customFieldValues.Count; i++)
+                {
+                    CustomFieldValue customFieldValue = new CustomFieldValue();
+                    customFieldValue.name = Records.Shipment.customFieldValues[i].name;
+                    customFieldValue.value = Records.Shipment.customFieldValues[i].value;
+                    customfields.Add(customFieldValue);
+                }
                 ObjBusinessLayer.insertWaybilldeliveryaddress(Records.deliveryAddressDetails, primaryid);
                 ObjBusinessLayer.insertWaybillpickupadres(Records.pickupAddressDetails, primaryid);
                 ObjBusinessLayer.insertWaybillReturnaddress(Records.returnAddressDetails, primaryid);
-                //ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code);
+                ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code);
                 ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code);
 
                 //Data Pushed to Pando
@@ -1723,45 +1724,42 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var lists = ObjBusinessLayer.GetReverseAllData();
                     if (lists.Count > 0)
                     {
-                      
                         for (int i = 0; i < lists.Count; i++)
                         {
-                            //foreach (var FacilityCode in Facilities)
-                            //{
-                                ReversePickup updateShippingpackage = new ReversePickup();
-                                updateShippingpackage.pickUpAddress = new PickUpAddress();
-                                updateShippingpackage.dimension = new Dimension();
-                                updateShippingpackage.customFields = new List<CustomField>();
-                                updateShippingpackage.reversePickupCode = lists[i].reversePickupCode;
-                                updateShippingpackage.pickupInstruction = lists[i].pickupInstruction;
-                                updateShippingpackage.trackingLink = lists[i].trackingLink;
-                                updateShippingpackage.shippingCourier = lists[i].shippingCourier;
-                                updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                                updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                            ReversePickup updateShippingpackage = new ReversePickup();
+                            updateShippingpackage.pickUpAddress = new PickUpAddress();
+                            updateShippingpackage.dimension = new Dimension();
+                            updateShippingpackage.customFields = new List<CustomField>();
+                            updateShippingpackage.reversePickupCode = lists[i].reversePickupCode;
+                            updateShippingpackage.pickupInstruction = lists[i].pickupInstruction;
+                            updateShippingpackage.trackingLink = lists[i].trackingLink;
+                            updateShippingpackage.shippingCourier = lists[i].shippingCourier;
+                            updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                            updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
 
-                                updateShippingpackage.pickUpAddress.id = lists[i].pickUpAddress.id;
-                                updateShippingpackage.pickUpAddress.name = lists[i].pickUpAddress.name;
-                                updateShippingpackage.pickUpAddress.addressLine1 = lists[i].pickUpAddress.addressLine1;
-                                updateShippingpackage.pickUpAddress.addressLine2 = lists[i].pickUpAddress.addressLine2;
-                                updateShippingpackage.pickUpAddress.city = lists[i].pickUpAddress.city;
-                                updateShippingpackage.pickUpAddress.state = lists[i].pickUpAddress.state;
-                                updateShippingpackage.pickUpAddress.phone = lists[i].pickUpAddress.phone;
-                                updateShippingpackage.pickUpAddress.pincode = lists[i].pickUpAddress.pincode;
+                            updateShippingpackage.pickUpAddress.id = lists[i].pickUpAddress.id;
+                            updateShippingpackage.pickUpAddress.name = lists[i].pickUpAddress.name;
+                            updateShippingpackage.pickUpAddress.addressLine1 = lists[i].pickUpAddress.addressLine1;
+                            updateShippingpackage.pickUpAddress.addressLine2 = lists[i].pickUpAddress.addressLine2;
+                            updateShippingpackage.pickUpAddress.city = lists[i].pickUpAddress.city;
+                            updateShippingpackage.pickUpAddress.state = lists[i].pickUpAddress.state;
+                            updateShippingpackage.pickUpAddress.phone = lists[i].pickUpAddress.phone;
+                            updateShippingpackage.pickUpAddress.pincode = lists[i].pickUpAddress.pincode;
 
-                                updateShippingpackage.dimension.boxLength = lists[i].dimension.boxLength;
-                                updateShippingpackage.dimension.boxWidth = lists[i].dimension.boxWidth;
-                                updateShippingpackage.dimension.boxHeight = lists[i].dimension.boxHeight;
-                                updateShippingpackage.dimension.boxWeight = lists[i].dimension.boxWeight;
-                                for (int j = 0; j < lists[i].customFields.Count; j++)
-                                {
-                                    CustomField customField = new CustomField();
-                                    customField.name = lists[i].customFields[j].name;
-                                    customField.value = lists[i].customFields[j].value;
-                                    updateShippingpackage.customFields.Add(customField);
-                                }
-                                var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
+                            updateShippingpackage.dimension.boxLength = lists[i].dimension.boxLength;
+                            updateShippingpackage.dimension.boxWidth = lists[i].dimension.boxWidth;
+                            updateShippingpackage.dimension.boxHeight = lists[i].dimension.boxHeight;
+                            updateShippingpackage.dimension.boxWeight = lists[i].dimension.boxWeight;
+                            for (int j = 0; j < lists[i].customFields.Count; j++)
+                            {
+                                CustomField customField = new CustomField();
+                                customField.name = lists[i].customFields[j].name;
+                                customField.value = lists[i].customFields[j].value;
+                                updateShippingpackage.customFields.Add(customField);
+                            }
+                            var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
 
-                                var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype);
+                            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype);
                             //}
                         }
                     }
@@ -1823,41 +1821,41 @@ namespace Uniware_PandoIntegration.API.Controllers
                     {
                         //foreach (var FacilityCode in Facilities)
                         //{
-                            ReversePickup updateShippingpackage = new ReversePickup();
-                            updateShippingpackage.pickUpAddress = new PickUpAddress();
-                            updateShippingpackage.dimension = new Dimension();
-                            updateShippingpackage.customFields = new List<CustomField>();
-                            updateShippingpackage.reversePickupCode = lists[i].reversePickupCode;
-                            updateShippingpackage.pickupInstruction = lists[i].pickupInstruction;
-                            updateShippingpackage.trackingLink = lists[i].trackingLink;
-                            updateShippingpackage.shippingCourier = lists[i].shippingCourier;
-                            updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                            updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                        ReversePickup updateShippingpackage = new ReversePickup();
+                        updateShippingpackage.pickUpAddress = new PickUpAddress();
+                        updateShippingpackage.dimension = new Dimension();
+                        updateShippingpackage.customFields = new List<CustomField>();
+                        updateShippingpackage.reversePickupCode = lists[i].reversePickupCode;
+                        updateShippingpackage.pickupInstruction = lists[i].pickupInstruction;
+                        updateShippingpackage.trackingLink = lists[i].trackingLink;
+                        updateShippingpackage.shippingCourier = lists[i].shippingCourier;
+                        updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                        updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
 
-                            updateShippingpackage.pickUpAddress.id = lists[i].pickUpAddress.id;
-                            updateShippingpackage.pickUpAddress.name = lists[i].pickUpAddress.name;
-                            updateShippingpackage.pickUpAddress.addressLine1 = lists[i].pickUpAddress.addressLine1;
-                            updateShippingpackage.pickUpAddress.addressLine2 = lists[i].pickUpAddress.addressLine2;
-                            updateShippingpackage.pickUpAddress.city = lists[i].pickUpAddress.city;
-                            updateShippingpackage.pickUpAddress.state = lists[i].pickUpAddress.state;
-                            updateShippingpackage.pickUpAddress.phone = lists[i].pickUpAddress.phone;
-                            updateShippingpackage.pickUpAddress.pincode = lists[i].pickUpAddress.pincode;
+                        updateShippingpackage.pickUpAddress.id = lists[i].pickUpAddress.id;
+                        updateShippingpackage.pickUpAddress.name = lists[i].pickUpAddress.name;
+                        updateShippingpackage.pickUpAddress.addressLine1 = lists[i].pickUpAddress.addressLine1;
+                        updateShippingpackage.pickUpAddress.addressLine2 = lists[i].pickUpAddress.addressLine2;
+                        updateShippingpackage.pickUpAddress.city = lists[i].pickUpAddress.city;
+                        updateShippingpackage.pickUpAddress.state = lists[i].pickUpAddress.state;
+                        updateShippingpackage.pickUpAddress.phone = lists[i].pickUpAddress.phone;
+                        updateShippingpackage.pickUpAddress.pincode = lists[i].pickUpAddress.pincode;
 
-                            updateShippingpackage.dimension.boxLength = lists[i].dimension.boxLength;
-                            updateShippingpackage.dimension.boxWidth = lists[i].dimension.boxWidth;
-                            updateShippingpackage.dimension.boxHeight = lists[i].dimension.boxHeight;
-                            updateShippingpackage.dimension.boxWeight = lists[i].dimension.boxWeight;
-                            for (int j = 0; j < lists[i].customFields.Count; j++)
-                            {
-                                CustomField customField = new CustomField();
-                                customField.name = lists[i].customFields[j].name;
-                                customField.value = lists[i].customFields[j].value;
-                                updateShippingpackage.customFields.Add(customField);
-                            }
-                            var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
+                        updateShippingpackage.dimension.boxLength = lists[i].dimension.boxLength;
+                        updateShippingpackage.dimension.boxWidth = lists[i].dimension.boxWidth;
+                        updateShippingpackage.dimension.boxHeight = lists[i].dimension.boxHeight;
+                        updateShippingpackage.dimension.boxWeight = lists[i].dimension.boxWeight;
+                        for (int j = 0; j < lists[i].customFields.Count; j++)
+                        {
+                            CustomField customField = new CustomField();
+                            customField.name = lists[i].customFields[j].name;
+                            customField.value = lists[i].customFields[j].value;
+                            updateShippingpackage.customFields.Add(customField);
+                        }
+                        var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage);
 
-                            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype);
-                            reversePickupResponse += response.Result.ObjectParam;
+                        var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype);
+                        reversePickupResponse += response.Result.ObjectParam;
 
                         //}
                     }
@@ -1883,7 +1881,70 @@ namespace Uniware_PandoIntegration.API.Controllers
             ExecResult = ObjBusinessLayer.UploadFacilityMaster(FacilityList);
             return new JsonResult(ExecResult.Trim());
         }
+        [Authorize]
+        [HttpPost]
+        public ActionResult TrackingStatus(List<TrackingStatusDb> TrackingDetails)
+        {
+            try
+            {
+                _logger.LogInformation($"Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
+                string Servertype = iconfiguration["ServerType:type"];
+                List<TrackingStatusDb> trackingStatusDbs = new List<TrackingStatusDb>();
+                for (int i = 0; i < TrackingDetails.Count; i++)
+                {
+                    TrackingStatusDb trackingStatus = new TrackingStatusDb();
+                    var randonid = ObjBusinessLayer.GenerateNumeric();
+                    trackingStatus.Id = randonid;
+                    trackingStatus.providerCode = TrackingDetails[i].providerCode;
+                    trackingStatus.trackingNumber = TrackingDetails[i].trackingNumber;
+                    trackingStatus.trackingStatus = TrackingDetails[i].trackingStatus;
+                    trackingStatus.statusDate = TrackingDetails[i].statusDate;
+                    trackingStatus.shipmentTrackingStatusName = TrackingDetails[i].shipmentTrackingStatusName;
+                    trackingStatus.facilitycode = TrackingDetails[i].facilitycode;
 
+                    trackingStatusDbs.Add(trackingStatus);
+                }
+
+                var details = ObjBusinessLayer.BLinsertTrackingDetails(trackingStatusDbs);
+                var resu = _Token.GetTokens(Servertype).Result;
+                var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+                string token = accesstoken.access_token;
+                string responsmessage = string.Empty;
+                if (!string.IsNullOrEmpty(token))
+                {
+                    var TrackingList = ObjBusinessLayer.GetTrackingDetails();
+                    for (int i = 0; i < TrackingList.Count; i++)
+                    {
+                        
+                        TrackingStatus trackingStatus = new TrackingStatus();
+                        trackingStatus.providerCode = TrackingList[i].providerCode;
+                        trackingStatus.trackingStatus = TrackingList[i].trackingStatus;
+                        trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
+                        trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
+                        trackingStatus.statusDate = TrackingList[i].statusDate;
+                       var res= _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype);
+                        responsmessage=res.Result.ObjectParam.ToString();
+                    }
+
+                }
+                TrackingResponse reversePickupResponse = new TrackingResponse();
+                reversePickupResponse.successful = true;
+                reversePickupResponse.message =responsmessage;
+                reversePickupResponse.errors = "";
+                reversePickupResponse.warnings = "";
+                return new JsonResult(reversePickupResponse);
+            }
+            catch (Exception ex)
+            {
+                TrackingResponse reversePickupResponse = new TrackingResponse();
+                reversePickupResponse.successful = false;
+                reversePickupResponse.message = ex.Message;
+                reversePickupResponse.errors = "";
+                reversePickupResponse.warnings = "";
+                return new JsonResult(reversePickupResponse);
+                throw;
+            }           
+        }
 
     }
 }

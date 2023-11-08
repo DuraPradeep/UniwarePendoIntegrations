@@ -2510,6 +2510,54 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
+        public bool BLinsertTrackingDetails(List<TrackingStatusDb> elements)
+        {
+            bool res;
+            try
+            {
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Id");
+                dtinstcode.Columns.Add("providerCode");
+                dtinstcode.Columns.Add("trackingNumber");
+                dtinstcode.Columns.Add("trackingStatus");
+                dtinstcode.Columns.Add("statusDate");
+                dtinstcode.Columns.Add("shipmentTrackingStatusName");
+                dtinstcode.Columns.Add("facilitycode");
+
+
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Id"] = elements[i].Id;
+                    dr["providerCode"] = elements[i].providerCode;
+                    dr["trackingNumber"] = elements[i].trackingNumber;
+                    dr["trackingStatus"] = elements[i].trackingStatus;
+                    dr["statusDate"] = elements[i].statusDate;
+                    dr["shipmentTrackingStatusName"] = elements[i].shipmentTrackingStatusName;
+                    dr["facilitycode"] = elements[i].facilitycode;
+                    dtinstcode.Rows.Add(dr);
+                }
+                res = SPWrapper.InsertTrackingDetails(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<TrackingStatusDb> GetTrackingDetails()
+        {
+            try
+            {
+                return  Mapper.GetTrackingDetails(SPWrapper.GetTrackingDetails());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
     }
 }

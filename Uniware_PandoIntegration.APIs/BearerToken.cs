@@ -871,5 +871,47 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
+        public async Task<ServiceResponse<string>> TrackingStatus(string Details, string Token, string Facility, string ServerType)
+        {
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            try
+            {
+                var client = new HttpClient();
+                var request = new HttpRequestMessage();
+                if (ServerType.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                }
+
+                request.Headers.Add("Facility", Facility);
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(Details, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                CreateLog($"Tracking Details Response:-  {serviceResponse.ObjectParam}");
+                if (response.IsSuccessStatusCode)
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    return serviceResponse;
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    //GetCode(Details, Token);
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($" Error: {ex.Message}");
+                throw ex;
+            }
+            return serviceResponse;
+        }   
     }
 }

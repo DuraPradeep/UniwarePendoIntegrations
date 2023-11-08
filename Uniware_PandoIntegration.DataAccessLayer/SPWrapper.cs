@@ -2680,6 +2680,55 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return status;
         }
+        public static bool InsertTrackingDetails(DataTable dt)
+        {
+            bool res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertTrackingDetails";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Trackdetails", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static DataSet GetTrackingDetails()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_getTrackingDetails"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
 
     }
 

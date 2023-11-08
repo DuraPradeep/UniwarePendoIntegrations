@@ -67,6 +67,7 @@
     <Compile Include="STOGatePass.cs" />
     <Compile Include="STOwaybillGetCode.cs" />
     <Compile Include="TokenEntity.cs" />
+    <Compile Include="TrackingStatus.cs" />
     <Compile Include="UpdateShippingpackage.cs" />
     <Compile Include="UploadExcels.cs" />
     <Compile Include="UserLogin.cs" />
