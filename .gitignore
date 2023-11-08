@@ -41,3 +41,7 @@ PublishScripts/
 bin/
  
 /.vs/UniWare_PandoIntegration/v17/.futdcache.v2
+/Uniware_PandoIntegration.APIs/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/Uniware_PandoIntegration.BusinessLayer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/Uniware_PandoIntegration.DataAccessLayer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/Uniware_PandoIntegration.Entities/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
