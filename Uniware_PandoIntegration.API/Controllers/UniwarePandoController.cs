@@ -994,18 +994,18 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var randomid = ObjBusinessLayer.GenerateNumeric();
                     updateShippingpackage.id = randomid;
                     updateShippingpackage.shippingPackageCode = shippingPackages[i].shippingPackageCode.ToString();
-                    updateShippingpackage.shippingProviderCode = shippingPackages[i].shippingProviderCode.ToString();
-                    updateShippingpackage.trackingNumber = shippingPackages[i].trackingNumber.ToString();
-                    updateShippingpackage.shippingPackageTypeCode = shippingPackages[i].shippingPackageTypeCode.ToString();
-                    updateShippingpackage.actualWeight = shippingPackages[i].actualWeight;
-                    updateShippingpackage.noOfBoxes = shippingPackages[i].noOfBoxes;
+                    //updateShippingpackage.shippingProviderCode = shippingPackages[i].shippingProviderCode.ToString();
+                    //updateShippingpackage.trackingNumber = shippingPackages[i].trackingNumber.ToString();
+                    //updateShippingpackage.shippingPackageTypeCode = shippingPackages[i].shippingPackageTypeCode.ToString();
+                    //updateShippingpackage.actualWeight = shippingPackages[i].actualWeight;
+                    //updateShippingpackage.noOfBoxes = shippingPackages[i].noOfBoxes;
                     updatelist.Add(updateShippingpackage);
-                    //Shipping Box
-                    ShippingBoxdb shippingBox = new ShippingBoxdb();
-                    shippingBox.Id = randomid;
-                    shippingBox.length = shippingPackages[i].shippingBox.length;
-                    shippingBox.height = shippingPackages[i].shippingBox.height;
-                    shippingBox.width = shippingPackages[i].shippingBox.width;
+                    ////Shipping Box
+                    //ShippingBoxdb shippingBox = new ShippingBoxdb();
+                    //shippingBox.Id = randomid;
+                    //shippingBox.length = shippingPackages[i].shippingBox.length;
+                    //shippingBox.height = shippingPackages[i].shippingBox.height;
+                    //shippingBox.width = shippingPackages[i].shippingBox.width;
                     //for (int l = 0; l < shippingPackages[i].shippingBox.Count; l++)
                     //{
                     //    ShippingBox shippingBox = new ShippingBox();
@@ -1013,7 +1013,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     //    shippingBox.length = shippingPackages[i].shippingBox[l].length;
                     //    shippingBox.height = shippingPackages[i].shippingBox[l].height;
                     //    shippingBox.width = shippingPackages[i].shippingBox[l].width;
-                    shipbox.Add(shippingBox);
+                    //shipbox.Add(shippingBox);
                     //}
                     for (int k = 0; k < shippingPackages[i].customFieldValues.Count; k++)
                     {
@@ -1025,7 +1025,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     }
                 }
                 ObjBusinessLayer.InsertUpdateShippingpackage(updatelist);
-                ObjBusinessLayer.InsertUpdateShippingpackageBox(shipbox);
+                //ObjBusinessLayer.InsertUpdateShippingpackageBox(shipbox);
                 ObjBusinessLayer.InsertCustomFields(customFields);
                 //Data Pushing to Pando
                 var resu = _Token.GetTokens(Servertype).Result;
@@ -1040,17 +1040,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                         for (int i = 0; i < lists.Count; i++)
                         {
                             UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                            updateShippingpackage.shippingBox = new ShippingBox();
+                            //updateShippingpackage.shippingBox = new ShippingBox();
                             updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
                             updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
-                            updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
-                            updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                            updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
-                            updateShippingpackage.actualWeight = lists[i].actualWeight;
-                            updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
-                            updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
-                            updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
-                            updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
+                            //updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                            //updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                            //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
+                            //updateShippingpackage.actualWeight = lists[i].actualWeight;
+                            //updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
+                            //updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
+                            //updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
+                            //updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
                             var facilitycode = lists[i].FacilityCode;
                             //for (int j = 0; j < lists[i].shippingBox.Count; j++)
                             //{
@@ -1122,17 +1122,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                     for (int i = 0; i < lists.Count; i++)
                     {
                         UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                        updateShippingpackage.shippingBox = new ShippingBox();
+                        //updateShippingpackage.shippingBox = new ShippingBox();
                         updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
                         updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
-                        updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
-                        updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                        updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
-                        updateShippingpackage.actualWeight = lists[i].actualWeight;
-                        updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
-                        updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
-                        updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
-                        updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
+                        //updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                        //updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                        //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
+                        //updateShippingpackage.actualWeight = lists[i].actualWeight;
+                        //updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
+                        //updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
+                        //updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
+                        //updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
                         var facilitycode = lists[i].FacilityCode;
                         //for (int j = 0; j < lists[i].shippingBox.Count; j++)
                         //{
@@ -1189,17 +1189,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                     for (int i = 0; i < lists.Count; i++)
                     {
                         UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                        updateShippingpackage.shippingBox = new ShippingBox();
+                        //updateShippingpackage.shippingBox = new ShippingBox();
                         updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
                         updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
-                        updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
-                        updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                        //updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                        //updateShippingpackage.trackingNumber = lists[i].trackingNumber;
                         //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
-                        updateShippingpackage.actualWeight = lists[i].actualWeight;
-                        updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
-                        updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
-                        updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
-                        updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
+                        //updateShippingpackage.actualWeight = lists[i].actualWeight;
+                        //updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
+                        //updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
+                        //updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
+                        //updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
                         var facilitycode = lists[i].FacilityCode;
                         //for (int j = 0; j < lists[i].shippingBox.Count; j++)
                         //{

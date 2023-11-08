@@ -294,7 +294,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
 
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($" Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
 
                 if (response.IsSuccessStatusCode)
                 {

@@ -10,13 +10,13 @@ namespace Uniware_PandoIntegration.Entities
     {
         public string shippingPackageCode { get; set; }
       
-        public string shippingProviderCode { get; set; }
-        public string trackingNumber { get; set; }
-        public string shippingPackageTypeCode { get; set; }
-        public int? actualWeight { get; set; }
-        //public List<ShippingBox> shippingBox { get; set; }
-        public ShippingBox shippingBox { get; set; }
-        public int? noOfBoxes { get; set; }
+        //public string shippingProviderCode { get; set; }
+        //public string trackingNumber { get; set; }
+        //public string shippingPackageTypeCode { get; set; }
+        //public int? actualWeight { get; set; }
+        ////public List<ShippingBox> shippingBox { get; set; }
+        //public ShippingBox shippingBox { get; set; }
+        //public int? noOfBoxes { get; set; }
         public List<CustomFieldValue> customFieldValues { get; set; }
     }
     
@@ -44,13 +44,13 @@ namespace Uniware_PandoIntegration.Entities
     {
         public string shippingPackageCode { get; set; }
         public string id { get; set; }
-        public string shippingProviderCode { get; set; }
-        public string trackingNumber { get; set; }
-        public string shippingPackageTypeCode { get; set; }
-        public int? actualWeight { get; set; }
-        //public List<ShippingBox> shippingBox { get; set; }
-        public ShippingBox shippingBox { get; set; }
-        public int? noOfBoxes { get; set; }
+        //public string shippingProviderCode { get; set; }
+        //public string trackingNumber { get; set; }
+        //public string shippingPackageTypeCode { get; set; }
+        //public int? actualWeight { get; set; }
+        ////public List<ShippingBox> shippingBox { get; set; }
+        //public ShippingBox shippingBox { get; set; }
+        //public int? noOfBoxes { get; set; }
         public List<CustomFieldValue> customFieldValues { get; set; }
         public string FacilityCode { get; set; }
     }

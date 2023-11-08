@@ -493,6 +493,8 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
+            Log.Information($"Waybill Post Data : {jsonre}");
+
             var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)

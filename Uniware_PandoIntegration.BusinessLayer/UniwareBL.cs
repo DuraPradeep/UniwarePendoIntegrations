@@ -1965,11 +1965,11 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 DataTable dtsku = new DataTable();
                 dtsku.Columns.Add("Id");
                 dtsku.Columns.Add("shippingPackageCode");
-                dtsku.Columns.Add("shippingProviderCode");
-                dtsku.Columns.Add("trackingNumber");
-                dtsku.Columns.Add("shippingPackageTypeCode");
-                dtsku.Columns.Add("actualWeight");
-                dtsku.Columns.Add("noOfBoxes");
+                //dtsku.Columns.Add("shippingProviderCode");
+                //dtsku.Columns.Add("trackingNumber");
+                //dtsku.Columns.Add("shippingPackageTypeCode");
+                //dtsku.Columns.Add("actualWeight");
+                //dtsku.Columns.Add("noOfBoxes");
 
 
                 for (int i = 0; i < itemDatun.Count; i++)
@@ -1977,11 +1977,11 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     DataRow drsku = dtsku.NewRow();
                     drsku["Id"] = itemDatun[i].id;
                     drsku["shippingPackageCode"] = itemDatun[i].shippingPackageCode;
-                    drsku["shippingProviderCode"] = itemDatun[i].shippingProviderCode;
-                    drsku["trackingNumber"] = itemDatun[i].trackingNumber;
-                    drsku["shippingPackageTypeCode"] = itemDatun[i].shippingPackageTypeCode;
-                    drsku["actualWeight"] = itemDatun[i].actualWeight;
-                    drsku["noOfBoxes"] = itemDatun[i].noOfBoxes; ;
+                    //drsku["shippingProviderCode"] = itemDatun[i].shippingProviderCode;
+                    //drsku["trackingNumber"] = itemDatun[i].trackingNumber;
+                    //drsku["shippingPackageTypeCode"] = itemDatun[i].shippingPackageTypeCode;
+                    //drsku["actualWeight"] = itemDatun[i].actualWeight;
+                    //drsku["noOfBoxes"] = itemDatun[i].noOfBoxes; ;
 
                     dtsku.Rows.Add(drsku);
                 }

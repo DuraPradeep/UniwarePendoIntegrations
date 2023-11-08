@@ -638,19 +638,19 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     CustomFieldValue customFieldValue = new CustomFieldValue();
 
                     Updateship.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
-                    Updateship.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
-                    Updateship.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
-                    Updateship.shippingPackageTypeCode = pds.Tables[0].Rows[i]["shippingPackageTypeCode"].ToString();
-                    Updateship.actualWeight = Convert.ToInt32(pds.Tables[0].Rows[i]["actualWeight"]);
-                    Updateship.noOfBoxes = Convert.ToInt32(pds.Tables[0].Rows[i]["noOfBoxes"]);
+                    //Updateship.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+                    //Updateship.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    //Updateship.shippingPackageTypeCode = pds.Tables[0].Rows[i]["shippingPackageTypeCode"].ToString();
+                    //Updateship.actualWeight = Convert.ToInt32(pds.Tables[0].Rows[i]["actualWeight"]);
+                    //Updateship.noOfBoxes = Convert.ToInt32(pds.Tables[0].Rows[i]["noOfBoxes"]);
                     //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
                     //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
                     //sKucode.shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
 
-                    shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
-                    shippingBox.width = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
-                    shippingBox.height = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
-                    Updateship.shippingBox = shippingBox;
+                    //shippingBox.length = Convert.ToInt32(pds.Tables[0].Rows[i]["length"]);
+                    //shippingBox.width = Convert.ToInt32(pds.Tables[0].Rows[i]["width"]);
+                    //shippingBox.height = Convert.ToInt32(pds.Tables[0].Rows[i]["height"]);
+                    //Updateship.shippingBox = shippingBox;
                     customFieldValue.name = pds.Tables[0].Rows[i]["name"].ToString();
                     customFieldValue.value = pds.Tables[0].Rows[i]["value"].ToString();
                     Updateship.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
