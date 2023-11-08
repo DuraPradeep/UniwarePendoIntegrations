@@ -38,6 +38,13 @@ PublishScripts/
 /.vs/ProjectEvaluation/uniware_pandointegration.projects.v6.1
 /.vs/UniWare_PandoIntegration/DesignTimeBuild/.dtbcache.v2
 *.lock
-bin/
+*bin/
  
 /.vs/UniWare_PandoIntegration/v17/.futdcache.v2
+/Uniware_PandoIntegration.APIs/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/Uniware_PandoIntegration.BusinessLayer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/Uniware_PandoIntegration.DataAccessLayer/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/Uniware_PandoIntegration.Entities/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/UniWare_PandoIntegration/bin/Debug/net6.0/UniWare_PandoIntegration.dll
+/UniWare_PandoIntegration/bin/Debug/net6.0/UniWare_PandoIntegration.exe
+/UniWare_PandoIntegration/bin/Debug/net6.0/UniWare_PandoIntegration.pdb
