@@ -35,7 +35,7 @@ namespace Uniware_PandoIntegration.Entities
         //public long created { get; set; }
         public string toParty { get; set; }
         public string reference { get; set; }
-        public List<CustomFieldValue> customFieldValues { get; set; }
+        public List<CustomFieldValuedb> customFieldValues { get; set; }
     }
     public class PostDataSTOWaybill
     {
