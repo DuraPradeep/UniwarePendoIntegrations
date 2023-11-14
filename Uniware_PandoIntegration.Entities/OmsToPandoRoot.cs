@@ -23,7 +23,7 @@ namespace Uniware_PandoIntegration.Entities
         public string totalAmount { get; set; }
         public string collectableAmount { get; set; }
         public string courierName { get; set; }
-        public CustomFieldValue customFieldValues { get; set; }
+        public CustomField customField { get; set; }
     }
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public  class CustomFieldValue
@@ -106,7 +106,7 @@ namespace Uniware_PandoIntegration.Entities
         public string height { get; set; }
         public string breadth { get; set; }
         public List<Item> items { get; set; }
-        public List<CustomFieldValue> customFieldValues { get; set; }
+        public List<CustomField> customField { get; set; }
     }
 
     public class RootResponse

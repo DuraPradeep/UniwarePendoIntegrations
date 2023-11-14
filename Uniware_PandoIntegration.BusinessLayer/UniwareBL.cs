@@ -626,7 +626,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool InsertCustomfieldWaybill(List<CustomFieldValue> itemDTO, string ID, string Code)
+        public bool InsertCustomfieldWaybill(List<CustomField> itemDTO, string ID, string Code)
         {
             bool res;
             try
@@ -1221,7 +1221,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool insertGatePassElements(List<Element> elements)
+        public bool insertGatePassElements(List<Elementdb> elements)
         {
             bool res;
             try
@@ -1249,7 +1249,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertItemTypeDTO(List<GatePassItemDTO> elements)
+        public bool insertItemTypeDTO(List<GatePassItemDTODb> elements)
         {
             bool res;
             try
@@ -1531,6 +1531,35 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertSTOAPIItemTypeDTO(dtinstcode);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public bool STOWaybillCustField(List<CustomFieldValuedb> itemDTO)
+        {
+            bool res;
+            try
+            {
+                //CreateLog($"item sku code insert DB:-{itemDTO}");
+                DataTable dtsku = new DataTable();              
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("name");
+                dtsku.Columns.Add("value");
+                for (int i = 0; i < itemDTO.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();                 
+                    drsku["Code"] = itemDTO[i].Code;
+                    drsku["name"] = itemDTO[i].fieldName;
+                    drsku["value"] = itemDTO[i].fieldValue;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.STOWaybillCustField(dtsku);
+                //CreateLog($"item sku insert DB Status:-{res}");
             }
             catch (Exception ex)
             {
@@ -2551,6 +2580,44 @@ namespace Uniware_PandoIntegration.BusinessLayer
             try
             {
                 return  Mapper.GetTrackingDetails(SPWrapper.GetTrackingDetails());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public string UpdateTruckDetailsMaster(List<TruckDetails> cloned)
+        {
+            string res;
+            try
+            {
+                DataTable TruckDetails = new DataTable();
+
+                TruckDetails.Columns.Add("Details");
+                for (var i = 0; i < cloned.Count; i++)
+                {
+                    DataRow SOrow = TruckDetails.NewRow();
+                    SOrow["Details"] = cloned[i].Details;
+                    TruckDetails.Rows.Add(SOrow);
+                }
+                res = SPWrapper.UpdateTruckDetails(TruckDetails);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<TruckDetails> GetTruckDetails()
+        {
+            List<TruckDetails> codes = new List<TruckDetails>();
+
+            try
+            {
+                return codes = Mapper.GetTruckDetails(SPWrapper.GetTruckDetails());
             }
             catch (Exception ex)
             {

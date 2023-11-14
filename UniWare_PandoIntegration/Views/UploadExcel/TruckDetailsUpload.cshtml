@@ -1,7 +1,7 @@
 ﻿@{
     Layout = null;
 }
-<title>Facility Master Upload</title>
+<title>Truck Details Upload</title>
 <link href="~/css/font_family.css" rel="stylesheet" />
 <link href="~/css/css_bootstrap.min.css" rel="stylesheet" />
 <link href="~/lib/bootstrap/dist/css/fontawesome4.7.0.min.css" rel="stylesheet" />
@@ -17,8 +17,9 @@
     function FileUploadValidation() {
         var allowedFiles = [".xls", ".xlsx"];
         var fileUpload = $("#dataFile");
-        var regex = new RegExp("([a-zA-Z0-9()\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
         //var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+        var regex = new RegExp("([a-zA-Z0-9()\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+
         if (!regex.test(fileUpload.val().toLowerCase())) {
             alert("Please upload Excel File");
             return false;
@@ -26,7 +27,7 @@
         return true;
     }
     $("#Facility_Master").click(function () {
-        var url = "/UploadExcel/FacilityMasterDownload/";
+        var url = "/UploadExcel/TruckDetailsMasterDownload/";
         window.location.href = url;
     });
 </script>
@@ -46,7 +47,7 @@
         <div class="col-md-3" style="padding:39px;margin-left: 210px;" ">
             <div class="left-side-content" style="margin-top:60px;">
                 <div style="width: 467px;height: 140px;">
-        @using (Html.BeginForm("UploadMasterData", "UploadExcel", FormMethod.Post, new { style = "padding:41px;margin-left:31px;background:#dc3545;border-radius:50px 20px;", enctype = "multipart/form-data", }))
+        @using (Html.BeginForm("UploadTruckMaster", "UploadExcel", FormMethod.Post, new { style = "padding:41px;margin-left:31px;background:#dc3545;border-radius:50px 20px;", enctype = "multipart/form-data", }))
         {
                         <div class="form-group">
                             <input type="file" id="dataFile" name="upload" />

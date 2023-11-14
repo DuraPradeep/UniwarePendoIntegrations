@@ -863,5 +863,24 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return FacilityList;
         }
+        public static List<TruckDetails> GetTruckDetails(DataSet pds)
+        {
+            List<TruckDetails> FacilityList = new List<TruckDetails>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TruckDetails returncode = new TruckDetails();
+                    returncode.Details = pds.Tables[0].Rows[i]["Details"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
     }
 }

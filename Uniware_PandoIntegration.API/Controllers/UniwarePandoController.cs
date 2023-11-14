@@ -327,7 +327,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string primaryid = ObjBusinessLayer.insertWaybillMain(Records);
                 ObjBusinessLayer.insertWaybillshipment(Records, primaryid);
                 List<Item> items = new List<Item>();
-                List<CustomFieldValue> customfields = new List<CustomFieldValue>();
+                List<CustomField> customfields = new List<CustomField>();
                 for (int i = 0; i < Records.Shipment.items.Count; i++)
                 {
                     Item item = new Item();
@@ -341,11 +341,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                     item.tags = Records.Shipment.items[i].tags;
                     items.Add(item);
                 }
-                for (int i = 0; i < Records.Shipment.customFieldValues.Count; i++)
+                for (int i = 0; i < Records.Shipment.customField.Count; i++)
                 {
-                    CustomFieldValue customFieldValue = new CustomFieldValue();
-                    customFieldValue.name = Records.Shipment.customFieldValues[i].name;
-                    customFieldValue.value = Records.Shipment.customFieldValues[i].value;
+                    CustomField customFieldValue = new CustomField();
+                    customFieldValue.name = Records.Shipment.customField[i].name;
+                    customFieldValue.value = Records.Shipment.customField[i].value;
                     customfields.Add(customFieldValue);
                 }
                 ObjBusinessLayer.insertWaybilldeliveryaddress(Records.deliveryAddressDetails, primaryid);
@@ -375,7 +375,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             catch (Exception ex)
             {
                 ErrorResponse errorResponse = new ErrorResponse();
-                errorResponse.status = "FAILED";
+                errorResponse.status = "FAILED";                
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Resource requires authentication. Please check your authorization token.";
                 _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
@@ -621,16 +621,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             string token = HttpContext.Session.GetString("Token");
             string Servertype = iconfiguration["ServerType:type"];
-            //            string[] Facilities = {
-            //"Hosur_Avigna",
-            //"AVIGNA_DFX",
-            //"Gurgaon_New",
-            //"CHENNAI",
-            //"COCHIN",
-            //"KOLKATA",
-            //"Hydrabad_Item",
-            //"BHIWANDIITEM"
-            //                };
+            
             var Facilities = ObjBusinessLayer.GetFacilityList();
 
             if (token != null)
@@ -639,8 +630,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                 {
                     var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
                     Log.Information("STO WaybillGetPass Code" + jsonre + ": " + token);
-                    List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
-                    List<Element> elements = new List<Element>();
+                    List<GatePassItemDTODb> gatePassItemDTOs = new List<GatePassItemDTODb>();
+                    List<Elementdb> elements = new List<Elementdb>();
+                    List<CustomFieldValuedb> customFieldDbs = new List<CustomFieldValuedb>();
                     var res = _MethodWrapper.GatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode);
                     if (res.Count > 0)
                     {
@@ -656,11 +648,15 @@ namespace Uniware_PandoIntegration.API.Controllers
                             {
                                 gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
                                 elements.AddRange(elemnetsList.elements);
+                                if (elemnetsList.customFieldDbs.Count>0)
+                                {
+                                    customFieldDbs.AddRange(elemnetsList.customFieldDbs);
+                                }
                             }
-
                         }
                         ObjBusinessLayer.insertGatePassElements(elements);
                         ObjBusinessLayer.insertItemTypeDTO(gatePassItemDTOs);
+                        ObjBusinessLayer.STOWaybillCustField(customFieldDbs);
                         var Skucodes = ObjBusinessLayer.GetWaybillSKUCode();
                         List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
                         for (int k = 0; k < Skucodes.Count; k++)
@@ -705,21 +701,23 @@ namespace Uniware_PandoIntegration.API.Controllers
             //string token = HttpContext.Session.GetString("STOToken");
             if (deres.token_type != null)
             {
-                string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+                //                string[] Facilities = {
+                //"Hosur_Avigna",
+                //"AVIGNA_DFX",
+                //"Gurgaon_New",
+                //"CHENNAI",
+                //"COCHIN",
+                //"KOLKATA",
+                //"Hydrabad_Item",
+                //"BHIWANDIITEM"
+                //                };
+                var Facilities = ObjBusinessLayer.GetFacilityList();
+
                 foreach (var FacilityCode in Facilities)
                 {
                     string token = deres.access_token.ToString();
-                    List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
-                    List<Element> elements = new List<Element>();
+                    List<GatePassItemDTODb> gatePassItemDTOs = new List<GatePassItemDTODb>();
+                    List<Elementdb> elements = new List<Elementdb>();
 
                     var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCodeForretrigger();
                     for (int i = 0; i < GatePassCode.Count; i++)
@@ -727,7 +725,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         string code = GatePassCode[i].code;
                         List<string> gatePassCodes = new List<string> { GatePassCode[i].code.ToString() };
                         var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
-                        var elemnetsList = _MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode);
+                        var elemnetsList = _MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode.facilityCode);
                         if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
                         {
                             gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
@@ -1944,6 +1942,21 @@ namespace Uniware_PandoIntegration.API.Controllers
                 return new JsonResult(reversePickupResponse);
                 throw;
             }           
+        }
+        
+        [HttpPost]
+        public ActionResult TruckDetailsUpdate(List<TruckDetails> TruckDetails)
+        {
+            string ExecResult = string.Empty;
+            _logger.LogInformation($"Truck Details Master Updated. {JsonConvert.SerializeObject(TruckDetails)}");
+            ExecResult = ObjBusinessLayer.UpdateTruckDetailsMaster(TruckDetails);
+            return new JsonResult(ExecResult.Trim());
+        }
+        [HttpGet]
+        public IEnumerable<TruckDetails> GetTruckMaster_Details()
+        {
+            List<TruckDetails> ResultList = ObjBusinessLayer.GetTruckDetails();
+            return ResultList;
         }
 
     }

@@ -2730,6 +2730,81 @@ namespace Uniware_PandoIntegration.APIs
             return ds;
         }
 
+        public static bool STOWaybillCustField(DataTable ds)
+        {
+            bool res = false;
+            try
+            {
+
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertSTOCustFiled";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@CustDetails", ds);
+                con.Open();
+                com.ExecuteNonQuery();
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return res;
+        }
+        public static string UpdateTruckDetails(DataTable dt)
+        {
+            string status;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertTruckDetails";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                com.Parameters["@status"].Direction = ParameterDirection.Output;
+                com.Parameters.AddWithValue("@Records", dt);
+                con.Open();
+                com.ExecuteNonQuery();
+                status = Convert.ToString(com.Parameters["@status"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            return status;
+        }
+        public static DataSet GetTruckDetails()
+        {
+            con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                com = new SqlCommand()
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "sp_GetTruckDetails"
+                };
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            finally { con.Close(); }
+            return ds;
+        }
+
     }
 
 

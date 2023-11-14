@@ -362,36 +362,131 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
             }
+        }
+        public ActionResult UploadTruckDetails()
+        {
+            return View("~/Views/UploadExcel/TruckDetailsUpload.cshtml");
+        }
+        public ActionResult TruckDetailsMasterDownload()
+        {
 
+            ApiControl = new ApiOperation(Apibase);            
+            List<TruckDetails> truckDetails = new List<TruckDetails>();
+            var listdata = ApiControl.Get<List<TruckDetails>>("api/UniwarePando/GetTruckMaster_Details");
 
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "Truck Detals Master.xlsx";
+            try
+            {
+                using (var workbook = new XLWorkbook())
+                {
+                    IXLWorksheet worksheet =
+                    workbook.Worksheets.Add("FacilityDetails");
+                    worksheet.Cell(1, 1).Value = "Truck Details";
+                    worksheet.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 1).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 1).Style.Font.Bold = true;
+                    worksheet.Cell(1, 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
 
+                    worksheet.ShowGridLines = true;
+                    for (int index = 1; index <= listdata.Count; index++)
+                    {
+                        worksheet.Cell(index + 1, 1).Value = listdata[index - 1].Details;
 
-            //ListtoDataTableConverter listtoDataTableConverter = new ListtoDataTableConverter();
-            //var dt = listtoDataTableConverter.ToDataTable(ListcustomerModels);
-            //string attachment = "attachment; filename=FacilityMaster.xlsx";
-            //Response.Clear();
-            //Response.Headers.Add("content-disposition", attachment);
-            //Response.ContentType = "application/vnd.ms-excel";
-            //string tab = "";
-            //foreach (DataColumn dc in dt.Columns)
-            //{
-            //    Response.WriteAsync(tab + dc.ColumnName);
-            //    tab = "\t";
-            //}
-            //Response.WriteAsync("\n");
-            //int i;
-            //foreach (DataRow dr in dt.Rows)
-            //{
-            //    tab = "";
-            //    for (i = 0; i < dt.Columns.Count; i++)
-            //    {
-            //        Response.WriteAsync(tab + dr[i].ToString());
-            //        tab = "\t";
-            //    }
-            //    Response.WriteAsync("\n");
-            //}
+                        worksheet.Cell(index + 1, 1).Style.Font.FontColor = XLColor.Black;
+                    }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, contentType, fileName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            }
+        }
+        
+        public IActionResult UploadTruckMaster(IFormFile Upload)
+        {
+            if (Upload != null)
+            {
+                Stream stream = Upload.OpenReadStream();
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
+                IExcelDataReader reader = null;
+                if (Upload.FileName.EndsWith(".xls"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else if (Upload.FileName.EndsWith(".xlsx"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "This file format is not supported");
+                    return View("~/Views/UploadExcel/UploadTruckDetails.cshtml");
+                }
+                DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true,
+                        FilterRow = rowReader =>
+                        {
+                            var hasData = false;
+                            for (var i = 0; i < rowReader.FieldCount; i++)
+                            {
+                                if (rowReader[i] == null || string.IsNullOrEmpty(rowReader[i].ToString()))
+                                {
+                                    continue;
+                                }
+                                hasData = true;
+                                break;
+                            }
+                            return hasData;
+                        },
+                    }
+                });
+                reader.Close();
+                DataTable cloned = result.Tables[0].Clone();
+                for (var i = 0; i < cloned.Columns.Count; i++)
+                {
+                    cloned.Columns[i].DataType = typeof(string);
+                }
+                foreach (DataRow row in result.Tables[0].Rows)
+                {
+                    cloned.ImportRow(row);
+                }
 
+                DataTable truckdetails = new DataTable();
+
+                truckdetails.Columns.Add("Details");
+                
+                for (var i = 0; i < cloned.Rows.Count; i++)
+                {
+                    DataRow SOrow = truckdetails.NewRow();
+                    SOrow["Details"] = cloned.Rows[i]["Truck Details"];
+                    truckdetails.Rows.Add(SOrow);
+                }
+                DataTable dataSet = new DataTable();
+                dataSet = truckdetails;
+                List<TruckDetails> FacList = new List<TruckDetails>();                
+                foreach (DataRow dr in dataSet.Rows)
+                {
+                    FacList.Add(new TruckDetails
+                    {
+                        Details = Convert.ToString(dr["Details"])
+                    });
+                }
+                ApiControl = new ApiOperation(Apibase);
+                var response = ApiControl.Post1<ServiceResponse<string>, List<TruckDetails>>(FacList, "Api/UniwarePando/TruckDetailsUpdate").Trim();
+                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+            }
+            return View("~/Views/Home/Dashboard.cshtml");
         }
     }
 }

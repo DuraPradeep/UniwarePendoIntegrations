@@ -714,7 +714,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlists GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode)
+        public STOlistsDB GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode)
         {
             int Lcheckcount = checkcount;
             Log.Information("STO WayBill Elements: request " + jdetail);
@@ -722,9 +722,10 @@ namespace Uniware_PandoIntegration.API
             Log.Information("STO WayBill Elements response " + list.Result.ObjectParam);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
-            STOlists STOlists = new STOlists();
-            STOlists.gatePassItemDTOs = new List<GatePassItemDTO>();
-            STOlists.elements = new List<Element>();
+            STOlistsDB STOlists = new STOlistsDB();
+            STOlists.gatePassItemDTOs = new List<GatePassItemDTODb>();
+            STOlists.elements = new List<Elementdb>();
+            STOlists.customFieldDbs = new List<CustomFieldValuedb>();
 
             if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
             {
@@ -748,18 +749,26 @@ namespace Uniware_PandoIntegration.API
             }
             else
             {
-                var Dlist = JsonConvert.DeserializeObject<STOwaybillGetCode>(list.Result.ObjectParam);
+                var Dlist = JsonConvert.DeserializeObject<STOwaybillGetCodeDb>(list.Result.ObjectParam);
                 for (int i = 0; i < Dlist.elements.Count; i++)
                 {
-                    Element codes = new Element();
+                    Elementdb codes = new Elementdb();
                     codes.code = Dlist.elements[i].code;
                     codes.reference = Dlist.elements[i].reference;
                     codes.toPartyName = Dlist.elements[i].toPartyName;
                     codes.invoiceCode = Dlist.elements[i].invoiceCode;
+                    for (int k= 0; k < Dlist.elements[i].customFieldValues.Count; k++)
+                    {
+                        CustomFieldValuedb customFieldValue = new CustomFieldValuedb();
+                        customFieldValue.Code = Dlist.elements[i].code;
+                        customFieldValue.fieldName = Dlist.elements[i].customFieldValues[k].fieldName;
+                        customFieldValue.fieldValue = Dlist.elements[i].customFieldValues[k].fieldValue;
+                        STOlists.customFieldDbs.Add(customFieldValue);
+                    }
                     STOlists.elements.Add(codes);
                     for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
                     {
-                        GatePassItemDTO gatePassItemDTO = new GatePassItemDTO();
+                        GatePassItemDTODb gatePassItemDTO = new GatePassItemDTODb();
                         gatePassItemDTO.code = Dlist.elements[i].code;
                         gatePassItemDTO.quantity = Dlist.elements[i].gatePassItemDTOs[j].quantity;
                         gatePassItemDTO.itemTypeSKU = Dlist.elements[i].gatePassItemDTOs[j].itemTypeSKU;
