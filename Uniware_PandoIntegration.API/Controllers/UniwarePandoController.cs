@@ -23,6 +23,7 @@ using Microsoft.Extensions.Primitives;
 using Uniware_PandoIntegration.API.ActionFilter;
 using Azure;
 using System.Collections;
+using Microsoft.AspNetCore.Http;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -375,7 +376,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             catch (Exception ex)
             {
                 ErrorResponse errorResponse = new ErrorResponse();
-                errorResponse.status = "FAILED";                
+                errorResponse.status = "FAILED";
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Resource requires authentication. Please check your authorization token.";
                 _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
@@ -621,7 +622,6 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             string token = HttpContext.Session.GetString("Token");
             string Servertype = iconfiguration["ServerType:type"];
-            
             var Facilities = ObjBusinessLayer.GetFacilityList();
 
             if (token != null)
@@ -648,7 +648,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             {
                                 gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
                                 elements.AddRange(elemnetsList.elements);
-                                if (elemnetsList.customFieldDbs.Count>0)
+                                if (elemnetsList.customFieldDbs.Count > 0)
                                 {
                                     customFieldDbs.AddRange(elemnetsList.customFieldDbs);
                                 }
@@ -1913,21 +1913,21 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var TrackingList = ObjBusinessLayer.GetTrackingDetails();
                     for (int i = 0; i < TrackingList.Count; i++)
                     {
-                        
+
                         TrackingStatus trackingStatus = new TrackingStatus();
                         trackingStatus.providerCode = TrackingList[i].providerCode;
                         trackingStatus.trackingStatus = TrackingList[i].trackingStatus;
                         trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
                         trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
                         trackingStatus.statusDate = TrackingList[i].statusDate;
-                       var res= _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype);
-                        responsmessage=res.Result.ObjectParam.ToString();
+                        var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype);
+                        responsmessage = res.Result.ObjectParam.ToString();
                     }
 
                 }
                 TrackingResponse reversePickupResponse = new TrackingResponse();
                 reversePickupResponse.successful = true;
-                reversePickupResponse.message =responsmessage;
+                reversePickupResponse.message = responsmessage;
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
                 return new JsonResult(reversePickupResponse);
@@ -1941,9 +1941,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.warnings = "";
                 return new JsonResult(reversePickupResponse);
                 throw;
-            }           
+            }
         }
-        
+
         [HttpPost]
         public ActionResult TruckDetailsUpdate(List<TruckDetails> TruckDetails)
         {
@@ -1959,5 +1959,88 @@ namespace Uniware_PandoIntegration.API.Controllers
             return ResultList;
         }
 
+        [HttpPost]
+        public ActionResult STOUpload(List<UploadExcels> Excels)
+        {
+            //string token = HttpContext.Session.GetString("Token");
+            string Servertype = iconfiguration["ServerType:type"];
+
+            var Facilities = ObjBusinessLayer.GetFacilityList();
+            List<Element> res = new List<Element>();
+            foreach (var Codes in Excels)
+            {
+                Element element = new Element();
+                element.code = Codes.Code;
+                res.Add(element);
+            }
+            string ExecResult = string.Empty;
+            var resu = _Token.GetTokens(Servertype).Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            //string token = HttpContext.Session.GetString("Token");
+            string token = deres.access_token.ToString();
+            foreach (var FacilityCode in Facilities)
+            {
+                var jsonre = JsonConvert.SerializeObject(new { res });
+                Log.Information("STO WaybillGetPass Code Upload" + jsonre + ": " + token);
+                List<GatePassItemDTODb> gatePassItemDTOs = new List<GatePassItemDTODb>();
+                List<Elementdb> elements = new List<Elementdb>();
+                List<CustomFieldValuedb> customFieldDbs = new List<CustomFieldValuedb>();
+                //var res = _MethodWrapper.GatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode);
+                if (res.Count > 0)
+                {
+                    ObjBusinessLayer.insertGatePassCode(res, FacilityCode.facilityCode);
+                    var GatePassCode = ObjBusinessLayer.GetWaybillgatePassCode();
+                    for (int i = 0; i < GatePassCode.Count; i++)
+                    {
+                        string code = GatePassCode[i].code;
+                        List<string> gatePassCodes = new List<string> { GatePassCode[i].code.ToString() };
+                        var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
+                        var elemnetsList = _MethodWrapper.GetGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode.facilityCode);
+                        if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
+                        {
+                            gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
+                            elements.AddRange(elemnetsList.elements);
+                            if (elemnetsList.customFieldDbs.Count > 0)
+                            {
+                                customFieldDbs.AddRange(elemnetsList.customFieldDbs);
+                            }
+                        }
+                    }
+                    ObjBusinessLayer.insertGatePassElements(elements);
+                    ObjBusinessLayer.insertItemTypeDTO(gatePassItemDTOs);
+                    ObjBusinessLayer.STOWaybillCustField(customFieldDbs);
+                    var Skucodes = ObjBusinessLayer.GetWaybillSKUCode();
+                    List<ItemTypeDTO> itemTypeDTO = new List<ItemTypeDTO>();
+                    for (int k = 0; k < Skucodes.Count; k++)
+                    {
+                        string itemsku = Skucodes[k].itemTypeSKU;
+                        var skucode = JsonConvert.SerializeObject(new { skuCode = Skucodes[k].itemTypeSKU });
+                        var code = Skucodes[k].code;
+                        var Itemtypes = _MethodWrapper.GetSTOWaybillSkuDetails(skucode, token, code, itemsku, 0, Servertype);
+                        if (Itemtypes.Code != null)
+                        {
+                            itemTypeDTO.Add(Itemtypes);
+                        }
+                    }
+                    ObjBusinessLayer.insertWaybillItemType(itemTypeDTO);
+                    var Records = ObjBusinessLayer.GetAllWaybillSTOPost();
+                    if (Records.Count > 0)
+                    {
+                        var triggerid = ObjBusinessLayer.InsertWaybillSTOsendingData(Records);
+                        var status = _MethodWrapper.WaybillSTOPostData(Records, triggerid, 0, Servertype);
+                        //return Accepted(status.Result.ObjectParam);
+                        if (status.Result.Errcode > 200 || status.Result.Errcode < 299)
+                        {
+                            ExecResult += "STO Data Pushed";
+                        }
+                    }
+                    //else return BadRequest("Please Retrigger");
+                }
+                //else
+                //    return BadRequest("Please Retrigger");
+            }
+
+            return new JsonResult(ExecResult);
+        }
     }
 }
