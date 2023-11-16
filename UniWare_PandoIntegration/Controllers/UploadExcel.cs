@@ -34,11 +34,8 @@ namespace UniWare_PandoIntegration.Controllers
         {
             if (upload != null)
             {
-                // ExcelDataReader works with the binary Excel file, so it needs a FileStream
-                // to get started. This is how we avoid dependencies on ACE or Interop:
                 Stream stream = upload.OpenReadStream();
                 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
                 IExcelDataReader reader = null;
                 if (upload.FileName.EndsWith(".xls"))
                 {
@@ -232,10 +229,7 @@ namespace UniWare_PandoIntegration.Controllers
                 }
                 DataTable dataSet = new DataTable();
                 dataSet=Facility;
-                List<FacilityMaintain> FacList = new List<FacilityMaintain>();
-                //int table = Convert.ToInt32(dataSet.);
-                //for (int i = 0; i < table; i++)
-                //{
+                List<FacilityMaintain> FacList = new List<FacilityMaintain>();                
                     foreach (DataRow dr in dataSet.Rows)
                     {
                         FacList.Add(new FacilityMaintain { FacilityCode = Convert.ToString(dr["FacilityCode"]), 
@@ -249,7 +243,6 @@ namespace UniWare_PandoIntegration.Controllers
                             Email= Convert.ToString(dr["email"])
                         });
                     }
-                //}
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<FacilityMaintain>>(FacList, "Api/UniwarePando/FacilityMasterUploads").Trim();
               
@@ -485,6 +478,107 @@ namespace UniWare_PandoIntegration.Controllers
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<TruckDetails>>(FacList, "Api/UniwarePando/TruckDetailsUpdate").Trim();
                 ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+            }
+            return View("~/Views/Home/Dashboard.cshtml");
+        }
+
+        public ActionResult STOUpload()
+        {
+            return View("~/Views/UploadExcel/ExcelUploadForSTO.cshtml");
+        }
+        public IActionResult STOUploadExcel(IFormFile Upload)
+        {
+            if (Upload != null)
+            {
+                Stream stream = Upload.OpenReadStream();
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                IExcelDataReader reader = null;
+                if (Upload.FileName.EndsWith(".xls"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else if (Upload.FileName.EndsWith(".xlsx"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "This file format is not supported");
+                    return View("~/Views/UploadExcel/STOUpload.cshtml");
+                }
+                DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true,
+                        FilterRow = rowReader =>
+                        {
+                            var hasData = false;
+                            for (var i = 0; i < rowReader.FieldCount; i++)
+                            {
+                                if (rowReader[i] == null || string.IsNullOrEmpty(rowReader[i].ToString()))
+                                {
+                                    continue;
+                                }
+                                hasData = true;
+                                break;
+                            }
+                            return hasData;
+                        },
+                    }
+                });
+                reader.Close();
+                DataTable cloned = result.Tables[0].Clone();
+                for (var i = 0; i < cloned.Columns.Count; i++)
+                {
+                    cloned.Columns[i].DataType = typeof(string);
+                }
+                foreach (DataRow row in result.Tables[0].Rows)
+                {
+                    cloned.ImportRow(row);
+                }
+                DataTable STO = new DataTable();
+               
+                STO.Columns.Add("Code");
+                STO.Columns.Add("Type");
+
+                //for (var i = 0; i < cloned.Rows.Count; i++)
+                //{
+                //    if (cloned.Rows[i]["FilterType"].Equals("SO"))
+                //    {
+                //        DataRow SOrow = STO.NewRow();
+                //        SOrow["Code"] = cloned.Rows[i]["Code"];
+                //        SOrow["Type"] = cloned.Rows[i]["FilterType"];
+                //        STO.Rows.Add(SOrow);
+                //    } 
+                    
+                //}
+                for (var i = 0; i < cloned.Rows.Count; i++)
+                {
+                    DataRow SOrow = STO.NewRow();
+                    SOrow["Code"] = cloned.Rows[i]["Code"];
+                    SOrow["Type"] = cloned.Rows[i]["FilterType"];
+                    STO.Rows.Add(SOrow);
+                }
+
+
+                DataSet dataSet = new DataSet();
+                dataSet.Tables.Add(STO);
+                List<UploadExcels> empList = new List<UploadExcels>();
+                int table = Convert.ToInt32(dataSet.Tables.Count);
+                for (int i = 0; i < table; i++)
+                {
+                    foreach (DataRow dr in dataSet.Tables[i].Rows)
+                    {
+                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["Type"]) });
+                    }
+                }
+                ApiControl = new ApiOperation(Apibase);
+                var response = ApiControl.Post1<ServiceResponse<string>, List<UploadExcels>>(empList, "Api/UniwarePando/STOUpload").Trim();
+
+                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+
             }
             return View("~/Views/Home/Dashboard.cshtml");
         }
