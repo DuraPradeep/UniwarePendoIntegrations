@@ -1921,7 +1921,15 @@ namespace Uniware_PandoIntegration.API.Controllers
                         trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
                         trackingStatus.statusDate = TrackingList[i].statusDate;
                         var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype);
-                        responsmessage = res.Result.ObjectParam.ToString();
+                        if (res != null)
+                        {
+                            responsmessage = res.Result.ObjectParam.ToString();
+
+                        }
+                        else
+                        {
+                            responsmessage = "Something went wrong in API";
+                        }
                     }
 
                 }

@@ -38,4 +38,8 @@
     <ProjectReference Include="..\Uniware_PandoIntegration.Entities\Uniware_PandoIntegration.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 </Project>
