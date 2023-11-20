@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Controller_SelectedScaffolderID>MvcControllerEmptyScaffolder</Controller_SelectedScaffolderID>
-    <Controller_SelectedScaffolderCategoryPath>root/Common/MVC/Controller</Controller_SelectedScaffolderCategoryPath>
-<<<<<<< HEAD
     <NameOfLastUsedPublishProfile>D:\UniWare\Uniware_PandoIntegration.API\Properties\PublishProfiles\UniwarePandoIntegrationAPI - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
-=======
-    <NameOfLastUsedPublishProfile>E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.API\Properties\PublishProfiles\UniwarePandoIntegrationAPI - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
->>>>>>> e4e9b06740b168447c253c66eee07b2f9f46ac03
   </PropertyGroup>
 </Project>

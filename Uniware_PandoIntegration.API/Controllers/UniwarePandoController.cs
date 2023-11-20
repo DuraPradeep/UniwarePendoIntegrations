@@ -51,14 +51,42 @@ namespace Uniware_PandoIntegration.API.Controllers
             //BearerToken _Token = new BearerToken();
             //PandoUniwariToken resu = _Token.GetTokens().Result;
             string Servertype = iconfiguration["ServerType:type"];
-
-            var resu = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             if (resu.ObjectParam != null)
             {
                 string token = deres.access_token.ToString();
                 //HttpContext.Session.SetString("Token", resu.access_token.ToString());
                 HttpContext.Session.SetString("Token", token);
+                //return new PandoUniwariToken();
+                return Accepted(resu.ObjectParam);
+            }
+            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            //string token = HttpContext.Session.GetString("Token");
+            //string token = deres.access_token.ToString();
+            ////HttpContext.Session.SetString("Token", resu.access_token.ToString());
+            //HttpContext.Session.SetString("token", token);    
+            else
+            {
+                return BadRequest("Something Went Wrong");
+            }
+        }
+        [HttpGet]
+        public IActionResult GetTokenDFX()
+        {
+            //BearerToken _Token = new BearerToken();
+            //PandoUniwariToken resu = _Token.GetTokens().Result;
+            string Servertype = iconfiguration["ServerType:type"];
+            string Instance = "DFX";
+
+            var resu = _Token.GetTokens(Servertype,Instance).Result;
+            var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            if (resu.ObjectParam != null)
+            {
+                string token = deres.access_token.ToString();
+                //HttpContext.Session.SetString("Token", resu.access_token.ToString());
+                HttpContext.Session.SetString("DFXToken", token);
                 //return new PandoUniwariToken();
                 return Accepted(resu.ObjectParam);
             }
@@ -87,6 +115,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             //var resu = _Token.GetTokens().Result;
             //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+
             string token = HttpContext.Session.GetString("Token");
             //string token = deres.access_token.ToString();
             if (token != null)
@@ -184,7 +213,8 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             //PandoUniwariToken resu = _Token.GetTokens().Result;
             //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            var resu = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             if (resu.ObjectParam != null)
             {
@@ -501,17 +531,20 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             Log.Information("Retriggered Return Order API");
             string Servertype = iconfiguration["ServerType:type"];
-            var resu = _Token.GetTokens(Servertype).Result;
-            string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
+            //            string[] Facilities = {
+            //"Hosur_Avigna",
+            //"AVIGNA_DFX",
+            //"Gurgaon_New",
+            //"CHENNAI",
+            //"COCHIN",
+            //"KOLKATA",
+            //"Hydrabad_Item",
+            //"BHIWANDIITEM"
+            //                };
+            var Facilities = ObjBusinessLayer.GetFacilityList();
+
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             if (deres != null)
             {
@@ -528,7 +561,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         returnOrderGet.reversePickupCode = codes.ObjectParam[j].code;
                         var jdetail = JsonConvert.SerializeObject(returnOrderGet);
                         var Code = codes.ObjectParam[j].code;
-                        var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, FacilityCode);
+                        var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, FacilityCode.facilityCode);
                         if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
                         {
                             returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
@@ -695,7 +728,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = iconfiguration["ServerType:type"];
 
             //BearerToken _Token = new BearerToken();
-            var resu = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             //HttpContext.Session.SetString("STOToken", deres.access_token.ToString());
             //string token = HttpContext.Session.GetString("STOToken");
@@ -872,17 +906,21 @@ namespace Uniware_PandoIntegration.API.Controllers
             //PandoUniwariToken resu = _Token.GetTokensSTO().Result;
             //HttpContext.Session.SetString("STOToken", resu.access_token.ToString());
             //string token = HttpContext.Session.GetString("STOToken");
-            string[] Facilities = {
-"Hosur_Avigna",
-"AVIGNA_DFX",
-"Gurgaon_New",
-"CHENNAI",
-"COCHIN",
-"KOLKATA",
-"Hydrabad_Item",
-"BHIWANDIITEM"
-                };
-            var resu = _Token.GetTokens(Servertype).Result;
+            //            string[] Facilities = {
+            //"Hosur_Avigna",
+            //"AVIGNA_DFX",
+            //"Gurgaon_New",
+            //"CHENNAI",
+            //"COCHIN",
+            //"KOLKATA",
+            //"Hydrabad_Item",
+            //"BHIWANDIITEM"
+            //                };
+            var Facilities = ObjBusinessLayer.GetFacilityList();
+
+            //var resu = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             if (deres.token_type != null)
             {
@@ -897,7 +935,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         string code = gatePass[i].code;
                         List<string> gatePassCodes = new List<string> { gatePass[i].code.ToString() };
                         var jsogatePassCodesnre = JsonConvert.SerializeObject(new { gatePassCodes = gatePassCodes });
-                        var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode);
+                        var elemnetsList = _MethodWrapper.GetSTOAPIGatePassElements(jsogatePassCodesnre, token, code, 0, Servertype, FacilityCode.facilityCode);
                         if (elemnetsList.gatePassItemDTOs.Count > 0 || elemnetsList.elements.Count > 0)
                         {
                             gatePassItemDTOs.AddRange(elemnetsList.gatePassItemDTOs);
@@ -1025,8 +1063,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ObjBusinessLayer.InsertUpdateShippingpackage(updatelist);
                 //ObjBusinessLayer.InsertUpdateShippingpackageBox(shipbox);
                 ObjBusinessLayer.InsertCustomFields(customFields);
-                //Data Pushing to Pando
-                var resu = _Token.GetTokens(Servertype).Result;
+                ////Data Pushing to Pando
+                //var resu = _Token.GetTokens(Servertype).Result;
+                string Instance = "SH";
+                var resu = _Token.GetTokens(Servertype, Instance).Result;
                 var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                 string token = accesstoken.access_token;
                 if (token != null)
@@ -1177,7 +1217,9 @@ namespace Uniware_PandoIntegration.API.Controllers
             _logger.LogInformation($" UpdateShippingPackage Retrigger");
             string Servertype = iconfiguration["ServerType:type"];
 
-            var Token = _Token.GetTokens(Servertype).Result;
+            //var Token = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var Token = _Token.GetTokens(Servertype, Instance).Result;
             var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
             if (_Tokens.access_token != null)
             {
@@ -1246,7 +1288,9 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                 ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings);
                 //Post Data To Pando
-                var Token = _Token.GetTokens(Servertype).Result;
+                //var Token = _Token.GetTokens(Servertype).Result;
+                string Instance = "SH";
+                var Token = _Token.GetTokens(Servertype, Instance).Result;
                 var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
                 if (_Tokens.access_token != null)
                 {
@@ -1309,7 +1353,9 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = iconfiguration["ServerType:type"];
 
             //string token = HttpContext.Session.GetString("STOToken");
-            var Token = _Token.GetTokens(Servertype).Result;
+            //var Token = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var Token = _Token.GetTokens(Servertype, Instance).Result;
             var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
             if (_Tokens.access_token != null)
             {
@@ -1389,7 +1435,9 @@ namespace Uniware_PandoIntegration.API.Controllers
             var SO = empList.Where(r => r.Type == "SO").ToList();
             var RO = empList.Where(r => r.Type == "RO").ToList();
             var STO = empList.Where(r => r.Type == "STO").ToList();
-            var resu = _Token.GetTokens(Servertype).Result;
+            //var resu = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             //string token = HttpContext.Session.GetString("Token");
             string token = deres.access_token.ToString();
@@ -1667,6 +1715,8 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
                 string Servertype = iconfiguration["ServerType:type"];
+                string Instance = "SH";
+                var resu = _Token.GetTokens(Servertype, Instance).Result;
                 List<ReversePickupDb> reverseitems = new List<ReversePickupDb>();
                 List<PickUpAddressDb> pickaddressitems = new List<PickUpAddressDb>();
                 List<DimensionDb> dimitems = new List<DimensionDb>();
@@ -1714,7 +1764,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var reveraddress = ObjBusinessLayer.BLReversePickUpAddress(pickaddressitems);
                 var reverdimension = ObjBusinessLayer.BLReverseDimension(dimitems);
                 var revercustom = ObjBusinessLayer.BLReverseCustomField(customfields);
-                var resu = _Token.GetTokens(Servertype).Result;
+                //var resu = _Token.GetTokens(Servertype).Result;
                 var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                 string token = accesstoken.access_token;
                 if (token != null)
@@ -1795,7 +1845,9 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = iconfiguration["ServerType:type"];
             _logger.LogInformation("Retrigger Reverse Pickup");
 
-            var resu = _Token.GetTokens(Servertype).Result;
+            //var resu = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
             string reversePickupResponse = string.Empty;
             var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             string token = accesstoken.access_token;
@@ -1904,7 +1956,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                 }
 
                 var details = ObjBusinessLayer.BLinsertTrackingDetails(trackingStatusDbs);
-                var resu = _Token.GetTokens(Servertype).Result;
+                //var resu = _Token.GetTokens(Servertype).Result;
+                string Instance = "SH";
+                var resu = _Token.GetTokens(Servertype, Instance).Result;
                 var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                 string token = accesstoken.access_token;
                 string responsmessage = string.Empty;
@@ -1920,11 +1974,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                         trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
                         trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
                         trackingStatus.statusDate = TrackingList[i].statusDate;
+                        ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode);
                         var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype);
                         if (res != null)
                         {
                             responsmessage = res.Result.ObjectParam.ToString();
-
                         }
                         else
                         {
@@ -1982,7 +2036,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                 res.Add(element);
             }
             string ExecResult = string.Empty;
-            var resu = _Token.GetTokens(Servertype).Result;
+            //var resu = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var resu = _Token.GetTokens(Servertype, Instance).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             //string token = HttpContext.Session.GetString("Token");
             string token = deres.access_token.ToString();

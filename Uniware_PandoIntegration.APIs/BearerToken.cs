@@ -27,7 +27,7 @@ namespace Uniware_PandoIntegration.APIs
         {
             Log.Information(message);
         }
-        public async Task<ServiceResponse<string>> GetTokens(string servertype)
+        public async Task<ServiceResponse<string>> GetTokens(string servertype,string Instance)
         {
             //PandoUniwariToken rootobject;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -37,7 +37,14 @@ namespace Uniware_PandoIntegration.APIs
                 CreateLog(" Token api Started");
                 if (servertype.ToLower() == "qa")
                 {
-                    URL = "https://stgsleepyhead2.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+                    if (Instance.ToLower() == "SH")
+                    {
+                        URL = "https://stgsleepyhead2.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+                    }
+                    else if(Instance.ToLower() =="DFX")
+                    {
+                        URL = "https://stgsleepyhead2.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+                    }
                 }
                 else if (servertype.ToLower() == "prod")
                 {
@@ -53,8 +60,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = _client.GetAsync(URL).Result;
                 var responses = response.Content.ReadAsStringAsync().Result;
                 serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                //rootobject = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(responses);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); 
                 CreateLog($" Response:{responses}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -85,6 +91,7 @@ namespace Uniware_PandoIntegration.APIs
                 if (servertype.ToLower() == "qa")
                 {
                     request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/saleOrder/search");
+
                 }
                 else if (servertype.ToLower() == "prod")
                 {

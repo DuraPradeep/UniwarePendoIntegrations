@@ -20,6 +20,14 @@ namespace UniWare_PandoIntegration.Controllers
         public HomeController(IConfiguration configuration)
         {
             //this.iconfiguration = iconfiguration;
+            //string islocal = HttpContext.Connection.LocalIpAddress.ToString();
+            //HttpRequest httpRequest=null;
+            //var req=httpRequest.HttpContext.Connection;
+            //req.LocalIpAddress.Iss
+            //if(context.Connection.LocalIpAddress.Equals(islocal)
+            //{
+
+            //}
             Apibase = configuration.GetSection("baseaddress:Url").Value;
         }
 		[HttpPost]
