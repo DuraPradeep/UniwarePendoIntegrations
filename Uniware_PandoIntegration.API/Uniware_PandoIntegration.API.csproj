@@ -19,28 +19,25 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RepoDb" Version="1.13.1" />
     <PackageReference Include="RepoDb.SqlServer" Version="1.13.1" />
-    <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
 	  
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Uniware_PandoIntegration.APIs\Uniware_PandoIntegration.Common.csproj" />
-    <ProjectReference Include="..\Uniware_PandoIntegration.BusinessLayer\Uniware_PandoIntegration.BusinessLayer.csproj" />
-    <ProjectReference Include="..\Uniware_PandoIntegration.DataAccessLayer\Uniware_PandoIntegration.DataAccessLayer.csproj" />
-    <ProjectReference Include="..\Uniware_PandoIntegration.Entities\Uniware_PandoIntegration.Entities.csproj" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
+    <ProjectReference Include="..\Uniware_PandoIntegration.BusinessLayer\Uniware_PandoIntegration.BusinessLayer.csproj" />
+    <ProjectReference Include="..\Uniware_PandoIntegration.DataAccessLayer\Uniware_PandoIntegration.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\UniWare_PandoIntegration\UniWare_PandoIntegration.csproj" />
   </ItemGroup>
 
 </Project>

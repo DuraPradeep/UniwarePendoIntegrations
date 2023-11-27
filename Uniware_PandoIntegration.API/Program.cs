@@ -47,11 +47,7 @@ var tokenValidationParameters = new TokenValidationParameters
 
 //    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
 //});
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(o =>
+builder.Services.AddAuthentication().AddJwtBearer(o =>
 {
 
     o.SaveToken = true;
@@ -67,16 +63,7 @@ builder.Services.AddAuthentication(x =>
             return Task.CompletedTask;
         }
     };
-
-    //o.TokenValidationParameters = new TokenValidationParameters
-    //{
-    //    //ValidateLifetime = true,
-    //    //ValidateAudience = false
-    //    ValidateIssuerSigningKey = true,
-    //    IssuerSigningKey = new SymmetricSecurityKey(key),
-    //    ValidateIssuer = false,
-    //    ValidateAudience = false
-    //};
+ 
 });
 builder.Services.AddControllers();
 builder.Services.AddSession();
