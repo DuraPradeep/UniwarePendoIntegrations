@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UniWare_PandoIntegration")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de3272a04bd16ba1500c4c7e7afab34198559ca9")]
 [assembly: System.Reflection.AssemblyProductAttribute("UniWare_PandoIntegration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UniWare_PandoIntegration")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
