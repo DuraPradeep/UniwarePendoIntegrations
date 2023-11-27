@@ -4574,6 +4574,7 @@
         "type": "project",
         "dependencies": {
           "Uniware_PandoIntegration.Common": "1.0.0",
+          "Uniware_PandoIntegration.DataAccessLayer": "1.0.0",
           "Uniware_PandoIntegration.Entities": "1.0.0"
         },
         "compile": {
@@ -4593,6 +4594,19 @@
         },
         "runtime": {
           "bin/placeholder/Uniware_PandoIntegration.Common.dll": {}
+        }
+      },
+      "Uniware_PandoIntegration.DataAccessLayer/1.0.0": {
+        "type": "project",
+        "dependencies": {
+          "Uniware_PandoIntegration.Common": "1.0.0",
+          "Uniware_PandoIntegration.Entities": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Uniware_PandoIntegration.DataAccessLayer.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Uniware_PandoIntegration.DataAccessLayer.dll": {}
         }
       },
       "Uniware_PandoIntegration.Entities/1.0.0": {
@@ -13007,6 +13021,11 @@
       "path": "../Uniware_PandoIntegration.APIs/Uniware_PandoIntegration.Common.csproj",
       "msbuildProject": "../Uniware_PandoIntegration.APIs/Uniware_PandoIntegration.Common.csproj"
     },
+    "Uniware_PandoIntegration.DataAccessLayer/1.0.0": {
+      "type": "project",
+      "path": "../Uniware_PandoIntegration.DataAccessLayer/Uniware_PandoIntegration.DataAccessLayer.csproj",
+      "msbuildProject": "../Uniware_PandoIntegration.DataAccessLayer/Uniware_PandoIntegration.DataAccessLayer.csproj"
+    },
     "Uniware_PandoIntegration.Entities/1.0.0": {
       "type": "project",
       "path": "../Uniware_PandoIntegration.Entities/Uniware_PandoIntegration.Entities.csproj",
@@ -13015,7 +13034,6 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
-      "D:\\UniWare\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
       "Microsoft.AspNetCore.Authentication.Abstractions >= 2.2.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 6.0.10",
       "Microsoft.AspNetCore.Authorization >= 8.0.0",
@@ -13027,7 +13045,8 @@
       "Swashbuckle.AspNetCore >= 6.5.0",
       "System.Data.SqlClient >= 4.8.5",
       "UniWare_PandoIntegration >= 1.0.0",
-      "Uniware_PandoIntegration.BusinessLayer >= 1.0.0"
+      "Uniware_PandoIntegration.BusinessLayer >= 1.0.0",
+      "Uniware_PandoIntegration.DataAccessLayer >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -13151,15 +13170,6 @@
     }
   },
   "logs": [
-    {
-      "code": "NU1105",
-      "level": "Error",
-      "message": "Unable to find project information for 'D:\\UniWare\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
-      "libraryId": "D:\\UniWare\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
-      "targetGraphs": [
-        "net7.0"
-      ]
-    },
     {
       "code": "NU1701",
       "level": "Warning",

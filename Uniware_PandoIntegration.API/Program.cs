@@ -47,7 +47,11 @@ var tokenValidationParameters = new TokenValidationParameters
 
 //    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
 //});
-builder.Services.AddAuthentication().AddJwtBearer(o =>
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
 {
 
     o.SaveToken = true;

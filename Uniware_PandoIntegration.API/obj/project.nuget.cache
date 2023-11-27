@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "mSD/j2JU5iZdrTWPiLhh8oA5/JEytVYtRpqxW72cqJogiEdJwzHmHU8Lsi6nP9hXRSV+XYgz8QqEJtjIS+/DYw==",
-  "success": false,
+  "dgSpecHash": "o4g+YNDI9UCw6YszE/HMq3cpe8BTWuxeL4r6i59nl7PEp8L7/nAk2tUdwtHf9ET3qqYeBw89/UgB+nnKXeBkPg==",
+  "success": true,
   "projectFilePath": "D:\\UniWare\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ajay\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
@@ -270,15 +270,6 @@
     "C:\\Users\\Ajay\\.nuget\\packages\\xlparser\\1.5.2\\xlparser.1.5.2.nupkg.sha512"
   ],
   "logs": [
-    {
-      "code": "NU1105",
-      "level": "Error",
-      "message": "Unable to find project information for 'D:\\UniWare\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
-      "libraryId": "D:\\UniWare\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
-      "targetGraphs": [
-        "net7.0"
-      ]
-    },
     {
       "code": "NU1701",
       "level": "Warning",
