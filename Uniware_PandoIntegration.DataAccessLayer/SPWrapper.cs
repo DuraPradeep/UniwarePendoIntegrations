@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Uniware_PandoIntegration.Entities;
 
-namespace Uniware_PandoIntegration.APIs
+namespace Uniware_PandoIntegration.DataAccessLayer
 {
     public class SPWrapper
     {

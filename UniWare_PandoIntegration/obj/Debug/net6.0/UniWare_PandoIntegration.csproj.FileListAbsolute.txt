@@ -1052,3 +1052,6 @@ D:\UniWare\UniWare_PandoIntegration\obj\Debug\net6.0\refint\UniWare_PandoIntegra
 D:\UniWare\UniWare_PandoIntegration\obj\Debug\net6.0\UniWare_PandoIntegration.pdb
 D:\UniWare\UniWare_PandoIntegration\obj\Debug\net6.0\UniWare_PandoIntegration.genruntimeconfig.cache
 D:\UniWare\UniWare_PandoIntegration\obj\Debug\net6.0\ref\UniWare_PandoIntegration.dll
+E:\Duroflex\UniwarePendoIntegrations\UniWare_PandoIntegration\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\UniWare_PandoIntegration\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+E:\Duroflex\UniwarePendoIntegrations\UniWare_PandoIntegration\bin\Debug\net6.0\Uniware_PandoIntegration.Entities.dll.config

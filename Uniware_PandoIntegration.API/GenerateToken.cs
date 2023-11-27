@@ -1,17 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
-using RepoDb;
-using System.Data;
-using System.Data.SqlClient;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using Uniware_PandoIntegration.API.Folder;
 using Uniware_PandoIntegration.Entities;
-using Uniware_PandoIntegration.BusinessLayer;
-using Uniware_PandoIntegration.APIs;
+using Uniware_PandoIntegration.DataAccessLayer;
 
 namespace Uniware_PandoIntegration.API
 {

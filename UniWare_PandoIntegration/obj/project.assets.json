@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
+    "net7.0": {
       "ClosedXML/0.102.1": {
         "type": "package",
         "dependencies": {
@@ -1356,12 +1356,12 @@
           "Microsoft.Extensions.Primitives": "8.0.0"
         },
         "compile": {
-          "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+          "lib/net7.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+          "lib/net7.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
             "related": ".xml"
           }
         },
@@ -1407,16 +1407,13 @@
       },
       "Microsoft.Extensions.Primitives/8.0.0": {
         "type": "package",
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
-        },
         "compile": {
-          "lib/net6.0/Microsoft.Extensions.Primitives.dll": {
+          "lib/net7.0/Microsoft.Extensions.Primitives.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net6.0/Microsoft.Extensions.Primitives.dll": {
+          "lib/net7.0/Microsoft.Extensions.Primitives.dll": {
             "related": ".xml"
           }
         },
@@ -10074,7 +10071,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0": [
+    "net7.0": [
       "ClosedXML >= 0.102.1",
       "ExcelDataReader >= 3.6.0",
       "ExcelDataReader.DataSet >= 3.6.0",
@@ -10086,44 +10083,37 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ajay\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Pradeep bisht\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\UniWare\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+      "projectUniqueName": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
       "projectName": "UniWare_PandoIntegration",
-      "projectPath": "D:\\UniWare\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
-      "packagesPath": "C:\\Users\\Ajay\\.nuget\\packages\\",
-      "outputPath": "D:\\UniWare\\UniWare_PandoIntegration\\obj\\",
+      "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+      "packagesPath": "C:\\Users\\Pradeep bisht\\.nuget\\packages\\",
+      "outputPath": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Pradeep bisht\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0"
+        "net7.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
-        "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net7.0": {
+          "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\UniWare\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
-              "projectPath": "D:\\UniWare\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+            "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+              "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
             },
-            "D:\\UniWare\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
-              "projectPath": "D:\\UniWare\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+            "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+              "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
             }
           }
         }
@@ -10135,8 +10125,8 @@
       }
     },
     "frameworks": {
-      "net6.0": {
-        "targetAlias": "net6.0",
+      "net7.0": {
+        "targetAlias": "net7.0",
         "dependencies": {
           "ClosedXML": {
             "target": "Package",
@@ -10182,7 +10172,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\RuntimeIdentifierGraph.json"
       }
     }
   },
@@ -10191,40 +10181,40 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.Mvc 5.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'Microsoft.AspNet.Mvc 5.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.AspNet.Mvc",
       "targetGraphs": [
-        "net6.0"
+        "net7.0"
       ]
     },
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.Razor 3.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'Microsoft.AspNet.Razor 3.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.AspNet.Razor",
       "targetGraphs": [
-        "net6.0"
+        "net7.0"
       ]
     },
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.AspNet.WebPages 3.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'Microsoft.AspNet.WebPages 3.2.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.AspNet.WebPages",
       "targetGraphs": [
-        "net6.0"
+        "net7.0"
       ]
     },
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Microsoft.Web.Infrastructure 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'Microsoft.Web.Infrastructure 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0'. This package may not be fully compatible with your project.",
       "libraryId": "Microsoft.Web.Infrastructure",
       "targetGraphs": [
-        "net6.0"
+        "net7.0"
       ]
     }
   ]
