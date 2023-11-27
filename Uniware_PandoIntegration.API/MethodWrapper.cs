@@ -22,10 +22,10 @@ namespace Uniware_PandoIntegration.API
         BearerToken _Token = new BearerToken();
         private bool disposedValue;
         Emailtrigger Emailtrigger = new Emailtrigger();
-        public List<Element> getCode(string json, string token, int checkcount, string servertype)
+        public List<Element> getCode(string json, string token, int checkcount, string servertype,string instance)
         {
             int Lcheckcount = checkcount;
-            var result = _Token.GetCode(json, token, servertype);
+            var result = _Token.GetCode(json, token, servertype, instance);
             List<Element> elmt = new List<Element>();
 
             List<ErrorDetails> errorDetails = new List<ErrorDetails>();
@@ -36,7 +36,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    getCode(json, token, Lcheckcount, servertype);
+                    getCode(json, token, Lcheckcount, servertype, instance);
                 }
                 else
                 {
@@ -56,7 +56,7 @@ namespace Uniware_PandoIntegration.API
             }
             return elmt;
         }
-        public parentList PassCodeer(string jsoncodes, string token, string code, int checkcounter, string Servertype)
+        public parentList PassCodeer(string jsoncodes, string token, string code, int checkcounter, string Servertype,string Instance)
         {
             int LLcheckcount = checkcounter;
             parentList parentList = new parentList();
@@ -72,7 +72,7 @@ namespace Uniware_PandoIntegration.API
             List<ShippingPackage> shipingdet = new List<ShippingPackage>();
             List<Items> qtyitems = new List<Items>();
             List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
-            var results = _Token.GetCodeDetails(jsoncodes, token, Servertype);
+            var results = _Token.GetCodeDetails(jsoncodes, token, Servertype, Instance);
             if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
             {
                 if (checkcounter < 3)
@@ -87,7 +87,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Add(ed);
                     // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
                     var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
-                    PassCodeer(jsoncodes, token, code, LLcheckcount, Servertype);
+                    PassCodeer(jsoncodes, token, code, LLcheckcount, Servertype, Instance);
 
                 }
                 else
@@ -210,14 +210,14 @@ namespace Uniware_PandoIntegration.API
             LLcheckcount = 0;
             return parentList;
         }
-        public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount, string Servertype)
+        public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount, string Servertype,string Instance)
         {
             int Lcheckcount = checkcount;
             ItemTypeDTO itemsSku = new ItemTypeDTO();
             List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
             Log.Information(" Return order Api itemType_Get -" + jskucode + ": " + token);
 
-            var resul = _Token.GetSkuDetails(jskucode, token, Servertype);
+            var resul = _Token.GetSkuDetails(jskucode, token, Servertype,Instance);
             //List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
             if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
             {
@@ -231,7 +231,7 @@ namespace Uniware_PandoIntegration.API
                     ed.Reason = resul.Result.ObjectParam;
                     errorskuDetails.Add(ed);
                     var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
-                    var abc = ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount, Servertype);
+                    var abc = ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount, Servertype,Instance);
                 }
                 else
                 {
@@ -607,50 +607,50 @@ namespace Uniware_PandoIntegration.API
 
             return rootReturnorderAPI;
         }
-        public ItemTypeDTO getReturnOrderSkuCode(string jskucode, string token, string Code, string Skucode, int checkcount, string Servertype)
-        {
-            int Lcheckcount = checkcount;
-            ItemTypeDTO itemsSku = new ItemTypeDTO();
-            List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
-            Log.Information(" Return Order Api itemType_Get -" + jskucode + ": " + token);
+        //public ItemTypeDTO getReturnOrderSkuCode(string jskucode, string token, string Code, string Skucode, int checkcount, string Servertype)
+        //{
+        //    int Lcheckcount = checkcount;
+        //    ItemTypeDTO itemsSku = new ItemTypeDTO();
+        //    List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
+        //    Log.Information(" Return Order Api itemType_Get -" + jskucode + ": " + token);
 
-            var resul = _Token.GetSkuDetails(jskucode, token, Servertype);
-            if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
-            {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ErrorDetails errorDetails = new ErrorDetails();
-                    errorDetails.Status = true;
-                    errorDetails.SkuCode = Skucode;
-                    errorDetails.Reason = resul.Result.ObjectParam;
-                    errorskuDetails.Add(errorDetails);
-                    var skuerror = ObjBusinessLayer.UpdateReturnOrderSKUErrordetails(errorskuDetails, 0);
-                    getReturnOrderSkuCode(jskucode, token, Code, Skucode, Lcheckcount, Servertype);
-                }
-                else
-                {
-                    Emailtrigger.SendEmailToAdmin("Return Order");
-                    itemsSku = null;
-                }
-            }
-            else
-            {
-                var resl = JsonConvert.DeserializeObject<SkuRoot>(resul.Result.ObjectParam);
-                // ItemTypeDTO itemsSku = new ItemTypeDTO();
-                itemsSku.Code = Code;
-                itemsSku.itemDetailFieldsText = resl.itemTypeDTO.itemDetailFieldsText;//categoryCode;
-                itemsSku.width = resl.itemTypeDTO.width;
-                itemsSku.height = resl.itemTypeDTO.height;
-                itemsSku.length = resl.itemTypeDTO.length;
-                itemsSku.weight = resl.itemTypeDTO.weight;
-                itemsSku.maxRetailPrice = resl.itemTypeDTO.maxRetailPrice;
-                //itemTdto.Add(itemsSku);
-            }
+        //    var resul = _Token.GetSkuDetails(jskucode, token, Servertype);
+        //    if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
+        //    {
+        //        if (Lcheckcount != 3)
+        //        {
+        //            Thread.Sleep(3000);
+        //            Lcheckcount += 1;
+        //            ErrorDetails errorDetails = new ErrorDetails();
+        //            errorDetails.Status = true;
+        //            errorDetails.SkuCode = Skucode;
+        //            errorDetails.Reason = resul.Result.ObjectParam;
+        //            errorskuDetails.Add(errorDetails);
+        //            var skuerror = ObjBusinessLayer.UpdateReturnOrderSKUErrordetails(errorskuDetails, 0);
+        //            getReturnOrderSkuCode(jskucode, token, Code, Skucode, Lcheckcount, Servertype);
+        //        }
+        //        else
+        //        {
+        //            Emailtrigger.SendEmailToAdmin("Return Order");
+        //            itemsSku = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var resl = JsonConvert.DeserializeObject<SkuRoot>(resul.Result.ObjectParam);
+        //        // ItemTypeDTO itemsSku = new ItemTypeDTO();
+        //        itemsSku.Code = Code;
+        //        itemsSku.itemDetailFieldsText = resl.itemTypeDTO.itemDetailFieldsText;//categoryCode;
+        //        itemsSku.width = resl.itemTypeDTO.width;
+        //        itemsSku.height = resl.itemTypeDTO.height;
+        //        itemsSku.length = resl.itemTypeDTO.length;
+        //        itemsSku.weight = resl.itemTypeDTO.weight;
+        //        itemsSku.maxRetailPrice = resl.itemTypeDTO.maxRetailPrice;
+        //        //itemTdto.Add(itemsSku);
+        //    }
 
-            return itemsSku;
-        }
+        //    return itemsSku;
+        //}
 
         public Task<ServiceResponse<string>> PostDataReturnOrder(ServiceResponse<List<ReturnOrderSendData>> AllData, string Trigerid, int checkcount, string ServerType)
         {
@@ -780,49 +780,49 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return STOlists;
         }
-        public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token, string code, string itemsku, int checkcount, string ServerType)
-        {
-            int Lcheckcount = checkcount;
-            //var list = _Token.GetSTOSkuDetails(jdetail, token);
-            Log.Information(" STO Waybill itemType_Get -" + itemsku + ": " + token);
+        //public ItemTypeDTO GetSTOWaybillSkuDetails(string jdetail, string token, string code, string itemsku, int checkcount, string ServerType)
+        //{
+        //    int Lcheckcount = checkcount;
+        //    //var list = _Token.GetSTOSkuDetails(jdetail, token);
+        //    Log.Information(" STO Waybill itemType_Get -" + itemsku + ": " + token);
 
-            var list = _Token.GetSkuDetails(jdetail, token, ServerType);
+        //    var list = _Token.GetSkuDetails(jdetail, token, ServerType);
 
-            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
-            ItemTypeDTO itemType = new ItemTypeDTO();
-            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
-            {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ErrorDetails errorDetails = new ErrorDetails();
-                    errorDetails.Status = true;
-                    errorDetails.Code = itemsku;
-                    errorDetails.Reason = list.Result.ObjectParam;
-                    errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 0);
-                    GetSTOWaybillSkuDetails(jdetail, token, code, itemsku, Lcheckcount, ServerType);
-                }
-                else
-                {
-                    Emailtrigger.SendEmailToAdmin("STO Waybill");
-                    itemType = null;
-                }
-            }
-            else
-            {
-                var itemtypes = JsonConvert.DeserializeObject<WaybillSTOItemtypeDTO>(list.Result.ObjectParam);
-                itemType.Code = code;
-                itemType.length = itemtypes.itemTypeDTO.length;
-                itemType.width = itemtypes.itemTypeDTO.width;
-                itemType.height = itemtypes.itemTypeDTO.height;
-                itemType.weight = itemtypes.itemTypeDTO.weight;
-                itemType.itemDetailFieldsText = itemtypes.itemTypeDTO.itemDetailFieldsText;
-            }
-            //return rootReturnorderAPI;
-            return itemType;
-        }
+        //    List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+        //    ItemTypeDTO itemType = new ItemTypeDTO();
+        //    if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+        //    {
+        //        if (Lcheckcount != 3)
+        //        {
+        //            Thread.Sleep(3000);
+        //            Lcheckcount += 1;
+        //            ErrorDetails errorDetails = new ErrorDetails();
+        //            errorDetails.Status = true;
+        //            errorDetails.Code = itemsku;
+        //            errorDetails.Reason = list.Result.ObjectParam;
+        //            errorCodeDetails.Add(errorDetails);
+        //            ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 0);
+        //            GetSTOWaybillSkuDetails(jdetail, token, code, itemsku, Lcheckcount, ServerType);
+        //        }
+        //        else
+        //        {
+        //            Emailtrigger.SendEmailToAdmin("STO Waybill");
+        //            itemType = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var itemtypes = JsonConvert.DeserializeObject<WaybillSTOItemtypeDTO>(list.Result.ObjectParam);
+        //        itemType.Code = code;
+        //        itemType.length = itemtypes.itemTypeDTO.length;
+        //        itemType.width = itemtypes.itemTypeDTO.width;
+        //        itemType.height = itemtypes.itemTypeDTO.height;
+        //        itemType.weight = itemtypes.itemTypeDTO.weight;
+        //        itemType.itemDetailFieldsText = itemtypes.itemTypeDTO.itemDetailFieldsText;
+        //    }
+        //    //return rootReturnorderAPI;
+        //    return itemType;
+        //}
         public Task<ServiceResponse<string>> WaybillSTOPostData(List<PostDataSTOWaybill> AllData, string triggerid, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
@@ -942,48 +942,48 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return STOlists;
         }
-        public ItemTypeDTO GetSTOAPISkuDetails(string jdetail, string token, string code, string skutype, int checkcount, string ServerType)
-        {
-            int Lcheckcount = checkcount;
-            //var list = _Token.GetSTOSkuDetails(jdetail, token);
-            var list = _Token.GetSkuDetails(jdetail, token, ServerType);
+        //public ItemTypeDTO GetSTOAPISkuDetails(string jdetail, string token, string code, string skutype, int checkcount, string ServerType)
+        //{
+        //    int Lcheckcount = checkcount;
+        //    //var list = _Token.GetSTOSkuDetails(jdetail, token);
+        //    var list = _Token.GetSkuDetails(jdetail, token, ServerType);
 
-            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
-            Log.Information("STOAPI Sku Response: " + list.Result.ObjectParam);
-            ItemTypeDTO itemType = new ItemTypeDTO();
-            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
-            {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ErrorDetails errorDetails = new ErrorDetails();
-                    errorDetails.Status = true;
-                    errorDetails.Code = skutype;
-                    errorDetails.Reason = list.Result.ObjectParam;
-                    errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 0);
-                    GetSTOAPISkuDetails(jdetail, token, code, skutype, Lcheckcount, ServerType);
-                }
-                else
-                {
-                    Emailtrigger.SendEmailToAdmin("STO API");
-                    itemType = null;
-                }
-            }
-            else
-            {
-                var itemtypes = JsonConvert.DeserializeObject<WaybillSTOItemtypeDTO>(list.Result.ObjectParam);
-                itemType.Code = code;
-                itemType.length = itemtypes.itemTypeDTO.length;
-                itemType.width = itemtypes.itemTypeDTO.width;
-                itemType.height = itemtypes.itemTypeDTO.height;
-                itemType.weight = itemtypes.itemTypeDTO.weight;
-                itemType.itemDetailFieldsText = itemtypes.itemTypeDTO.itemDetailFieldsText;
-            }
-            //return rootReturnorderAPI;
-            return itemType;
-        }
+        //    List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+        //    Log.Information("STOAPI Sku Response: " + list.Result.ObjectParam);
+        //    ItemTypeDTO itemType = new ItemTypeDTO();
+        //    if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+        //    {
+        //        if (Lcheckcount != 3)
+        //        {
+        //            Thread.Sleep(3000);
+        //            Lcheckcount += 1;
+        //            ErrorDetails errorDetails = new ErrorDetails();
+        //            errorDetails.Status = true;
+        //            errorDetails.Code = skutype;
+        //            errorDetails.Reason = list.Result.ObjectParam;
+        //            errorCodeDetails.Add(errorDetails);
+        //            ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 0);
+        //            GetSTOAPISkuDetails(jdetail, token, code, skutype, Lcheckcount, ServerType);
+        //        }
+        //        else
+        //        {
+        //            Emailtrigger.SendEmailToAdmin("STO API");
+        //            itemType = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var itemtypes = JsonConvert.DeserializeObject<WaybillSTOItemtypeDTO>(list.Result.ObjectParam);
+        //        itemType.Code = code;
+        //        itemType.length = itemtypes.itemTypeDTO.length;
+        //        itemType.width = itemtypes.itemTypeDTO.width;
+        //        itemType.height = itemtypes.itemTypeDTO.height;
+        //        itemType.weight = itemtypes.itemTypeDTO.weight;
+        //        itemType.itemDetailFieldsText = itemtypes.itemTypeDTO.itemDetailFieldsText;
+        //    }
+        //    //return rootReturnorderAPI;
+        //    return itemType;
+        //}
         public Task<ServiceResponse<string>> STOAPiPostData(ServiceResponse<List<ReturnOrderSendData>> AllData, string triggerid, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;

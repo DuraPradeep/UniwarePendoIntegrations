@@ -2728,7 +2728,34 @@ namespace Uniware_PandoIntegration.APIs
             finally { con.Close(); }
             return ds;
         }
-
+        public static void InsertTrackingDetailsPostData(TrackingStatus dt, string triggerid,string Facility)
+        {
+            string res;
+            try
+            {
+                con = GetConnection();
+                com = new SqlCommand();
+                com.Connection = con;
+                com.CommandText = "sp_InsertTrackingtatusData";
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@providerCode", dt.providerCode);
+                com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                com.Parameters.AddWithValue("@trackingStatus", dt.trackingStatus);
+                com.Parameters.AddWithValue("@statusDate", dt.statusDate);
+                com.Parameters.AddWithValue("@shipmentTrackingStatusName", dt.shipmentTrackingStatusName);
+                com.Parameters.AddWithValue("@facilitycode", Facility);
+                com.Parameters.AddWithValue("@TriggerId", triggerid);               
+                con.Open();
+                com.ExecuteNonQuery();
+                //res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally { con.Close(); }
+            ////return res;
+        }
         public static bool STOWaybillCustField(DataTable ds)
         {
             bool res = false;
