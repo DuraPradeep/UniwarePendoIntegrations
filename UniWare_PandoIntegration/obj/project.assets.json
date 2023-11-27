@@ -1350,6 +1350,25 @@
           }
         }
       },
+      "Microsoft.Extensions.Configuration.Abstractions/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        },
+        "compile": {
+          "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
       "Microsoft.Extensions.DependencyInjection/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -1384,6 +1403,25 @@
         },
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
+        }
+      },
+      "Microsoft.Extensions.Primitives/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        },
+        "compile": {
+          "lib/net6.0/Microsoft.Extensions.Primitives.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.Primitives.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
         }
       },
       "Microsoft.NET.StringTools/17.3.2": {
@@ -5037,6 +5075,36 @@
         "microsoft.dotnet.scaffolding.shared.nuspec"
       ]
     },
+    "Microsoft.Extensions.Configuration.Abstractions/8.0.0": {
+      "sha512": "3lE/iLSutpgX1CC0NOW70FJoGARRHbyKmG7dc0klnUZ9Dd9hS6N/POPWhKhMLCEuNN5nXEY5agmlFtH562vqhQ==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.abstractions/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Extensions.Configuration.Abstractions.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Configuration.Abstractions.targets",
+        "lib/net462/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/net462/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/net6.0/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "lib/net7.0/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/net7.0/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "lib/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/net8.0/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "Microsoft.Extensions.DependencyInjection/6.0.0": {
       "sha512": "k6PWQMuoBDGGHOQTtyois2u4AwyVcIwL2LaSLlTZQm2CYcJ1pxbt6jfAnpWmzENA/wfrYRI/X9DTLoUkE4AsLw==",
       "type": "package",
@@ -5084,6 +5152,36 @@
         "lib/netstandard2.1/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
         "microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.abstractions.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "Microsoft.Extensions.Primitives/8.0.0": {
+      "sha512": "bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g==",
+      "type": "package",
+      "path": "microsoft.extensions.primitives/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Extensions.Primitives.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Extensions.Primitives.targets",
+        "lib/net462/Microsoft.Extensions.Primitives.dll",
+        "lib/net462/Microsoft.Extensions.Primitives.xml",
+        "lib/net6.0/Microsoft.Extensions.Primitives.dll",
+        "lib/net6.0/Microsoft.Extensions.Primitives.xml",
+        "lib/net7.0/Microsoft.Extensions.Primitives.dll",
+        "lib/net7.0/Microsoft.Extensions.Primitives.xml",
+        "lib/net8.0/Microsoft.Extensions.Primitives.dll",
+        "lib/net8.0/Microsoft.Extensions.Primitives.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Primitives.xml",
+        "microsoft.extensions.primitives.8.0.0.nupkg.sha512",
+        "microsoft.extensions.primitives.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
@@ -9981,25 +10079,31 @@
       "ExcelDataReader >= 3.6.0",
       "ExcelDataReader.DataSet >= 3.6.0",
       "Microsoft.AspNet.Mvc >= 5.2.9",
+      "Microsoft.Extensions.Configuration.Abstractions >= 8.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.16",
       "Uniware_PandoIntegration.Common >= 1.0.0",
       "Uniware_PandoIntegration.Entities >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Pradeep bisht\\.nuget\\packages\\": {}
+    "C:\\Users\\Ajay\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+      "projectUniqueName": "D:\\UniWare\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
       "projectName": "UniWare_PandoIntegration",
-      "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
-      "packagesPath": "C:\\Users\\Pradeep bisht\\.nuget\\packages\\",
-      "outputPath": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\obj\\",
+      "projectPath": "D:\\UniWare\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+      "packagesPath": "C:\\Users\\Ajay\\.nuget\\packages\\",
+      "outputPath": "D:\\UniWare\\UniWare_PandoIntegration\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Pradeep bisht\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -10007,17 +10111,19 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
-              "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+            "D:\\UniWare\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+              "projectPath": "D:\\UniWare\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
             },
-            "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
-              "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+            "D:\\UniWare\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+              "projectPath": "D:\\UniWare\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
             }
           }
         }
@@ -10048,6 +10154,10 @@
             "target": "Package",
             "version": "[5.2.9, )"
           },
+          "Microsoft.Extensions.Configuration.Abstractions": {
+            "target": "Package",
+            "version": "[8.0.0, )"
+          },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[6.0.16, )"
@@ -10072,7 +10182,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   },
