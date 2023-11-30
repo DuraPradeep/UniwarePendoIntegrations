@@ -181,9 +181,6 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Annotation.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\LightInject.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Web.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNet.Identity.Core.dll
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Abstractions.dll
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Core.dll
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.Abstractions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.dll
@@ -193,7 +190,6 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.A
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Extensions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Features.dll
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Mvc.Abstractions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Routing.Abstractions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.WebUtilities.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -256,9 +252,6 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Annotation.pdb
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Web.pdb
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Web.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNet.Identity.Core.xml
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.xml
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Abstractions.xml
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Core.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Cryptography.Internal.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.Abstractions.xml
@@ -268,7 +261,6 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.x
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Abstractions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Extensions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Features.xml
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Mvc.Abstractions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Routing.Abstractions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.WebUtilities.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Extensions.Configuration.Abstractions.xml
@@ -478,3 +470,8 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Release\U
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Release\Uniware_PandoIntegration.Common.csproj.CopyComplete
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Release\Uniware_PandoIntegration.APIs.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Release\Uniware_PandoIntegration.APIs.pdb
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\System.Threading.Tasks.Extensions.dll
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Uniware_PandoIntegration.Entities.dll.config
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\System.Threading.Tasks.Extensions.xml

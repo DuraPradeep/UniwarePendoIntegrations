@@ -17,7 +17,7 @@ namespace Uniware_PandoIntegration.API
                 var fullPath = Path.Combine(currentDirectory, folderName, "Retrigger.txt");
                 
                 string content = System.IO.File.ReadAllText(fullPath);
-                content= content.Replace("{Urladdress}", "3.7.240.18:8088");
+                content= content.Replace("{Urladdress}", "https://uniwarepandointegration.azurewebsites.net/");
                 content = content.Replace("{CompanyName}", "Duroflex Private Limited.");
                 content = content.Replace("{Apiname}", apiname);               
                 content = content.Replace("{SubCompanyName}", "DuroConnect");

@@ -101,6 +101,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtaddress.Columns.Add("pincode");
                 dtaddress.Columns.Add("phone");
                 dtaddress.Columns.Add("email");
+                dtaddress.Columns.Add("AddressId");
 
                 for (int i = 0; i < addresses.Count; i++)
                 {
@@ -114,6 +115,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["pincode"] = addresses[i].pincode;
                     dr["phone"] = addresses[i].phone;
                     dr["email"] = addresses[i].email;
+                    dr["AddressId"] = addresses[i].id;
                     dtaddress.Rows.Add(dr);
 
                 }
@@ -202,6 +204,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtslesorder.Columns.Add("taxPercentage");
                 dtslesorder.Columns.Add("TotalPrice");
                 dtslesorder.Columns.Add("facilityCode");
+                dtslesorder.Columns.Add("shippingAddressId");
+
                 for (int l = 0; l < sitems.Count; l++)
                 {
                     DataRow drsalesorder = dtslesorder.NewRow();
@@ -213,6 +217,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsalesorder["taxPercentage"] = sitems[l].taxPercentage;
                     drsalesorder["TotalPrice"] = sitems[l].totalPrice;
                     drsalesorder["facilityCode"] = sitems[l].facilityCode;
+                    drsalesorder["shippingAddressId"] = sitems[l].shippingAddressId;
                     dtslesorder.Rows.Add(drsalesorder);
                 }
                 res = SPWrapper.InsertsalesorderItems(dtslesorder);

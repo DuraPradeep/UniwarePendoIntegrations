@@ -630,6 +630,11 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uni
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CopyComplete
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.pdb
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\amd64\Microsoft.VC90.CRT\msvcr90.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\amd64\sqlceca40.dll
@@ -664,6 +669,7 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.Http.Ext
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.Http.Features.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.WebUtilities.dll
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.dll
@@ -707,6 +713,7 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Security.Cryptography.
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Security.Permissions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Security.Principal.Windows.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Text.Encodings.Web.dll
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.ValueTuple.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Web.Helpers.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Web.Http.dll
@@ -736,6 +743,7 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.Http.Ext
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.Http.Features.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.WebUtilities.xml
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.xml
@@ -768,6 +776,7 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Net.Http.Formatting.xm
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Numerics.Vectors.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Text.Encodings.Web.xml
+D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.ValueTuple.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Web.Helpers.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Web.Http.xml
@@ -783,12 +792,3 @@ D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Comm
 D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CopyComplete
 D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.pdb
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.dll
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
-D:\UniWare\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\System.Threading.Tasks.Extensions.xml

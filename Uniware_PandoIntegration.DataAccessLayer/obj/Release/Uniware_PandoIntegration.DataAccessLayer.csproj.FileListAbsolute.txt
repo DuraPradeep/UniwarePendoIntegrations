@@ -169,3 +169,4 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\ob
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Release\Uniware_PandoIntegration.DataAccessLayer.csproj.CopyComplete
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Release\Uniware_PandoIntegration.DataAccessLayer.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Release\Uniware_PandoIntegration.DataAccessLayer.pdb
+D:\UniWare\Uniware_PandoIntegration.DataAccessLayer\bin\Release\Uniware_PandoIntegration.Entities.dll.config
