@@ -155,6 +155,7 @@ namespace Uniware_PandoIntegration.API
                     Address adrs = new Address();
                     adrs.Code = code;
                     //adrs.Code = details.saleOrderDTO.code;
+                    adrs.id= details.saleOrderDTO.addresses[ads].id;
                     adrs.name = details.saleOrderDTO.addresses[ads].name;
                     adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
                     adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
@@ -195,6 +196,7 @@ namespace Uniware_PandoIntegration.API
                     SaleOrderItem sitem = new SaleOrderItem();
                     sitem.code = code;
                     //sitem.code = details.saleOrderDTO.code;
+                    sitem.shippingAddressId = details.saleOrderDTO.saleOrderItems[l].shippingAddressId;
                     sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
                     sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
                     sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;

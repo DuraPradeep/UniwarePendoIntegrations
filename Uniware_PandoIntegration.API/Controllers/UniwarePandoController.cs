@@ -1189,26 +1189,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                         for (int i = 0; i < lists.Count; i++)
                         {
                             UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                            //updateShippingpackage.shippingBox = new ShippingBox();
                             updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
-                            updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
-                            //updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
-                            //updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                            //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
-                            //updateShippingpackage.actualWeight = lists[i].actualWeight;
-                            //updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
-                            //updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
-                            //updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
-                            //updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
-                            var facilitycode = lists[i].FacilityCode;
-                            //for (int j = 0; j < lists[i].shippingBox.Count; j++)
-                            //{
-                            //    ShippingBox shippingBox = new ShippingBox();
-                            //    shippingBox.length = lists[i].shippingBox[j].length;
-                            //    shippingBox.width = lists[i].shippingBox[j].width;
-                            //    shippingBox.height = lists[i].shippingBox[j].height;
-                            //    updateShippingpackage.shippingBox.Add(shippingBox);
-                            //}
+                            updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;                            
+                            var facilitycode = lists[i].FacilityCode;                            
                             for (int k = 0; k < lists[i].customFieldValues.Count; k++)
                             {
                                 CustomFieldValue customFieldValue = new CustomFieldValue();
@@ -1451,6 +1434,46 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult PostAllocateShipping()
+        {
+            string Servertype = iconfiguration["ServerType:type"];
+
+            _logger.LogInformation($"Post Data Allocate Shipping");
+            //string token = HttpContext.Session.GetString("STOToken");
+            //var Token = _Token.GetTokens(Servertype).Result;
+            string Instance = "SH";
+            var Token = _Token.GetTokens(Servertype, Instance).Result;
+            var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+            if (_Tokens.access_token != null)
+            {
+                var results = ObjBusinessLayer.PostGAllocateShippingData();
+                if (results.Count > 0)
+                {
+                    for (int i = 0; i < results.Count; i++)
+                    {
+                        Allocateshipping allocateshipping = new Allocateshipping();
+                        allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+                        allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+                        allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                        allocateshipping.shippingCourier = results[i].shippingCourier;
+                        allocateshipping.trackingNumber = results[i].trackingNumber;
+                        //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
+                        var facility = results[i].FacilityCode;
+                        var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
+                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype);
+                        return Ok(response.Result.ObjectParam);
+                    }
+                    return Accepted("All Records Pushed Successfully");
+                }
+                else { return BadRequest("There is no record for Post"); }
+            }
+            else
+            {
+                return BadRequest("Please Pass valid Token");
+            }
+
+        }
         [HttpGet]
         public ServiceResponse<List<EndpointErrorDetails>> AloateShippingErrorDetails()
         {
@@ -1794,7 +1817,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             var triggerid = ObjBusinessLayer.InsertAllsendingDataSTOAPI(allrecords);
                             var status = _MethodWrapper.STOAPiPostData(allrecords, triggerid, 0, Servertype);
                             //return Accepted(status.Result.ObjectParam);
-                            if (status.Result.Errcode > 200 || status.Result.Errcode < 299)
+                            if (status.Result.Errcode > 200 || status.Result.Errcode < 299|| status.Result.IsSuccess)
                             {
                                 ExecResult += ", STO Pushed Successfully.";
 

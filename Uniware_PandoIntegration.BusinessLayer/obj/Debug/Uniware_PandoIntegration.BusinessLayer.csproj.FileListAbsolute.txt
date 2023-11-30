@@ -218,6 +218,7 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.CopyComplete
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.pdb
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\bin\Debug\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\bin\Debug\amd64\Microsoft.VC90.CRT\msvcr90.dll
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\bin\Debug\amd64\sqlceca40.dll
@@ -274,4 +275,3 @@ D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegra
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.CopyComplete
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.dll
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.pdb
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
