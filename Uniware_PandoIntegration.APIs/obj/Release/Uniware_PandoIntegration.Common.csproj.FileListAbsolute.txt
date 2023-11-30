@@ -333,9 +333,6 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\L
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\LightInject.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Web.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNet.Identity.Core.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Abstractions.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Core.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Cryptography.Internal.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.Abstractions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.dll
@@ -345,7 +342,6 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\M
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Extensions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Features.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Mvc.Abstractions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Routing.Abstractions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.WebUtilities.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -408,9 +404,6 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\L
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Web.pdb
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\LightInject.Web.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNet.Identity.Core.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Abstractions.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Authentication.Core.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Cryptography.Internal.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.DataProtection.Abstractions.xml
@@ -420,7 +413,6 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\M
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Abstractions.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Extensions.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Http.Features.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Mvc.Abstractions.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.Routing.Abstractions.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.AspNetCore.WebUtilities.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Extensions.Configuration.Abstractions.xml
@@ -475,3 +467,8 @@ D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\System.Threading.Tasks.Exte
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Uniware_PandoIntegration.Entities.dll.config
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
 D:\UniWare\Uniware_PandoIntegration.APIs\bin\Release\System.Threading.Tasks.Extensions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\System.Threading.Tasks.Extensions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Uniware_PandoIntegration.Entities.dll.config
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Release\System.Threading.Tasks.Extensions.xml

@@ -1,14 +1,8 @@
 {
   "version": 2,
-<<<<<<< HEAD
   "dgSpecHash": "OwFuixBGzALe/VKPHHiQwk6n9C66yMbNnXDUW0H/13oSrOrXWqxKcVSfetLnjA5z9rynxbE9sTPVzHr7jfJmRQ==",
   "success": true,
   "projectFilePath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
-=======
-  "dgSpecHash": "o4g+YNDI9UCw6YszE/HMq3cpe8BTWuxeL4r6i59nl7PEp8L7/nAk2tUdwtHf9ET3qqYeBw89/UgB+nnKXeBkPg==",
-  "success": true,
-  "projectFilePath": "D:\\UniWare\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
->>>>>>> 52c89544a3a93350bfc2ef6c5fce193cf484c1cd
   "expectedPackageFiles": [
     "C:\\Users\\Pradeep bisht\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Pradeep bisht\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

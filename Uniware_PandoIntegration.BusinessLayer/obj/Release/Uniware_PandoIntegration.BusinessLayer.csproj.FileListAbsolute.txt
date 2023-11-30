@@ -164,3 +164,4 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Release\Uniware_PandoIntegration.BusinessLayer.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Release\Uniware_PandoIntegration.BusinessLayer.pdb
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\bin\Release\Uniware_PandoIntegration.Entities.dll.config
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Release\Uniware_PandoIntegration.Entities.dll.config
