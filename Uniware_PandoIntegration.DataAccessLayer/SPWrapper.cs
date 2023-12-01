@@ -2130,7 +2130,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             com = new SqlCommand();
             try
             {
-                using (SqlConnection con = new SqlConnection(ConnectionString))
+                using (con = GetConnection())
                 {
                     //con.Open();
                     SqlCommand sqlCommand = new SqlCommand();
@@ -2139,7 +2139,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     //CommandType = CommandType.StoredProcedure,
                     sqlCommand.CommandText = "sp_tokenvalidate";
 
-                    sqlCommand.CommandTimeout = 1000;
                     sqlCommand.Parameters.AddWithValue("@username", UserName);
                     sqlCommand.Parameters.AddWithValue("@password", Password);
                     con.Open();
