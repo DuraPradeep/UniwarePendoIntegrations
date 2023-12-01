@@ -49,7 +49,7 @@ namespace Uniware_PandoIntegration.API
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 var bearer = new JwtSecurityTokenHandler().WriteToken(token);
-                return "Bearer " + bearer;
+                return "bearer " + bearer;
 
                 //return userName;
             }
