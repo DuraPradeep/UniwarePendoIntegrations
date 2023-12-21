@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Uniware_PandoIntegration.Entities
         public List<object> errors { get; set; }
         public object warnings { get; set; }
         public List<Element> elements { get; set; }
+        public string Source { get; set; }
     }
     public class STOwaybillGetCodeDb
     {
@@ -62,12 +64,14 @@ namespace Uniware_PandoIntegration.Entities
         public object gatePassOrderCode { get; set; }    
         public List<GatePassItemDTO> gatePassItemDTOs { get; set; }
         public List<CustomFieldValuedb> customFieldValues { get; set; }
+        public string  Source{ get; set; }
     }
     public class CustomFieldValuedb
     {
         public string fieldName { get; set; }
         public string Code { get; set; }
         public string fieldValue { get; set; }
+        public string Source { get; set; }
     }
     public class STOlists
     {
@@ -110,6 +114,8 @@ namespace Uniware_PandoIntegration.Entities
         public string shelfCode { get; set; }
         public string hsnCode { get; set; }
         public object batchDTO { get; set; }
+        public string Source { get; set; }
+
     }
     public class GatePassItemDTODb
     {
@@ -140,6 +146,7 @@ namespace Uniware_PandoIntegration.Entities
         public string shelfCode { get; set; }
         public string hsnCode { get; set; }
         public object batchDTO { get; set; }
+        public string Source { get; set; }
     }
 
 

@@ -872,6 +872,48 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     TruckDetails returncode = new TruckDetails();
                     returncode.Details = pds.Tables[0].Rows[i]["Details"].ToString();
+                    returncode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
+        public static List<RegionMaster> MPGetRegionDetails(DataSet pds)
+        {
+            List<RegionMaster> FacilityList = new List<RegionMaster>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    RegionMaster returncode = new RegionMaster();
+                    returncode.State = pds.Tables[0].Rows[i]["State"].ToString();
+                    returncode.Region = pds.Tables[0].Rows[i]["Region"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
+        public static List<TrackingMaster> GetTrackingStatusDetails(DataSet pds)
+        {
+            List<TrackingMaster> FacilityList = new List<TrackingMaster>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingMaster returncode = new TrackingMaster();
+                    returncode.UniwareStatus = pds.Tables[0].Rows[i]["UniwareStatus"].ToString();
+                    returncode.PandoStatus = pds.Tables[0].Rows[i]["PandoStatus"].ToString();
+                    returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
                     FacilityList.Add(returncode);
                 }
             }

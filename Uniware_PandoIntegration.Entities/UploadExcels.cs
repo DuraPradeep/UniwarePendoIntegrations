@@ -10,5 +10,6 @@ namespace Uniware_PandoIntegration.Entities
     {
         public string Code { get; set; }
         public string Type { get; set; }
+        public string Instance { get; set; }
     }
 }

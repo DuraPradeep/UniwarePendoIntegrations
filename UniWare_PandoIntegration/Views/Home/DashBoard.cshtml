@@ -413,6 +413,28 @@
 
         });
     }
+    function fn_RegionMaster() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/RegionUpload", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+    function fn_TrackingStatusMaster() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/TrackingStatusUpload", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
 
 </script>
 @*<div class="loader">
@@ -558,6 +580,24 @@
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
                     <p>STO Gate Pass Upload</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_RegionMaster()">
+            <div class="card text-white mb-4 text-center pointer">
+                <div class="card-body tile_list">
+                    <p>Region Master</p>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TrackingStatusMaster()">
+            <div class="card text-white mb-4 text-center pointer">
+                <div class="card-body tile_list">
+                    <p>Tracking Status Master</p>
                 </div>
             </div>
 

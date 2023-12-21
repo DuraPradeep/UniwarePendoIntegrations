@@ -50,6 +50,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Element elmts = new Element();
                     elmts.code = code.elements[i].code;
+                    elmts.source = instance;
                     elmt.Add(elmts);
                     //dtinstcode.Rows.Add(code.elements[i].code);
                 }
@@ -143,6 +144,8 @@ namespace Uniware_PandoIntegration.API
                 //List SalesDTO Details
                 SaleOrderDTO em = new SaleOrderDTO();
                 em.code = code;
+                em.source = Instance;
+
                 //em.code = details.saleOrderDTO.code;
                 em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
                 //elements.Add(em);
@@ -164,6 +167,8 @@ namespace Uniware_PandoIntegration.API
                     adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
                     adrs.phone = details.saleOrderDTO.addresses[ads].phone;
                     adrs.email = details.saleOrderDTO.addresses[ads].email;
+                    adrs.Source = Instance;
+
                     //address.Add(adrs);
                     parentList.address.Add(adrs);
 
@@ -181,11 +186,15 @@ namespace Uniware_PandoIntegration.API
                     shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
                     shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
                     shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
+                    shipdetails.Source = Instance;
+
                     //shipingdet.Add(shipdetails);
                     parentList.Shipment.Add(shipdetails);
                     Items qty = new Items();
                     qty.Code = details.saleOrderDTO.code;
                     qty.quantity = details.saleOrderDTO.shippingPackages[sd].items.quantity;
+                    qty.Source = Instance;
+
                     //qtyitems.Add(qty);
                     parentList.qtyitems.Add(qty);
                 }
@@ -204,6 +213,8 @@ namespace Uniware_PandoIntegration.API
                     sitem.taxPercentage = details.saleOrderDTO.saleOrderItems[l].taxPercentage;
                     sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
                     sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
+                    sitem.Source = Instance;
+
                     //saleOrderItems.Add(sitem);
                     parentList.saleOrderItems.Add(sitem);
                 }
@@ -251,6 +262,8 @@ namespace Uniware_PandoIntegration.API
                 itemsSku.height = resl.itemTypeDTO.height;
                 itemsSku.length = resl.itemTypeDTO.length;
                 itemsSku.weight = resl.itemTypeDTO.weight;
+                itemsSku.Source = Instance;
+
                 // itemTdto.Add(itemsSku);
             }
             //var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
@@ -516,7 +529,7 @@ namespace Uniware_PandoIntegration.API
             }
             return ResStatus;
         }
-        public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode)
+        public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode,string Instance)
         {
             int Lcheckcount = checkcount;
             List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
@@ -527,7 +540,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    GetReturnorderCode(json, token, Lcheckcount, ServerType, FacilityCode);
+                    GetReturnorderCode(json, token, Lcheckcount, ServerType, FacilityCode, Instance);
                 }
                 else
                 {
@@ -542,12 +555,13 @@ namespace Uniware_PandoIntegration.API
                 {
                     ReturnorderCode elmts = new ReturnorderCode();
                     elmts.code = Dresult.returnOrders[i].code;
+                    elmts.Source = Instance;
                     returnorderCode.Add(elmts);
                 }
             }
             return returnorderCode;
         }
-        public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode)
+        public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode,string Instance)
         {
             int Lcheckcount = checkcount;
             var list = _Token.ReturnOrderGet(jdetail, token, ServerType, FacilityCode);
@@ -568,7 +582,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
                     var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails, 1);
-                    GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode);
+                    GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode, Instance);
                 }
                 else
                 {
@@ -587,6 +601,7 @@ namespace Uniware_PandoIntegration.API
                     returnSaleOrderItem.skuCode = Dlist.returnSaleOrderItems[k].skuCode;
                     returnSaleOrderItem.saleOrderCode = Dlist.returnSaleOrderItems[k].saleOrderCode;
                     returnSaleOrderItem.quantity = Dlist.returnSaleOrderItems.Count.ToString();
+                    returnSaleOrderItem.Source = Instance;
 
                     rootReturnorderAPI.returnSaleOrderItems.Add(returnSaleOrderItem);
                 }
@@ -602,6 +617,7 @@ namespace Uniware_PandoIntegration.API
                     returnAddressDetailsList.phone = Dlist.returnAddressDetailsList[l].phone;
                     returnAddressDetailsList.email = Dlist.returnAddressDetailsList[l].email;
                     returnAddressDetailsList.city = Dlist.returnAddressDetailsList[l].city;
+                    returnAddressDetailsList.Source = Instance;
                     //returnAddressDetailsLists.Add(returnAddressDetailsList);
                     rootReturnorderAPI.returnAddressDetailsList.Add(returnAddressDetailsList);
                 }
@@ -679,7 +695,7 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode)
+        public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode,string Instance)
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
@@ -694,7 +710,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    GatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode);
+                    GatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode,Instance);
                 }
                 else
                 {
@@ -709,6 +725,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Element code = new Element();
                     code.code = Dlist.elements[i].code;
+                    code.source = Instance;
                     listcode.Add(code);
                 }
             }
@@ -716,7 +733,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlistsDB GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode)
+        public STOlistsDB GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode,string instance)
         {
             int Lcheckcount = checkcount;
             Log.Information("STO WayBill Elements: request " + jdetail);
@@ -741,7 +758,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
                     ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 1);
-                    GetGatePassElements(jdetail, token, code, Lcheckcount, ServerType, FacilityCode);
+                    GetGatePassElements(jdetail, token, code, Lcheckcount, ServerType, FacilityCode, instance);
                 }
                 else
                 {
@@ -759,12 +776,14 @@ namespace Uniware_PandoIntegration.API
                     codes.reference = Dlist.elements[i].reference;
                     codes.toPartyName = Dlist.elements[i].toPartyName;
                     codes.invoiceCode = Dlist.elements[i].invoiceCode;
+                    codes.Source = instance;
                     for (int k= 0; k < Dlist.elements[i].customFieldValues.Count; k++)
                     {
                         CustomFieldValuedb customFieldValue = new CustomFieldValuedb();
                         customFieldValue.Code = Dlist.elements[i].code;
                         customFieldValue.fieldName = Dlist.elements[i].customFieldValues[k].fieldName;
                         customFieldValue.fieldValue = Dlist.elements[i].customFieldValues[k].fieldValue;
+                        customFieldValue.Source = instance;
                         STOlists.customFieldDbs.Add(customFieldValue);
                     }
                     STOlists.elements.Add(codes);
@@ -775,6 +794,7 @@ namespace Uniware_PandoIntegration.API
                         gatePassItemDTO.quantity = Dlist.elements[i].gatePassItemDTOs[j].quantity;
                         gatePassItemDTO.itemTypeSKU = Dlist.elements[i].gatePassItemDTOs[j].itemTypeSKU;
                         gatePassItemDTO.unitPrice = Dlist.elements[i].gatePassItemDTOs[j].unitPrice;
+                        gatePassItemDTO.Source = instance;
                         STOlists.gatePassItemDTOs.Add(gatePassItemDTO);
                     }
                 }
@@ -849,7 +869,7 @@ namespace Uniware_PandoIntegration.API
             }
             return ResStatus;
         }
-        public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode)
+        public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode,string Instance)
         {
             int Lcheckcount = checkcount;
             ServiceResponse<string> response = new ServiceResponse<string>();
@@ -865,7 +885,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    STOAPIGatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode);
+                    STOAPIGatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode,Instance);
                 }
                 else
                 {
@@ -880,6 +900,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Element code = new Element();
                     code.code = Dlist.elements[i].code;
+                    code.source = Instance;
                     listcode.Add(code);
                 }
             }
@@ -887,7 +908,7 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string Facilitycode)
+        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string Facilitycode,string instance)
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode);
@@ -898,7 +919,7 @@ namespace Uniware_PandoIntegration.API
             STOlists.elements = new List<Element>();
             ServiceResponse<string> response = new ServiceResponse<string>();
 
-            if (list.Result.Errcode < 200 || list.Result.Errcode > 299 || list.Status.ToString() == "Calceled")
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)//list.Status.ToString() == "Calceled"
             {
                 if (Lcheckcount != 3)
                 {
@@ -910,7 +931,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
                     ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 1);
-                    GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount, ServerType, Facilitycode);
+                    GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount, ServerType, Facilitycode,instance);
                 }
                 else
                 {
@@ -929,6 +950,7 @@ namespace Uniware_PandoIntegration.API
                     codes.reference = Dlist.elements[i].reference;
                     codes.toPartyName = Dlist.elements[i].toPartyName;
                     codes.invoiceCode = Dlist.elements[i].invoiceCode;
+                    codes.source = instance;
                     STOlists.elements.Add(codes);
                     for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
                     {
@@ -937,6 +959,7 @@ namespace Uniware_PandoIntegration.API
                         gatePassItemDTO.quantity = Dlist.elements[i].gatePassItemDTOs[j].quantity;
                         gatePassItemDTO.itemTypeSKU = Dlist.elements[i].gatePassItemDTOs[j].itemTypeSKU;
                         gatePassItemDTO.unitPrice = Dlist.elements[i].gatePassItemDTOs[j].unitPrice;
+                        gatePassItemDTO.Source = instance;
                         STOlists.gatePassItemDTOs.Add(gatePassItemDTO);
                     }
                 }

@@ -65,7 +65,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
         }
 
-        public static DataSet GetCodeDB()
+        public static DataSet GetCodeDB(string Instance)
         {
 
             DataSet ds = new DataSet();
@@ -83,6 +83,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetCode",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@instance", Instance);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
@@ -245,7 +246,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             ////finally { con.Close(); }
             return res;
         }
-        public static DataSet GetSkuCodeDB()
+        public static DataSet GetSkuCodeDB(string Instance)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -262,6 +263,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetSkuCode",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
+
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
@@ -303,7 +306,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetAllSendRecords()
+        public static DataSet GetAllSendRecords(string Instance)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -320,6 +323,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetAllRecords",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
+
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
@@ -620,7 +625,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool WaybillShipment(OmsToPandoRoot root, string primaryid)
+        public static bool WaybillShipment(OmsToPandoRoot root, string primaryid,string FacilityCode)
         {
             bool res = false;
             try
@@ -645,6 +650,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@length", root.Shipment.length);
                     com.Parameters.AddWithValue("@height", root.Shipment.height);
                     com.Parameters.AddWithValue("@breadth", root.Shipment.breadth);
+                    com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
@@ -910,7 +916,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
         }
 
-        public static DataSet GetReturnOrderCode()
+        public static DataSet GetReturnOrderCode(string Instacne)
         {
 
             //com = new SqlCommand();
@@ -927,6 +933,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetReturnOrderCode",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instacne);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
@@ -1049,7 +1056,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetReturnOrderSendData()
+        public static DataSet GetReturnOrderSendData(string Instance)
         {
             //con = GetConnection();
             com = new SqlCommand();
@@ -1066,6 +1073,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_sendReturnOrderAPIData",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
@@ -1681,7 +1689,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetSTOAPiSendData()
+        public static DataSet GetSTOAPiSendData(string Instance)
         {
             //con = GetConnection();
             com = new SqlCommand();
@@ -1697,6 +1705,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_GetallDataSTOApi"
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
@@ -2797,7 +2806,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return ds;
         }
 
-        public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid)
+        public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid,string FacilityCode)
         {
             string res;
             try
@@ -2829,6 +2838,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@name", dt.customFields[0].name);
                     com.Parameters.AddWithValue("@value", dt.customFields[0].value);
                     com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+                    com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
                     com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
                     com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
                     com.CommandTimeout = 1000;
@@ -3212,7 +3222,122 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+        public static string UpdateRegionMaster(DataTable dt)
+        {
+            string status;
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Sp_InsertRegionMaster";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@RgionList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+        public static DataSet GetRegionDetails()
+        {
+            //con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_GetRegionDetails"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
 
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet GetTrackingStatusDetails()
+        {
+            //con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_GetTrackingStatusMaster"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static string UpdateTrackingStatus(DataTable dt)
+        {
+            string status;
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "sp_UpdateTrackingMaster"; 
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@MasterList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
     }
 
 

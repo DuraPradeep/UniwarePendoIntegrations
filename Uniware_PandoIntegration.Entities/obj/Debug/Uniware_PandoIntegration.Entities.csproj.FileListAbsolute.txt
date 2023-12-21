@@ -73,3 +73,27 @@ D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.
 D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
 D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
 D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
+D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
+D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
+D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
+D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
