@@ -1035,10 +1035,10 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype)
+        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype,string Instance)
         {
             int Lcheckcount = checkcount;
-            var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype);
+            var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -1046,7 +1046,7 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype);
+                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Update Shipping Package");
@@ -1062,10 +1062,10 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType)
+        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType,string Instance)
         {
             int Lcheckcount = checkcount;
-            var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType);
+            var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -1073,7 +1073,7 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, ServerType);
+                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, ServerType, Instance);
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Allocate Shipping");
@@ -1123,13 +1123,13 @@ namespace Uniware_PandoIntegration.API
                 disposedValue = true;
             }
         }
-        public Task<ServiceResponse<string>> ReversePickUpdetails(ReversePickup AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype)
+        public Task<ServiceResponse<string>> ReversePickUpdetails(ReversePickup AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype,string Instance)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(AllData);
             Log.Information($"Reverse PickUp Data:-  {jsonre}");
 
-            var ResStatus = _Token.ReversePickUp(jsonre, Token, FacilityCode, Servertype);
+            var ResStatus = _Token.ReversePickUp(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -1137,7 +1137,7 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype);
+                    ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Reverse PickUp");
@@ -1153,20 +1153,20 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public Task<ServiceResponse<string>> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype)
+        public Task<ServiceResponse<string>> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype,string Instance)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(AllData);
             Log.Information($"Tracking Status data:-  {jsonre}");
 
-            var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype);
+            var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype);
+                    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
                 }
                 {
                     //Emailtrigger.SendEmailToAdmin("Reverse PickUp");

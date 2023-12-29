@@ -2635,6 +2635,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             var id = GenerateNumeric();
             SPWrapper.InsertTrackingDetailsPostData(updateShippingpackage, id, Facility);
         }
+
+        public string  GetInstanceName(string TrackingNo)
+        {
+            //var id = GenerateNumeric();
+           return SPWrapper.GetInstanceName(TrackingNo);
+        }
         public List<TrackingStatusDb> GetTrackingDetails()
         {
             try

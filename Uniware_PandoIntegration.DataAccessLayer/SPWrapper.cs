@@ -3138,6 +3138,40 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             ////return res;
         }
+
+        public static string GetInstanceName(string TrackingNo)
+        {
+            string InstanceName = string.Empty;
+
+
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "sp_GetInstanceName";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@TrackingNo", TrackingNo);
+                    con.Open();
+                    SqlDataReader dr;
+                    dr=com.ExecuteReader();
+                    while(dr.Read())
+                    {
+                        InstanceName = dr["name"].ToString();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return InstanceName;
+
+        }
         public static bool STOWaybillCustField(DataTable ds)
         {
             bool res = false;
