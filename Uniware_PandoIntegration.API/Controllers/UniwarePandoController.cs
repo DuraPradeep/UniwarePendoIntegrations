@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Http;
 using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.EMMA;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -1547,7 +1548,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         {
                             Instance = "DFX";
                         }
-                 
+
                     }
                     var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode);
                     //var response = _Token.PostUpdateShippingpckg(updateShippingpackage);
@@ -1582,66 +1583,66 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = iconfiguration["ServerType:type"];
 
             //var Token = _Token.GetTokens(Servertype).Result;
-            
-                var lists = ObjBusinessLayer.UpdateShipingPckRetrigger();
-                if (lists.Count > 0)
+
+            var lists = ObjBusinessLayer.UpdateShipingPckRetrigger();
+            if (lists.Count > 0)
+            {
+                for (int i = 0; i < lists.Count; i++)
                 {
-                    for (int i = 0; i < lists.Count; i++)
+                    string Instance = string.Empty;
+
+                    UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
+                    //updateShippingpackage.shippingBox = new ShippingBox();
+                    updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+                    updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
+                    //updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                    //updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                    //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
+                    //updateShippingpackage.actualWeight = lists[i].actualWeight;
+                    //updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
+                    //updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
+                    //updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
+                    //updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
+                    var facilitycode = lists[i].FacilityCode;
+                    //for (int j = 0; j < lists[i].shippingBox.Count; j++)
+                    //{
+                    //    ShippingBox shippingBox = new ShippingBox();
+                    //    shippingBox.length = lists[i].shippingBox[j].length;
+                    //    shippingBox.width = lists[i].shippingBox[j].width;
+                    //    shippingBox.height = lists[i].shippingBox[j].height;
+                    //    updateShippingpackage.shippingBox.Add(shippingBox);
+                    //}
+                    for (int k = 0; k < lists[i].customFieldValues.Count; k++)
                     {
-                        string Instance = string.Empty;
-
-                        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                        //updateShippingpackage.shippingBox = new ShippingBox();
-                        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
-                        updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
-                        //updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
-                        //updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                        //updateShippingpackage.shippingPackageTypeCode = lists[i].shippingPackageTypeCode;
-                        //updateShippingpackage.actualWeight = lists[i].actualWeight;
-                        //updateShippingpackage.noOfBoxes = lists[i].noOfBoxes;
-                        //updateShippingpackage.shippingBox.length = lists[i].shippingBox.length;
-                        //updateShippingpackage.shippingBox.width = lists[i].shippingBox.width;
-                        //updateShippingpackage.shippingBox.height = lists[i].shippingBox.height;
-                        var facilitycode = lists[i].FacilityCode;
-                        //for (int j = 0; j < lists[i].shippingBox.Count; j++)
-                        //{
-                        //    ShippingBox shippingBox = new ShippingBox();
-                        //    shippingBox.length = lists[i].shippingBox[j].length;
-                        //    shippingBox.width = lists[i].shippingBox[j].width;
-                        //    shippingBox.height = lists[i].shippingBox[j].height;
-                        //    updateShippingpackage.shippingBox.Add(shippingBox);
-                        //}
-                        for (int k = 0; k < lists[i].customFieldValues.Count; k++)
+                        CustomFieldValue customFieldValue = new CustomFieldValue();
+                        customFieldValue.name = lists[i].customFieldValues[k].name;
+                        customFieldValue.value = lists[i].customFieldValues[k].value;
+                        updateShippingpackage.customFieldValues.Add(customFieldValue);
+                        if (lists[i].customFieldValues[k].name == "INDENTID_SH")
                         {
-                            CustomFieldValue customFieldValue = new CustomFieldValue();
-                            customFieldValue.name = lists[i].customFieldValues[k].name;
-                            customFieldValue.value = lists[i].customFieldValues[k].value;
-                            updateShippingpackage.customFieldValues.Add(customFieldValue);
-                            if (lists[i].customFieldValues[k].name == "INDENTID_SH")
-                            {
-                                Instance = "SH";
-                            }
-                            else if (lists[i].customFieldValues[k].name == "INDENTID_DFX")
-                            {
-                                Instance = "DFX";
-                            }
+                            Instance = "SH";
                         }
-                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode);
-                        var resu = _Token.GetTokens(Servertype, Instance).Result;
-                        var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-                        string token = accesstoken.access_token;
-                        if (token != null)
+                        else if (lists[i].customFieldValues[k].name == "INDENTID_DFX")
                         {
-                            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype,Instance);
-
-                            return Accepted(response.Result);
+                            Instance = "DFX";
                         }
                     }
-                    return Accepted("All Records Pushed Successfully");
+                    var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode);
+                    var resu = _Token.GetTokens(Servertype, Instance).Result;
+                    var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+                    string token = accesstoken.access_token;
+                    if (token != null)
+                    {
+                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype, Instance);
 
+                        return Accepted(response.Result);
+                    }
                 }
-                else return BadRequest("There is no record for Post");
-            
+                return Accepted("All Records Pushed Successfully");
+
+            }
+            else return BadRequest("There is no record for Post");
+
 
         }
 
@@ -1677,7 +1678,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
                             var facility = results[i].FacilityCode;
                             var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
-                            var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype,Instance);
+                            var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                             //return Ok(response.Result.ObjectParam);
                         }
                         //return Accepted("All Records Pushed Successfully");
@@ -1736,7 +1737,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
                         var facility = results[i].FacilityCode;
                         var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
-                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype,Instance);
+                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                         return Ok(response.Result.ObjectParam);
                     }
                     return Accepted("All Records Pushed Successfully");
@@ -1784,7 +1785,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         var facilitycode = results[i].FacilityCode;
 
                         var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
-                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facilitycode, Servertype,Instance);
+                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facilitycode, Servertype, Instance);
                         return Ok(response.Result.ObjectParam);
                     }
                     return Accepted("All Records Pushed Successfully");
@@ -1847,8 +1848,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             var DRO = empList.Where(r => r.Type == "RO").ToList().ToList().Where(q => q.Instance == "DFX");
             var SHRO = empList.Where(r => r.Type == "RO").ToList().ToList().Where(q => q.Instance == "SH");
 
-            var DSTO = empList.Where(r => r.Type == "STO").ToList().ToList().ToList().Where(q => q.Instance == "DFX"); ;
-            var SHSTO = empList.Where(r => r.Type == "STO").ToList().ToList().ToList().Where(q => q.Instance == "SH"); ;
+            var DSTO = empList.Where(r => r.Type == "STO").ToList().ToList().ToList().Where(q => q.Instance == "DFX"); 
+            var SHSTO = empList.Where(r => r.Type == "STO").ToList().ToList().ToList().Where(q => q.Instance == "SH"); 
 
             var dfx = empList.Where(r => r.Type == "DFX").ToList();
             var Sh = empList.Where(r => r.Type == "SH").ToList();
@@ -1941,6 +1942,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                     {
                         ExecResult += "SH SO Data Pushed";
                     }
+                    else
+                    {
+                        ExecResult += resutt.Errdesc;
+                    }
+
                 }
                 else
                 {
@@ -2020,6 +2026,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                     if (resutt.Errcode > 200 || resutt.Errcode < 299)
                     {
                         ExecResult += "DFX SO Data Pushed";
+                    }
+                    else
+                    {
+                        ExecResult += resutt.Errdesc;
                     }
                 }
                 else
@@ -2105,6 +2115,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                         if (status.Result.Errcode > 200 || status.Result.Errcode < 299)
                         {
                             ExecResult += ",SH RO Data Pushed";
+                        }
+
+                        else
+                        {
+                            ExecResult += status.Result.Errdesc;
                         }
                     }
                 }
@@ -2638,9 +2653,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                     Getinstance = TrackingDetails[i].Instance;
                     trackingStatusDbs.Add(trackingStatus);
                 }
-                if(Getinstance.IsNullOrEmpty())
+                if (Getinstance.IsNullOrEmpty())
                 {
-                     Instance = ObjBusinessLayer.GetInstanceName(trackingStatusDbs[0].trackingNumber);
+                    Instance = ObjBusinessLayer.GetInstanceName(trackingStatusDbs[0].trackingNumber);
 
                 }
                 else
@@ -2668,7 +2683,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
                         trackingStatus.statusDate = TrackingList[i].statusDate;
                         ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode);
-                        var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype,Instance);
+                        var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype, Instance);
                         if (res != null)
                         {
                             responsmessage = res.Result.ObjectParam.ToString();

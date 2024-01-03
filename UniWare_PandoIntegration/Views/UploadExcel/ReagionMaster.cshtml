@@ -39,6 +39,14 @@
         width: 141px;
         transform: translateY(-50%);
     }
+
+    .page-title {
+        font-family: Times New Roman;
+        font-size: 25px;
+        color: #dc3545;
+        margin-left: 28px;
+        font-weight: 500;
+    }
 </style>
 
 <div class="container">
@@ -47,6 +55,9 @@
         <div class="col-md-3" style="padding:39px;margin-left: 210px;" ">
             <div class="left-side-content" style="margin-top:60px;">
                 <div style="width: 467px;height: 140px;">
+                    <div class="col-5 align-self-center">
+                        <h4 class="page-title">Reagion Master</h4>
+                    </div>
         @using (Html.BeginForm("UploadReagionMaster", "UploadExcel", FormMethod.Post, new { style = "padding:41px;margin-left:31px;background:#dc3545;border-radius:50px 20px;", enctype = "multipart/form-data", }))
         {
                         <div class="form-group">
