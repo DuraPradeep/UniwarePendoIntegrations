@@ -24,5 +24,6 @@ namespace Uniware_PandoIntegration.Entities
         public string trackingNumber { get; set; }
         public string generateUniwareShippingLabel { get; set; }
         public string FacilityCode { get; set; }
+        public string Instance { get; set; }
     }
 }

@@ -732,12 +732,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<WaybillSend> GetWaybillAllRecrdstosend()
+        public List<WaybillSend> GetWaybillAllRecrdstosend(string Instance)
         {
             List<WaybillSend> AllRes = new List<WaybillSend>();
             try
             {
-                AllRes = Mapper.GetWayBillSendrecords(SPWrapper.GetWaybillSendData());
+                AllRes = Mapper.GetWayBillSendrecords(SPWrapper.GetWaybillSendData(Instance));
             }
             catch (Exception Ex)
             {
@@ -2764,6 +2764,43 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     TruckDetails.Rows.Add(SOrow);
                 }
                 res = SPWrapper.UpdateTrackingStatus(TruckDetails);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<TrackingMaster> GetCourierNameDetails()
+        {
+            List<TrackingMaster> codes = new List<TrackingMaster>();
+            try
+            {
+                return codes = Mapper.GetCourierNameDetails(SPWrapper.GetCourierNameDetails());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public string UploadtCourireDetails(List<TrackingMaster> cloned)
+        {
+            string res;
+            try
+            {
+                DataTable TruckDetails = new DataTable();
+
+                TruckDetails.Columns.Add("CourierName");
+                for (var i = 0; i < cloned.Count; i++)
+                {
+                    DataRow SOrow = TruckDetails.NewRow();
+                    
+                    SOrow["CourierName"] = cloned[i].CourierName;
+                    TruckDetails.Rows.Add(SOrow);
+                }
+                res = SPWrapper.UpdateCourierList(TruckDetails);
             }
             catch (Exception ex)
             {

@@ -830,7 +830,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
         }
 
-        public static DataSet GetWaybillSendData()
+        public static DataSet GetWaybillSendData(string Instance)
         {
 
             DataSet ds = new DataSet();
@@ -846,6 +846,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_SendWaybillDetails",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@instance", Instance);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
@@ -3359,6 +3360,65 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.Add("@status", SqlDbType.VarChar, 100);
                     com.Parameters["@status"].Direction = ParameterDirection.Output;
                     com.Parameters.AddWithValue("@MasterList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+
+        public static DataSet GetCourierNameDetails()
+        {
+            //con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_getCourierName"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static string UpdateCourierList(DataTable dt)
+        {
+            string status;
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Sp_InsertCourierName";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@CourierList", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();

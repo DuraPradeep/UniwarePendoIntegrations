@@ -44,12 +44,13 @@ namespace UniWare_PandoIntegration.Controllers
 
 						HttpContext.Session.SetString("UserName", serviceResponseg.ObjectParam.UserName);
                         HttpContext.Session.SetString("NotificationCount", "1");
-                        ViewBag.Message = "Welcome "+ HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
+                        //TempData["Success"] = "Welcome "+ HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
+                        TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
                         return View("Dashboard");
                     }
                     else
                     {
-                        ViewBag.Message = "Invalid Credential!!";
+                        TempData["Success"] = "Invalid Credential!!";
                         return View("Login");
                     }
                 }
@@ -134,13 +135,13 @@ namespace UniWare_PandoIntegration.Controllers
 
         public ActionResult Dashboard()
         {
-            //ViewBag.Message = "Welcome to the Dashboard!!";
+            //TempData["Success"] = "Welcome to the Dashboard!!";
             return View();
         }
 
         public ActionResult Logout()
         {
-            ViewBag.Message = "Logout Sucessfuly!!";
+            TempData["Success"] = "Logout Sucessfuly!!";
            
             return RedirectToAction("Login");
         }
