@@ -846,7 +846,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if (Instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerceunicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
 
                     }
                 }

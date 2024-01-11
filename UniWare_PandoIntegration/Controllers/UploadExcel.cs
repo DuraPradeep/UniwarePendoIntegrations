@@ -142,10 +142,12 @@ namespace UniWare_PandoIntegration.Controllers
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<UploadExcels>>(empList, "Api/UniwarePando/UploadExcel");
 
-                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                //TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
-            return PartialView("~/Views/Home/Dashboard.cshtml");
+            //return PartialView("~/Views/Home/Dashboard.cshtml");
+            return RedirectToAction("Dashboard", "Home");
         }
         public ActionResult Uploads()
         {
@@ -257,7 +259,7 @@ namespace UniWare_PandoIntegration.Controllers
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<FacilityMaintain>>(FacList, "Api/UniwarePando/FacilityMasterUploads").Trim();
 
-                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
             return View("~/Views/Home/Dashboard.cshtml");
@@ -509,7 +511,7 @@ namespace UniWare_PandoIntegration.Controllers
                 }
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<TruckDetails>>(FacList, "Api/UniwarePando/TruckDetailsUpdate").Trim();
-                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");
         }
@@ -518,7 +520,7 @@ namespace UniWare_PandoIntegration.Controllers
         {
             return View("~/Views/UploadExcel/ExcelUploadForSTO.cshtml");
         }
-       
+
         public IActionResult STOUploadExcel(IFormFile Upload)
         {
             if (Upload != null)
@@ -606,13 +608,13 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     foreach (DataRow dr in dataSet.Tables[i].Rows)
                     {
-                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["Type"]),Instance= Convert.ToString(dr["Instance"]) });
+                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["Type"]), Instance = Convert.ToString(dr["Instance"]) });
                     }
                 }
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<UploadExcels>>(empList, "Api/UniwarePando/STOUpload").Trim();
 
-                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
             return View("~/Views/Home/Dashboard.cshtml");
@@ -700,7 +702,7 @@ namespace UniWare_PandoIntegration.Controllers
                 }
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<RegionMaster>>(FacList, "Api/UniwarePando/RegionMasterUpdate").Trim();
-                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");
         }
@@ -771,7 +773,7 @@ namespace UniWare_PandoIntegration.Controllers
             string fileName = "TrackingStatusMaster.xlsx";
             try
             {
-                using (var workbook = new XLWorkbook()) 
+                using (var workbook = new XLWorkbook())
                 {
                     IXLWorksheet worksheet =
                     workbook.Worksheets.Add("TrackingMaster");
@@ -896,12 +898,142 @@ namespace UniWare_PandoIntegration.Controllers
                     {
                         PandoStatus = Convert.ToString(dr["PandoStatus"]),
                         UniwareStatus = Convert.ToString(dr["UniwareStatus"]),
-                        CourierName= Convert.ToString(dr["CourierName"])
+                        CourierName = Convert.ToString(dr["CourierName"])
                     });
                 }
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, List<TrackingMaster>>(FacList, "Api/UniwarePando/TrackingStatusMasterUpload").Trim();
-                ViewBag.Message = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
+            }
+            return View("~/Views/Home/Dashboard.cshtml");
+        }
+        public ActionResult CourierNameUpload()
+        {
+            return View();
+        }
+        public ActionResult CourierListDownload()
+        {
+
+            ApiControl = new ApiOperation(Apibase);
+
+            var listdata = ApiControl.Get<List<TrackingMaster>>("api/UniwarePando/GetCourierNameDetails");
+
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "Courier List.xlsx";
+            try
+            {
+                using (var workbook = new XLWorkbook())
+                {
+                    IXLWorksheet worksheet =
+                    workbook.Worksheets.Add("Courier List");
+
+
+                    worksheet.Cell(1, 1).Value = "Courier Name";
+                    worksheet.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 1).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 1).Style.Font.Bold = true;
+                    worksheet.Cell(1, 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.ShowGridLines = true;
+                    for (int index = 1; index <= listdata.Count; index++)
+                    {
+                        worksheet.Cell(index + 1, 1).Value = listdata[index - 1].CourierName;
+
+
+                        worksheet.Cell(index + 1, 1).Style.Font.FontColor = XLColor.Black;
+
+                    }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, contentType, fileName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public IActionResult CourierListUpload(IFormFile Upload)
+        {
+            if (Upload != null)
+            {
+                Stream stream = Upload.OpenReadStream();
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                IExcelDataReader reader = null;
+                if (Upload.FileName.EndsWith(".xls"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else if (Upload.FileName.EndsWith(".xlsx"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "This file format is not supported");
+                    return View("~/Views/UploadExcel/CourierNameUpload.cshtml");
+                }
+                DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true,
+                        FilterRow = rowReader =>
+                        {
+                            var hasData = false;
+                            for (var i = 0; i < rowReader.FieldCount; i++)
+                            {
+                                if (rowReader[i] == null || string.IsNullOrEmpty(rowReader[i].ToString()))
+                                {
+                                    continue;
+                                }
+                                hasData = true;
+                                break;
+                            }
+                            return hasData;
+                        },
+                    }
+                });
+                reader.Close();
+                DataTable cloned = result.Tables[0].Clone();
+                for (var i = 0; i < cloned.Columns.Count; i++)
+                {
+                    cloned.Columns[i].DataType = typeof(string);
+                }
+                foreach (DataRow row in result.Tables[0].Rows)
+                {
+                    cloned.ImportRow(row);
+                }
+
+                DataTable truckdetails = new DataTable();
+
+
+                truckdetails.Columns.Add("CourierName");
+
+                for (var i = 0; i < cloned.Rows.Count; i++)
+                {
+                    DataRow SOrow = truckdetails.NewRow();
+                    SOrow["CourierName"] = cloned.Rows[i]["Courier Name"];
+                    truckdetails.Rows.Add(SOrow);
+                }
+                DataTable dataSet = new DataTable();
+                dataSet = truckdetails;
+                List<TrackingMaster> FacList = new List<TrackingMaster>();
+                foreach (DataRow dr in dataSet.Rows)
+                {
+                    FacList.Add(new TrackingMaster
+                    {
+                        CourierName = Convert.ToString(dr["CourierName"])
+                    });
+                }
+                ApiControl = new ApiOperation(Apibase);
+                var response = ApiControl.Post1<ServiceResponse<string>, List<TrackingMaster>>(FacList, "Api/UniwarePando/CourierListUpload").Trim();
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");
         }

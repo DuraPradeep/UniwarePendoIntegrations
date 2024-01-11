@@ -695,6 +695,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sKucode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
                     //sKucode.generateUniwareShippingLabel = pds.Tables[0].Rows[i]["generateUniwareShippingLabel"].ToString();
                     sKucode.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
+                    sKucode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
 
                     userProfile.Add(sKucode);
 
@@ -913,6 +914,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     TrackingMaster returncode = new TrackingMaster();
                     returncode.UniwareStatus = pds.Tables[0].Rows[i]["UniwareStatus"].ToString();
                     returncode.PandoStatus = pds.Tables[0].Rows[i]["PandoStatus"].ToString();
+                    returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
+        public static List<TrackingMaster> GetCourierNameDetails(DataSet pds)
+        {
+            List<TrackingMaster> FacilityList = new List<TrackingMaster>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingMaster returncode = new TrackingMaster();                 
                     returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
                     FacilityList.Add(returncode);
                 }

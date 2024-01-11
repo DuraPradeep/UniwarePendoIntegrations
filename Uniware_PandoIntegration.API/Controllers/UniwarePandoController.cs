@@ -28,6 +28,7 @@ using DocumentFormat.OpenXml.Office2010.ExcelAc;
 using DocumentFormat.OpenXml.EMMA;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Security.Cryptography.Xml;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -521,7 +522,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code);
 
                 //Data Pushed to Pando
-                var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
+                var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance);
                 if (sendwaybilldata.Count > 0)
                 {
                     var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
@@ -1659,12 +1660,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings);
                 //Post Data To Pando
                 //var Token = _Token.GetTokens(Servertype).Result;
-                string Instance = "SH";
-                var Token = _Token.GetTokens(Servertype, Instance).Result;
-                var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
-                if (_Tokens.access_token != null)
-                {
-                    var results = ObjBusinessLayer.PostGAllocateShippingData();
+                string Instance = string.Empty;
+
+
+                var results = ObjBusinessLayer.PostGAllocateShippingData();
                     if (results.Count > 0)
                     {
                         for (int i = 0; i < results.Count; i++)
@@ -1676,6 +1675,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                             allocateshipping.shippingCourier = results[i].shippingCourier;
                             allocateshipping.trackingNumber = results[i].trackingNumber;
                             //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
+                            var reference = results[i].Instance;
+                        if(reference== "INDENTID_DFX")
+                        {
+                            Instance = "DFX";
+                        }
+                        else
+                        {
+                            Instance = "SH";
+                        }
+                            var Token = _Token.GetTokens(Servertype, Instance).Result;
+                            var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
                             var facility = results[i].FacilityCode;
                             var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
                             var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
@@ -1684,7 +1694,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //return Accepted("All Records Pushed Successfully");
                     }
                     //else { return BadRequest("There is no record for Post"); }
-                }
+               
 
 
 
@@ -1718,11 +1728,10 @@ namespace Uniware_PandoIntegration.API.Controllers
             _logger.LogInformation($"Post Data Allocate Shipping");
             //string token = HttpContext.Session.GetString("STOToken");
             //var Token = _Token.GetTokens(Servertype).Result;
-            string Instance = "SH";
-            var Token = _Token.GetTokens(Servertype, Instance).Result;
-            var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
-            if (_Tokens.access_token != null)
-            {
+            string Instance = string.Empty;
+            //var Token = _Token.GetTokens(Servertype, Instance).Result;
+            //var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+          
                 var results = ObjBusinessLayer.PostGAllocateShippingData();
                 if (results.Count > 0)
                 {
@@ -1735,7 +1744,18 @@ namespace Uniware_PandoIntegration.API.Controllers
                         allocateshipping.shippingCourier = results[i].shippingCourier;
                         allocateshipping.trackingNumber = results[i].trackingNumber;
                         //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
-                        var facility = results[i].FacilityCode;
+                        var reference = results[i].generateUniwareShippingLabel;
+                    if (reference == "INDENTID_DFX")
+                    {
+                        Instance = "DFX";
+                    }
+                    else
+                    {
+                        Instance = "SH";
+                    }
+                    var facility = results[i].FacilityCode;
+                        var Token = _Token.GetTokens(Servertype, Instance).Result;
+                        var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
                         var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping);
                         var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                         return Ok(response.Result.ObjectParam);
@@ -1743,11 +1763,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     return Accepted("All Records Pushed Successfully");
                 }
                 else { return BadRequest("There is no record for Post"); }
-            }
-            else
-            {
-                return BadRequest("Please Pass valid Token");
-            }
+          
 
         }
         [HttpGet]
@@ -2018,10 +2034,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var allsenddata = ObjBusinessLayer.GetAllRecrdstosend(Instance);
                 var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
 
-                var sendcode = ObjBusinessLayer.GetAllSendData();
-                if (sendcode.Count > 0)
+                //var sendcode = ObjBusinessLayer.GetAllSendData();
+                if (allsenddata.Count > 0)
                 {
-                    var resutt = _MethodWrapper.Action(sendcode, triggerid, 0, Servertype);
+                    var resutt = _MethodWrapper.Action(allsenddata, triggerid, 0, Servertype);
                     //return Accepted(resutt.ObjectParam);
                     if (resutt.Errcode > 200 || resutt.Errcode < 299)
                     {
@@ -2921,6 +2937,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             List<TrackingMaster> ResultList = ObjBusinessLayer.GetTrackingStatusDetails();
             return ResultList;
         }
+        
         [HttpPost]
         public ActionResult TrackingStatusMasterUpload(List<TrackingMaster> TruckDetails)
         {
@@ -2929,5 +2946,21 @@ namespace Uniware_PandoIntegration.API.Controllers
             ExecResult = ObjBusinessLayer.UploadtTackingMasterDetails(TruckDetails);
             return new JsonResult(ExecResult.Trim());
         }
+
+        [HttpGet]
+        public IEnumerable<TrackingMaster> GetCourierNameDetails()
+        {
+            List<TrackingMaster> ResultList = ObjBusinessLayer.GetCourierNameDetails();
+            return ResultList;
+        }
+        [HttpPost]
+        public ActionResult CourierListUpload(List<TrackingMaster> TruckDetails)
+        {
+            string ExecResult = string.Empty;
+            _logger.LogInformation($"CourierName Update. {JsonConvert.SerializeObject(TruckDetails)}");
+            ExecResult = ObjBusinessLayer.UploadtCourireDetails(TruckDetails);
+            return new JsonResult(ExecResult.Trim());
+        }
+
     }
 }
