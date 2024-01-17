@@ -1976,81 +1976,87 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                 //string token = HttpContext.Session.GetString("Token");
                 string token = deres.access_token.ToString();
-
-                var resCode = ObjBusinessLayer.InsertCode(Dlist);
-                var ds = ObjBusinessLayer.GetCode(Instance);
-
-                parentList parentList = new parentList();
-                _logger.LogInformation(" DFX Saleorder/search Api called.");
-                List<Address> address = new List<Address>();
-                List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
-                List<ShippingPackage> shipingdet = new List<ShippingPackage>();
-                List<Items> qtyitems = new List<Items>();
-                List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
-                for (int i = 0; i < ds.Count; i++)
+                if (token != null)
                 {
-                    var jsoncodes = JsonConvert.SerializeObject(ds[i]);
-                    string code = ds[i].code;
-                    //parentList = PassCode(jsoncodes, token, code, 0);
+                    var resCode = ObjBusinessLayer.InsertCode(Dlist);
+                    var ds = ObjBusinessLayer.GetCode(Instance);
 
-                    parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code, 0, Servertype, Instance);
-                    if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                    parentList parentList = new parentList();
+                    _logger.LogInformation(" DFX Saleorder/search Api called.");
+                    List<Address> address = new List<Address>();
+                    List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
+                    List<ShippingPackage> shipingdet = new List<ShippingPackage>();
+                    List<Items> qtyitems = new List<Items>();
+                    List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
+                    for (int i = 0; i < ds.Count; i++)
                     {
-                        saleOrderItems.AddRange(parentList.saleOrderItems);
-                        address.AddRange(parentList.address);
-                        shipingdet.AddRange(parentList.Shipment);
-                        qtyitems.AddRange(parentList.qtyitems);
-                        elements.AddRange(parentList.elements);
+                        var jsoncodes = JsonConvert.SerializeObject(ds[i]);
+                        string code = ds[i].code;
+                        //parentList = PassCode(jsoncodes, token, code, 0);
+
+                        parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code, 0, Servertype, Instance);
+                        if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                        {
+                            saleOrderItems.AddRange(parentList.saleOrderItems);
+                            address.AddRange(parentList.address);
+                            shipingdet.AddRange(parentList.Shipment);
+                            qtyitems.AddRange(parentList.qtyitems);
+                            elements.AddRange(parentList.elements);
+                        }
                     }
-                }
-                var sires = ObjBusinessLayer.insertsalesorderitem(saleOrderItems);
-                var resshipng = ObjBusinessLayer.InsertBill(shipingdet);
-                var resitems = ObjBusinessLayer.insertItems(qtyitems);
-                var resads = ObjBusinessLayer.InsertAddrsss(address);
-                var resdto = ObjBusinessLayer.insertSalesDTO(elements);
+                    var sires = ObjBusinessLayer.insertsalesorderitem(saleOrderItems);
+                    var resshipng = ObjBusinessLayer.InsertBill(shipingdet);
+                    var resitems = ObjBusinessLayer.insertItems(qtyitems);
+                    var resads = ObjBusinessLayer.InsertAddrsss(address);
+                    var resdto = ObjBusinessLayer.insertSalesDTO(elements);
 
 
-                var sku = ObjBusinessLayer.GetSKucodesBL(Instance);
-                _logger.LogInformation("ItemType/Get Api called.");
+                    var sku = ObjBusinessLayer.GetSKucodesBL(Instance);
+                    _logger.LogInformation("ItemType/Get Api called.");
 
-                List<SKucode> skus = new List<SKucode>();
-                List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
-                for (int i = 0; i < sku.Count; i++)
-                {
-                    skucode sKucodes = new skucode();
-                    sKucodes.skuCode = sku[i].SkuCode;
-                    var code = sku[i].code;
-                    var skucode = sku[i].SkuCode;
-                    var jskucode = JsonConvert.SerializeObject(sKucodes);
-
-                    //var insertskucode = ReturnSkuCode(jskucode, token, skucode,0);
-                    var insertskucode = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0, Servertype, Instance);
-                    if (insertskucode.Code != null)
+                    List<SKucode> skus = new List<SKucode>();
+                    List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
+                    for (int i = 0; i < sku.Count; i++)
                     {
-                        itemTdto.Add(insertskucode);
+                        skucode sKucodes = new skucode();
+                        sKucodes.skuCode = sku[i].SkuCode;
+                        var code = sku[i].code;
+                        var skucode = sku[i].SkuCode;
+                        var jskucode = JsonConvert.SerializeObject(sKucodes);
+
+                        //var insertskucode = ReturnSkuCode(jskucode, token, skucode,0);
+                        var insertskucode = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0, Servertype, Instance);
+                        if (insertskucode.Code != null)
+                        {
+                            itemTdto.Add(insertskucode);
+                        }
                     }
-                }
-                var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
-                var allsenddata = ObjBusinessLayer.GetAllRecrdstosend(Instance);
-                var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
+                    var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
+                    var allsenddata = ObjBusinessLayer.GetAllRecrdstosend(Instance);
+                    var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
 
-                //var sendcode = ObjBusinessLayer.GetAllSendData();
-                if (allsenddata.Count > 0)
-                {
-                    var resutt = _MethodWrapper.Action(allsenddata, triggerid, 0, Servertype);
-                    //return Accepted(resutt.ObjectParam);
-                    if (resutt.Errcode > 200 || resutt.Errcode < 299)
+                    //var sendcode = ObjBusinessLayer.GetAllSendData();
+                    if (allsenddata.Count > 0)
                     {
-                        ExecResult += "DFX SO Data Pushed";
+                        var resutt = _MethodWrapper.Action(allsenddata, triggerid, 0, Servertype);
+                        //return Accepted(resutt.ObjectParam);
+                        if (resutt.Errcode > 200 || resutt.Errcode < 299)
+                        {
+                            ExecResult += "DFX SO Data Pushed";
+                        }
+                        else
+                        {
+                            ExecResult += resutt.Errdesc;
+                        }
                     }
                     else
                     {
-                        ExecResult += resutt.Errdesc;
+                        //return BadRequest("Please retrigger");
                     }
                 }
                 else
                 {
-                    //return BadRequest("Please retrigger");
+                    ExecResult += "Token Not Generated !";
                 }
             }
 

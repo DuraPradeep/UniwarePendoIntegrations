@@ -15,6 +15,7 @@ using System.Net;
 using System.Runtime.Remoting.Channels;
 using System.Data;
 using System.Configuration;
+using System.IO;
 
 namespace Uniware_PandoIntegration.APIs
 {
@@ -55,7 +56,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if (Instance.ToLower() == "dfx")
                     {
-                        URL = "https://myduroflexworld.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+                        URL = "https://myduroflexworld.unicommerce.co.in/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
 
                     }
                 }
@@ -63,17 +64,42 @@ namespace Uniware_PandoIntegration.APIs
                 {
                     BaseAddress = new Uri(URL)
                 };
+                //--------------------------
+
+                //HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(URL);
+                //request.Method = "GET";
+                //String test = String.Empty;
+                //using (HttpWebResponse respon = (HttpWebResponse)request.GetResponse())
+                //{
+                //    Stream dataStream = respon.GetResponseStream();
+                //    StreamReader reader = new StreamReader(dataStream);
+                //    test = reader.ReadToEnd();
+                //    reader.Close();
+                //    dataStream.Close();
+                //}
+
+
+
+                //------
                 _client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = _client.GetAsync(URL).Result;
-                var responses = response.Content.ReadAsStringAsync().Result;
+                //var responses = response.Content.ReadAsStringAsync().Result;
+                var responses = response.Content.ReadAsStreamAsync().Result;
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($" Response:{responses}");
                 if (response.IsSuccessStatusCode)
                 {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
                     return serviceResponse;
 
+                }
+                else
+                {
+                    serviceResponse.Errdesc = await response.Content.ReadAsStringAsync();
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    //GetCode(Details, Token);
                 }
 
             }
@@ -116,7 +142,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if(instance.ToLower()=="dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/saleOrder/search");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/saleOrder/search");
 
                     }
                 }
@@ -176,7 +202,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if(Instance.ToLower() =="dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/saleorder/get");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/saleorder/get");
                     }
                 }
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -232,7 +258,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if(Instance.ToLower() =="dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/catalog/itemType/get");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/catalog/itemType/get");
 
                     }
                 }
@@ -784,7 +810,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if (Instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/shippingPackage/edit");
 
                     }
                 }
@@ -858,7 +884,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if (Instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
 
                     }
                 }
@@ -969,7 +995,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if (Instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/reversePickup/edit");
 
                     }
                 }
@@ -1040,7 +1066,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if (Instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/updateShipmentTrackingStatus");
 
                     }
                 }

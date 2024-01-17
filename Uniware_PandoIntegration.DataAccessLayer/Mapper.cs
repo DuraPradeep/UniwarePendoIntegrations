@@ -830,6 +830,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.Mobile = pds.Tables[0].Rows[i]["Mobile_number"].ToString();
                     returncode.Region = pds.Tables[0].Rows[i]["Region"].ToString();
                     returncode.Email = pds.Tables[0].Rows[i]["email"].ToString();
+                    returncode.Instance =  pds.Tables[0].Rows[i]["Instance"].ToString();
+                   
                     FacilityList.Add(returncode);
                 }         
             }
