@@ -696,6 +696,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     //sKucode.generateUniwareShippingLabel = pds.Tables[0].Rows[i]["generateUniwareShippingLabel"].ToString();
                     sKucode.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
                     sKucode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+                    sKucode.trackingLink = pds.Tables[0].Rows[i]["trackingLink"].ToString();
 
                     userProfile.Add(sKucode);
 
@@ -945,6 +946,27 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             return FacilityList;
+        }
+
+        public static List<TrackingLinkMapping> GetTrackingLink(DataSet pds)
+        {
+            List<TrackingLinkMapping> MappingList = new List<TrackingLinkMapping>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingLinkMapping returncode = new TrackingLinkMapping();
+                    returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    returncode.TrackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();
+                    MappingList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return MappingList;
         }
     }
 }

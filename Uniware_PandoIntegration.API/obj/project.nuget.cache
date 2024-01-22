@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6bVy87LPJJNzPwcRXFfR9zNxUugHB3IIkhxS/aSISNq4qCtFa6Q9bLvWqR/2mnrdERUntDOB36zhuy3W+Y4whg==",
+  "dgSpecHash": "ayISzcbBXrXqPoz7MSWl0Czf3BD+bD7XmOWQPa/nXAV9Xu10h51mcJLsuWVN8wWhh8q6+1DD63VXprPrlr4ypQ==",
   "success": true,
-  "projectFilePath": "D:\\Latest Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+  "projectFilePath": "D:\\New Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ajay\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Ajay\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",
@@ -268,6 +268,16 @@
     "C:\\Users\\Ajay\\.nuget\\packages\\xlparser\\1.5.2\\xlparser.1.5.2.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "NU1903",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Data.SqlClient' 4.8.5 has a known high severity vulnerability, https://github.com/advisories/GHSA-98g6-xh36-x2p7",
+      "libraryId": "System.Data.SqlClient",
+      "targetGraphs": [
+        "net7.0"
+      ]
+    },
     {
       "code": "NU1701",
       "level": "Warning",

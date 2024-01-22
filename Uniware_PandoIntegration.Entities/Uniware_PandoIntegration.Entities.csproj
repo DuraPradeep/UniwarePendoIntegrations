@@ -91,6 +91,7 @@
     <Compile Include="STOGatePass.cs" />
     <Compile Include="STOwaybillGetCode.cs" />
     <Compile Include="TokenEntity.cs" />
+    <Compile Include="TrackingLinkMapping.cs" />
     <Compile Include="TrackingMaster.cs" />
     <Compile Include="TrackingStatus.cs" />
     <Compile Include="TruckDetails.cs" />

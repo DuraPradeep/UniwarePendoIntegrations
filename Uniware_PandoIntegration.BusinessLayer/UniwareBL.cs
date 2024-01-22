@@ -2810,6 +2810,37 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
+        public List<TrackingLinkMapping> GetTrackingMappingList()
+        {
+            List<TrackingLinkMapping> codes = new List<TrackingLinkMapping>();
+            try
+            {
+                return codes = Mapper.GetTrackingLink(SPWrapper.GetTrackingMapping());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public string UploadTrackingMapping(List<TrackingLinkMapping> cloned)
+        {
+            string res;
+
+            DataTable DealerTable = ConvertDataTable.ToDataTable(cloned);
+            try
+            {
+                
+                res = SPWrapper.UpdateTrackingMappingList(DealerTable);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
     }
 }
 

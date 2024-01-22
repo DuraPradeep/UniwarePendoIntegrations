@@ -13,6 +13,7 @@ namespace Uniware_PandoIntegration.Entities
         public string shippingProviderCode { get; set; }
         public string shippingCourier { get; set; }
         public string trackingNumber { get; set; }
+        public string trackingLink { get; set;}
         //public string generateUniwareShippingLabel { get; set; }
     }
     public class AllocateshippingDb
@@ -25,5 +26,7 @@ namespace Uniware_PandoIntegration.Entities
         public string generateUniwareShippingLabel { get; set; }
         public string FacilityCode { get; set; }
         public string Instance { get; set; }
+        public string trackingLink { get; set; }
+
     }
 }

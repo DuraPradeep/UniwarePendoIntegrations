@@ -3432,6 +3432,66 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
+
+        public static DataSet GetTrackingMapping()
+        {
+            //con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_GetTrackingMappingList"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
+        public static string UpdateTrackingMappingList(DataTable dt)
+        {
+            string status;
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Sp_UploadTrackingmapping";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@TrackingMappingList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
     }
 
 

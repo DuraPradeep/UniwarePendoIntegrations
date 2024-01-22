@@ -45,7 +45,7 @@
     .project-tiles:hover {
         color: #dc3545;
     }
-   
+
     /* Hover classes for individual project boxes */
     .project-tiles:hover {
         background-color: gray;
@@ -129,7 +129,7 @@
             fn_SaleOrder();
         });
     }
-    
+
     function fn_WaybillErrorList() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -140,7 +140,7 @@
             fn_WaybillErrorListDataObject();
         });
     }
-   
+
 
     function fn_ReturnOrderErrorList() {
         debugger;
@@ -154,7 +154,7 @@
 
         });
     }
-    
+
     function fn_STOWaybillErrorList() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -167,7 +167,7 @@
 
         });
     }
-    
+
     function fn_STOAPI() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -178,7 +178,7 @@
 
         });
     }
-    
+
     function fn_UpdateShipping() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -282,6 +282,17 @@
         debugger;
         $("#overlay").fadeIn(500);
         $.get("/UploadExcel/CourierNameUpload", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+    function fn_TrackingLink() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/TrackingLinkUpload", {}).done(function (data) {
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
@@ -409,7 +420,7 @@
             </div>
 
         </div>
-        
+
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReversePickUp()">
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
@@ -474,6 +485,16 @@
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
                     <p>Courier List Upload</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TrackingLink()">
+            <div class="card text-white mb-4 text-center pointer">
+                <div class="card-body tile_list">
+                    <p>Tracking Link Mapping</p>
                 </div>
             </div>
 
