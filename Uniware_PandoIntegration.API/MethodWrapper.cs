@@ -216,6 +216,7 @@ namespace Uniware_PandoIntegration.API
                         sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
                         sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
                         sitem.Source = Instance;
+                        sitem.shippingPackageStatus = details.saleOrderDTO.saleOrderItems[l].shippingPackageStatus;
 
                         //saleOrderItems.Add(sitem);
                         parentList.saleOrderItems.Add(sitem);

@@ -218,6 +218,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtslesorder.Columns.Add("facilityCode");
                 dtslesorder.Columns.Add("shippingAddressId");
                 dtslesorder.Columns.Add("Instance");
+                dtslesorder.Columns.Add("ShippingPackageStatus");
 
                 for (int l = 0; l < sitems.Count; l++)
                 {
@@ -232,6 +233,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsalesorder["facilityCode"] = sitems[l].facilityCode;
                     drsalesorder["shippingAddressId"] = sitems[l].shippingAddressId;
                     drsalesorder["Instance"] = sitems[l].Source;
+                    drsalesorder["ShippingPackageStatus"] = sitems[l].shippingPackageStatus;
                     dtslesorder.Rows.Add(drsalesorder);
                 }
                 res = SPWrapper.InsertsalesorderItems(dtslesorder);

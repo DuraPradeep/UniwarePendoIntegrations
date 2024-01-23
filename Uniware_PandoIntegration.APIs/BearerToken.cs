@@ -216,11 +216,14 @@ namespace Uniware_PandoIntegration.APIs
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess=true;
                     return serviceResponse;
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+
                     //GetCodeDetails(Code, Token);
                 }
             }
