@@ -16,6 +16,7 @@ using System.Runtime.Remoting.Channels;
 using System.Data;
 using System.Configuration;
 using System.IO;
+using Superpower.Parsers;
 
 namespace Uniware_PandoIntegration.APIs
 {
@@ -400,24 +401,48 @@ namespace Uniware_PandoIntegration.APIs
 
         }
 
-        public async Task<ServiceResponse<string>> ReturnOrderGetCode(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> ReturnOrderGetCode(string Details, string Token, string Servertype, string Instance, string FacilityCode)
         {
-
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-
                 CreateLog("Return Order API Search Request" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
+
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                    
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/return/search");
+
+                    }
                 }
-                else if (ServerType.ToLower() == "prod")
+                else if (Servertype.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {                   
+                        request = new HttpRequestMessage(HttpMethod.Post, " https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/return/search");
+
+                    }
                 }
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/search");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                //}
 
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -446,26 +471,52 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> ReturnOrderGet(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> ReturnOrderGet(string Details, string Token, string Servertype, string FacilityCode,string Instance)
         {
-
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-
                 CreateLog("Return Order API Get Request" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
-                {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/get");
 
-                }
-                else if (ServerType.ToLower() == "prod")
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {                    
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/return/get");
 
+                    }
                 }
+                else if (Servertype.ToLower() == "prod")
+                {
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                    
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/return/get");
+
+                    }
+                }
+
+
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/get");
+
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+
+                //}
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
@@ -569,7 +620,7 @@ namespace Uniware_PandoIntegration.APIs
         //    return serviceResponse;
         //}
 
-        public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token, string Servertype, string FacilityCode, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
@@ -577,14 +628,39 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                    
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+
+                    }
                 }
-                else if (ServerType.ToLower() == "prod")
+                else if (Servertype.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {                    
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/purchase/gatepass/search");
+
+                    }
                 }
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                //}
                 //var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -611,7 +687,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> FetchingGetPassElements(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> FetchingGetPassElements(string Details, string Token, string Servertype, string FacilityCode,string Instance)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -620,14 +696,39 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
+
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {                    
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+
+                    }
                 }
-                else if (ServerType.ToLower() == "prod")
+                else if (Servertype.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {                    
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/purchase/gatepass/get");
+
+                    }
                 }
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                //}
                 //var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);

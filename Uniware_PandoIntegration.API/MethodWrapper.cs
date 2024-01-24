@@ -542,7 +542,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
-            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim());
+            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim(),Instance);
             if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -573,7 +573,7 @@ namespace Uniware_PandoIntegration.API
         public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.ReturnOrderGet(jdetail, token, ServerType, FacilityCode);
+            var list = _Token.ReturnOrderGet(jdetail, token, ServerType, FacilityCode, Instance);
             RootReturnorderAPI rootReturnorderAPI = new RootReturnorderAPI();
             rootReturnorderAPI.returnAddressDetailsList = new List<ReturnAddressDetailsList>();
             rootReturnorderAPI.returnSaleOrderItems = new List<ReturnSaleOrderItem>();
@@ -707,7 +707,7 @@ namespace Uniware_PandoIntegration.API
         public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
+            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode,Instance);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
             Log.Information("STO WayBill response: " + list.Result.ObjectParam);
@@ -746,7 +746,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             Log.Information("STO WayBill Elements: request " + jdetail);
-            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode);
+            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode,instance);
             Log.Information("STO WayBill Elements response " + list.Result.ObjectParam);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
@@ -878,49 +878,49 @@ namespace Uniware_PandoIntegration.API
             }
             return ResStatus;
         }
-        public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
-        {
-            int Lcheckcount = checkcount;
-            ServiceResponse<string> response = new ServiceResponse<string>();
-            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
-            Element rootReturnorderAPI = new Element();
-            List<Element> listcode = new List<Element>();
-            Log.Information("STO APi response: " + list.Result.ObjectParam);
-            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+        //public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
+        //{
+        //    int Lcheckcount = checkcount;
+        //    ServiceResponse<string> response = new ServiceResponse<string>();
+        //    var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
+        //    Element rootReturnorderAPI = new Element();
+        //    List<Element> listcode = new List<Element>();
+        //    Log.Information("STO APi response: " + list.Result.ObjectParam);
+        //    List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
 
-            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
-            {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    STOAPIGatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode, Instance);
-                }
-                else
-                {
-                    ObjBusinessLayer.STOAPIErrorCodes(list.Result.ObjectParam);
-                    rootReturnorderAPI = null;
-                }
-            }
-            else
-            {
-                var Dlist = JsonConvert.DeserializeObject<STOGatePass>(list.Result.ObjectParam);
-                for (int i = 0; i < Dlist.elements.Count; i++)
-                {
-                    Element code = new Element();
-                    code.code = Dlist.elements[i].code;
-                    code.source = Instance;
-                    listcode.Add(code);
-                }
-            }
+        //    if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+        //    {
+        //        if (Lcheckcount != 3)
+        //        {
+        //            Thread.Sleep(3000);
+        //            Lcheckcount += 1;
+        //            STOAPIGatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode, Instance);
+        //        }
+        //        else
+        //        {
+        //            ObjBusinessLayer.STOAPIErrorCodes(list.Result.ObjectParam);
+        //            rootReturnorderAPI = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var Dlist = JsonConvert.DeserializeObject<STOGatePass>(list.Result.ObjectParam);
+        //        for (int i = 0; i < Dlist.elements.Count; i++)
+        //        {
+        //            Element code = new Element();
+        //            code.code = Dlist.elements[i].code;
+        //            code.source = Instance;
+        //            listcode.Add(code);
+        //        }
+        //    }
 
-            //return rootReturnorderAPI;
-            return listcode;
-        }
+        //    //return rootReturnorderAPI;
+        //    return listcode;
+        //}
         public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string Facilitycode, string instance)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode);
+            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode,instance);
             Log.Information("STOAPI Response: " + jdetail);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             STOlists STOlists = new STOlists();

@@ -1164,7 +1164,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 Log.Information("STO API Called : " + jsonre + " " + token);
                 foreach (var FacilityCode in Facilities)
                 {
-                    var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
+                    //var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
+                    var res = _MethodWrapper.GatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
                     if (res.Count > 0)
                     {
 
@@ -1238,7 +1239,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 Log.Information("STO API Called : " + jsonre + " " + token);
                 foreach (var FacilityCode in Facilities)
                 {
-                    var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
+                    //var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
+                    var res = _MethodWrapper.GatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
                     if (res.Count > 0)
                     {
 
