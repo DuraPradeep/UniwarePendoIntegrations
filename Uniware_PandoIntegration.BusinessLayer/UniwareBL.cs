@@ -2858,7 +2858,17 @@ namespace Uniware_PandoIntegration.BusinessLayer
         {
             return SPWrapper.GetEnviornmant(Username);
         }
-
+        public void InsertTransaction(string Userid, string Transaction)
+        {
+            try
+            {
+                SPWrapper.InesrtTransaction(Userid, Transaction);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

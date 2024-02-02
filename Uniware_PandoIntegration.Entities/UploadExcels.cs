@@ -17,5 +17,6 @@ namespace Uniware_PandoIntegration.Entities
     {
         public List<UploadExcels> UploadExcels { get; set; }
         public string Enviornment { get; set; }
+        public string Userid { get; set; }
     }
 }

@@ -1957,6 +1957,8 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             _logger.LogInformation("Excel Upload Process.");
             string Servertype = empLists.Enviornment.ToString();
+            string Userid = empLists.Userid;
+            ObjBusinessLayer.InsertTransaction(Userid, "Dispatch Data Upload");
             //string Servertype = iconfiguration["ServerType:type"];
             List<UploadExcels> empList = empLists.UploadExcels;
             string ExecResult = string.Empty;
@@ -2773,7 +2775,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             List<FacilityMaintain> lists = new List<FacilityMaintain>();
             lists = FacilityList.Listoffacility;
-
+            ObjBusinessLayer.InsertTransaction(FacilityList.UserId, "Facility Master Upload");
 
             string Servertype = FacilityList.Enviornment;
             //string Servertype = iconfiguration["ServerType:type"];
@@ -2890,6 +2892,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public ActionResult TruckDetailsUpdate(TruckdetailsMap  TruckDetails)
         {
             string Servertype = TruckDetails.Enviornment;
+            ObjBusinessLayer.InsertTransaction(TruckDetails.Userid, "Truck Details Master Upload");
             //string Servertype = iconfiguration["ServerType:type"];
             List<TruckDetails> trucklist = new List<TruckDetails>();
             trucklist = TruckDetails.TruckDetails;
@@ -2913,7 +2916,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             //string token = HttpContext.Session.GetString("Token");
             string ExecResult = string.Empty;
-
+            ObjBusinessLayer.InsertTransaction(uploadExcels.Userid, "STO Waybill Upload");
             string Servertype = uploadExcels.Enviornment;
             List<UploadExcels> Excels = new List<UploadExcels>();
             Excels = uploadExcels.UploadExcels;
@@ -3089,6 +3092,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             regionlist = ReagonList.RegionMasters;
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = ReagonList.Enviornment;
+            ObjBusinessLayer.InsertTransaction(ReagonList.Userid, "Reagion Master Upload");
 
             _logger.LogInformation($"Reagon Details Master Updated. {JsonConvert.SerializeObject(regionlist)}");
             ExecResult = ObjBusinessLayer.UpdateRegionMaster(regionlist, Servertype);
@@ -3121,6 +3125,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             string ExecResult = string.Empty;
             List<TrackingMaster> MasterList = new List<TrackingMaster>();
             MasterList = TruckDetails.TrackingMasters;
+            ObjBusinessLayer.InsertTransaction(TruckDetails.Userid, "Tracking Status Master Upload");
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = TruckDetails.Enviornment;
 
@@ -3143,6 +3148,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = TruckDetails.Enviornment;
+            ObjBusinessLayer.InsertTransaction(TruckDetails.Userid, "Courier List Upload");
             List<TrackingMaster> trackingMaster = new List<TrackingMaster>();
             trackingMaster = TruckDetails.TrackingMasters;
 
@@ -3166,6 +3172,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = trackingLinkMappings.Enviornment;
+            ObjBusinessLayer.InsertTransaction(trackingLinkMappings.Userid, "Tracking Link Mapping Upload");
             List<TrackingLinkMapping> trackingLinkMapping = new List<TrackingLinkMapping>();
             trackingLinkMapping = trackingLinkMappings.TrackingLinkMappings;
 

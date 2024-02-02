@@ -139,8 +139,10 @@ namespace UniWare_PandoIntegration.Controllers
             int LoginId = Convert.ToInt32(HttpContext.Session.GetString("LoginId"));
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-
-            TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName") + " to the Dashboard!!";
+            if (TempData["Success"] == null)
+            {
+                TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName") + " to the Dashboard!!";
+            }
             serviceResponse1 = ApiControl.Get<ServiceResponse<MenusAccess>, int,string>(LoginId,Enviornment, "UserId", "Enviornment", "Api/Login/GetRoleMenuAccess");
             if (serviceResponse1 == null)
             {

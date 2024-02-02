@@ -4460,6 +4460,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return InstanceName;
         }
+        public static void InesrtTransaction(string Userid,string Transaction)
+        {
+            //bool res;
+            string InstanceName = string.Empty;
+
+            try
+            {
+                using (con = GetConnection())
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_InsertTransaction";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandTimeout = 1000;
+                    com.Parameters.AddWithValue("@UserId", Userid);
+                    com.Parameters.AddWithValue("@TransactionName", Transaction);
+                    con.Open();
+                    //SqlDataReader dr;
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            //return InstanceName;
+        }
     }
 
 

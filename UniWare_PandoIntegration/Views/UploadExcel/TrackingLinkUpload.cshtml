@@ -30,6 +30,17 @@
         window.location.href = url;
     });
 </script>
+
+    @if (TempData["Success"] != null)
+    {
+            <script type="text/javascript" >
+                window.onload = function () {
+                    iqwerty.toast.toast('@TempData["Success"]');
+                };
+    </script>
+
+    }
+
 <style>
     #Tracking_Master {
         position: absolute;

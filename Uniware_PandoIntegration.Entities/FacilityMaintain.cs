@@ -23,5 +23,6 @@ namespace Uniware_PandoIntegration.Entities
     {
         public List<FacilityMaintain> Listoffacility { get; set; }
         public string Enviornment { get; set; }
+        public string UserId { get;  set; }
     }
 }

@@ -142,11 +142,13 @@ namespace UniWare_PandoIntegration.Controllers
                     }
                 //}
                 string Environment = HttpContext.Session.GetString("Environment").ToString();
+                string userid = HttpContext.Session.GetString("LoginId").ToString();
 
                 ApiControl = new ApiOperation(Apibase);
                 MainClass mainClass = new MainClass();
                 mainClass.UploadExcels = empList;
                 mainClass.Enviornment = Environment;
+                mainClass.Userid= userid;
                 var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/UploadExcel");
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
@@ -265,6 +267,7 @@ namespace UniWare_PandoIntegration.Controllers
                 FacilityList facilitylist = new FacilityList();
                 facilitylist.Listoffacility = FacList;
                 facilitylist.Enviornment = HttpContext.Session.GetString("Environment").ToString();
+                facilitylist.UserId = HttpContext.Session.GetString("LoginId").ToString();
 
 
                 var response = ApiControl.Post1<ServiceResponse<string>, FacilityList>(facilitylist, "Api/UniwarePando/FacilityMasterUploads").Trim();
@@ -272,7 +275,9 @@ namespace UniWare_PandoIntegration.Controllers
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
-            return View("~/Views/Home/Dashboard.cshtml");
+            //return View("~/Views/Home/Dashboard.cshtml");
+            return RedirectToAction("Dashboard", "Home");
+
         }
         public ActionResult FacilityMasterDownload()
         {
@@ -534,12 +539,16 @@ namespace UniWare_PandoIntegration.Controllers
                 TruckdetailsMap mainClass = new TruckdetailsMap();
                 mainClass.Enviornment = HttpContext.Session.GetString("Environment").ToString();
                 mainClass.TruckDetails = FacList;
+                mainClass.Userid= HttpContext.Session.GetString("LoginId").ToString();
+
 
 
                 var response = ApiControl.Post1<ServiceResponse<string>, TruckdetailsMap>(mainClass, "Api/UniwarePando/TruckDetailsUpdate").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
-            return View("~/Views/Home/Dashboard.cshtml");
+            //return View("~/Views/Home/Dashboard.cshtml");
+            return RedirectToAction("Dashboard", "Home");
+
         }
 
         public ActionResult STOUpload()
@@ -641,6 +650,8 @@ namespace UniWare_PandoIntegration.Controllers
                 MainClass mainClass = new MainClass();
                 mainClass.Enviornment= HttpContext.Session.GetString("Environment").ToString();
                 mainClass.UploadExcels = empList;
+                mainClass.Userid = HttpContext.Session.GetString("LoginId").ToString();
+
                 var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/STOUpload").Trim();
                 
 
@@ -648,7 +659,9 @@ namespace UniWare_PandoIntegration.Controllers
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
-            return View("~/Views/Home/Dashboard.cshtml");
+            //return View("~/Views/Home/Dashboard.cshtml");
+            return RedirectToAction("Dashboard", "Home");
+
         }
 
         public ActionResult RegionUpload()
@@ -735,12 +748,15 @@ namespace UniWare_PandoIntegration.Controllers
                 RegionMasterMap regionMasterMap = new RegionMasterMap();
                 regionMasterMap.RegionMasters = FacList;
                 regionMasterMap.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                regionMasterMap.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
 
                 var response = ApiControl.Post1<ServiceResponse<string>, RegionMasterMap>(regionMasterMap, "Api/UniwarePando/RegionMasterUpdate").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
-            return View("~/Views/Home/Dashboard.cshtml");
+            //return View("~/Views/Home/Dashboard.cshtml");
+            return RedirectToAction("Dashboard", "Home");
+
         }
         public ActionResult RegionDetailsMasterDownload()
         {
@@ -942,11 +958,15 @@ namespace UniWare_PandoIntegration.Controllers
                 TrackingMasterMapping trackingMasterMapping = new TrackingMasterMapping();
                 trackingMasterMapping.TrackingMasters = FacList;
                 trackingMasterMapping.Enviornment = HttpContext.Session.GetString("Environment").ToString();
+                trackingMasterMapping.Userid = HttpContext.Session.GetString("LoginId").ToString();
+
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/UniwarePando/TrackingStatusMasterUpload").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
-            return View("~/Views/Home/Dashboard.cshtml");
+            //return View("~/Views/Home/Dashboard.cshtml");
+            return RedirectToAction("Dashboard", "Home");
+
         }
         public ActionResult CourierNameUpload()
         {
@@ -1073,11 +1093,15 @@ namespace UniWare_PandoIntegration.Controllers
                 TrackingMasterMapping trackingMasterMapping=new TrackingMasterMapping();
                 trackingMasterMapping.TrackingMasters = FacList;
                 trackingMasterMapping.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                trackingMasterMapping.Userid = HttpContext.Session.GetString("LoginId").ToString();
+
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/UniwarePando/CourierListUpload").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
-            return View("~/Views/Home/Dashboard.cshtml");
+            //return View("~/Views/Home/Dashboard.cshtml");
+            return RedirectToAction("Dashboard", "Home");
+
         }
 
         public ActionResult TrackingLinkUpload()
@@ -1206,11 +1230,15 @@ namespace UniWare_PandoIntegration.Controllers
                 TrackingLinkMappingMap trackingLinkMappingMap = new TrackingLinkMappingMap();
                 trackingLinkMappingMap.TrackingLinkMappings = trackingLinkMappings;
                 trackingLinkMappingMap.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                trackingLinkMappingMap.Userid = HttpContext.Session.GetString("LoginId").ToString();
+
                 ApiControl = new ApiOperation(Apibase);
                 var response = ApiControl.Post1<ServiceResponse<string>, TrackingLinkMappingMap>(trackingLinkMappingMap, "Api/UniwarePando/BulkUploadtrackingMapping").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
-            return View("~/Views/Home/Dashboard.cshtml");
+            //return View("~/Views/UploadExcel/TrackingLinkUpload.cshtml");
+            return RedirectToAction("Dashboard","Home");
+
         }
     }
 }
