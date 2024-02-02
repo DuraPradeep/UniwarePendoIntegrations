@@ -60,6 +60,7 @@ namespace Uniware_PandoIntegration.APIs
 
             };
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response = client.GetAsync(uri + "?" + Key + "=" + id).Result;
             client.Dispose();
             return response.Content.ReadAsAsync<T>().Result;
@@ -127,5 +128,21 @@ namespace Uniware_PandoIntegration.APIs
             client.Dispose();
             return response.Content.ReadAsStringAsync().Result;
         }
+
+
+        public T Get<T, t1>(t1 id, string Key, string uri, string Token)
+        {
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(t_BaseURL),
+
+            };
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+            HttpResponseMessage response = client.GetAsync(uri + "?" + Key + "=" + id).Result;
+            client.Dispose();
+            return response.Content.ReadAsAsync<T>().Result;
+        }
+
+
     }
 }

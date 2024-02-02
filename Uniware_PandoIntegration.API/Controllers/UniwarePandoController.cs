@@ -3181,6 +3181,12 @@ namespace Uniware_PandoIntegration.API.Controllers
             ExecResult = ObjBusinessLayer.UploadTrackingMapping(trackingLinkMapping, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
-
+        //[HttpGet]
+        //public IEnumerable<UserProfile> GetRoleMaster(string Environment)
+        //{
+        //    ObjBusinessLayer = new UniwareBL();
+        //    _logger.LogInformation("Get Role Master at {DT}", DateTime.Now.ToLongTimeString());
+        //    return ObjBusinessLayer.GetRoleMaster(Environment);
+        //}
     }
 }

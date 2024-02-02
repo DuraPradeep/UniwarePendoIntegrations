@@ -1020,6 +1020,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return serviceResponse;
         }
+        public static List<UserProfile> GetRoleMaster(DataSet pds)
+        {
+            ServiceResponse<List<UserProfile>> serviceResponse = new ServiceResponse<List<UserProfile>>();
+            //List<RoleMenuAccess> RoleMenuAccessList = new List<RoleMenuAccess>();
+            List<UserProfile> MenuLists = new List<UserProfile>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    UserProfile uobj = new UserProfile
+                    {
+                        Roleid = Convert.ToInt32(pds.Tables[0].Rows[i]["RoleId"]),
+                         RoleName= pds.Tables[0].Rows[i]["RoleName"].ToString()
+                    };
+
+                    MenuLists.Add(uobj);
+                }
+                
+                //serviceResponse.ObjectParam = MenuLists;
+            }
+            catch (Exception ex)
+            {
+                //serviceResponse.Errcode = 500;
+                //serviceResponse.Errdesc = ex.Message;
+                //serviceResponse.ObjectParam = new List<UserProfile>();
+            }
+            return MenuLists;
+        }
 
     }
 }

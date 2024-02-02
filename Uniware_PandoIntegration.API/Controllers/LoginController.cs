@@ -20,15 +20,28 @@ namespace Uniware_PandoIntegration.API.Controllers
         public ServiceResponse<UserLogin> GetUserNamePassword(string UserName, string Password)
         {
             ObjBusinessLayer = new UniwareBL();
-            _logger.LogInformation("Login time at {DT}", DateTime.Now.ToLongTimeString());
+            _logger.LogInformation("Check Credentials {DT}", DateTime.Now.ToLongTimeString());
             return ObjBusinessLayer.CheckLoginCredentials(UserName, Password);
         }
         [HttpGet]
         public ServiceResponse<MenusAccess> GetRoleMenuAccess(int UserId,string Enviornment)
         {
             ObjBusinessLayer = new UniwareBL();
-            _logger.LogInformation("Login time at {DT}", DateTime.Now.ToLongTimeString());
+            _logger.LogInformation("Get Role Menu Access {DT}", DateTime.Now.ToLongTimeString());
             return ObjBusinessLayer.GetRoleMenuAccess(UserId,Enviornment);
+        }
+        [HttpGet]
+        public IEnumerable<UserProfile> GetRoleMaster(string Environment)
+        {
+            ObjBusinessLayer = new UniwareBL();
+            _logger.LogInformation("Get Role Master at {DT}", DateTime.Now.ToLongTimeString());
+            return ObjBusinessLayer.GetRoleMaster(Environment);
+        }
+        [HttpPost]
+        public int SaveUser(UserProfile userLogin)
+        {
+            ObjBusinessLayer=new UniwareBL();
+            return ObjBusinessLayer.SaveUser(userLogin);
         }
     }
 }

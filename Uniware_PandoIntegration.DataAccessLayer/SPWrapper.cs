@@ -4488,6 +4488,102 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             //return InstanceName;
         }
+
+        public static DataSet GetRoleMaster(string Enviornment)
+        {
+            //con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetRoleMaster"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
+
+        public static int SaveGatePass(UserProfile userProfile)
+        {
+            //con = GetConnection();
+            com = new SqlCommand();
+            int getid=0;
+
+            //xMLCreator = new XMLCreator();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = null;
+            DataTable dtConfig = new DataTable();
+            try
+            {
+                if (userProfile.Environment== "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                com.Connection = con;
+                com.CommandType = CommandType.StoredProcedure;
+                com.CommandText = "Pro_SaveUser";
+                com.CommandTimeout = 0;
+                com.Parameters.AddWithValue("@username", userProfile.Username);
+                com.Parameters.AddWithValue("@Password", userProfile.Password);
+                com.Parameters.AddWithValue("@Firstname", userProfile.FirstName);
+                com.Parameters.AddWithValue("@Lastname", userProfile.Lastname);
+                com.Parameters.AddWithValue("@Email", userProfile.Email);
+                com.Parameters.AddWithValue("@Roleid", userProfile.Roleid);
+                com.Parameters.AddWithValue("@MobileNo", userProfile.MobileNumber);
+                com.Parameters.AddWithValue("@Environment", userProfile.Environment);
+                con.Open();
+                //da = new SqlDataAdapter(com);
+                //da.Fill(ds);
+                getid=com.ExecuteNonQuery();
+
+            }
+            catch (Exception ex)
+            {
+                //log.Error($"ServiceResponse Object {JsonConvert.SerializeObject(ex)}");
+                // LoggingAdapter.WriteLog("Insert Country Details" + ex.Message + Environment.NewLine);
+            }
+            finally
+            {
+                con.Close();
+                con = null;
+            }
+
+
+
+            return getid;
+        }
+
     }
 
 

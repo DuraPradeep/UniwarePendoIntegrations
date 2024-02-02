@@ -2869,6 +2869,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
+        public List<UserProfile> GetRoleMaster(string Enviornment)
+        {
+            return Mapper.GetRoleMaster(SPWrapper.GetRoleMaster(Enviornment));
+        }
+        public int SaveUser(UserProfile User)
+        {
+            return SPWrapper.SaveGatePass(User);
+        }
     }
 }
 
