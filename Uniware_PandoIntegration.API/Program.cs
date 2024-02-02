@@ -15,6 +15,9 @@ using Uniware_PandoIntegration.API.Folder;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
+//using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
+using Uniware_PandoIntegration.API.Controllers;
+using Uniware_PandoIntegration.API.ActionFilter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +72,15 @@ builder.Services.AddAuthentication(x =>
     };
  
 });
+builder.Services.AddControllers(config =>
+{
+    config.Filters.Add(new ActionFilterExample());
+});
+
+builder.Services.AddScoped<ActionFilterExample>();
+//builder.Services.AddScoped<UniwarePandoController>();
+
+
 builder.Services.AddControllers();
 builder.Services.AddSession();
 builder.Services.AddMvc()

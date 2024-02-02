@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Bibliography;
 using ExcelDataReader;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.CodeAnalysis;
 using System.Data;
 using System.Drawing.Printing;
+using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.Arm;
 using Uniware_PandoIntegration.APIs;
@@ -82,67 +84,70 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     cloned.ImportRow(row);
                 }
-                DataTable SO = new DataTable();
-                DataTable RO = new DataTable();
-                DataTable STO = new DataTable();
-                SO.Columns.Add("Code");
-                SO.Columns.Add("Type");
-                SO.Columns.Add("Instance");
-                RO.Columns.Add("Code");
-                RO.Columns.Add("Type");
-                RO.Columns.Add("Instance");
-                STO.Columns.Add("Code");
-                STO.Columns.Add("Type");
-                STO.Columns.Add("Instance");
+                //DataTable SO = new DataTable();
+                //DataTable RO = new DataTable();
+                //DataTable STO = new DataTable();
+                //SO.Columns.Add("Code");
+                //SO.Columns.Add("Type");
+                //SO.Columns.Add("Instance");
+                //RO.Columns.Add("Code");
+                //RO.Columns.Add("Type");
+                //RO.Columns.Add("Instance");
+                //STO.Columns.Add("Code");
+                //STO.Columns.Add("Type");
+                //STO.Columns.Add("Instance");
 
-                for (var i = 0; i < cloned.Rows.Count; i++)
-                {
-                    if (cloned.Rows[i]["FilterType"].Equals("SO"))
-                    {
-                        DataRow SOrow = SO.NewRow();
-                        SOrow["Code"] = cloned.Rows[i]["Code"];
-                        SOrow["Type"] = cloned.Rows[i]["FilterType"];
-                        SOrow["Instance"] = cloned.Rows[i]["Instance"];
+                //for (var i = 0; i < cloned.Rows.Count; i++)
+                //{
+                //    if (cloned.Rows[i]["FilterType"].Equals("SO"))
+                //    {
+                //        DataRow SOrow = SO.NewRow();
+                //        SOrow["Code"] = cloned.Rows[i]["Code"];
+                //        SOrow["Type"] = cloned.Rows[i]["FilterType"];
+                //        SOrow["Instance"] = cloned.Rows[i]["Instance"];
 
-                        SO.Rows.Add(SOrow);
-                    }
-                    else if (cloned.Rows[i]["FilterType"].Equals("RO"))
-                    {
-                        DataRow ROrow = RO.NewRow();
-                        ROrow["Code"] = cloned.Rows[i]["Code"];
-                        ROrow["Type"] = cloned.Rows[i]["FilterType"];
-                        ROrow["Instance"] = cloned.Rows[i]["Instance"];
-                        RO.Rows.Add(ROrow);
-                    }
-                    else if (cloned.Rows[i]["FilterType"].Equals("STO"))
-                    {
-                        DataRow STOrow = STO.NewRow();
-                        STOrow["Code"] = cloned.Rows[i]["Code"];
-                        STOrow["Type"] = cloned.Rows[i]["FilterType"];
-                        STOrow["Instance"] = cloned.Rows[i]["Instance"];
-                        STO.Rows.Add(STOrow);
-                    }
-                }
-                DataSet dataSet = new DataSet();
-                dataSet.Tables.Add(STO);
-                dataSet.Tables.Add(SO);
-                dataSet.Tables.Add(RO);
+                //        SO.Rows.Add(SOrow);
+                //    }
+                //    else if (cloned.Rows[i]["FilterType"].Equals("RO"))
+                //    {
+                //        DataRow ROrow = RO.NewRow();
+                //        ROrow["Code"] = cloned.Rows[i]["Code"];
+                //        ROrow["Type"] = cloned.Rows[i]["FilterType"];
+                //        ROrow["Instance"] = cloned.Rows[i]["Instance"];
+                //        RO.Rows.Add(ROrow);
+                //    }
+                //    else if (cloned.Rows[i]["FilterType"].Equals("STO"))
+                //    {
+                //        DataRow STOrow = STO.NewRow();
+                //        STOrow["Code"] = cloned.Rows[i]["Code"];
+                //        STOrow["Type"] = cloned.Rows[i]["FilterType"];
+                //        STOrow["Instance"] = cloned.Rows[i]["Instance"];
+                //        STO.Rows.Add(STOrow);
+                //    }
+                //}
+                //DataSet dataSet = new DataSet();
+                //dataSet.Tables.Add(STO);
+                //dataSet.Tables.Add(SO);
+                //dataSet.Tables.Add(RO);
 
                 //DataSet ds = new DataSet();
                 //UploadExcels objEmp = new UploadExcels();
                 List<UploadExcels> empList = new List<UploadExcels>();
-                int table = Convert.ToInt32(dataSet.Tables.Count);
-                for (int i = 0; i < table; i++)
-                {
-                    foreach (DataRow dr in dataSet.Tables[i].Rows)
+                //int table = Convert.ToInt32(dataSet.Tables.Count);
+                //for (int i = 0; i < table; i++)
+                //{
+                    foreach (DataRow dr in cloned.Rows)
                     {
-                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["Type"]), Instance = Convert.ToString(dr["Instance"]) });
+                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["FilterType"]), Instance = Convert.ToString(dr["Instance"]) });
                     }
-                }
-                ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<UploadExcels>>(empList, "Api/UniwarePando/UploadExcel");
+                //}
+                string Environment = HttpContext.Session.GetString("Environment").ToString();
 
-                //TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                ApiControl = new ApiOperation(Apibase);
+                MainClass mainClass = new MainClass();
+                mainClass.UploadExcels = empList;
+                mainClass.Enviornment = Environment;
+                var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/UploadExcel");
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
@@ -210,54 +215,59 @@ namespace UniWare_PandoIntegration.Controllers
                     cloned.ImportRow(row);
                 }
 
-                DataTable Facility = new DataTable();
+                //DataTable Facility = new DataTable();
 
-                Facility.Columns.Add("FacilityCode");
-                Facility.Columns.Add("FacilityName");
-                Facility.Columns.Add("Address");
-                Facility.Columns.Add("City");
-                Facility.Columns.Add("State");
-                Facility.Columns.Add("Pincode");
-                Facility.Columns.Add("Region");
-                Facility.Columns.Add("Mobile_number");
-                Facility.Columns.Add("email");
-                Facility.Columns.Add("Instance");
-                for (var i = 0; i < cloned.Rows.Count; i++)
-                {
-                    DataRow SOrow = Facility.NewRow();
-                    SOrow["FacilityCode"] = cloned.Rows[i]["Facility Code"];
-                    SOrow["FacilityName"] = cloned.Rows[i]["Facility Name"];
-                    SOrow["Address"] = cloned.Rows[i]["Address"];
-                    SOrow["City"] = cloned.Rows[i]["City"];
-                    SOrow["State"] = cloned.Rows[i]["State"];
-                    SOrow["Pincode"] = cloned.Rows[i]["Pin Code"];
-                    SOrow["Region"] = cloned.Rows[i]["Region"];
-                    SOrow["Mobile_number"] = cloned.Rows[i]["Mobile"];
-                    SOrow["email"] = cloned.Rows[i]["Email"];
-                    SOrow["Instance"] = cloned.Rows[i]["Instance"];
-                    Facility.Rows.Add(SOrow);
-                }
-                DataTable dataSet = new DataTable();
-                dataSet = Facility;
+                //Facility.Columns.Add("FacilityCode");
+                //Facility.Columns.Add("FacilityName");
+                //Facility.Columns.Add("Address");
+                //Facility.Columns.Add("City");
+                //Facility.Columns.Add("State");
+                //Facility.Columns.Add("Pincode");
+                //Facility.Columns.Add("Region");
+                //Facility.Columns.Add("Mobile_number");
+                //Facility.Columns.Add("email");
+                //Facility.Columns.Add("Instance");
+                //for (var i = 0; i < cloned.Rows.Count; i++)
+                //{
+                //    DataRow SOrow = Facility.NewRow();
+                //    SOrow["FacilityCode"] = cloned.Rows[i]["Facility Code"];
+                //    SOrow["FacilityName"] = cloned.Rows[i]["Facility Name"];
+                //    SOrow["Address"] = cloned.Rows[i]["Address"];
+                //    SOrow["City"] = cloned.Rows[i]["City"];
+                //    SOrow["State"] = cloned.Rows[i]["State"];
+                //    SOrow["Pincode"] = cloned.Rows[i]["Pin Code"];
+                //    SOrow["Region"] = cloned.Rows[i]["Region"];
+                //    SOrow["Mobile_number"] = cloned.Rows[i]["Mobile"];
+                //    SOrow["email"] = cloned.Rows[i]["Email"];
+                //    SOrow["Instance"] = cloned.Rows[i]["Instance"];
+                //    Facility.Rows.Add(SOrow);
+                //}
+                //DataTable dataSet = new DataTable();
+                //dataSet = Facility;
                 List<FacilityMaintain> FacList = new List<FacilityMaintain>();
-                foreach (DataRow dr in dataSet.Rows)
+                foreach (DataRow dr in cloned.Rows)
                 {
                     FacList.Add(new FacilityMaintain
                     {
-                        FacilityCode = Convert.ToString(dr["FacilityCode"]),
-                        FacilityName = Convert.ToString(dr["FacilityName"]),
+                        FacilityCode = Convert.ToString(dr["Facility Code"]),
+                        FacilityName = Convert.ToString(dr["Facility Name"]),
                         Address = Convert.ToString(dr["Address"]),
                         City = Convert.ToString(dr["City"]),
                         State = Convert.ToString(dr["State"]),
-                        Pincode = Convert.ToString(dr["Pincode"]),
+                        Pincode = Convert.ToString(dr["Pin Code"]),
                         Region = Convert.ToString(dr["Region"]),
-                        Mobile = Convert.ToString(dr["Mobile_number"]),
+                        Mobile = Convert.ToString(dr["Mobile"]),
                         Email = Convert.ToString(dr["email"]),
                         Instance = Convert.ToString(dr["Instance"])
                     });
                 }
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<FacilityMaintain>>(FacList, "Api/UniwarePando/FacilityMasterUploads").Trim();
+                FacilityList facilitylist = new FacilityList();
+                facilitylist.Listoffacility = FacList;
+                facilitylist.Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+
+                var response = ApiControl.Post1<ServiceResponse<string>, FacilityList>(facilitylist, "Api/UniwarePando/FacilityMasterUploads").Trim();
 
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
@@ -268,7 +278,11 @@ namespace UniWare_PandoIntegration.Controllers
         {
 
             ApiControl = new ApiOperation(Apibase);
-            ListcustomerModels = ApiControl.Get<List<FacilityMaintain>>("api/UniwarePando/GetFacilityMaster_Details");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+             ListcustomerModels = ApiControl.Get<List<FacilityMaintain>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetFacilityMaster_Details");
+
+
+            //ListcustomerModels = ApiControl.Get<List<FacilityMaintain>>("api/UniwarePando/GetFacilityMaster_Details");
 
             var listdata = ListcustomerModels;
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -381,12 +395,18 @@ namespace UniWare_PandoIntegration.Controllers
         {
             return View("~/Views/UploadExcel/TruckDetailsUpload.cshtml");
         }
+
+
         public ActionResult TruckDetailsMasterDownload()
         {
 
             ApiControl = new ApiOperation(Apibase);
             List<TruckDetails> truckDetails = new List<TruckDetails>();
-            var listdata = ApiControl.Get<List<TruckDetails>>("api/UniwarePando/GetTruckMaster_Details");
+
+
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            var listdata = ApiControl.Get<List<TruckDetails>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetTruckMaster_Details");
+            //var listdata = ApiControl.Get<List<TruckDetails>>("api/UniwarePando/GetTruckMaster_Details");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "Truck Detals Master.xlsx";
@@ -486,31 +506,37 @@ namespace UniWare_PandoIntegration.Controllers
                     cloned.ImportRow(row);
                 }
 
-                DataTable truckdetails = new DataTable();
+                //DataTable truckdetails = new DataTable();
 
-                truckdetails.Columns.Add("Details");
-                truckdetails.Columns.Add("Instance");
+                //truckdetails.Columns.Add("Details");
+                //truckdetails.Columns.Add("Instance");
 
-                for (var i = 0; i < cloned.Rows.Count; i++)
-                {
-                    DataRow SOrow = truckdetails.NewRow();
-                    SOrow["Details"] = cloned.Rows[i]["Truck Details"];
-                    SOrow["Instance"] = cloned.Rows[i]["Instance"];
-                    truckdetails.Rows.Add(SOrow);
-                }
-                DataTable dataSet = new DataTable();
-                dataSet = truckdetails;
+                //for (var i = 0; i < cloned.Rows.Count; i++)
+                //{
+                //    DataRow SOrow = truckdetails.NewRow();
+                //    SOrow["Details"] = cloned.Rows[i]["Truck Details"];
+                //    SOrow["Instance"] = cloned.Rows[i]["Instance"];
+                //    truckdetails.Rows.Add(SOrow);
+                //}
+                //DataTable dataSet = new DataTable();
+                //dataSet = truckdetails;
                 List<TruckDetails> FacList = new List<TruckDetails>();
-                foreach (DataRow dr in dataSet.Rows)
+                foreach (DataRow dr in cloned.Rows)
                 {
                     FacList.Add(new TruckDetails
                     {
-                        Details = Convert.ToString(dr["Details"]),
+                        Details = Convert.ToString(dr["Truck Details"]),
                         Instance = Convert.ToString(dr["Instance"])
                     });
                 }
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<TruckDetails>>(FacList, "Api/UniwarePando/TruckDetailsUpdate").Trim();
+
+                TruckdetailsMap mainClass = new TruckdetailsMap();
+                mainClass.Enviornment = HttpContext.Session.GetString("Environment").ToString();
+                mainClass.TruckDetails = FacList;
+
+
+                var response = ApiControl.Post1<ServiceResponse<string>, TruckdetailsMap>(mainClass, "Api/UniwarePando/TruckDetailsUpdate").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");
@@ -573,46 +599,51 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     cloned.ImportRow(row);
                 }
-                DataTable STO = new DataTable();
+                //DataTable STO = new DataTable();
 
-                STO.Columns.Add("Code");
-                STO.Columns.Add("Type");
-                STO.Columns.Add("Instance");
+                //STO.Columns.Add("Code");
+                //STO.Columns.Add("Type");
+                //STO.Columns.Add("Instance");
 
+                ////for (var i = 0; i < cloned.Rows.Count; i++)
+                ////{
+                ////    if (cloned.Rows[i]["FilterType"].Equals("SO"))
+                ////    {
+                ////        DataRow SOrow = STO.NewRow();
+                ////        SOrow["Code"] = cloned.Rows[i]["Code"];
+                ////        SOrow["Type"] = cloned.Rows[i]["FilterType"];
+                ////        STO.Rows.Add(SOrow);
+                ////    } 
+
+                ////}
                 //for (var i = 0; i < cloned.Rows.Count; i++)
                 //{
-                //    if (cloned.Rows[i]["FilterType"].Equals("SO"))
-                //    {
-                //        DataRow SOrow = STO.NewRow();
-                //        SOrow["Code"] = cloned.Rows[i]["Code"];
-                //        SOrow["Type"] = cloned.Rows[i]["FilterType"];
-                //        STO.Rows.Add(SOrow);
-                //    } 
-
+                //    DataRow SOrow = STO.NewRow();
+                //    SOrow["Code"] = cloned.Rows[i]["Code"];
+                //    SOrow["Type"] = cloned.Rows[i]["FilterType"];
+                //    SOrow["Instance"] = cloned.Rows[i]["Instance"];
+                //    STO.Rows.Add(SOrow);
                 //}
-                for (var i = 0; i < cloned.Rows.Count; i++)
-                {
-                    DataRow SOrow = STO.NewRow();
-                    SOrow["Code"] = cloned.Rows[i]["Code"];
-                    SOrow["Type"] = cloned.Rows[i]["FilterType"];
-                    SOrow["Instance"] = cloned.Rows[i]["Instance"];
-                    STO.Rows.Add(SOrow);
-                }
 
 
-                DataSet dataSet = new DataSet();
-                dataSet.Tables.Add(STO);
+                //DataSet dataSet = new DataSet();
+                //dataSet.Tables.Add(STO);
                 List<UploadExcels> empList = new List<UploadExcels>();
-                int table = Convert.ToInt32(dataSet.Tables.Count);
-                for (int i = 0; i < table; i++)
-                {
-                    foreach (DataRow dr in dataSet.Tables[i].Rows)
+                //int table = Convert.ToInt32(dataSet.Tables.Count);
+                //for (int i = 0; i < table; i++)
+                //{
+                    foreach (DataRow dr in cloned.Rows)
                     {
-                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["Type"]), Instance = Convert.ToString(dr["Instance"]) });
+                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["FilterType"]), Instance = Convert.ToString(dr["Instance"]) });
                     }
-                }
+                //}
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<UploadExcels>>(empList, "Api/UniwarePando/STOUpload").Trim();
+                MainClass mainClass = new MainClass();
+                mainClass.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                mainClass.UploadExcels = empList;
+                var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/STOUpload").Trim();
+                
+
 
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
@@ -677,22 +708,22 @@ namespace UniWare_PandoIntegration.Controllers
                     cloned.ImportRow(row);
                 }
 
-                DataTable truckdetails = new DataTable();
+                //DataTable truckdetails = new DataTable();
 
-                truckdetails.Columns.Add("State");
-                truckdetails.Columns.Add("Region");
+                //truckdetails.Columns.Add("State");
+                //truckdetails.Columns.Add("Region");
 
-                for (var i = 0; i < cloned.Rows.Count; i++)
-                {
-                    DataRow SOrow = truckdetails.NewRow();
-                    SOrow["State"] = cloned.Rows[i]["State"];
-                    SOrow["Region"] = cloned.Rows[i]["Region"];
-                    truckdetails.Rows.Add(SOrow);
-                }
-                DataTable dataSet = new DataTable();
-                dataSet = truckdetails;
+                //for (var i = 0; i < cloned.Rows.Count; i++)
+                //{
+                //    DataRow SOrow = truckdetails.NewRow();
+                //    SOrow["State"] = cloned.Rows[i]["State"];
+                //    SOrow["Region"] = cloned.Rows[i]["Region"];
+                //    truckdetails.Rows.Add(SOrow);
+                //}
+                //DataTable dataSet = new DataTable();
+                //dataSet = truckdetails;
                 List<RegionMaster> FacList = new List<RegionMaster>();
-                foreach (DataRow dr in dataSet.Rows)
+                foreach (DataRow dr in cloned.Rows)
                 {
                     FacList.Add(new RegionMaster
                     {
@@ -701,7 +732,12 @@ namespace UniWare_PandoIntegration.Controllers
                     });
                 }
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<RegionMaster>>(FacList, "Api/UniwarePando/RegionMasterUpdate").Trim();
+                RegionMasterMap regionMasterMap = new RegionMasterMap();
+                regionMasterMap.RegionMasters = FacList;
+                regionMasterMap.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+
+
+                var response = ApiControl.Post1<ServiceResponse<string>, RegionMasterMap>(regionMasterMap, "Api/UniwarePando/RegionMasterUpdate").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");
@@ -710,8 +746,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
 
             ApiControl = new ApiOperation(Apibase);
-
-            var listdata = ApiControl.Get<List<RegionMaster>>("api/UniwarePando/GetReagonMaster_Details");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            var listdata = ApiControl.Get<List<RegionMaster>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetReagonMaster_Details");
+            //var listdata = ApiControl.Get<List<RegionMaster>>("api/UniwarePando/GetReagonMaster_Details");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "RegionMaster.xlsx";
@@ -767,7 +804,9 @@ namespace UniWare_PandoIntegration.Controllers
 
             ApiControl = new ApiOperation(Apibase);
 
-            var listdata = ApiControl.Get<List<TrackingMaster>>("api/UniwarePando/GetTrackingMasterDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            var listdata = ApiControl.Get<List<TrackingMaster>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetTrackingMasterDetails");
+            //var listdata = ApiControl.Get<List<TrackingMaster>>("api/UniwarePando/GetTrackingMasterDetails");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "TrackingStatusMaster.xlsx";
@@ -875,34 +914,36 @@ namespace UniWare_PandoIntegration.Controllers
                     cloned.ImportRow(row);
                 }
 
-                DataTable truckdetails = new DataTable();
+                //DataTable truckdetails = new DataTable();
+                //truckdetails.Columns.Add("PandoStatus");
+                //truckdetails.Columns.Add("UniwareStatus");
+                //truckdetails.Columns.Add("CourierName");
 
-                truckdetails.Columns.Add("PandoStatus");
-                truckdetails.Columns.Add("UniwareStatus");
-                truckdetails.Columns.Add("CourierName");
-
-                for (var i = 0; i < cloned.Rows.Count; i++)
-                {
-                    DataRow SOrow = truckdetails.NewRow();
-                    SOrow["PandoStatus"] = cloned.Rows[i]["Pando Status"];
-                    SOrow["UniwareStatus"] = cloned.Rows[i]["Uniware Status"];
-                    SOrow["CourierName"] = cloned.Rows[i]["Courier Name"];
-                    truckdetails.Rows.Add(SOrow);
-                }
-                DataTable dataSet = new DataTable();
-                dataSet = truckdetails;
+                //for (var i = 0; i < cloned.Rows.Count; i++)
+                //{
+                //    DataRow SOrow = truckdetails.NewRow();
+                //    SOrow["PandoStatus"] = cloned.Rows[i]["Pando Status"];
+                //    SOrow["UniwareStatus"] = cloned.Rows[i]["Uniware Status"];
+                //    SOrow["CourierName"] = cloned.Rows[i]["Courier Name"];
+                //    truckdetails.Rows.Add(SOrow);
+                //}
+                //DataTable dataSet = new DataTable();
+                //dataSet = truckdetails;
                 List<TrackingMaster> FacList = new List<TrackingMaster>();
-                foreach (DataRow dr in dataSet.Rows)
+                foreach (DataRow dr in cloned.Rows)
                 {
                     FacList.Add(new TrackingMaster
                     {
-                        PandoStatus = Convert.ToString(dr["PandoStatus"]),
-                        UniwareStatus = Convert.ToString(dr["UniwareStatus"]),
-                        CourierName = Convert.ToString(dr["CourierName"])
+                        PandoStatus = Convert.ToString(dr["Pando Status"]),
+                        UniwareStatus = Convert.ToString(dr["Uniware Status"]),
+                        CourierName = Convert.ToString(dr["Courier Name"])
                     });
                 }
+                TrackingMasterMapping trackingMasterMapping = new TrackingMasterMapping();
+                trackingMasterMapping.TrackingMasters = FacList;
+                trackingMasterMapping.Enviornment = HttpContext.Session.GetString("Environment").ToString();
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<TrackingMaster>>(FacList, "Api/UniwarePando/TrackingStatusMasterUpload").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/UniwarePando/TrackingStatusMasterUpload").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");
@@ -915,8 +956,10 @@ namespace UniWare_PandoIntegration.Controllers
         {
 
             ApiControl = new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            var listdata = ApiControl.Get<List<TrackingMaster>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetCourierNameDetails");
 
-            var listdata = ApiControl.Get<List<TrackingMaster>>("api/UniwarePando/GetCourierNameDetails");
+            //var listdata = ApiControl.Get<List<TrackingMaster>>("api/UniwarePando/GetCourierNameDetails");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "Courier List.xlsx";
@@ -1009,30 +1052,29 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     cloned.ImportRow(row);
                 }
+                //truckdetails.Columns.Add("CourierName");
 
-                DataTable truckdetails = new DataTable();
-
-
-                truckdetails.Columns.Add("CourierName");
-
-                for (var i = 0; i < cloned.Rows.Count; i++)
-                {
-                    DataRow SOrow = truckdetails.NewRow();
-                    SOrow["CourierName"] = cloned.Rows[i]["Courier Name"];
-                    truckdetails.Rows.Add(SOrow);
-                }
-                DataTable dataSet = new DataTable();
-                dataSet = truckdetails;
+                //for (var i = 0; i < cloned.Rows.Count; i++)
+                //{
+                //    DataRow SOrow = truckdetails.NewRow();
+                //    SOrow["CourierName"] = cloned.Rows[i]["Courier Name"];
+                //    truckdetails.Rows.Add(SOrow);
+                //}
+                //DataTable dataSet = new DataTable();
+                //dataSet = truckdetails;
                 List<TrackingMaster> FacList = new List<TrackingMaster>();
-                foreach (DataRow dr in dataSet.Rows)
+                foreach (DataRow dr in cloned.Rows)
                 {
                     FacList.Add(new TrackingMaster
                     {
-                        CourierName = Convert.ToString(dr["CourierName"])
+                        CourierName = Convert.ToString(dr["Courier Name"])
                     });
                 }
+                TrackingMasterMapping trackingMasterMapping=new TrackingMasterMapping();
+                trackingMasterMapping.TrackingMasters = FacList;
+                trackingMasterMapping.Enviornment= HttpContext.Session.GetString("Environment").ToString();
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<TrackingMaster>>(FacList, "Api/UniwarePando/CourierListUpload").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/UniwarePando/CourierListUpload").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");
@@ -1046,8 +1088,10 @@ namespace UniWare_PandoIntegration.Controllers
         {
 
             ApiControl = new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            var listdata = ApiControl.Get<List<TrackingLinkMapping>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetTrackingLinkList");
 
-            var listdata = ApiControl.Get<List<TrackingLinkMapping>>("api/UniwarePando/GetTrackingLinkList");
+            //var listdata = ApiControl.Get<List<TrackingLinkMapping>>("api/UniwarePando/GetTrackingLinkList");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "Tracking Mapping List.xlsx";
@@ -1148,22 +1192,6 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     cloned.ImportRow(row);
                 }
-
-                //DataTable truckdetails = new DataTable();
-
-
-                //truckdetails.Columns.Add("CourierName");
-                //truckdetails.Columns.Add("TrackingLink");
-
-                //for (var i = 0; i < cloned.Rows.Count; i++)
-                //{
-                //    DataRow SOrow = truckdetails.NewRow();
-                //    SOrow["CourierName"] = cloned.Rows[i]["Courier Name"];
-                //    truckdetails.Rows.Add(SOrow);
-                //}
-                //DataTable dataSet = new DataTable();
-                //dataSet = truckdetails;
-                //List<TrackingMaster> FacList = new List<TrackingMaster>();
                 List<TrackingLinkMapping> trackingLinkMappings = new List<TrackingLinkMapping>();
 
                 foreach (DataRow dr in cloned.Rows)
@@ -1174,8 +1202,12 @@ namespace UniWare_PandoIntegration.Controllers
                         TrackingLink = Convert.ToString(dr["Tracking Link"])
                     });
                 }
+                //string Environment = HttpContext.Session.GetString("Environment").ToString();
+                TrackingLinkMappingMap trackingLinkMappingMap = new TrackingLinkMappingMap();
+                trackingLinkMappingMap.TrackingLinkMappings = trackingLinkMappings;
+                trackingLinkMappingMap.Enviornment= HttpContext.Session.GetString("Environment").ToString();
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, List<TrackingLinkMapping>>(trackingLinkMappings, "Api/UniwarePando/BulkUploadtrackingMapping").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, TrackingLinkMappingMap>(trackingLinkMappingMap, "Api/UniwarePando/BulkUploadtrackingMapping").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             return View("~/Views/Home/Dashboard.cshtml");

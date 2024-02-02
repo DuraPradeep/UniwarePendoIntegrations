@@ -40,7 +40,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ObjBusinessLayer.UpdateSaleOrderFirst(result.Result.ObjectParam);
+                    ObjBusinessLayer.UpdateSaleOrderFirst(result.Result.ObjectParam,servertype);
                 }
             }
             else
@@ -87,7 +87,7 @@ namespace Uniware_PandoIntegration.API
                     ed.Status = true;
                     errorDetails.Add(ed);
                     // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
-                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
+                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1,Servertype);
                     PassCodeer(jsoncodes, token, code, LLcheckcount, Servertype, Instance);
 
                 }
@@ -252,7 +252,7 @@ namespace Uniware_PandoIntegration.API
                     ed.SkuCode = skucode;
                     ed.Reason = resul.Result.ObjectParam;
                     errorskuDetails.Add(ed);
-                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
+                    var errorskucode = ObjBusinessLayer.UpdateSalesOrderError(errorskuDetails, 0,Servertype);
                     var abc = ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount, Servertype, Instance);
                 }
                 else
@@ -293,7 +293,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid,ServerType);
 
                     Action(sendcode, triggerid, Lcheckcount, ServerType);
                 }
@@ -527,7 +527,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
                     WaybillGenerationPostData(AllData, Lcheckcount, triggerid, ServerType);
                 }
                 {
@@ -553,7 +553,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ObjBusinessLayer.BLReturnOrderError(results.Result.ObjectParam);
+                    ObjBusinessLayer.BLReturnOrderError(results.Result.ObjectParam,ServerType);
 
                 }
             }
@@ -590,7 +590,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = Code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails, 1);
+                    var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails, 1, ServerType);
                     GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode, Instance);
                 }
                 else
@@ -693,7 +693,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateReturnOrderPostDataError(true, ResStatus.Result.ObjectParam, Trigerid);
+                    ObjBusinessLayer.UpdateReturnOrderPostDataError(true, ResStatus.Result.ObjectParam, Trigerid, ServerType);
                     PostDataReturnOrder(AllData, Trigerid, Lcheckcount, ServerType);
                 }
                 {
@@ -723,7 +723,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam);
+                    ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam,ServerType);
                     rootReturnorderAPI = null;
                 }
             }
@@ -766,7 +766,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 1);
+                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 1,ServerType);
                     GetGatePassElements(jdetail, token, code, Lcheckcount, ServerType, FacilityCode, instance);
                 }
                 else
@@ -868,7 +868,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
                     WaybillSTOPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
@@ -939,7 +939,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 1);
+                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 1,ServerType);
                     GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount, ServerType, Facilitycode, instance);
                 }
                 else
@@ -1032,7 +1032,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
                     STOAPiPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
@@ -1054,7 +1054,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid,Servertype);
                     UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
@@ -1065,7 +1065,7 @@ namespace Uniware_PandoIntegration.API
             }
             else
             {
-                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode);
+                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode,Servertype);
                 return ResStatus;
 
             }
@@ -1081,7 +1081,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
                     AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, ServerType, Instance);
                 }
                 {
@@ -1145,7 +1145,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid,Servertype);
                     ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
@@ -1156,7 +1156,7 @@ namespace Uniware_PandoIntegration.API
             }
             else
             {
-                ObjBusinessLayer.BLUpdateErrorDetailsReversePickup(AllData.reversePickupCode);
+                ObjBusinessLayer.BLUpdateErrorDetailsReversePickup(AllData.reversePickupCode,Servertype);
                 return ResStatus;
 
             }

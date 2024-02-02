@@ -19,15 +19,6 @@ namespace UniWare_PandoIntegration.Controllers
         private readonly string Apibase;
         public HomeController(IConfiguration configuration)
         {
-            //this.iconfiguration = iconfiguration;
-            //string islocal = HttpContext.Connection.LocalIpAddress.ToString();
-            //HttpRequest httpRequest=null;
-            //var req=httpRequest.HttpContext.Connection;
-            //req.LocalIpAddress.Iss
-            //if(context.Connection.LocalIpAddress.Equals(islocal)
-            //{
-
-            //}
             Apibase = configuration.GetSection("baseaddress:Url").Value;
         }
 		[HttpPost]
@@ -41,12 +32,16 @@ namespace UniWare_PandoIntegration.Controllers
 					ServiceResponse<UserLogin> serviceResponseg = ApiControl.Get<ServiceResponse<UserLogin>, string, string>(UserName, Password, "UserName", "Password", "Api/Login/GetUserNamePassword");
                     if (serviceResponseg.ObjectParam.UserName == UserName && serviceResponseg.ObjectParam.Password == Password)
                     {
+                        HttpContext.Session.SetString("UserName", serviceResponseg.ObjectParam.UserName);
+                        HttpContext.Session.SetString("Password", serviceResponseg.ObjectParam.Password);
+                        HttpContext.Session.SetString("LoginId", serviceResponseg.ObjectParam.LoginID);
+                        HttpContext.Session.SetString("Role", serviceResponseg.ObjectParam.RoleId);
+                        HttpContext.Session.SetString("Environment", serviceResponseg.ObjectParam.Environment);
 
-						HttpContext.Session.SetString("UserName", serviceResponseg.ObjectParam.UserName);
                         HttpContext.Session.SetString("NotificationCount", "1");
                         //TempData["Success"] = "Welcome "+ HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
-                        TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
-                        return View("Dashboard");
+                        //TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
+                        return RedirectToAction("Dashboard");
                     }
                     else
                     {
@@ -66,15 +61,12 @@ namespace UniWare_PandoIntegration.Controllers
         [HttpGet]
         public ActionResult ErrorList()
         {
-            //ViewBag.response = msg;
-            //ViewData["response"] = msg;
-            //if (msg != null)
-            //{
-            //    HttpContext.Session.SetString("response", msg);
-            //}
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetErrorCodes");
+
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
                 if (!response.ObjectParam[i].Triggerid.Equals("NA"))
@@ -92,7 +84,10 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetErrorCodes");
+
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -106,14 +101,18 @@ namespace UniWare_PandoIntegration.Controllers
             string msg;
             ApiControl = new ApiOperation(Apibase);
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
             //ServiceResponse<IActionResult> responses = new ServiceResponse<IActionResult>();
             var responses ="";
             //triggerid = ApiControl.Get<ServiceResponse<List<PostErrorDetails>>>("api/UniwarePando/SendRecordStatus");
             var triggerids=HttpContext.Session.GetString("Saletriggerid");
             if (triggerids!=null)
             {
-                var postres = ApiControl.Get("api/UniwarePando/RetriggerPushData");
-                responses = ApiControl.Get("api/UniwarePando/Retrigger");
+                var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerPushData");
+                responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/Retrigger");
+
+                //responses = ApiControl.Get("api/UniwarePando/Retrigger");
                 msg = "Posted Failed Records";
                 //msg = responses.ObjectParam.ToString();
             }
@@ -135,8 +134,22 @@ namespace UniWare_PandoIntegration.Controllers
 
         public ActionResult Dashboard()
         {
-            //TempData["Success"] = "Welcome to the Dashboard!!";
-            return View();
+            ServiceResponse<MenusAccess> serviceResponse1 = new ServiceResponse<MenusAccess>();
+
+            int LoginId = Convert.ToInt32(HttpContext.Session.GetString("LoginId"));
+            ApiControl = new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName") + " to the Dashboard!!";
+            serviceResponse1 = ApiControl.Get<ServiceResponse<MenusAccess>, int,string>(LoginId,Enviornment, "UserId", "Enviornment", "Api/Login/GetRoleMenuAccess");
+            if (serviceResponse1 == null)
+            {
+                TempData["Success"] = "Menus Not Assigned to " + HttpContext.Session.GetString("UserName");
+                return View(new MenusAccess());
+            }
+
+
+            return View(serviceResponse1.ObjectParam);
         }
 
         public ActionResult Logout()
@@ -150,7 +163,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>,string>(Enviornment, "Enviornment","api /UniwarePando/waybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -163,11 +178,8 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
-            
-            
-                var responses = ApiControl.Get("api/UniwarePando/PostWaybillGeneration");
-
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();           
+                var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/PostWaybillGeneration");
             //msg = responses;
             msg = "Trigger successfully";
           
@@ -177,7 +189,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>,string>(Enviornment, "Enviornment", "api/UniwarePando/waybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -189,7 +203,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>,string>(Enviornment, "Enviornment", "api/UniwarePando/ReturnOrderDetails");
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
                 if (!response.ObjectParam[i].Triggerid.Equals("NA"))
@@ -208,7 +224,11 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/ReturnOrderDetails");
+
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -220,12 +240,18 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
             var triggerids = HttpContext.Session.GetString("ReturnTriId");
             if (triggerids != null)
             {
-                var postres = ApiControl.Get("api/UniwarePando/ReturnorderFinalData");
-                var responses = ApiControl.Get("api/UniwarePando/ReturnOrderAPIRetrigger");
+                //var postres = ApiControl.Get("api/UniwarePando/ReturnorderFinalData");
+                //var responses = ApiControl.Get("api/UniwarePando/ReturnOrderAPIRetrigger");
+
+                var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/ReturnorderFinalData");
+                var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/ReturnOrderAPIRetrigger");
                 msg = responses.ToString();
+
                 //msg = "Posted Failed Records";
             }
             else
@@ -242,7 +268,9 @@ namespace UniWare_PandoIntegration.Controllers
             HttpContext.Session.Remove("StowaybillError");
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>,string>(Enviornment, "Enviornment", "api/UniwarePando/STOWaybillErrorDetails");
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
                 if (!response.ObjectParam[i].Triggerid.Equals("NA"))
@@ -264,7 +292,11 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/STOWaybillErrorDetails");
+
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -277,11 +309,14 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl= new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
             var triggerids = HttpContext.Session.GetString("STOWaybillTriId");
             if (triggerids != null)
             {
-                var postres = ApiControl.Get("api/UniwarePando/STOwaybillFinalData");
-                var responses = ApiControl.Get("api/UniwarePando/STOWaybillRetrigger");
+                var postres = ApiControl.Get<string>(Enviornment,"api/UniwarePando/STOwaybillFinalData");
+                var responses = ApiControl.Get<string>(Enviornment,"api/UniwarePando/STOWaybillRetrigger");
+                //var responses = ApiControl.Get("api/UniwarePando/STOWaybillRetrigger");
                 msg = responses;
                 //msg = "Posted Failed Records";
             }
@@ -298,7 +333,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>,string>(Enviornment, "Enviornment", "api/UniwarePando/STOApiErrorDetails");
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
                 if (!response.ObjectParam[i].Triggerid.Equals("NA"))
@@ -319,7 +356,10 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/STOApiErrorDetails");
+
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -333,11 +373,14 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl=new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
             var triggerids = HttpContext.Session.GetString("STOAPITriId");
             if (triggerids != null)
             {
-                var postres = ApiControl.Get("api/UniwarePando/STOAPIFinaldata");
-                var responses = ApiControl.Get("api/UniwarePando/STOAPIRetrigger");
+                var postres = ApiControl.Get<string>(Enviornment,"api/UniwarePando/STOAPIFinaldata");
+                var responses = ApiControl.Get<string>(Enviornment,"api/UniwarePando/STOAPIRetrigger");
+                //var responses = ApiControl.Get("api/UniwarePando/STOAPIRetrigger");
                 msg = responses.ToString();
             }
             else
@@ -353,7 +396,10 @@ namespace UniWare_PandoIntegration.Controllers
             //sale order
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
+
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>,string>(Enviornment, "Enviornment", "api/UniwarePando/GetErrorCodes");
             int count = 0;
             List<string> strings = new List<string>();
             string name;
@@ -366,7 +412,7 @@ namespace UniWare_PandoIntegration.Controllers
             //waybill
             ServiceResponse<List<EndpointErrorDetails>> waybill = new ServiceResponse<List<EndpointErrorDetails>>();
             //ApiControl = new ApiOperation();
-            waybill = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/waybillErrorDetails");
+            waybill = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>,string>(Enviornment, "Enviornment", "api/UniwarePando/waybillErrorDetails");
             if (waybill.ObjectParam.Count > 0)
             {
                 name = "Waybill generation";
@@ -377,7 +423,7 @@ namespace UniWare_PandoIntegration.Controllers
             //return Order
             ServiceResponse<List<CodesErrorDetails>> resturnorer = new ServiceResponse<List<CodesErrorDetails>>();
             //ApiControl = new ApiOperation();
-            resturnorer = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/ReturnOrderDetails");
+            resturnorer = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment","api/UniwarePando/ReturnOrderDetails");
             if (resturnorer.ObjectParam.Count > 0)
             {
                 name = "return Order";
@@ -388,7 +434,7 @@ namespace UniWare_PandoIntegration.Controllers
             //STO Waybill
             ServiceResponse<List<CodesErrorDetails>> STOwaybill = new ServiceResponse<List<CodesErrorDetails>>();
             //ApiControl = new ApiOperation();
-            STOwaybill = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOWaybillErrorDetails");
+            STOwaybill = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/STOWaybillErrorDetails");
             if (STOwaybill.ObjectParam.Count > 0)
             {
                 name = "STO Waybill";
@@ -399,7 +445,7 @@ namespace UniWare_PandoIntegration.Controllers
             //STO API
             ServiceResponse<List<CodesErrorDetails>> STOAPI = new ServiceResponse<List<CodesErrorDetails>>();
             //ApiControl = new ApiOperation();
-            STOAPI = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/STOApiErrorDetails");
+            STOAPI = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/STOApiErrorDetails");
             if (STOAPI.ObjectParam.Count > 0)
             {
                 name = "STO API";
@@ -408,7 +454,7 @@ namespace UniWare_PandoIntegration.Controllers
                 strings.Add(name);
             }
             ServiceResponse<List<EndpointErrorDetails>> UpdateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
-            UpdateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/UpdateShippingErrorDetails");
+            UpdateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>,string> (Enviornment, "Enviornment", "api/UniwarePando/UpdateShippingErrorDetails");
             if (UpdateShiping.ObjectParam.Count>0)
             {
                 name = "Update Shipping";
@@ -417,8 +463,8 @@ namespace UniWare_PandoIntegration.Controllers
                 strings.Add(name);
             }
             ServiceResponse<List<EndpointErrorDetails>> AlocateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
-            AlocateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");
-            if (UpdateShiping.ObjectParam.Count > 0)
+            AlocateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/AloateShippingErrorDetails");
+            if (AlocateShiping.ObjectParam.Count > 0)
             {
                 name = "Allocate Shipping";
                 count += 1;
@@ -436,7 +482,9 @@ namespace UniWare_PandoIntegration.Controllers
         {           
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/UpdateShippingErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>,string>(Enviornment, "Enviornment","api/UniwarePando/UpdateShippingErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -449,7 +497,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/UpdateShippingErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>,string>(Enviornment, "Enviornment","api/UniwarePando/UpdateShippingErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -462,8 +512,10 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
-            var responses = ApiControl.Get("api/UniwarePando/RetriggerUpdateShipping");
+            var responses = ApiControl.Get<string>(Enviornment,"api/UniwarePando/RetriggerUpdateShipping");
 
             msg = responses;
             //msg = "Trigger successfully";
@@ -475,7 +527,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");           
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>,string>(Enviornment, "Enviornment","api/UniwarePando/AloateShippingErrorDetails");           
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -488,7 +542,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var responses = ApiControl.Get("api/UniwarePando/RetriggerAllocateShipping");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            var responses = ApiControl.Get<string>(Enviornment,"api/UniwarePando/RetriggerAllocateShipping");
             msg = responses;
             return Json(new { Message = msg });
         }
@@ -496,7 +552,11 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            //response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/AloateShippingErrorDetails");
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/AloateShippingErrorDetails");
+
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -509,7 +569,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/ReversePickupErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>,string>(Enviornment, "Enviornment","api/UniwarePando/ReversePickupErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;
@@ -521,7 +583,10 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var responses = ApiControl.Get("api/UniwarePando/RetriggerreversePickup");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            var responses = ApiControl.Get<string>(Enviornment,"api/UniwarePando/RetriggerreversePickup");
+            //var responses = ApiControl.Get("api/UniwarePando/RetriggerreversePickup");
             msg = responses;
             return Json(new { Message = msg });
         }
@@ -529,7 +594,9 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
-            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>>("api/UniwarePando/ReversePickupErrorDetails");
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>,string>(Enviornment, "Enviornment","api/UniwarePando/ReversePickupErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
                 ViewData["UserName"] = 1;

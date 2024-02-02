@@ -11,4 +11,9 @@ namespace Uniware_PandoIntegration.Entities
         public string Details { get; set; }
         public string Instance { get; set; }
     }
+    public class TruckdetailsMap
+    {
+        public List<TruckDetails> TruckDetails { get; set; }
+        public string Enviornment { get; set; }
+    }
 }

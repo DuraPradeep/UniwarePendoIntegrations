@@ -11,5 +11,11 @@ namespace Uniware_PandoIntegration.Entities
         public string Code { get; set; }
         public string Type { get; set; }
         public string Instance { get; set; }
+
+    }
+    public class MainClass
+    {
+        public List<UploadExcels> UploadExcels { get; set; }
+        public string Enviornment { get; set; }
     }
 }

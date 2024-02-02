@@ -76,6 +76,8 @@
     <Compile Include="FacilityDetails.cs" />
     <Compile Include="FacilityMaintain.cs" />
     <Compile Include="ItemTypes.cs" />
+    <Compile Include="Menus.cs" />
+    <Compile Include="MenusAccess.cs" />
     <Compile Include="OmsToPandoRoot.cs" />
     <Compile Include="PandoUniwariToken.cs" />
     <Compile Include="PostErrorDetails.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="RequestReturnOrder.cs" />
     <Compile Include="ReturnorderCode.cs" />
     <Compile Include="ReversePickup.cs" />
+    <Compile Include="RoleMenuAccess.cs" />
     <Compile Include="saleOrderDTO.cs" />
     <Compile Include="SaleOrderSearch.cs" />
     <Compile Include="Datum.cs" />

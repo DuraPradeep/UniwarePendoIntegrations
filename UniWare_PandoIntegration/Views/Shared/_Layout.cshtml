@@ -347,20 +347,6 @@
                                 </div>
                             </div>
 
-
-
-                            @*</ul>*@
-                            @*<ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown" onclick="" href="#" id="navbarDropdowns">
-                            <a class="dropdown-item" href="javascript:void(0)" onclick="">
-                            <i class="fa fa-user me-1 ms-1"></i>
-
-                            @HttpContextAccessor.HttpContext.Session.GetString("UserName")
-                            </a>
-                            @* <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("Logout", "Home")'; ">
-                            <i class="fa fa-user me-1 ms-1"></i>
-                            Logout
-                            </a>
-                            </ul>*@
                         </li>
                     </ul>
                     <ul class="navbar-nav float-end">
@@ -389,27 +375,7 @@
                 </div>
             </nav>
         </header>
-        @*   <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UniWare_PandoIntegration</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-        <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>
-        </ul>
-        </div>
-        </div>
-        </nav>
-        </header>*@
+       
         <div class="container">
             <main role="main" class="pb-3">
                 <div class="row" id="errorList">
@@ -450,17 +416,7 @@
                 type: 'GET',
                 success: function (data, result) {
                     debugger;
-                    //alert(data);//var UserName = @HttpContextAccessor.HttpContext.Session.GetString("NotificationCount")
-                    //if (data.id == 1) {
-
-                    //    $("#Count").html(data);
-                    //}
-                    //if(data.name[0] == "Sale Order API")
-                    //{
-                    //     //notification
-                    //     //$("#notification").css("display", "block");
-                    //     $("#sale").css("display", "block");
-                    //}
+                    
                     if (data.name.includes('Sale Order API')) {
                         $("#sale").css("display", "block");
                     }
@@ -508,119 +464,7 @@
             //debugger;
 
         }
-                //function fn_saleorder() {
-                //    debugger;
-                //    //alert('hello');
-                //    $("#overlay").fadeIn(500);
-                //    $.get("/Home/ErrorList", {}).done(function (data) {
-
-                //        debugger;
-                //        //$("#errorList").html(data);
-                //        if (data.data.length != 0){
-                //            debugger
-                //            $('#example').DataTable({
-                //                "processing": true,
-                //                "info": true,
-                //                "stateSave": true,
-                //                //ScanReports = data,
-                //                data: data.data,
-                //                columns: [
-                //                    { data: '', title: 'saleOrder/search' },
-                //                    { data: 'CODE', title: 'saleorder/get' },
-                //                    { data: 'itemSku', title: 'itemType/get' },
-                //                    { data: 'Triggerid', title: 'delivery-picklist' },
-                //                    { data: "Reason", title: 'Reason' }
-                //                ]
-                //            })
-                //            $("#overlay").fadeOut(500);
-                //            }
-                //            else{
-                //                iqwerty.toast.toast("No Data Found!!");
-                //                $("#overlay").fadeOut(500);
-                //            }
-
-
-
-
-                //        //alert("fn_BindTable()");
-                //        //window.location.href = "/Home/Errorlist";
-                //        //$('#errorList').load("ErrorList.cshtml");
-                //    });
-                //}
-                //function fn_waybill() {
-                //    debugger;
-                //    //alert('hello');
-                //    $("#overlay").fadeIn(500);
-                //    $.get("/Home/WaybillErrorList", {}).done(function (data) {
-                //        $("#overlay").fadeOut(500);
-                //        debugger;
-                //        $("#errorList").html(data);
-                //        //alert("fn_BindTable()");
-                //        //window.location.href = "/Home/Errorlist";
-                //        //$('#errorList').load("ErrorList.cshtml");
-                //    });
-                //}
-                //function fn_returnorder() {
-                //    debugger;
-                //    //alert('hello');
-                //    $("#overlay").fadeIn(500);
-                //    $.get("/Home/ReturnOrderErrorList", {}).done(function (data) {
-                //        $("#overlay").fadeOut(500);
-                //        debugger;
-                //        $("#errorList").html(data);
-                //        //alert("fn_BindTable()");
-                //        //window.location.href = "/Home/Errorlist";
-                //        //$('#errorList').load("ErrorList.cshtml");
-                //    });
-                //}
-                //function fn_STOwaybill() {
-                //    debugger;
-                //    //alert('hello');
-                //    $("#overlay").fadeIn(500);
-                //    $.get("/Home/STOWaybillErrorList", {}).done(function (data) {
-                //        $("#overlay").fadeOut(500);
-                //        debugger;
-                //        $("#errorList").html(data);
-                //        //alert("fn_BindTable()");
-                //        //window.location.href = "/Home/Errorlist";
-                //        //$('#errorList').load("ErrorList.cshtml");
-                //    });
-                //}
-                //function fn_STOApi() {
-                //    debugger;
-                //    //alert('hello');
-                //    $("#overlay").fadeIn(500);
-                //    $.get("/Home/STOAPIErrorList", {}).done(function (data) {
-                //        debugger;
-                //        $("#errorList").html(data);
-                //        //alert("fn_BindTable()");
-                //        //window.location.href = "/Home/Errorlist";
-                //        //$('#errorList').load("ErrorList.cshtml");
-
-                //        //if (data.data.length != 0) {
-                //        //    debugger;
-                //        //    $('#example1').DataTable({
-                //        //        "processing": true,
-                //        //        "info": true,
-                //        //        "stateSave": true,
-                //        //        //ScanReports = data,
-                //        //        data: data.data,
-                //        //        columns: [
-
-                //        //            { data: 'CODE', title: 'Gate Pass Code' },
-                //        //            { data: 'itemSku', title: 'ItemType SKU' },
-                //        //            { data: 'Triggerid', title: 'Post Data Reasult' },
-                //        //            { data: "Reason", title: 'Reason' }
-                //        //        ]
-                //        //    })
-                //        //    $("#overlay").fadeOut(500);
-                //        //}
-                //        //else {
-                //        //    iqwerty.toast.toast("No Data Found!!");
-                //        //    $("#overlay").fadeOut(500);
-                //        //}
-                //    });
-                //}
+              
     </script>
 </body>
 </html>

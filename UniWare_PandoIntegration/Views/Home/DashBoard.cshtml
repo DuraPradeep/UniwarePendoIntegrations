@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Uniware_PandoIntegration.Entities.MenusAccess
+
+@{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -54,7 +56,7 @@
     .dashboard_tiles {
         margin-top: 30px;
         padding: 50px;
-        box-shadow: 1px 1px 10px 2px gray;
+        /* box-shadow: 1px 1px 10px 2px gray; */
     }
 
     .tile_list {
@@ -302,37 +304,7 @@
     }
 
 </script>
-@*
-@if (TempData["Success"] != null)
-{
 
-    <script type="text/javascript">
-        window.onload = function () {
-            iqwerty.toast.toast('@TempData["Success"]');
-        };
-    </script>
-
-    @*<script>
-
-        $(document).ready(function () {
-            //debugger;
-            const options = {
-                style: {
-                    main: {
-                        background: "#dc3545",
-                        color: "#fff",
-                    },
-                },
-            };
-            iqwerty.toast.toast('@TempData["Success"]', options);
-            ////alert('@TempData["Success"]');
-
-        });
-
-
-    </script>*@
-
-@*}*@
 
 @if (TempData["Success"] != null)
 {
@@ -344,163 +316,11 @@
 
 }
 <div class="dashboard_tiles">
-    <div class="row">
-
-        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_BindTable();">
-
-            <div class="card text-white text-center mb-4 pointer">
-                <div class="card-body tile_list">
-                    @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
-                    <p>
-                        Sale Order API
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <d iv class="col-lg-4 mb-4 mb-lg-0" onclick="fn_WaybillErrorList();">
-
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Waybill Generation API</p>
-                </div>
-            </div>
-        </d>
-
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReturnOrderErrorList()">
-
-            <div class="card text-white text-center mb-4 pointer">
-                <div class="card-body tile_list">
-                    <p>Return Order API</p>
-                </div>
-            </div>
-
-        </div>
+    <div class="row" id="dv_PartialView">
+        @Html.Partial("~/Views/Home/pv_MenusList.cshtml", Model)
 
     </div>
-    <div class="row">
-        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_STOWaybillErrorList()">
-
-            <div class="card text-white text-center mb-4 pointer">
-                <div class="card-body tile_list">
-                    @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
-                    <p>STO Waybill API </p>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_STOAPI()">
-
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>STO Created API</p>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_UpdateShipping()">
-
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Update Shipping API</p>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_AllocateShipping()">
-
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Allocate Shipping API</p>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReversePickUp()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Reverse Pickup API</p>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelUpload()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Dispatch Data Upload</p>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelMasterUpload()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Facility Master Upload</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelTruckMaster()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Truck Details Master Upload</p>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_StoGatePass()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>STO Waybill Upload</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_RegionMaster()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Region Master Upload</p>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TrackingStatusMaster()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Tracking Status Master Upload</p>
-                </div>
-            </div>
-
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_CourierList()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Courier List Upload</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TrackingLink()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Tracking Link Mapping</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+    
 
 </div>
 

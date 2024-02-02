@@ -16,8 +16,7 @@
 <script type="text/javascript">
     function FileUploadValidation() {
         var allowedFiles = [".xls", ".xlsx"];
-        var fileUpload = $("#dataFile");
-        //var regex = new RegExp("([a-zA-Z0-9\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
+        var fileUpload = $("#dataFile");        
         var regex = new RegExp("([a-zA-Z0-9()\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
 
         if (!regex.test(fileUpload.val().toLowerCase())) {

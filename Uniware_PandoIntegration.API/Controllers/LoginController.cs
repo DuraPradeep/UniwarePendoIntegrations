@@ -23,5 +23,12 @@ namespace Uniware_PandoIntegration.API.Controllers
             _logger.LogInformation("Login time at {DT}", DateTime.Now.ToLongTimeString());
             return ObjBusinessLayer.CheckLoginCredentials(UserName, Password);
         }
+        [HttpGet]
+        public ServiceResponse<MenusAccess> GetRoleMenuAccess(int UserId,string Enviornment)
+        {
+            ObjBusinessLayer = new UniwareBL();
+            _logger.LogInformation("Login time at {DT}", DateTime.Now.ToLongTimeString());
+            return ObjBusinessLayer.GetRoleMenuAccess(UserId,Enviornment);
+        }
     }
 }

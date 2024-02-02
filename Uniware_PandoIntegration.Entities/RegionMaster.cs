@@ -11,4 +11,9 @@ namespace Uniware_PandoIntegration.Entities
         public string State { get; set; }
         public string Region { get; set; }
     }
+    public class RegionMasterMap
+    {
+        public List<RegionMaster> RegionMasters { get; set; }
+        public string Enviornment { get; set; }
+    }
 }

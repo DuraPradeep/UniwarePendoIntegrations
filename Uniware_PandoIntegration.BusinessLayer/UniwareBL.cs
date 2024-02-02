@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Uniware_PandoIntegration.APIs;
 using Uniware_PandoIntegration.DataAccessLayer;
@@ -17,7 +18,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
     public class UniwareBL
     {
-        public bool InsertCode(List<Element> elements)
+        public bool InsertCode(List<Element> elements, string Enviornment)
         {
             bool res;
             try
@@ -33,7 +34,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertCodeInUniware(dtinstcode);
+                res = SPWrapper.InsertCodeInUniware(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -42,14 +43,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<Salesorder> GetCode(string Instance)
+        public List<Salesorder> GetCode(string Instance, string Enviornment)
         {
             List<Salesorder> serviceResponse = new List<Salesorder>();
             try
             {
                 //CreateLog($" Get Code from DB ");
 
-                serviceResponse = Mapper.GetCodes(SPWrapper.GetCodeDB(Instance));
+                serviceResponse = Mapper.GetCodes(SPWrapper.GetCodeDB(Instance,Enviornment));
                 //CreateLog($" Get Code from DB Data{serviceResponse} ");
             }
             catch (Exception Ex)
@@ -58,7 +59,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return serviceResponse;
         }
-        public bool insertSalesDTO(List<SaleOrderDTO> salesordrsearch)
+        public bool insertSalesDTO(List<SaleOrderDTO> salesordrsearch, string Enviornment)
         {
             bool res;
             try
@@ -77,7 +78,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     myDataRow["Instance"] = salesordrsearch[i].source;
                     dt.Rows.Add(myDataRow);
                 }
-                res = SPWrapper.InsertSaleOrderDTO(dt);
+                res = SPWrapper.InsertSaleOrderDTO(dt,Enviornment);
                 //CreateLog($"SalesOrder DTO data insert Status :-{res}");
 
             }
@@ -89,7 +90,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool InsertAddrsss(List<Address> addresses)
+        public bool InsertAddrsss(List<Address> addresses, string Enviornment)
         {
             bool res;
             try
@@ -127,7 +128,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dtaddress.Rows.Add(dr);
 
                 }
-                res = SPWrapper.Insertaddress(dtaddress);
+                res = SPWrapper.Insertaddress(dtaddress, Enviornment);
                 //CreateLog($"Address data insert status :-{res}");
 
             }
@@ -139,7 +140,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
             return res;
         }
-        public bool InsertBill(List<ShippingPackage> shippingPackages)
+        public bool InsertBill(List<ShippingPackage> shippingPackages, string Enviornment)
         {
             bool res = false;
             try
@@ -161,7 +162,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drbilling["Instance"] = shippingPackages[k].Source;
                     dtshipping.Rows.Add(drbilling);
                 }
-                res = SPWrapper.InsertShippingDetails(dtshipping);
+                res = SPWrapper.InsertShippingDetails(dtshipping,Enviornment);
                 //CreateLog($"shipping data inserted status:-{res}");
             }
             catch (Exception ex)
@@ -172,7 +173,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertItems(List<Items> items)
+        public bool insertItems(List<Items> items, string Enviornment)
         {
             bool res;
             DataTable dtitems = new DataTable();
@@ -190,7 +191,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dritems["Instance"] = items[k].Source;
                     dtitems.Rows.Add(dritems);
                 }
-                res = SPWrapper.InsertItems(dtitems);
+                res = SPWrapper.InsertItems(dtitems,Enviornment);
                 //CreateLog($"Items inserted DB status:-{res}");
             }
             catch (Exception ex)
@@ -201,7 +202,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertsalesorderitem(List<SaleOrderItem> sitems)
+        public bool insertsalesorderitem(List<SaleOrderItem> sitems, string Enviornment)
         {
             bool res;
             try
@@ -236,7 +237,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsalesorder["ShippingPackageStatus"] = sitems[l].shippingPackageStatus;
                     dtslesorder.Rows.Add(drsalesorder);
                 }
-                res = SPWrapper.InsertsalesorderItems(dtslesorder);
+                res = SPWrapper.InsertsalesorderItems(dtslesorder,Enviornment);
                 //CreateLog($"Sales Order Item inserted DB res:-{res}");
             }
             catch (Exception ex)
@@ -246,14 +247,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<SKucode> GetSKucodesBL(string Instance)
+        public List<SKucode> GetSKucodesBL(string Instance, string Enviornment)
         {
             List<SKucode> codes = new List<SKucode>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                codes = Mapper.Getskucodes(SPWrapper.GetSkuCodeDB(Instance));
+                codes = Mapper.Getskucodes(SPWrapper.GetSkuCodeDB(Instance, Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -264,7 +265,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return codes;
         }
 
-        public bool InsertitemSku(List<ItemTypeDTO> itemDTO)
+        public bool InsertitemSku(List<ItemTypeDTO> itemDTO, string Enviornment)
         {
             bool res;
             try
@@ -294,7 +295,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.IsertItemtypes(dtsku);
+                res = SPWrapper.IsertItemtypes(dtsku,Enviornment);
                 //CreateLog($"item sku insert DB Status:-{res}");
             }
             catch (Exception ex)
@@ -304,14 +305,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<Data> GetAllRecrdstosend(string Instance)
+        public List<Data> GetAllRecrdstosend(string Instance, string Enviornment)
         {
             List<Data> AllRes = new List<Data>();
             try
             {
                 //CreateLog($" Get Code from DB ");
 
-                AllRes = Mapper.GetSendingAllrecords(SPWrapper.GetAllSendRecords(Instance));
+                AllRes = Mapper.GetSendingAllrecords(SPWrapper.GetAllSendRecords(Instance,Enviornment));
                 //CreateLog($" Get Code from DB Data{AllRes} ");
             }
             catch (Exception Ex)
@@ -338,7 +339,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
         //{
         //    Log.Information(message);
         //}
-        public string InsertAllsendingData(List<Data> itemDatun)
+        public string InsertAllsendingData(List<Data> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -418,7 +419,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     //drsku["Instance"] = itemDatun[i].expected_delivery_date;
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.IsertAllsendingrec(dtsku);
+                res = SPWrapper.IsertAllsendingrec(dtsku,Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -429,7 +430,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool UpdateSalesOrderError(List<ErrorDetails> ErrorDt, int type)
+        public bool UpdateSalesOrderError(List<ErrorDetails> ErrorDt, int type, string Enviornment)
         {
             bool res;
             try
@@ -448,7 +449,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.UpdateSalesorderDetails(dtsku, type);
+                res = SPWrapper.UpdateSalesorderDetails(dtsku, type,Enviornment);
 
             }
             catch (Exception ex)
@@ -458,55 +459,55 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool UpdateSkucodeError(List<ErrorDetails> ErrorDt, int type)
+        //public bool UpdateSkucodeError(List<ErrorDetails> ErrorDt, int type)
+        //{
+        //    bool res;
+        //    try
+        //    {
+        //        DataTable dtsku = new DataTable();
+        //        dtsku.Columns.Add("Code");
+        //        dtsku.Columns.Add("Reason");
+        //        dtsku.Columns.Add("Status");
+
+
+        //        for (int i = 0; i < ErrorDt.Count; i++)
+        //        {
+        //            DataRow drsku = dtsku.NewRow();
+        //            drsku["Code"] = ErrorDt[i].SkuCode;
+        //            drsku["Reason"] = ErrorDt[i].Reason;
+        //            drsku["Status"] = ErrorDt[i].Status;
+
+        //            dtsku.Rows.Add(drsku);
+        //        }
+        //        res = SPWrapper.UpdateSalesorderDetails(dtsku, type);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    return res;
+        //}
+        public void UpdatePostDatadetails(bool status, string Reason, string triggerid, string Enviornment)
         {
-            bool res;
             try
             {
-                DataTable dtsku = new DataTable();
-                dtsku.Columns.Add("Code");
-                dtsku.Columns.Add("Reason");
-                dtsku.Columns.Add("Status");
-
-
-                for (int i = 0; i < ErrorDt.Count; i++)
-                {
-                    DataRow drsku = dtsku.NewRow();
-                    drsku["Code"] = ErrorDt[i].SkuCode;
-                    drsku["Reason"] = ErrorDt[i].Reason;
-                    drsku["Status"] = ErrorDt[i].Status;
-
-                    dtsku.Rows.Add(drsku);
-                }
-                res = SPWrapper.UpdateSalesorderDetails(dtsku, type);
-
+                SPWrapper.Updatedetailspostdata(status, Reason, triggerid,Enviornment);
             }
             catch (Exception ex)
             {
-
-                throw ex;
-            }
-            return res;
-        }
-        public void UpdatePostDatadetails(bool status, string Reason, string triggerid)
-        {
-            try
-            {
-                SPWrapper.Updatedetailspostdata(status, Reason, triggerid);
-            }
-            catch (Exception ex)
-            {
                 throw ex;
             }
         }
-        public List<Salesorder> GetCodeforRetrigger()
+        public List<Salesorder> GetCodeforRetrigger(string Enviornment)
         {
             List<Salesorder> serviceResponse = new List<Salesorder>();
             try
             {
                 //CreateLog($" Get Code from DB ");
 
-                serviceResponse = Mapper.GetCodes(SPWrapper.GetCoderetrigger());
+                serviceResponse = Mapper.GetCodes(SPWrapper.GetCoderetrigger(Enviornment));
                 //CreateLog($" Get Code from DB Data{serviceResponse} ");
             }
             catch (Exception Ex)
@@ -515,14 +516,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return serviceResponse;
         }
-        public List<SKucode> GetSKucodesForRetrigger()
+        public List<SKucode> GetSKucodesForRetrigger( string Enviornment)
         {
             List<SKucode> codes = new List<SKucode>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                codes = Mapper.Getskucodes(SPWrapper.GetSkuCodeforRetrigger());
+                codes = Mapper.Getskucodes(SPWrapper.GetSkuCodeforRetrigger(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -532,12 +533,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return codes;
         }
-        public List<Data> GetAllSendData()
+        public List<Data> GetAllSendData(string Enviornment)
         {
             List<Data> sendData = new List<Data>();
             try
             {
-                sendData = Mapper.GetSendData(SPWrapper.GetSendCode());
+                sendData = Mapper.GetSendData(SPWrapper.GetSendCode(Enviornment));
             }
             catch (Exception ex)
             {
@@ -545,14 +546,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return sendData;
         }
-        public ServiceResponse<List<CodesErrorDetails>> GetErrorCodes()
+        public ServiceResponse<List<CodesErrorDetails>> GetErrorCodes(string Enviornment)
         {
             ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetFailedCode());
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetFailedCode(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -579,14 +580,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return rnd;
         }
 
-        public string insertWaybillMain(OmsToPandoRoot omsToPandoRoot)
+        public string insertWaybillMain(OmsToPandoRoot omsToPandoRoot, string Enviornment)
         {
 
             string res;
             try
             {
 
-                res = SPWrapper.WaybillinsertMain(omsToPandoRoot);
+                res = SPWrapper.WaybillinsertMain(omsToPandoRoot,Enviornment);
             }
             catch (Exception ex)
             {
@@ -595,14 +596,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertWaybillshipment(OmsToPandoRoot omsToPandoRoot, string primaryid,string FacilityCode)
+        public bool insertWaybillshipment(OmsToPandoRoot omsToPandoRoot, string primaryid,string FacilityCode, string Enviornment)
         {
 
             bool res;
             try
             {
 
-                res = SPWrapper.WaybillShipment(omsToPandoRoot, primaryid, FacilityCode);
+                res = SPWrapper.WaybillShipment(omsToPandoRoot, primaryid, FacilityCode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -611,7 +612,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool InsertitemWaybill(List<Item> itemDTO, string ID, string Code)
+        public bool InsertitemWaybill(List<Item> itemDTO, string ID, string Code, string Enviornment)
         {
             bool res;
             try
@@ -644,7 +645,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["tags"] = itemDTO[i].tags;
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.Waybillinsertitems(dtsku);
+                res = SPWrapper.Waybillinsertitems(dtsku, Enviornment);
                 //CreateLog($"item sku insert DB Status:-{res}");
             }
             catch (Exception ex)
@@ -654,7 +655,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool InsertCustomfieldWaybill(List<CustomField> itemDTO, string ID, string Code)
+        public bool InsertCustomfieldWaybill(List<CustomField> itemDTO, string ID, string Code, string Enviornment)
         {
             bool res;
             try
@@ -678,7 +679,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.WaybillinsertCustomfield(dtsku);
+                res = SPWrapper.WaybillinsertCustomfield(dtsku, Enviornment);
                 //CreateLog($"item sku insert DB Status:-{res}");
             }
             catch (Exception ex)
@@ -688,14 +689,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertWaybillpickupadres(PickupAddressDetails pickupaddress, string primaryid)
+        public bool insertWaybillpickupadres(PickupAddressDetails pickupaddress, string primaryid, string Enviornment)
         {
 
             bool res;
             try
             {
 
-                res = SPWrapper.WaybillPickupAddress(pickupaddress, primaryid);
+                res = SPWrapper.WaybillPickupAddress(pickupaddress, primaryid, Enviornment);
             }
             catch (Exception ex)
             {
@@ -704,14 +705,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertWaybillReturnaddress(ReturnAddressDetails pickupaddress, string primaryid)
+        public bool insertWaybillReturnaddress(ReturnAddressDetails pickupaddress, string primaryid, string Enviornment)
         {
 
             bool res;
             try
             {
 
-                res = SPWrapper.WaybillreturnAddress(pickupaddress, primaryid);
+                res = SPWrapper.WaybillreturnAddress(pickupaddress, primaryid, Enviornment);
             }
             catch (Exception ex)
             {
@@ -720,12 +721,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertWaybilldeliveryaddress(DeliveryAddressDetails pickupaddress, string primaryid)
+        public bool insertWaybilldeliveryaddress(DeliveryAddressDetails pickupaddress, string primaryid, string Enviornment)
         {
             bool res;
             try
             {
-                res = SPWrapper.WaybilldeliveryAddress(pickupaddress, primaryid);
+                res = SPWrapper.WaybilldeliveryAddress(pickupaddress, primaryid, Enviornment);
             }
             catch (Exception ex)
             {
@@ -734,12 +735,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<WaybillSend> GetWaybillAllRecrdstosend(string Instance)
+        public List<WaybillSend> GetWaybillAllRecrdstosend(string Instance, string Enviornment)
         {
             List<WaybillSend> AllRes = new List<WaybillSend>();
             try
             {
-                AllRes = Mapper.GetWayBillSendrecords(SPWrapper.GetWaybillSendData(Instance));
+                AllRes = Mapper.GetWayBillSendrecords(SPWrapper.GetWaybillSendData(Instance, Enviornment));
             }
             catch (Exception Ex)
             {
@@ -747,7 +748,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return AllRes;
         }
-        public string InsertAllsendingDataReturnorder(List<WaybillSend> itemDatun)
+        public string InsertAllsendingDataReturnorder(List<WaybillSend> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -822,7 +823,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.IsertwaybillPostData(dtsku);
+                res = SPWrapper.IsertwaybillPostData(dtsku, Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -833,7 +834,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertReturnOrdercoder(List<ReturnorderCode> elements, string FacilityCode)
+        public bool insertReturnOrdercoder(List<ReturnorderCode> elements, string FacilityCode, string Enviornment)
         {
             bool res;
             try
@@ -850,7 +851,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = FacilityCode;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertReturnOrderCode(dtinstcode);
+                res = SPWrapper.InsertReturnOrderCode(dtinstcode,Enviornment);
             }
             catch (Exception ex)
             {
@@ -860,14 +861,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodes(string Instacne)
+        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodes(string Instacne, string Enviornment)
         {
             ServiceResponse<List<ReturnorderCode>> codes = new ServiceResponse<List<ReturnorderCode>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetReturnOrderCode(SPWrapper.GetReturnOrderCode(Instacne));
+                return codes = Mapper.GetReturnOrderCode(SPWrapper.GetReturnOrderCode(Instacne,Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -877,7 +878,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool insertReturnSaleOrderitem(List<ReturnSaleOrderItem> elements)
+        public bool insertReturnSaleOrderitem(List<ReturnSaleOrderItem> elements, string Enviornment)
         {
             bool res;
             try
@@ -900,7 +901,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].Source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertReturnSaleOrderitem(dtinstcode);
+                res = SPWrapper.InsertReturnSaleOrderitem(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -909,7 +910,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertReturnaddress(List<ReturnAddressDetailsList> elements)
+        public bool insertReturnaddress(List<ReturnAddressDetailsList> elements, string Enviornment)
         {
             bool res;
             try
@@ -940,7 +941,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].Source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertReturnaddress(dtinstcode);
+                res = SPWrapper.InsertReturnaddress(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -949,14 +950,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public ServiceResponse<List<ReturnSaleOrderItem>> GetReturnOrderSkuCodes()
+        public ServiceResponse<List<ReturnSaleOrderItem>> GetReturnOrderSkuCodes( string Enviornment)
         {
             ServiceResponse<List<ReturnSaleOrderItem>> codes = new ServiceResponse<List<ReturnSaleOrderItem>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetReturnOrderSkuCode(SPWrapper.GetReturnOrderSkuCode());
+                return codes = Mapper.GetReturnOrderSkuCode(SPWrapper.GetReturnOrderSkuCode(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -966,7 +967,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool insertReturOrderItemtypes(List<ItemTypeDTO> elements)
+        public bool insertReturOrderItemtypes(List<ItemTypeDTO> elements, string Enviornment)
         {
             bool res;
             try
@@ -995,7 +996,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertReturnOrderItemtypes(dtinstcode);
+                res = SPWrapper.InsertReturnOrderItemtypes(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -1004,14 +1005,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public ServiceResponse<List<ReturnOrderSendData>> GetReturnOrderSendData(string instance)
+        public ServiceResponse<List<ReturnOrderSendData>> GetReturnOrderSendData(string instance, string Enviornment)
         {
             ServiceResponse<List<ReturnOrderSendData>> codes = new ServiceResponse<List<ReturnOrderSendData>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetReturnSendData(SPWrapper.GetReturnOrderSendData(instance));
+                return codes = Mapper.GetReturnSendData(SPWrapper.GetReturnOrderSendData(instance, Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1021,18 +1022,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void UpdateWaybillErrordetails(bool status, string Reason, string triggerid)
+        public void UpdateWaybillErrordetails(bool status, string Reason, string triggerid, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateWaybillError(status, Reason, triggerid);
+                SPWrapper.UpdateWaybillError(status, Reason, triggerid,Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public bool UpdateReturnOrderErrordetails(List<ErrorDetails> ErrorDt, int type)
+        public bool UpdateReturnOrderErrordetails(List<ErrorDetails> ErrorDt, int type, string Enviornment)
         {
             bool res;
             try
@@ -1052,7 +1053,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.UpdateReurnOrdercodeError(dtsku, type);
+                res = SPWrapper.UpdateReurnOrdercodeError(dtsku, type, Enviornment);
 
             }
             catch (Exception ex)
@@ -1062,7 +1063,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool UpdateReturnOrderSKUErrordetails(List<ErrorDetails> ErrorDt, int type)
+        public bool UpdateReturnOrderSKUErrordetails(List<ErrorDetails> ErrorDt, int type, string Enviornment)
         {
             bool res;
             try
@@ -1082,7 +1083,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.UpdateReurnOrdercodeError(dtsku, type);
+                res = SPWrapper.UpdateReurnOrdercodeError(dtsku, type, Enviornment);
 
             }
             catch (Exception ex)
@@ -1092,29 +1093,29 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public void UpdateSaleOrderFirst(string Reason)
+        public void UpdateSaleOrderFirst(string Reason, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateSaleOrderSearchError(Reason);
+                SPWrapper.UpdateSaleOrderSearchError(Reason, Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public void BLReturnOrderError(string Reason)
+        public void BLReturnOrderError(string Reason, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateReturnOrderError(Reason);
+                SPWrapper.UpdateReturnOrderError(Reason, Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public string InsertAllsendingDataReturnorder(ServiceResponse<List<ReturnOrderSendData>> itemDatun)
+        public string InsertAllsendingDataReturnorder(ServiceResponse<List<ReturnOrderSendData>> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -1197,7 +1198,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.IsertReturnOrderPostData(dtsku);
+                res = SPWrapper.IsertReturnOrderPostData(dtsku, Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -1207,18 +1208,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public void UpdateReturnOrderPostDataError(bool status, string Reason, string triggerid)
+        public void UpdateReturnOrderPostDataError(bool status, string Reason, string triggerid, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateReturnOrderPostDataError(status, Reason, triggerid);
+                SPWrapper.UpdateReturnOrderPostDataError(status, Reason, triggerid, Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public bool insertGatePassCode(List<Element> elements, string FacilityCode,string instance)
+        public bool insertGatePassCode(List<Element> elements, string FacilityCode,string instance, string Enviornment)
         {
             bool res;
             try
@@ -1235,7 +1236,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = instance;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertGetPassCode(dtinstcode);
+                res = SPWrapper.InsertGetPassCode(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -1244,14 +1245,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<Element> GetWaybillgatePassCode()
+        public List<Element> GetWaybillgatePassCode(string Enviornment)
         {
             List<Element> codes = new List<Element>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetGatePassCode(SPWrapper.GetWaybillgatepassCode());
+                return codes = Mapper.GetGatePassCode(SPWrapper.GetWaybillgatepassCode(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1261,7 +1262,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool insertGatePassElements(List<Elementdb> elements)
+        public bool insertGatePassElements(List<Elementdb> elements, string Enviornment)
         {
             bool res;
             try
@@ -1282,7 +1283,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].Source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertGetPassElements(dtinstcode);
+                res = SPWrapper.InsertGetPassElements(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -1291,7 +1292,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertItemTypeDTO(List<GatePassItemDTODb> elements)
+        public bool insertItemTypeDTO(List<GatePassItemDTODb> elements, string Enviornment)
         {
             bool res;
             try
@@ -1312,7 +1313,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].Source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertItemTypeDTO(dtinstcode);
+                res = SPWrapper.InsertItemTypeDTO(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -1321,14 +1322,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<GatePassItemDTO> GetWaybillSKUCode()
+        public List<GatePassItemDTO> GetWaybillSKUCode( string Enviornment)
         {
             List<GatePassItemDTO> codes = new List<GatePassItemDTO>();
 
             try
             {
 
-                return codes = Mapper.GetSKUCode(SPWrapper.GetWaybillSKUCde());
+                return codes = Mapper.GetSKUCode(SPWrapper.GetWaybillSKUCde(Enviornment));
             }
             catch (Exception ex)
             {
@@ -1337,7 +1338,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool insertWaybillItemType(List<ItemTypeDTO> elements)
+        public bool insertWaybillItemType(List<ItemTypeDTO> elements, string Enviornment)
         {
             bool res;
             try
@@ -1362,7 +1363,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].Source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertWaybillItemsType(dtinstcode);
+                res = SPWrapper.InsertWaybillItemsType(dtinstcode,Enviornment);
             }
             catch (Exception ex)
             {
@@ -1376,12 +1377,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
         {
             Log.Information(message);
         }
-        public ServiceResponse<UserLogin> CheckLoginCredentials(string UserName, string Password)
+        public ServiceResponse<UserLogin> CheckLoginCredentials(string UserName, string Password/*, string Enviornment*/)
         {
             ServiceResponse<UserLogin> serviceResponse;
             try
             {
-                serviceResponse = Mapper.CheckLoginCredentials(SPWrapper.CheckLoginCredentials(UserName, Password));
+                serviceResponse = Mapper.CheckLoginCredentials(SPWrapper.CheckLoginCredentials(UserName, Password/*,Enviornment*/));
                 CreateLog($"ServiceResponse Object {JsonConvert.SerializeObject(serviceResponse)}");
             }
             catch (Exception Ex)
@@ -1393,14 +1394,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public List<PostDataSTOWaybill> GetAllWaybillSTOPost()
+        public List<PostDataSTOWaybill> GetAllWaybillSTOPost( string Enviornment)
         {
             List<PostDataSTOWaybill> AllRes = new List<PostDataSTOWaybill>();
             try
             {
                 //CreateLog($" Get Code from DB ");
 
-                AllRes = Mapper.GetSendingWayBillSTOData(SPWrapper.GetWaybillSTOSendData());
+                AllRes = Mapper.GetSendingWayBillSTOData(SPWrapper.GetWaybillSTOSendData(Enviornment));
                 //CreateLog($" Get Code from DB Data{AllRes} ");
             }
             catch (Exception Ex)
@@ -1409,7 +1410,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return AllRes;
         }
-        public string InsertWaybillSTOsendingData(List<PostDataSTOWaybill> itemDatun)
+        public string InsertWaybillSTOsendingData(List<PostDataSTOWaybill> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -1479,7 +1480,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["TriggerID"] = id;
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.IsertWaybillPostData(dtsku);
+                res = SPWrapper.IsertWaybillPostData(dtsku, Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -1490,7 +1491,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertSTOAPIGatePassCode(List<Element> elements, string FacilityCode)
+        public bool insertSTOAPIGatePassCode(List<Element> elements, string FacilityCode, string Enviornment)
         {
             bool res;
             try
@@ -1507,7 +1508,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertSTOAPIGetPassCode(dtinstcode);
+                res = SPWrapper.InsertSTOAPIGetPassCode(dtinstcode,Enviornment);
             }
             catch (Exception ex)
             {
@@ -1516,14 +1517,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<Element> GetSTOAPIgatePassCode()
+        public List<Element> GetSTOAPIgatePassCode(string Enviornment)
         {
             List<Element> codes = new List<Element>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetSTOAPIGatePassCode(SPWrapper.GetSTOAPIgatepassCode());
+                return codes = Mapper.GetSTOAPIGatePassCode(SPWrapper.GetSTOAPIgatepassCode(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1533,7 +1534,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool insertSTOAPiGatePassElements(List<Element> elements)
+        public bool insertSTOAPiGatePassElements(List<Element> elements, string Enviornment)
         {
             bool res;
             try
@@ -1552,7 +1553,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertSTOAPIGetPassElements(dtinstcode);
+                res = SPWrapper.InsertSTOAPIGetPassElements(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -1561,7 +1562,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool insertSTOAPiItemTypeDTO(List<GatePassItemDTO> elements)
+        public bool insertSTOAPiItemTypeDTO(List<GatePassItemDTO> elements, string Enviornment)
         {
             bool res;
             try
@@ -1581,7 +1582,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].Source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertSTOAPIItemTypeDTO(dtinstcode);
+                res = SPWrapper.InsertSTOAPIItemTypeDTO(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -1590,7 +1591,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool STOWaybillCustField(List<CustomFieldValuedb> itemDTO)
+        public bool STOWaybillCustField(List<CustomFieldValuedb> itemDTO,string Enviornment)
         {
             bool res;
             try
@@ -1611,7 +1612,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.STOWaybillCustField(dtsku);
+                res = SPWrapper.STOWaybillCustField(dtsku,Enviornment);
                 //CreateLog($"item sku insert DB Status:-{res}");
             }
             catch (Exception ex)
@@ -1621,14 +1622,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<GatePassItemDTO> GetSTOSKUCode()
+        public List<GatePassItemDTO> GetSTOSKUCode( string Enviornment)
         {
             List<GatePassItemDTO> codes = new List<GatePassItemDTO>();
 
             try
             {
 
-                return codes = Mapper.GetSKUCode(SPWrapper.GetSTOAPISKUCde());
+                return codes = Mapper.GetSKUCode(SPWrapper.GetSTOAPISKUCde(Enviornment));
             }
             catch (Exception ex)
             {
@@ -1637,7 +1638,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public bool insertSTOAPItemType(List<ItemTypeDTO> elements)
+        public bool insertSTOAPItemType(List<ItemTypeDTO> elements, string Enviornment)
         {
             bool res;
             try
@@ -1662,7 +1663,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["Instance"] = elements[i].Source;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertSTOAPiItemsType(dtinstcode);
+                res = SPWrapper.InsertSTOAPiItemsType(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -1672,14 +1673,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public ServiceResponse<List<ReturnOrderSendData>> GetSTOAPISendData(string Instance)
+        public ServiceResponse<List<ReturnOrderSendData>> GetSTOAPISendData(string Instance, string Enviornment)
         {
             ServiceResponse<List<ReturnOrderSendData>> codes = new ServiceResponse<List<ReturnOrderSendData>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetSTOAPIAllData(SPWrapper.GetSTOAPiSendData(Instance));
+                return codes = Mapper.GetSTOAPIAllData(SPWrapper.GetSTOAPiSendData(Instance, Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1689,7 +1690,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public string InsertAllsendingDataSTOAPI(ServiceResponse<List<ReturnOrderSendData>> itemDatun)
+        public string InsertAllsendingDataSTOAPI(ServiceResponse<List<ReturnOrderSendData>> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -1772,7 +1773,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.IsertSTOAPIAllData(dtsku);
+                res = SPWrapper.IsertSTOAPIAllData(dtsku,Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -1784,69 +1785,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
         }
 
 
-        public void STOWaybillErrorCodes(string Reason)
+        public void STOWaybillErrorCodes(string Reason, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateSTOWaybillErrorCodesError(Reason);
+                SPWrapper.UpdateSTOWaybillErrorCodesError(Reason, Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public bool UpdateWaybillGatepassError(List<ErrorDetails> ErrorDt, int type)
-        {
-            bool res;
-            try
-            {
-                DataTable dtsku = new DataTable();
-                dtsku.Columns.Add("Code");
-                dtsku.Columns.Add("Reason");
-                dtsku.Columns.Add("Status");
-
-                for (int i = 0; i < ErrorDt.Count; i++)
-                {
-                    DataRow drsku = dtsku.NewRow();
-                    drsku["Code"] = ErrorDt[i].Code;
-                    drsku["Reason"] = ErrorDt[i].Reason;
-                    drsku["Status"] = ErrorDt[i].Status;
-
-                    dtsku.Rows.Add(drsku);
-                }
-                res = SPWrapper.UpdateErrorWaybill(dtsku, type);
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-            return res;
-        }
-        public void UpdateSTOWaybillPosterreoe(bool status, string Reason, string triggerid)
-        {
-            try
-            {
-                SPWrapper.UpdateSTOwaybillErrorpostdata(status, Reason, triggerid);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public void STOAPIErrorCodes(string Reason)
-        {
-            try
-            {
-                SPWrapper.UpdateSTOAPIError(Reason);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public bool UpdateSTOAPIError(List<ErrorDetails> ErrorDt, int type)
+        public bool UpdateWaybillGatepassError(List<ErrorDetails> ErrorDt, int type, string Enviornment)
         {
             bool res;
             try
@@ -1865,7 +1815,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                res = SPWrapper.UpdateSTOAPI(dtsku, type);
+                res = SPWrapper.UpdateErrorWaybill(dtsku, type,Enviornment);
 
             }
             catch (Exception ex)
@@ -1875,25 +1825,76 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public void UpdateSTOAPIPosterreoe(bool status, string Reason, string triggerid)
+        public void UpdateSTOWaybillPosterreoe(bool status, string Reason, string triggerid, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateSTOAPIErrorpostdata(status, Reason, triggerid);
+                SPWrapper.UpdateSTOwaybillErrorpostdata(status, Reason, triggerid,Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public ServiceResponse<List<CodesErrorDetails>> BLSTOAPI()
+        public void STOAPIErrorCodes(string Reason, string Enviornment)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOAPIError(Reason, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool UpdateSTOAPIError(List<ErrorDetails> ErrorDt, int type, string Enviornment)
+        {
+            bool res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Code");
+                dtsku.Columns.Add("Reason");
+                dtsku.Columns.Add("Status");
+
+                for (int i = 0; i < ErrorDt.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Code"] = ErrorDt[i].Code;
+                    drsku["Reason"] = ErrorDt[i].Reason;
+                    drsku["Status"] = ErrorDt[i].Status;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                res = SPWrapper.UpdateSTOAPI(dtsku, type,Enviornment);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return res;
+        }
+        public void UpdateSTOAPIPosterreoe(bool status, string Reason, string triggerid, string Enviornment)
+        {
+            try
+            {
+                SPWrapper.UpdateSTOAPIErrorpostdata(status, Reason, triggerid, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ServiceResponse<List<CodesErrorDetails>> BLSTOAPI(string Enviornment)
         {
             ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOAPIFailedCode());
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOAPIFailedCode(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1903,14 +1904,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public ServiceResponse<List<CodesErrorDetails>> BLSTOWaybil()
+        public ServiceResponse<List<CodesErrorDetails>> BLSTOWaybil( string Enviornment)
         {
             ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOErrorstatusCode());
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.GetSTOErrorstatusCode(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1920,14 +1921,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public ServiceResponse<List<EndpointErrorDetails>> BLWaybilStatus()
+        public ServiceResponse<List<EndpointErrorDetails>> BLWaybilStatus(string Enviornment)
         {
             ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetWaybillPoststatus());
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetWaybillPoststatus(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1937,14 +1938,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public ServiceResponse<List<CodesErrorDetails>> BLReturnOrderStatus()
+        public ServiceResponse<List<CodesErrorDetails>> BLReturnOrderStatus(string Enviornment)
         {
             ServiceResponse<List<CodesErrorDetails>> codes = new ServiceResponse<List<CodesErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.ReturnOrderStatus());
+                return codes = Mapper.GetErrorCodeDetailas(SPWrapper.ReturnOrderStatus(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1954,14 +1955,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<Element> GetWaybillgatePassCodeForretrigger()
+        public List<Element> GetWaybillgatePassCodeForretrigger( string Enviornment)
         {
             List<Element> codes = new List<Element>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetGatePassCode(SPWrapper.GetWaybillgatepassCodeRetrigger());
+                return codes = Mapper.GetGatePassCode(SPWrapper.GetWaybillgatepassCodeRetrigger(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1971,14 +1972,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<Element> GetSTOAPIgatePassCodeRetrigger()
+        public List<Element> GetSTOAPIgatePassCodeRetrigger(string Enviornment)
         {
             List<Element> codes = new List<Element>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetSTOAPIGatePassCode(SPWrapper.GetSTOAPIgatepassCodeRetrigger());
+                return codes = Mapper.GetSTOAPIGatePassCode(SPWrapper.GetSTOAPIgatepassCodeRetrigger(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -1988,14 +1989,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodesForRetrigger()
+        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodesForRetrigger(string Enviornment)
         {
             ServiceResponse<List<ReturnorderCode>> codes = new ServiceResponse<List<ReturnorderCode>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetReturnOrderCode(SPWrapper.GetReturnOrderCodeRetrigger());
+                return codes = Mapper.GetReturnOrderCode(SPWrapper.GetReturnOrderCodeRetrigger(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2006,7 +2007,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void InsertUpdateShippingpackageBox(List<ShippingBoxdb> itemDatun)
+        public void InsertUpdateShippingpackageBox(List<ShippingBoxdb> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -2031,7 +2032,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                SPWrapper.IsertShippingBox(dtsku);
+                SPWrapper.IsertShippingBox(dtsku,Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -2041,7 +2042,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void InsertUpdateShippingpackage(List<UpdateShippingpackagedb> itemDatun)
+        public void InsertUpdateShippingpackage(List<UpdateShippingpackagedb> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -2069,7 +2070,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                SPWrapper.IsertshippingUpdate(dtsku);
+                SPWrapper.IsertshippingUpdate(dtsku, Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -2079,7 +2080,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void InsertCustomFields(List<addCustomFieldValue> itemDatun)
+        public void InsertCustomFields(List<addCustomFieldValue> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -2099,7 +2100,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["value"] = itemDatun[i].value;
                     dtsku.Rows.Add(drsku);
                 }
-                SPWrapper.IsertCustomFields(dtsku);
+                SPWrapper.IsertCustomFields(dtsku, Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -2109,14 +2110,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<UpdateShippingpackagedb> UpdateShipingPck()
+        public List<UpdateShippingpackagedb> UpdateShipingPck(string Enviornment)
         {
             List<UpdateShippingpackagedb> codes = new List<UpdateShippingpackagedb>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetUpdateShippingData());
+                return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetUpdateShippingData(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2126,14 +2127,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<UpdateShippingpackagedb> UpdateShipingPckRetrigger()
+        public List<UpdateShippingpackagedb> UpdateShipingPckRetrigger(string Enviornment)
         {
             List<UpdateShippingpackagedb> codes = new List<UpdateShippingpackagedb>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetUpdateShippingRetrigger());
+                return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetUpdateShippingRetrigger(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2144,7 +2145,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void InsertAllocate_Shipping(List<Allocateshipping> itemDatun)
+        public void InsertAllocate_Shipping(List<Allocateshipping> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -2167,7 +2168,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     //drsku["generateUniwareShippingLabel"] = itemDatun[i].generateUniwareShippingLabel;
                     dtsku.Rows.Add(drsku);
                 }
-                SPWrapper.IsertAllocate_Shipping(dtsku);
+                SPWrapper.IsertAllocate_Shipping(dtsku, Enviornment);
 
             }
             catch (Exception ex)
@@ -2178,14 +2179,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public List<AllocateshippingDb> PostGAllocateShippingData()
+        public List<AllocateshippingDb> PostGAllocateShippingData(string Enviornment)
         {
             //List<Allocateshipping> codes = new List<Allocateshipping>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingData());
+                return Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingData(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2196,14 +2197,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<AllocateshippingDb> PostGAllocateShippingDataForRetrigger()
+        public List<AllocateshippingDb> PostGAllocateShippingDataForRetrigger( string Enviornment)
         {
             List<Allocateshipping> codes = new List<Allocateshipping>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingDataForRetrigger());
+                return Mapper.GetAllocateShipping(SPWrapper.GetAllocateShippingDataForRetrigger(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2215,31 +2216,31 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public string UpdateShippingDataPost(UpdateShippingpackage updateShippingpackage, string FacilityCode)
+        public string UpdateShippingDataPost(UpdateShippingpackage updateShippingpackage, string FacilityCode, string Enviornment)
         {
             var id = GenerateNumeric();
-            return SPWrapper.IsertUpdateShippingrecords(updateShippingpackage, id, FacilityCode);
+            return SPWrapper.IsertUpdateShippingrecords(updateShippingpackage, id, FacilityCode,Enviornment);
         }
 
-        public void UpdateShippingErrordetails(bool status, string Reason, string triggerid)
+        public void UpdateShippingErrordetails(bool status, string Reason, string triggerid, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateShippingError(status, Reason, triggerid);
+                SPWrapper.UpdateShippingError(status, Reason, triggerid, Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public ServiceResponse<List<EndpointErrorDetails>> BLUpdateShippingStatus()
+        public ServiceResponse<List<EndpointErrorDetails>> BLUpdateShippingStatus(string Enviornment)
         {
             ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetUpdateShippingStatus());
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetUpdateShippingStatus(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2249,11 +2250,11 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void AllocateErrorDetails(bool status, string Reason, string triggerid)
+        public void AllocateErrorDetails(bool status, string Reason, string triggerid, string Enviornment)
         {
             try
             {
-                SPWrapper.AllocateShippingError(status, Reason, triggerid);
+                SPWrapper.AllocateShippingError(status, Reason, triggerid,Enviornment);
             }
             catch (Exception ex)
             {
@@ -2261,19 +2262,19 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
         }
 
-        public string AllocateShippingDataPost(Allocateshipping updateShippingpackage)
+        public string AllocateShippingDataPost(Allocateshipping updateShippingpackage, string Enviornment)
         {
             var id = GenerateNumeric();
-            return SPWrapper.IsertAllocateShippingrecords(updateShippingpackage, id);
+            return SPWrapper.IsertAllocateShippingrecords(updateShippingpackage, id, Enviornment);
         }
-        public ServiceResponse<List<EndpointErrorDetails>> BLAlocateShippingStatus()
+        public ServiceResponse<List<EndpointErrorDetails>> BLAlocateShippingStatus(string Enviornment)
         {
             ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetAlocateShippingStatus());
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetAlocateShippingStatus(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2283,34 +2284,34 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void UpdateShippingErrordetails(string Shippingpck)
+        public void UpdateShippingErrordetails(string Shippingpck, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateShippingErrorDetais(Shippingpck);
+                SPWrapper.UpdateShippingErrorDetais(Shippingpck,Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public void WaybillCancel(string Shippingpck)
+        public void WaybillCancel(string Shippingpck, string Enviornment)
         {
             try
             {
-                SPWrapper.WaybillCancelId(Shippingpck);
+                SPWrapper.WaybillCancelId(Shippingpck, Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public List<CancelData> GetWaybillCancelData()
+        public List<CancelData> GetWaybillCancelData( string Enviornment)
         {
             List<CancelData> AllRes = new List<CancelData>();
             try
             {
-                AllRes = Mapper.GetWayBillCancelData(SPWrapper.GetWaybillCancelData());
+                AllRes = Mapper.GetWayBillCancelData(SPWrapper.GetWaybillCancelData(Enviornment));
             }
             catch (Exception Ex)
             {
@@ -2319,7 +2320,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return AllRes;
         }
 
-        public bool BLReversePickupMain(List<ReversePickupDb> elements)
+        public bool BLReversePickupMain(List<ReversePickupDb> elements, string Enviornment)
         {
             bool res;
             try
@@ -2346,7 +2347,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.ReversePickupMain(dtinstcode);
+                res = SPWrapper.ReversePickupMain(dtinstcode,Enviornment);
             }
             catch (Exception ex)
             {
@@ -2356,7 +2357,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool BLReversePickUpAddress(List<PickUpAddressDb> elements)
+        public bool BLReversePickUpAddress(List<PickUpAddressDb> elements, string Enviornment)
         {
             bool res;
             try
@@ -2387,7 +2388,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.ReversePickUpAddress(dtinstcode);
+                res = SPWrapper.ReversePickUpAddress(dtinstcode,Enviornment);
             }
             catch (Exception ex)
             {
@@ -2396,7 +2397,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool BLReverseDimension(List<DimensionDb> elements)
+        public bool BLReverseDimension(List<DimensionDb> elements, string Enviornment)
         {
             bool res;
             try
@@ -2421,7 +2422,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.ReverseDimension(dtinstcode);
+                res = SPWrapper.ReverseDimension(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -2430,7 +2431,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool BLReverseCustomField(List<CustomFieldDb> elements)
+        public bool BLReverseCustomField(List<CustomFieldDb> elements, string Enviornment)
         {
             bool res;
             try
@@ -2449,7 +2450,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["value"] = elements[i].value;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.ReverseCustomField(dtinstcode);
+                res = SPWrapper.ReverseCustomField(dtinstcode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -2458,12 +2459,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<ReversePickupDb> GetReverseAllData()
+        public List<ReversePickupDb> GetReverseAllData( string Enviornment)
         {
             List<ReversePickupDb> codes = new List<ReversePickupDb>();
             try
             {
-                return codes = Mapper.GetReverseAllData(SPWrapper.GetReverseAllData());
+                return codes = Mapper.GetReverseAllData(SPWrapper.GetReverseAllData(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2471,41 +2472,41 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public string ReversePickUpData(ReversePickup updateShippingpackage,string FacilityCode)
+        public string ReversePickUpData(ReversePickup updateShippingpackage,string FacilityCode, string Enviornment)
         {
             var id = GenerateNumeric();
-            return SPWrapper.IsertRevrserePickUprecords(updateShippingpackage, id, FacilityCode);
+            return SPWrapper.IsertRevrserePickUprecords(updateShippingpackage, id, FacilityCode,Enviornment);
         }
-        public void ReversePickUpErrorDetails(bool status, string Reason, string triggerid)
+        public void ReversePickUpErrorDetails(bool status, string Reason, string triggerid, string Enviornment)
         {
             try
             {
-                SPWrapper.ReversePickUpError(status, Reason, triggerid);
+                SPWrapper.ReversePickUpError(status, Reason, triggerid,Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public void BLUpdateErrorDetailsReversePickup(string reversepickupcode)
+        public void BLUpdateErrorDetailsReversePickup(string reversepickupcode, string Enviornment)
         {
             try
             {
-                SPWrapper.UpdateErrorDetailsReversePickup(reversepickupcode);
+                SPWrapper.UpdateErrorDetailsReversePickup(reversepickupcode, Enviornment);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public ServiceResponse<List<EndpointErrorDetails>> BLGetReversePickUpErrorStatus()
+        public ServiceResponse<List<EndpointErrorDetails>> BLGetReversePickUpErrorStatus( string Enviornment)
         {
             ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
 
             try
             {
                 //CreateLog($"get SKU Code From DB DB");
-                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetReversePickUpErrorStatus());
+                return codes = Mapper.ErrorWaybillPostData(SPWrapper.GetReversePickUpErrorStatus(Enviornment));
                 //CreateLog($"get SKU Code From DB DB{codes}");
             }
             catch (Exception ex)
@@ -2515,12 +2516,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<ReversePickupDb> GetRetriggerDataReversePickup()
+        public List<ReversePickupDb> GetRetriggerDataReversePickup( string Enviornment)
         {
             List<ReversePickupDb> codes = new List<ReversePickupDb>();
             try
             {
-                return codes = Mapper.GetReverseAllData(SPWrapper.GetReversePickupDataForRetrigger());
+                return codes = Mapper.GetReverseAllData(SPWrapper.GetReversePickupDataForRetrigger(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2528,12 +2529,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<FacilityDetails> GetFacilityList()
+        public List<FacilityDetails> GetFacilityList( string Enviornment)
         {
             List<FacilityDetails> codes = new List<FacilityDetails>();
             try
             {
-                return codes = Mapper.GetFacilityCode(SPWrapper.GetFacilityCode());
+                return codes = Mapper.GetFacilityCode(SPWrapper.GetFacilityCode(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2541,13 +2542,13 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<FacilityMaintain> GetFacilityData()
+        public List<FacilityMaintain> GetFacilityData( string Enviornment)
         {
             List<FacilityMaintain> codes = new List<FacilityMaintain>();
 
             try
             {
-                return codes = Mapper.GetFacilityData(SPWrapper.GetFacilityMaintainData());
+                return codes = Mapper.GetFacilityData(SPWrapper.GetFacilityMaintainData(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2555,7 +2556,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public string UploadFacilityMaster(List<FacilityMaintain> cloned)
+        public string UploadFacilityMaster(List<FacilityMaintain> cloned, string Enviornment)
         {
             string res;
             try
@@ -2587,7 +2588,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     SOrow["Instance"] = cloned[i].Instance;
                     Facility.Rows.Add(SOrow);
                 }
-                res = SPWrapper.UpdateFaciitymaster(Facility);
+                res = SPWrapper.UpdateFaciitymaster(Facility, Enviornment);
             }
             catch (Exception ex)
             {
@@ -2596,7 +2597,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public bool BLinsertTrackingDetails(List<TrackingStatusDb> elements)
+        public bool BLinsertTrackingDetails(List<TrackingStatusDb> elements, string Enviornment)
         {
             bool res;
             try
@@ -2623,7 +2624,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     dr["facilitycode"] = elements[i].facilitycode;
                     dtinstcode.Rows.Add(dr);
                 }
-                res = SPWrapper.InsertTrackingDetails(dtinstcode);
+                res = SPWrapper.InsertTrackingDetails(dtinstcode,Enviornment);
             }
             catch (Exception ex)
             {
@@ -2632,22 +2633,22 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public void InsertTrackingStatusPostdata(TrackingStatus updateShippingpackage, string Facility)
+        public void InsertTrackingStatusPostdata(TrackingStatus updateShippingpackage, string Facility, string Enviornment)
         {
             var id = GenerateNumeric();
-            SPWrapper.InsertTrackingDetailsPostData(updateShippingpackage, id, Facility);
+            SPWrapper.InsertTrackingDetailsPostData(updateShippingpackage, id, Facility, Enviornment);
         }
 
-        public string  GetInstanceName(string TrackingNo)
+        public string  GetInstanceName(string TrackingNo, string Enviornment)
         {
             //var id = GenerateNumeric();
-           return SPWrapper.GetInstanceName(TrackingNo);
+           return SPWrapper.GetInstanceName(TrackingNo,Enviornment);
         }
-        public List<TrackingStatusDb> GetTrackingDetails()
+        public List<TrackingStatusDb> GetTrackingDetails(string Enviornment)
         {
             try
             {
-                return Mapper.GetTrackingDetails(SPWrapper.GetTrackingDetails());
+                return Mapper.GetTrackingDetails(SPWrapper.GetTrackingDetails(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2656,7 +2657,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public string UpdateTruckDetailsMaster(List<TruckDetails> cloned)
+        public string UpdateTruckDetailsMaster(List<TruckDetails> cloned, string Enviornment)
         {
             string res;
             try
@@ -2672,7 +2673,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     SOrow["Instance"] = cloned[i].Instance;
                     TruckDetails.Rows.Add(SOrow);
                 }
-                res = SPWrapper.UpdateTruckDetails(TruckDetails);
+                res = SPWrapper.UpdateTruckDetails(TruckDetails, Enviornment);
             }
             catch (Exception ex)
             {
@@ -2681,13 +2682,13 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<TruckDetails> GetTruckDetails()
+        public List<TruckDetails> GetTruckDetails(string Enviornment)
         {
             List<TruckDetails> codes = new List<TruckDetails>();
 
             try
             {
-                return codes = Mapper.GetTruckDetails(SPWrapper.GetTruckDetails());
+                return codes = Mapper.GetTruckDetails(SPWrapper.GetTruckDetails(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2695,7 +2696,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public string UpdateRegionMaster(List<RegionMaster> cloned)
+        public string UpdateRegionMaster(List<RegionMaster> cloned, string Enviornment)
         {
             string res;
             try
@@ -2711,7 +2712,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     SOrow["Region"] = cloned[i].Region;
                     TruckDetails.Rows.Add(SOrow);
                 }
-                res = SPWrapper.UpdateRegionMaster(TruckDetails);
+                res = SPWrapper.UpdateRegionMaster(TruckDetails,Enviornment);
             }
             catch (Exception ex)
             {
@@ -2720,13 +2721,13 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<RegionMaster> GetRegionDetails()
+        public List<RegionMaster> GetRegionDetails( string Enviornment)
         {
             List<RegionMaster> codes = new List<RegionMaster>();
 
             try
             {
-                return codes = Mapper.MPGetRegionDetails(SPWrapper.GetRegionDetails());
+                return codes = Mapper.MPGetRegionDetails(SPWrapper.GetRegionDetails(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2734,12 +2735,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public List<TrackingMaster> GetTrackingStatusDetails()
+        public List<TrackingMaster> GetTrackingStatusDetails( string Enviornment)
         {
             List<TrackingMaster> codes = new List<TrackingMaster>();
             try
             {
-                return codes = Mapper.GetTrackingStatusDetails(SPWrapper.GetTrackingStatusDetails());
+                return codes = Mapper.GetTrackingStatusDetails(SPWrapper.GetTrackingStatusDetails(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2747,7 +2748,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public string UploadtTackingMasterDetails(List<TrackingMaster> cloned)
+        public string UploadtTackingMasterDetails(List<TrackingMaster> cloned, string Enviornment)
         {
             string res;
             try
@@ -2765,7 +2766,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     SOrow["CourierName"] = cloned[i].CourierName;
                     TruckDetails.Rows.Add(SOrow);
                 }
-                res = SPWrapper.UpdateTrackingStatus(TruckDetails);
+                res = SPWrapper.UpdateTrackingStatus(TruckDetails, Enviornment);
             }
             catch (Exception ex)
             {
@@ -2774,12 +2775,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public List<TrackingMaster> GetCourierNameDetails()
+        public List<TrackingMaster> GetCourierNameDetails(string Enviornment)
         {
             List<TrackingMaster> codes = new List<TrackingMaster>();
             try
             {
-                return codes = Mapper.GetCourierNameDetails(SPWrapper.GetCourierNameDetails());
+                return codes = Mapper.GetCourierNameDetails(SPWrapper.GetCourierNameDetails(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2787,7 +2788,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public string UploadtCourireDetails(List<TrackingMaster> cloned)
+        public string UploadtCourireDetails(List<TrackingMaster> cloned, string Enviornment)
         {
             string res;
             try
@@ -2802,7 +2803,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     SOrow["CourierName"] = cloned[i].CourierName;
                     TruckDetails.Rows.Add(SOrow);
                 }
-                res = SPWrapper.UpdateCourierList(TruckDetails);
+                res = SPWrapper.UpdateCourierList(TruckDetails, Enviornment);
             }
             catch (Exception ex)
             {
@@ -2812,12 +2813,12 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public List<TrackingLinkMapping> GetTrackingMappingList()
+        public List<TrackingLinkMapping> GetTrackingMappingList(string Enviornment)
         {
             List<TrackingLinkMapping> codes = new List<TrackingLinkMapping>();
             try
             {
-                return codes = Mapper.GetTrackingLink(SPWrapper.GetTrackingMapping());
+                return codes = Mapper.GetTrackingLink(SPWrapper.GetTrackingMapping(Enviornment));
             }
             catch (Exception ex)
             {
@@ -2825,7 +2826,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public string UploadTrackingMapping(List<TrackingLinkMapping> cloned)
+        public string UploadTrackingMapping(List<TrackingLinkMapping> cloned, string Enviornment)
         {
             string res;
 
@@ -2833,7 +2834,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             try
             {
                 
-                res = SPWrapper.UpdateTrackingMappingList(DealerTable);
+                res = SPWrapper.UpdateTrackingMappingList(DealerTable,Enviornment);
             }
             catch (Exception ex)
             {
@@ -2841,6 +2842,21 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw;
             }
             return res;
+        }
+
+        public ServiceResponse<MenusAccess> GetRoleMenuAccess(int UserId, string Enviornment)
+        {
+            return Mapper.GetRoleMenuAccess(SPWrapper.GetRoleMenuAccess(UserId, Enviornment));
+        }
+
+        //public void InsertUsername(string Usernmae)
+        //{
+        //    SPWrapper.InsertTokenUsername(Usernmae);
+        //}
+
+        public string GetEnviroment(string Username)
+        {
+            return SPWrapper.GetEnviornmant(Username);
         }
 
     }

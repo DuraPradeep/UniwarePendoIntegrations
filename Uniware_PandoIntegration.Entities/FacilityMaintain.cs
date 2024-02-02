@@ -19,4 +19,9 @@ namespace Uniware_PandoIntegration.Entities
         public string Email { get; set; }
         public string Instance { get; set; }
     }
+    public class FacilityList
+    {
+        public List<FacilityMaintain> Listoffacility { get; set; }
+        public string Enviornment { get; set; }
+    }
 }

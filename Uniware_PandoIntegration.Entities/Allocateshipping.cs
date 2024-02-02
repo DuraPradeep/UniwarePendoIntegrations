@@ -27,6 +27,13 @@ namespace Uniware_PandoIntegration.Entities
         public string FacilityCode { get; set; }
         public string Instance { get; set; }
         public string trackingLink { get; set; }
+        //public UpdateShippingpackagedb updateShippingpackagedb { get;}
+
+    }
+    public class CommonAllocateUpdate
+    {
+        public List<UpdateShippingpackagedb> updateShippingpackagedb { get; set; }
+        public List<AllocateshippingDb> allocateshippingDbs { get; set; }
 
     }
 }

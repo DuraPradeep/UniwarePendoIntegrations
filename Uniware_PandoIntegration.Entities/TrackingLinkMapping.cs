@@ -11,4 +11,10 @@ namespace Uniware_PandoIntegration.Entities
         public string CourierName { get; set; }
         public string TrackingLink { get; set; }
     }
+    public class TrackingLinkMappingMap
+    {
+       public List<TrackingLinkMapping> TrackingLinkMappings{ get; set; }
+        public string Enviornment { get; set; }
+
+    }
 }

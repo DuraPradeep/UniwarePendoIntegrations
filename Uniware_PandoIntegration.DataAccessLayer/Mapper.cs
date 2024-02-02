@@ -502,6 +502,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     userLogin.UserName = Convert.ToString(pds.Tables[0].Rows[0]["UserName"]);
                     userLogin.Password = pds.Tables[0].Rows[0]["Password"].ToString();
+                    userLogin.LoginID = pds.Tables[0].Rows[0]["LoginID"].ToString();
+                    userLogin.RoleId = pds.Tables[0].Rows[0]["RoleId"].ToString();
+                    userLogin.PhoneNumber = pds.Tables[0].Rows[0]["MobileNumber"].ToString();
+                    userLogin.Email = pds.Tables[0].Rows[0]["Email"].ToString();
+                    userLogin.Environment = pds.Tables[0].Rows[0]["Environment"].ToString();
                     serviceResponse.ObjectParam = userLogin;
                     serviceResponse.Errcode = 200;
                 }
@@ -968,5 +973,53 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return MappingList;
         }
+
+
+        public static ServiceResponse<MenusAccess> GetRoleMenuAccess(DataSet pds)
+        {
+            ServiceResponse<MenusAccess> serviceResponse = new ServiceResponse<MenusAccess>();
+            List<RoleMenuAccess> RoleMenuAccessList = new List<RoleMenuAccess>();
+            List<Menus> MenuLists = new List<Menus>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    Menus uobj = new Menus
+                    {
+                        MenuID = Convert.ToInt32(pds.Tables[0].Rows[i]["MenuID"]),
+                        MenuTitle = pds.Tables[0].Rows[i]["MenuTitle"].ToString(),
+                        ActionName = pds.Tables[0].Rows[i]["ActionName"].ToString(),
+                        ControllerName = pds.Tables[0].Rows[i]["ControllerName"].ToString()
+                    };
+
+                    MenuLists.Add(uobj);
+                }
+
+                for (int i = 0; i < pds.Tables[1].Rows.Count; i++)
+                {
+                    RoleMenuAccess uobj = new RoleMenuAccess
+                    {
+                        MenuAccessId = Convert.ToInt32(pds.Tables[1].Rows[i]["MenuAccessId"]),
+                        MenuId = Convert.ToInt32(pds.Tables[1].Rows[i]["MenuId"]),
+                        Role = Convert.ToInt16(pds.Tables[1].Rows[i]["Role"]),
+                        UserID = Convert.ToInt32(pds.Tables[1].Rows[i]["UserID"])
+                    };
+
+                    RoleMenuAccessList.Add(uobj);
+                }
+                MenusAccess MenusAccess = new MenusAccess();
+                MenusAccess.RoleMenuAccessesList = RoleMenuAccessList;
+                MenusAccess.MenusList = MenuLists;
+                serviceResponse.ObjectParam = MenusAccess;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Errcode = 500;
+                serviceResponse.Errdesc = ex.Message;
+                serviceResponse.ObjectParam = new MenusAccess();
+            }
+            return serviceResponse;
+        }
+
     }
 }
