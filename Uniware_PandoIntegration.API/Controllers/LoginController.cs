@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Uniware_PandoIntegration.API.Folder;
 using Uniware_PandoIntegration.APIs;
 using Uniware_PandoIntegration.BusinessLayer;
@@ -41,6 +42,8 @@ namespace Uniware_PandoIntegration.API.Controllers
         public int SaveUser(UserProfile userLogin)
         {
             ObjBusinessLayer=new UniwareBL();
+            _logger.LogInformation($"User Create at {DateTime.Now.ToLongTimeString()} User Details:- {JsonConvert.SerializeObject(userLogin)}");
+
             return ObjBusinessLayer.SaveUser(userLogin);
         }
     }

@@ -630,12 +630,10 @@ namespace UniWare_PandoIntegration.Controllers
             if (response == "0")
             {
                 TempData["Success"] = "Something Went Wrong!";
-                //return Json(Success, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                TempData["Success"] = "Gate Pass Added Successfully !!";
-                //return Json(Success, JsonRequestBehavior.AllowGet);
+                TempData["Success"] = "Uase Added Successfully !!";
             }
 
 

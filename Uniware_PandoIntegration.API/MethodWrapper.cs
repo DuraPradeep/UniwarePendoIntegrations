@@ -147,7 +147,7 @@ namespace Uniware_PandoIntegration.API
                     SaleOrderDTO em = new SaleOrderDTO();
                     em.code = code;
                     em.source = Instance;
-
+                    var email = details.saleOrderDTO.notificationEmail;
                     //em.code = details.saleOrderDTO.code;
                     em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
                     //elements.Add(em);
@@ -168,7 +168,8 @@ namespace Uniware_PandoIntegration.API
                         adrs.state = details.saleOrderDTO.addresses[ads].state;
                         adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
                         adrs.phone = details.saleOrderDTO.addresses[ads].phone;
-                        adrs.email = details.saleOrderDTO.addresses[ads].email;
+                        adrs.email = email;
+                        //adrs.email = details.saleOrderDTO.addresses[ads].email;
                         adrs.Source = Instance;
 
                         //address.Add(adrs);

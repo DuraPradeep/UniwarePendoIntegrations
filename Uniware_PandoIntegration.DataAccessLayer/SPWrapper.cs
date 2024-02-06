@@ -4550,28 +4550,27 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     con = new SqlConnection(ConnectionString);
                 }
-                com.Connection = con;
-                com.CommandType = CommandType.StoredProcedure;
-                com.CommandText = "Pro_SaveUser";
-                com.CommandTimeout = 0;
-                com.Parameters.AddWithValue("@username", userProfile.Username);
-                com.Parameters.AddWithValue("@Password", userProfile.Password);
-                com.Parameters.AddWithValue("@Firstname", userProfile.FirstName);
-                com.Parameters.AddWithValue("@Lastname", userProfile.Lastname);
-                com.Parameters.AddWithValue("@Email", userProfile.Email);
-                com.Parameters.AddWithValue("@Roleid", userProfile.Roleid);
-                com.Parameters.AddWithValue("@MobileNo", userProfile.MobileNumber);
-                com.Parameters.AddWithValue("@Environment", userProfile.Environment);
-                con.Open();
-                //da = new SqlDataAdapter(com);
-                //da.Fill(ds);
-                getid=com.ExecuteNonQuery();
-
+                using (con)
+                {
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = "Pro_SaveUser";
+                    com.CommandTimeout = 0;
+                    com.Parameters.AddWithValue("@username", userProfile.Username);
+                    com.Parameters.AddWithValue("@Password", userProfile.Password);
+                    com.Parameters.AddWithValue("@Firstname", userProfile.FirstName);
+                    com.Parameters.AddWithValue("@Lastname", userProfile.Lastname);
+                    com.Parameters.AddWithValue("@Email", userProfile.Email);
+                    com.Parameters.AddWithValue("@Roleid", userProfile.Roleid);
+                    com.Parameters.AddWithValue("@MobileNo", userProfile.MobileNumber);
+                    com.Parameters.AddWithValue("@Environment", userProfile.Environment);
+                    con.Open();
+                    getid =(int)com.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {
-                //log.Error($"ServiceResponse Object {JsonConvert.SerializeObject(ex)}");
-                // LoggingAdapter.WriteLog("Insert Country Details" + ex.Message + Environment.NewLine);
+                getid = 0;
             }
             finally
             {
