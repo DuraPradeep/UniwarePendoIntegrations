@@ -62,7 +62,7 @@
                         @Html.Label("Password")
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @onchange = "" })
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @onchange = "", @required = "required" })
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 star">
                         @Html.Label("Primary Contact")
@@ -85,13 +85,13 @@
                         @Html.Label("Last Name")
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                        @Html.TextBoxFor(m => m.Lastname, new { @class = "form-control", @placeholder = "Enter Last Name", @onchange = "" })
+                        @Html.TextBoxFor(m => m.Lastname, new { @class = "form-control", @placeholder = "Enter Last Name", @onchange = "", @required = "required" })
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         @Html.Label("Personal Email")
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Email", @onchange = "", @pattern = "[^@]+@[^@]+\\.[a-zA-Z]{2,6}" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Email", @onchange = "", @required = "required", @pattern = "[^@]+@[^@]+\\.[a-zA-Z]{2,6}" })
                     </div>
                     
                 </div>
@@ -110,7 +110,7 @@
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
                         <div class="input_field button_central">
                             <input type="submit" name="submit" id="submit" class="btn btn-danger red-text-dark" value="Save" />
-                            <input type="button" name="Back" id="Back" class="btn btn-danger red-text-dark" onClick="return fn_UserListBreadcrumb(this);" value="Back" />
+                              <a href="~/Home/Dashboard" class="logo"><input type="button" name="Back" id="Back" class="btn btn-danger red-text-dark"  value="Back" /></a>
                         </div>
                     </div>
                 </div>
