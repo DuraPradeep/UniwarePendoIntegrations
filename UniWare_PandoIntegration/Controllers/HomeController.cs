@@ -144,15 +144,16 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName") + " to the Dashboard!!";
             }
-            serviceResponse1 = ApiControl.Get<ServiceResponse<MenusAccess>, int, string>(LoginId, Enviornment, "UserId", "Enviornment", "Api/Login/GetRoleMenuAccess");
-            if (serviceResponse1 == null)
-            {
-                TempData["Success"] = "Menus Not Assigned to " + HttpContext.Session.GetString("UserName");
-                return View(new MenusAccess());
-            }
+            //serviceResponse1 = ApiControl.Get<ServiceResponse<MenusAccess>, int, string>(LoginId, Enviornment, "UserId", "Enviornment", "Api/Login/GetRoleMenuAccess");
+            //if (serviceResponse1 == null)
+            //{
+            //    TempData["Success"] = "Menus Not Assigned to " + HttpContext.Session.GetString("UserName");
+            //    return View(new MenusAccess());
+            //}
 
 
-            return View(serviceResponse1.ObjectParam);
+            //return View(serviceResponse1.ObjectParam);
+            return View();
         }
 
         public ActionResult Logout()
