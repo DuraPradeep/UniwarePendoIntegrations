@@ -1845,7 +1845,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             DataTable dtConfig = new DataTable();
             try
             {
-                using (con=GetConnection())
+                using (con = new SqlConnection(ConnectionStringProd))
                 {
                     com = new SqlCommand
                     {

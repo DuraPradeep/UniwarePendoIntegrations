@@ -1766,10 +1766,12 @@ namespace Uniware_PandoIntegration.API.Controllers
                         updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
                         CustomFieldValue customFieldValue = new CustomFieldValue();
 
-                        customFieldValue.name = "trackingLink";
+                        customFieldValue.name = "DFX_Track";
                         customFieldValue.value = results[i].trackingLink;
                         updateShippingpackage.customFieldValues.Add(customFieldValue);
-                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, "0", _Tokens.access_token, facility, Servertype, Instance);
+                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
+
+                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
 
                         //End
 
@@ -2839,32 +2841,45 @@ namespace Uniware_PandoIntegration.API.Controllers
                 if (!string.IsNullOrEmpty(token))
                 {
                     var TrackingList = ObjBusinessLayer.GetTrackingDetails(Servertype);
-                    for (int i = 0; i < TrackingList.Count; i++)
+                    if (TrackingList.Count > 0)
                     {
+                        for (int i = 0; i < TrackingList.Count; i++)
+                        {
 
-                        TrackingStatus trackingStatus = new TrackingStatus();
-                        trackingStatus.providerCode = TrackingList[i].providerCode;
-                        trackingStatus.trackingStatus = TrackingList[i].trackingStatus;
-                        trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
-                        trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
-                        trackingStatus.statusDate = TrackingList[i].statusDate;
-                        ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode,Servertype);
-                        var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype, Instance);
-                        if (res != null)
-                        {
-                            responsmessage = res.Result.ObjectParam.ToString();
+                            TrackingStatus trackingStatus = new TrackingStatus();
+                            trackingStatus.providerCode = TrackingList[i].providerCode;
+                            trackingStatus.trackingStatus = TrackingList[i].trackingStatus;
+                            trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
+                            trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
+                            trackingStatus.statusDate = TrackingList[i].statusDate;
+                            ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode, Servertype);
+                            var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype, Instance);
+                            if (res != null)
+                            {
+                                responsmessage = res.Result.ObjectParam.ToString();
+                            }
+                            else
+                            {
+                                responsmessage = "Something went wrong in API";
+                            }
                         }
-                        else
-                        {
-                            responsmessage = "Something went wrong in API";
-                        }
+                        TrackingResponse reversePickupResponse = new TrackingResponse();
+                        reversePickupResponse.successful = true;
+                        reversePickupResponse.message = responsmessage;
+                        reversePickupResponse.errors = "";
+                        reversePickupResponse.warnings = "";
+                        return new JsonResult(reversePickupResponse);
                     }
-                    TrackingResponse reversePickupResponse = new TrackingResponse();
-                    reversePickupResponse.successful = true;
-                    reversePickupResponse.message = responsmessage;
-                    reversePickupResponse.errors = "";
-                    reversePickupResponse.warnings = "";
-                    return new JsonResult(reversePickupResponse);
+                    else
+                    {
+                        TrackingResponse reversePickupResponse = new TrackingResponse();
+                        reversePickupResponse.successful = false;
+                        reversePickupResponse.message = responsmessage;
+                        reversePickupResponse.errors = "There Is not Data For Tacking";
+                        reversePickupResponse.warnings = "";
+                        return new JsonResult(reversePickupResponse);
+                    }
+                    
                 }else
                 {
                     TrackingResponse reversePickupResponse = new TrackingResponse();
