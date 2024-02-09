@@ -304,6 +304,17 @@
 
         });
     }
+    function fn_ShippingStatus() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/ShippingStatusMaster", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
 
 </script>
 
@@ -425,8 +436,7 @@
             </div>
 
         </div>
-        @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") == "1")
-        {
+        
             <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelUpload()">
                 <div class="card text-white mb-4 text-center pointer">
                     <div class="card-body tile_list">
@@ -435,7 +445,7 @@
                 </div>
 
             </div>
-        }
+        
     </div>
     @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") == "1")
     {
@@ -495,6 +505,14 @@
                 <div class="card text-white mb-4 text-center pointer">
                     <div class="card-body tile_list">
                         <p>Tracking Link Mapping</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ShippingStatus()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Shipping Status Master</p>
                     </div>
                 </div>
 

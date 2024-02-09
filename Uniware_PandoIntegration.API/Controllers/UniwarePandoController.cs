@@ -1531,22 +1531,23 @@ namespace Uniware_PandoIntegration.API.Controllers
                         } //return Accepted(response.Result);
                     }
                     //return Accepted("All Records Pushed Successfully");
-
+                    SuccessResponse successResponse = new SuccessResponse();
+                    successResponse.status = "Success";
+                    successResponse.waybill = "";
+                    successResponse.shippingLabel = "";
+                    //successResponse.courierName = Records.courierName;
+                    _logger.LogInformation($" UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
+                    return new JsonResult(successResponse);
                 }
-                //else return BadRequest("There is no record for Post");
-
-
-
-
-
-                //return Accepted(Accepted(shippingPackages));
-                SuccessResponse successResponse = new SuccessResponse();
-                successResponse.status = "Success";
-                successResponse.waybill = "";
-                successResponse.shippingLabel = "";
-                //successResponse.courierName = Records.courierName;
-                _logger.LogInformation($" UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
-                return new JsonResult(successResponse);
+                else
+                {
+                    ErrorResponse errorResponse = new ErrorResponse();
+                    errorResponse.status = "Error";
+                    errorResponse.reason = "There Is no Data For Trigger";
+                    errorResponse.message = "Please Retrigger";
+                    _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                    return new JsonResult(errorResponse);
+                }
 
             }
             catch (Exception ex)
@@ -1747,7 +1748,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         allocateshipping.trackingLink = results[i].trackingLink;
 
                         var reference = results[i].Instance;
-                        if (reference == "INDENTID_DFX")
+                        if (reference == "Duroflex")
                         {
                             Instance = "DFX";
                         }
@@ -1766,7 +1767,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
                         CustomFieldValue customFieldValue = new CustomFieldValue();
 
-                        customFieldValue.name = "DFX_Track";
+                        customFieldValue.name = "TrackingLink";
                         customFieldValue.value = results[i].trackingLink;
                         updateShippingpackage.customFieldValues.Add(customFieldValue);
                         var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
@@ -3203,5 +3204,30 @@ namespace Uniware_PandoIntegration.API.Controllers
         //    _logger.LogInformation("Get Role Master at {DT}", DateTime.Now.ToLongTimeString());
         //    return ObjBusinessLayer.GetRoleMaster(Environment);
         //}
+
+        [HttpGet]
+        public IEnumerable<ShippingStatus> GetShippingStatus(string Enviornment)
+        {
+            string Servertype = Enviornment;
+            //string Servertype = iconfiguration["ServerType:type"];
+
+            List<ShippingStatus> ResultList = ObjBusinessLayer.GetShippingStatus(Servertype);
+            return ResultList;
+        }
+
+        [HttpPost]
+        public ActionResult UpdateShippingStatus(ShippingStatusList shippingStatusList)
+        {
+            //string Servertype = iconfiguration["ServerType:type"];
+            string Servertype = shippingStatusList.Enviornment;
+            ObjBusinessLayer.InsertTransaction(shippingStatusList.UserId, "Shipping Status Master");
+            List<ShippingStatus> trackingLinkMapping = new List<ShippingStatus>();
+            trackingLinkMapping = shippingStatusList.ShippingStatus;
+
+            string ExecResult = string.Empty;
+            _logger.LogInformation($"Shipping Status Master Update. {JsonConvert.SerializeObject(shippingStatusList)}");
+            ExecResult = ObjBusinessLayer.UpdateShippingStatusMaster(trackingLinkMapping, Servertype);
+            return new JsonResult(ExecResult.Trim());
+        }
     }
 }

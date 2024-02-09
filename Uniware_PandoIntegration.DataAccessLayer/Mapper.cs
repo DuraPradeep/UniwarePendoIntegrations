@@ -1049,5 +1049,26 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return MenuLists;
         }
 
+        public static List<ShippingStatus> GetShippingMaster(DataSet pds)
+        {
+            List<ShippingStatus> ShippingStatus = new List<ShippingStatus>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    ShippingStatus returncode = new ShippingStatus();
+                    returncode.StatusName = pds.Tables[0].Rows[i]["StatusName"].ToString();
+                    //returncode.Instanc = pds.Tables[0].Rows[i]["Instance"].ToString();
+                    ShippingStatus.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return ShippingStatus;
+        }
+
     }
 }

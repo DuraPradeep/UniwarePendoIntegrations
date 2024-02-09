@@ -1243,7 +1243,137 @@ namespace UniWare_PandoIntegration.Controllers
 
         }
 
+        public ActionResult ShippingStatusMaster()
+        {
+            return View();
+        }
+        public ActionResult ShippingStatus()
+        {
+            ApiControl = new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            var listdata = ApiControl.Get<List<ShippingStatus>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetShippingStatus");
 
-        
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "Shipping Status Master.xlsx";
+            try
+            {
+                using (var workbook = new XLWorkbook())
+                {
+                    IXLWorksheet worksheet =
+                    workbook.Worksheets.Add("Shipping Status");
+
+
+                    worksheet.Cell(1, 1).Value = "Status Name";
+                    worksheet.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 1).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 1).Style.Font.Bold = true;
+                    worksheet.Cell(1, 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    //worksheet.Cell(1, 2).Value = "Tracking Link";
+                    //worksheet.Cell(1, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    //worksheet.Cell(1, 2).Style.Font.FontColor = XLColor.Black;
+                    //worksheet.Cell(1, 2).Style.Font.Bold = true;
+                    //worksheet.Cell(1, 2).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.ShowGridLines = true;
+                    for (int index = 1; index <= listdata.Count; index++)
+                    {
+                        worksheet.Cell(index + 1, 1).Value = listdata[index - 1].StatusName;
+                        //worksheet.Cell(index + 1, 2).Value = listdata[index - 1].TrackingLink;
+
+
+                        worksheet.Cell(index + 1, 1).Style.Font.FontColor = XLColor.Black;
+                        //worksheet.Cell(index + 1, 2).Style.Font.FontColor = XLColor.Black;
+
+                    }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, contentType, fileName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public IActionResult ShippingStatusMasterUpload(IFormFile Upload)
+        {
+            if (Upload != null)
+            {
+                Stream stream = Upload.OpenReadStream();
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+                IExcelDataReader reader = null;
+                if (Upload.FileName.EndsWith(".xls"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else if (Upload.FileName.EndsWith(".xlsx"))
+                {
+                    reader = ExcelReaderFactory.CreateReader(stream);
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "This file format is not supported");
+                    return View("~/Views/UploadExcel/TrackingLinkUpload.cshtml");
+                }
+                DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                {
+                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    {
+                        UseHeaderRow = true,
+                        FilterRow = rowReader =>
+                        {
+                            var hasData = false;
+                            for (var i = 0; i < rowReader.FieldCount; i++)
+                            {
+                                if (rowReader[i] == null || string.IsNullOrEmpty(rowReader[i].ToString()))
+                                {
+                                    continue;
+                                }
+                                hasData = true;
+                                break;
+                            }
+                            return hasData;
+                        },
+                    }
+                });
+                reader.Close();
+                DataTable cloned = result.Tables[0].Clone();
+                for (var i = 0; i < cloned.Columns.Count; i++)
+                {
+                    cloned.Columns[i].DataType = typeof(string);
+                }
+                foreach (DataRow row in result.Tables[0].Rows)
+                {
+                    cloned.ImportRow(row);
+                }
+                List<ShippingStatus> trackingLinkMappings = new List<ShippingStatus>();
+
+                foreach (DataRow dr in cloned.Rows)
+                {
+                    trackingLinkMappings.Add(new ShippingStatus
+                    {
+                        StatusName = Convert.ToString(dr["Status Name"]),
+                        //TrackingLink = Convert.ToString(dr["Tracking Link"])
+                    });
+                }
+                //string Environment = HttpContext.Session.GetString("Environment").ToString();
+                ShippingStatusList trackingLinkMappingMap = new ShippingStatusList();
+                trackingLinkMappingMap.ShippingStatus = trackingLinkMappings;
+                trackingLinkMappingMap.Enviornment = HttpContext.Session.GetString("Environment").ToString();
+                trackingLinkMappingMap.UserId = HttpContext.Session.GetString("LoginId").ToString();
+
+                ApiControl = new ApiOperation(Apibase);
+                var response = ApiControl.Post1<ServiceResponse<string>, ShippingStatusList>(trackingLinkMappingMap, "Api/UniwarePando/UpdateShippingStatus").Trim();
+                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
+            }
+            //return View("~/Views/UploadExcel/TrackingLinkUpload.cshtml");
+            return RedirectToAction("Dashboard", "Home");
+        }
     }
 }

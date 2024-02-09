@@ -2877,6 +2877,38 @@ namespace Uniware_PandoIntegration.BusinessLayer
         {
             return SPWrapper.SaveGatePass(User);
         }
+
+
+        public List<ShippingStatus> GetShippingStatus(string Enviornment)
+        {
+            List<ShippingStatus> codes = new List<ShippingStatus>();
+            try
+            {
+                return codes = Mapper.GetShippingMaster(SPWrapper.GetShippingStatusMaster(Enviornment));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public string UpdateShippingStatusMaster(List<ShippingStatus> cloned, string Enviornment)
+        {
+            string res;
+
+            DataTable DealerTable = ConvertDataTable.ToDataTable(cloned);
+            try
+            {
+
+                res = SPWrapper.UpdateShippingStatusMaster(DealerTable, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
     }
 }
 

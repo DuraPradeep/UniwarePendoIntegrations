@@ -3129,6 +3129,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
                     com.Parameters.AddWithValue("@shippingCourier", dt.shippingCourier);
                     com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                    com.Parameters.AddWithValue("@trackingLink", dt.trackingLink);
                     //com.Parameters.AddWithValue("@generateUniwareShippingLabel", dt.generateUniwareShippingLabel);
                     com.Parameters.AddWithValue("@Trigger_Id", triggerid);
 
@@ -4581,6 +4582,81 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
 
             return getid;
+        }
+
+        public static DataSet GetShippingStatusMaster(string Enviornment)
+        {
+            //con = GetConnection();
+            com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetShippingStatus"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static string UpdateShippingStatusMaster(DataTable dt, string Enviornment)
+        {
+            string status;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_InsertShippingStatus";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@StatusList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
         }
 
     }

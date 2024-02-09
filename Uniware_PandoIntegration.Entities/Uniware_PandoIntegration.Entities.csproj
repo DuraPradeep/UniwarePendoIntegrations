@@ -284,6 +284,7 @@
     <Compile Include="saleOrderDTO.cs" />
     <Compile Include="SaleOrderSearch.cs" />
     <Compile Include="Datum.cs" />
+    <Compile Include="ShippingStatus.cs" />
     <Compile Include="STOGatePass.cs" />
     <Compile Include="STOwaybillGetCode.cs" />
     <Compile Include="TokenEntity.cs" />
