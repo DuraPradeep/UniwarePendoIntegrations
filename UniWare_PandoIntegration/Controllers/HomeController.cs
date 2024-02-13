@@ -102,7 +102,8 @@ namespace UniWare_PandoIntegration.Controllers
             string msg;
             ApiControl = new ApiOperation(Apibase);
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment = HttpContext.Session.GetString("Environment").ToString();
 
             //ServiceResponse<IActionResult> responses = new ServiceResponse<IActionResult>();
             var responses = "";
@@ -110,16 +111,21 @@ namespace UniWare_PandoIntegration.Controllers
             var triggerids = HttpContext.Session.GetString("Saletriggerid");
             if (triggerids != null)
             {
-                var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerPushData");
-                responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/Retrigger");
+                //var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerPushData");
+                //responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/Retrigger");
+                responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/Retrigger");
+
 
                 //responses = ApiControl.Get("api/UniwarePando/Retrigger");
-                msg = "Posted Failed Records";
-                //msg = responses.ObjectParam.ToString();
+                //msg = "Posted Failed Records";
+                msg = responses.ToString();
             }
             else
             {
-                responses = ApiControl.Get("api/UniwarePando/Retrigger");
+                //responses = ApiControl.Get("api/UniwarePando/Retrigger");
+                responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/Retrigger");
+                 //responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/Retrigger");
+
                 //msg = "Failed Record Triggered Successfully";
                 msg = responses.ToString();
 
@@ -636,8 +642,23 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 TempData["Success"] = "Uase Added Successfully !!";
             }
+            return RedirectToAction("Dashboard");
+        }
 
+        [HttpGet]
+        public ActionResult ResetPassword()
+        {
+            UserProfile userProfile = new UserProfile();
 
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Reset(UserProfile userProfile)
+        {
+            ApiControl = new ApiOperation(Apibase);
+            userProfile.Environment = HttpContext.Session.GetString("Environment").ToString();
+            var response = ApiControl.Post1<ServiceResponse<string>, UserProfile>(userProfile, "Api/UniwarePando/ResetPassword").Trim();
+            TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             return RedirectToAction("Dashboard");
         }
     }

@@ -361,7 +361,10 @@
 
                                     @HttpContextAccessor.HttpContext.Session.GetString("UserName")
                                 </a>
-                               
+                                <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("ResetPassword", "Home")'; ">
+                                    <i class="fa fa-lock me-1 ms-1"></i>
+                                    Reset Password
+                                </a>
                               @if(@HttpContextAccessor.HttpContext.Session.GetString("Role")=="1")
                               {
                                     <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("AddUser", "Home")'; ">

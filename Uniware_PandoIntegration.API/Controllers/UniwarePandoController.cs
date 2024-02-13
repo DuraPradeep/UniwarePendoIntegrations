@@ -142,7 +142,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resCode = ObjBusinessLayer.InsertCode(list,Servertype);
                     var ds = ObjBusinessLayer.GetCode(Instance,Servertype);
 
-                    parentList parentList = new parentList();
+                    ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
                     _logger.LogInformation("Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
@@ -156,20 +156,21 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //parentList = PassCode(jsoncodes, token, code, 0);
 
                         parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code, 0, Servertype, Instance);
-                        if (parentList.saleOrderItems.Count > 0)
+                        if (parentList.IsSuccess)
                         {
-                            if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                            if (parentList.ObjectParam.saleOrderItems.Count > 0 || parentList.ObjectParam.address.Count > 0 || parentList.ObjectParam.Shipment.Count > 0 || parentList.ObjectParam.qtyitems.Count > 0 || parentList.ObjectParam.elements.Count > 0)
                             {
-                                saleOrderItems.AddRange(parentList.saleOrderItems);
-                                address.AddRange(parentList.address);
-                                shipingdet.AddRange(parentList.Shipment);
-                                qtyitems.AddRange(parentList.qtyitems);
-                                elements.AddRange(parentList.elements);
+                                saleOrderItems.AddRange(parentList.ObjectParam.saleOrderItems);
+                                address.AddRange(parentList.ObjectParam.address);
+                                shipingdet.AddRange(parentList.ObjectParam.Shipment);
+                                qtyitems.AddRange(parentList.ObjectParam.qtyitems);
+                                elements.AddRange(parentList.ObjectParam.elements);
                             }
                         }
                         else
                         {
-                            return BadRequest("INVALID_SALE_ORDER_CODE");
+                            //return BadRequest("INVALID_SALE_ORDER_CODE");
+                            return BadRequest(parentList.Errdesc);
                         }
 
                     }
@@ -254,7 +255,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resCode = ObjBusinessLayer.InsertCode(list,Servertype);
                     var ds = ObjBusinessLayer.GetCode(Instance,Servertype);
 
-                    parentList parentList = new parentList();
+                    ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
                     _logger.LogInformation(" DFX Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
@@ -268,20 +269,21 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //parentList = PassCode(jsoncodes, token, code, 0);
 
                         parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code, 0, Servertype, Instance);
-                        if (parentList.saleOrderItems.Count > 0)
+                        if (parentList.IsSuccess)
                         {
-                            if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                            if (parentList.ObjectParam.saleOrderItems.Count > 0 || parentList.ObjectParam.address.Count > 0 || parentList.ObjectParam.Shipment.Count > 0 || parentList.ObjectParam.qtyitems.Count > 0 || parentList.ObjectParam.elements.Count > 0)
                             {
-                                saleOrderItems.AddRange(parentList.saleOrderItems);
-                                address.AddRange(parentList.address);
-                                shipingdet.AddRange(parentList.Shipment);
-                                qtyitems.AddRange(parentList.qtyitems);
-                                elements.AddRange(parentList.elements);
+                                saleOrderItems.AddRange(parentList.ObjectParam.saleOrderItems);
+                                address.AddRange(parentList.ObjectParam.address);
+                                shipingdet.AddRange(parentList.ObjectParam.Shipment);
+                                qtyitems.AddRange(parentList.ObjectParam.qtyitems);
+                                elements.AddRange(parentList.ObjectParam.elements);
                             }
                         }
                         else
                         {
-                            return BadRequest("INVALID_SALE_ORDER_CODE");
+                            //return BadRequest("INVALID_SALE_ORDER_CODE");
+                            return BadRequest(parentList.Errdesc);
                         }
 
                     }
@@ -335,25 +337,21 @@ namespace Uniware_PandoIntegration.API.Controllers
             else return BadRequest("Please Pass Valid Token");
         }
 
-        [HttpGet]
-        public string Retrigger(string Enviornment)
+        [HttpPost]
+        public ActionResult Retrigger(UserProfile Enviornment)
         {
-            //PandoUniwariToken res = _Token.GetTokens().Result;
-            //HttpContext.Session.SetString("Token", res.access_token.ToString());
             _logger.LogInformation("Sale Order Retriggered ");
-            string Servertype = Enviornment;
-            //string Servertype = iconfiguration["ServerType:type"];
-
-            //PandoUniwariToken resu = _Token.GetTokens().Result;
-            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            string Instance = "SH";
+            string Servertype = Enviornment.Environment;
+            var ds = ObjBusinessLayer.GetCodeforRetrigger(Servertype);
+            string ExecResult = string.Empty;
+            string Instance = ds[0].Instance;
+            //string Instance = "SH";
             var resu = _Token.GetTokens(Servertype, Instance).Result;
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             if (resu.ObjectParam != null)
             {
                 string token = deres.access_token.ToString();
                 //string token = HttpContext.Session.GetString("Token");
-                var ds = ObjBusinessLayer.GetCodeforRetrigger(Servertype);
 
                 List<ErrorDetails> errorDetails = new List<ErrorDetails>();
                 List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
@@ -363,7 +361,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 List<ShippingPackage> shipingdet = new List<ShippingPackage>();
                 List<Items> qtyitems = new List<Items>();
                 List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
-                parentList parentList = new parentList();
+                ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
                 _logger.LogInformation("Retrigger:-Saleorder/search Api called.");
                 for (int i = 0; i < ds.Count; i++)
                 {
@@ -371,24 +369,21 @@ namespace Uniware_PandoIntegration.API.Controllers
                     string codes = ds[i].code;
                     //parentList = _MethodWrapper.RetriggerCode(jsoncodes, token, codes, 0);
                     parentList = _MethodWrapper.PassCodeer(jsoncodes, token, codes, 0, Servertype, Instance);
-                    if (parentList.saleOrderItems.Count > 0)
+                    if (parentList.IsSuccess)
                     {
-                        if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                        if (parentList.ObjectParam.saleOrderItems.Count > 0 || parentList.ObjectParam.address.Count > 0 || parentList.ObjectParam.Shipment.Count > 0 || parentList.ObjectParam.qtyitems.Count > 0 || parentList.ObjectParam.elements.Count > 0)
                         {
-                            //    return;
-                            //}
-                            //else
-                            //{
-                            saleOrderItems.AddRange(parentList.saleOrderItems);
-                            shipingdet.AddRange(parentList.Shipment);
-                            qtyitems.AddRange(parentList.qtyitems);
-                            address.AddRange(parentList.address);
-                            elements.AddRange(parentList.elements);
+                            saleOrderItems.AddRange(parentList.ObjectParam.saleOrderItems);
+                            shipingdet.AddRange(parentList.ObjectParam.Shipment);
+                            qtyitems.AddRange(parentList.ObjectParam.qtyitems);
+                            address.AddRange(parentList.ObjectParam.address);
+                            elements.AddRange(parentList.ObjectParam.elements);
                         }
                     }
                     else
                     {
-                        return "INVALID_SALE_ORDER_CODE";
+                        //return "INVALID_SALE_ORDER_CODE";
+                        ExecResult+= parentList.Errdesc;
                     }
                 }
 
@@ -425,22 +420,28 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var allsenddata = ObjBusinessLayer.GetAllRecrdstosend(Instance,Servertype);
                 if (allsenddata.Count > 0)
                 {
-                    //var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata);
-                    //var postretrigger = _MethodWrapper.RetriggerPostDataDelivery(allsenddata, triggerid, 0);
-                    //var postretrigger = _MethodWrapper.Action(allsenddata, triggerid, 0);                
-                    return "Data Triggered Successfully";
+                    var triggerid = ObjBusinessLayer.InsertAllsendingData(allsenddata, Servertype);
+                    var resutt = _MethodWrapper.Action(allsenddata, triggerid, 0, Servertype);
+                    if (resutt.IsSuccess)
+                    {
+                        ExecResult += "Data Triggered Successfully";
+                    }
+                    else
+                    {
+                        ExecResult += "Get Some Issue Please Retrigger";
+                    }
                 }
                 else
                 {
-                    return "Get Some Issue Please Retrigger";
+                    ExecResult += "Get Some Issue Please Retrigger";
                 }
 
             }
             else
             {
-                return "Please Pass valid Token";
+                ExecResult+= "Please Pass valid Token";
             }
-
+            return new JsonResult(ExecResult);
         }
         [HttpPost]
         public IActionResult RetriggerPushData(string Enviornment)
@@ -507,7 +508,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = ObjBusinessLayer.GetEnviroment(Username);
 
-            parentList parentList = new parentList();
+            ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
 
             try
             {
@@ -525,9 +526,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string token = deres.access_token.ToString();
                 parentList = _MethodWrapper.PassCodeer(jsoncodes, token, "", 0, Servertype, Instance);
                 string FacilityCode = string.Empty;
-                for (int i = 0; i < parentList.saleOrderItems.Count; i++)
+                for (int i = 0; i < parentList.ObjectParam.saleOrderItems.Count; i++)
                 {
-                    FacilityCode = parentList.saleOrderItems[i].facilityCode;
+                    FacilityCode = parentList.ObjectParam.saleOrderItems[i].facilityCode;
 
                 }
 
@@ -1958,7 +1959,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public ActionResult UploadExcel(MainClass empLists)
         {
-            _logger.LogInformation("Excel Upload Process.");
+            _logger.LogInformation($"Excel Upload Process. Data:-{ JsonConvert.SerializeObject(empLists.UploadExcels)}");
             string Servertype = empLists.Enviornment.ToString();
             string Userid = empLists.Userid;
             ObjBusinessLayer.InsertTransaction(Userid, "Dispatch Data Upload");
@@ -2003,7 +2004,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resCode = ObjBusinessLayer.InsertCode(Slist,Servertype);
                     var ds = ObjBusinessLayer.GetCode(Instance, Servertype);
 
-                    parentList parentList = new parentList();
+                   ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
                     _logger.LogInformation("Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
@@ -2015,22 +2016,22 @@ namespace Uniware_PandoIntegration.API.Controllers
                         var jsoncodes = JsonConvert.SerializeObject(ds[i]);
                         string code = ds[i].code;
                         //parentList = PassCode(jsoncodes, token, code, 0);
-
                         parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code, 0, Servertype, Instance);
-                        if (parentList.saleOrderItems.Count > 0)
+                        if (parentList.IsSuccess)
                         {
-                            if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                            if (parentList.ObjectParam.saleOrderItems.Count > 0 || parentList.ObjectParam.address.Count > 0 || parentList.ObjectParam.Shipment.Count > 0 || parentList.ObjectParam.qtyitems.Count > 0 || parentList.ObjectParam.elements.Count > 0)
                             {
-                                saleOrderItems.AddRange(parentList.saleOrderItems);
-                                address.AddRange(parentList.address);
-                                shipingdet.AddRange(parentList.Shipment);
-                                qtyitems.AddRange(parentList.qtyitems);
-                                elements.AddRange(parentList.elements);
+                                saleOrderItems.AddRange(parentList.ObjectParam.saleOrderItems);
+                                address.AddRange(parentList.ObjectParam.address);
+                                shipingdet.AddRange(parentList.ObjectParam.Shipment);
+                                qtyitems.AddRange(parentList.ObjectParam.qtyitems);
+                                elements.AddRange(parentList.ObjectParam.elements);
                             }
                         }
                         else
                         {
-                            ExecResult += "INVALID_SALE_ORDER_CODE !";
+                            //ExecResult += "INVALID_SALE_ORDER_CODE !";
+                            ExecResult += parentList.Errdesc;
                             return new JsonResult(ExecResult);
                         }
                     }
@@ -2039,7 +2040,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resitems = ObjBusinessLayer.insertItems(qtyitems,Servertype);
                     var resads = ObjBusinessLayer.InsertAddrsss(address,Servertype);
                     var resdto = ObjBusinessLayer.insertSalesDTO(elements, Servertype);
-
 
                     var sku = ObjBusinessLayer.GetSKucodesBL(Instance,Servertype);
                     _logger.LogInformation("ItemType/Get Api called.");
@@ -2083,7 +2083,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     }
                     else
                     {
-                        //return BadRequest("Please retrigger");
+                        ExecResult += "There is Issue In SaleOrderCode !";
                     }
                 }
                 else
@@ -2103,7 +2103,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resCode = ObjBusinessLayer.InsertCode(Dlist,Servertype);
                     var ds = ObjBusinessLayer.GetCode(Instance, Servertype);
 
-                    parentList parentList = new parentList();
+                   ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
                     _logger.LogInformation(" DFX Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
@@ -2117,20 +2117,20 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //parentList = PassCode(jsoncodes, token, code, 0);
 
                         parentList = _MethodWrapper.PassCodeer(jsoncodes, token, code, 0, Servertype, Instance);
-                        if (parentList.saleOrderItems.Count > 0)
+                        if (parentList.IsSuccess)
                         {
-                            if (parentList.saleOrderItems.Count > 0 || parentList.address.Count > 0 || parentList.Shipment.Count > 0 || parentList.qtyitems.Count > 0 || parentList.elements.Count > 0)
+                            if (parentList.ObjectParam.saleOrderItems.Count > 0 || parentList.ObjectParam.address.Count > 0 || parentList.ObjectParam.Shipment.Count > 0 || parentList.ObjectParam.qtyitems.Count > 0 || parentList.ObjectParam.elements.Count > 0)
                             {
-                                saleOrderItems.AddRange(parentList.saleOrderItems);
-                                address.AddRange(parentList.address);
-                                shipingdet.AddRange(parentList.Shipment);
-                                qtyitems.AddRange(parentList.qtyitems);
-                                elements.AddRange(parentList.elements);
+                                saleOrderItems.AddRange(parentList.ObjectParam.saleOrderItems);
+                                address.AddRange(parentList.ObjectParam.address);
+                                shipingdet.AddRange(parentList.ObjectParam.Shipment);
+                                qtyitems.AddRange(parentList.ObjectParam.qtyitems);
+                                elements.AddRange(parentList.ObjectParam.elements);
                             }
                         }
                         else
                         {
-                            ExecResult += "INVALID_SALE_ORDER_CODE !";
+                            ExecResult += parentList.Errdesc;
                             return new JsonResult(ExecResult);
                         }
 
@@ -2182,7 +2182,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     }
                     else
                     {
-                        //return BadRequest("Please retrigger");
+                        ExecResult += "There is Issue In SaleOrderCode !";
                     }
                 }
                 else
@@ -2276,6 +2276,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 ExecResult += status.Result.Errdesc;
                             }
                         }
+                        else
+                        {
+                            ExecResult += "There is Issue In Code !";
+
+                        }
                     }
                 }
                 else
@@ -2366,6 +2371,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 ExecResult += ",DFX RO Data Pushed";
                             }
                         }
+                        else
+                        {
+                            ExecResult += "There is Issue In Code !";
+
+                        }
 
                     }
                 }
@@ -2448,7 +2458,10 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                                 }
                             }
-                            //else { return BadRequest("Please Retrigger"); }
+                            else
+                            {
+                                ExecResult += "There is Issue In Code !";
+                            }
 
                         }
                     }
@@ -2532,7 +2545,10 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                                 }
                             }
-                            //else { return BadRequest("Please Retrigger"); }
+                            else
+                            {
+                                ExecResult += "There is Issue In orderCode!";
+                            }
 
                         }
                     }
@@ -3227,6 +3243,16 @@ namespace Uniware_PandoIntegration.API.Controllers
             string ExecResult = string.Empty;
             _logger.LogInformation($"Shipping Status Master Update. {JsonConvert.SerializeObject(shippingStatusList)}");
             ExecResult = ObjBusinessLayer.UpdateShippingStatusMaster(trackingLinkMapping, Servertype);
+            return new JsonResult(ExecResult.Trim());
+        }
+        [HttpPost]
+        public ActionResult ResetPassword(UserProfile userProfile)
+        {
+            //string Servertype = iconfiguration["ServerType:type"];
+            string Servertype = userProfile.Environment;     
+            string ExecResult = string.Empty;
+            _logger.LogInformation($"ResetPassword. {JsonConvert.SerializeObject(userProfile)}");
+            ExecResult = ObjBusinessLayer.ResetPassword(userProfile, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
     }

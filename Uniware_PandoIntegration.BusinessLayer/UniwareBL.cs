@@ -507,7 +507,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             {
                 //CreateLog($" Get Code from DB ");
 
-                serviceResponse = Mapper.GetCodes(SPWrapper.GetCoderetrigger(Enviornment));
+                serviceResponse = Mapper.GetCodesForRetrigger(SPWrapper.GetCoderetrigger(Enviornment));
                 //CreateLog($" Get Code from DB Data{serviceResponse} ");
             }
             catch (Exception Ex)
@@ -2905,7 +2905,23 @@ namespace Uniware_PandoIntegration.BusinessLayer
             catch (Exception ex)
             {
                 //CreateLog($"Error: {ex.Message}");
-                throw;
+                throw ex;
+            }
+            return res;
+        }
+        public string ResetPassword(UserProfile userProfile, string Enviornment)
+        {
+            string res;
+
+            try
+            {
+
+                res = SPWrapper.ResetPassword(userProfile, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
             }
             return res;
         }

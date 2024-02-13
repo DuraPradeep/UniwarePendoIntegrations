@@ -46,4 +46,12 @@
     <ProjectReference Include="..\Uniware_PandoIntegration.Entities\Uniware_PandoIntegration.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\ResetPassword.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Home\ResetPassword.cshtml" />
+  </ItemGroup>
+
 </Project>

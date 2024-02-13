@@ -20,5 +20,6 @@ namespace Uniware_PandoIntegration.Entities
         public string RoleName { get; set; }
         public SelectList RoleNameList { get; set; }
         public string Environment {  get; set; }
+        public string NewPassword { get; set; }
     }
 }

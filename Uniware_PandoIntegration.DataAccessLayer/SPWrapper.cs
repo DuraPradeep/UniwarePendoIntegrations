@@ -4658,6 +4658,43 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
+        public static string ResetPassword(UserProfile userProfile, string Enviornment)
+        {
+            string status;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_Resetpassword";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@Result", SqlDbType.VarChar, 100);
+                    com.Parameters["@Result"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@username", userProfile.Username);
+                    com.Parameters.AddWithValue("@OldPassword", userProfile.Password);
+                    com.Parameters.AddWithValue("@NewPassword", userProfile.NewPassword);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@Result"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
 
     }
 

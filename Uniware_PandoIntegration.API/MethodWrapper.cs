@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -57,9 +58,10 @@ namespace Uniware_PandoIntegration.API
             }
             return elmt;
         }
-        public parentList PassCodeer(string jsoncodes, string token, string code, int checkcounter, string Servertype, string Instance)
+        public ServiceResponse<parentList> PassCodeer(string jsoncodes, string token, string code, int checkcounter, string Servertype, string Instance)
         {
             int LLcheckcount = checkcounter;
+            ServiceResponse<parentList> serviceResponse = new ServiceResponse<parentList>();
             parentList parentList = new parentList();
             parentList.elements = new List<SaleOrderDTO>();
             parentList.Shipment = new List<ShippingPackage>();
@@ -73,165 +75,197 @@ namespace Uniware_PandoIntegration.API
             List<ShippingPackage> shipingdet = new List<ShippingPackage>();
             List<Items> qtyitems = new List<Items>();
             List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
-            var results = _Token.GetCodeDetails(jsoncodes, token, Servertype, Instance);
-            if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
+            try
             {
-                if (checkcounter < 3)
+                var results = _Token.GetCodeDetails(jsoncodes, token, Servertype, Instance);
+                if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
                 {
-                    Thread.Sleep(3000);
-                    LLcheckcount += 1;
-                    string codes = code;
-                    ErrorDetails ed = new ErrorDetails();
-                    ed.Code = codes;
-                    ed.Reason = results.Result.ObjectParam;
-                    ed.Status = true;
-                    errorDetails.Add(ed);
-                    // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
-                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1,Servertype);
-                    PassCodeer(jsoncodes, token, code, LLcheckcount, Servertype, Instance);
+                    if (checkcounter < 3)
+                    {
+                        Thread.Sleep(3000);
+                        LLcheckcount += 1;
+                        string codes = code;
+                        ErrorDetails ed = new ErrorDetails();
+                        ed.Code = codes;
+                        ed.Reason = results.Result.Errdesc;
+                        ed.Status = true;
+                        errorDetails.Add(ed);
+                        // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
+                        var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1, Servertype);
+                        PassCodeer(jsoncodes, token, code, LLcheckcount, Servertype, Instance);
 
+                    }
+                    else
+                    {
+                        LLcheckcount = 0;
+                        Emailtrigger.SendEmailToAdmin("Sale Order");
+                        //parentList = null;
+                        serviceResponse.ObjectParam =parentList;
+                        serviceResponse.Errcode = results.Result.Errcode;
+                        serviceResponse.IsSuccess = results.Result.IsSuccess;
+                        serviceResponse.Errdesc = results.Result.Errdesc;
+                    }
                 }
                 else
                 {
-                    LLcheckcount = 0;
-                    Emailtrigger.SendEmailToAdmin("Sale Order");
-                    parentList = null;
-                }
-            }
-            else
-            {
-                JObject stuff = JObject.Parse(results.Result.ObjectParam);
-                var abc = stuff.SelectTokens("saleOrderDTO");
-                if (results.Result.IsSuccess)
-                {
-                    if (results.Result.ObjectParam.Contains("saleOrderDTO"))
-                    {
-                        var hello = JToken.FromObject(stuff);
-                        var jso = JsonConvert.SerializeObject(hello);
-                        salesorderRoot items = JsonConvert.DeserializeObject<salesorderRoot>(jso);
-                        details = items;
-                        List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
-                        shippingPackages = details.saleOrderDTO.shippingPackages;
-
-                        foreach (JProperty item in abc.Children())
+                    JObject stuff = JObject.Parse(results.Result.ObjectParam);
+                    var abc = stuff.SelectTokens("saleOrderDTO");
+                    //if (results.Result.IsSuccess)
+                    //{
+                        if (results.Result.ObjectParam.Contains("saleOrderDTO"))
                         {
-                            if (item.Path == "saleOrderDTO.shippingPackages")
+                            var hello = JToken.FromObject(stuff);
+                            var jso = JsonConvert.SerializeObject(hello);
+                            salesorderRoot items = JsonConvert.DeserializeObject<salesorderRoot>(jso);
+                            details = items;
+                            List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
+                            shippingPackages = details.saleOrderDTO.shippingPackages;
+
+                            foreach (JProperty item in abc.Children())
                             {
-                                foreach (var item2 in item.Children())
+                                if (item.Path == "saleOrderDTO.shippingPackages")
                                 {
-                                    var mi = 0;
-                                    foreach (var item3 in item2.Children()["items"])
+                                    foreach (var item2 in item.Children())
                                     {
-                                        ShippingPackage shippingPackage = new ShippingPackage();
-                                        for (mi = 0; mi < shippingPackages.Count(); mi++)
+                                        var mi = 0;
+                                        foreach (var item3 in item2.Children()["items"])
                                         {
-                                            shippingPackage = shippingPackages[mi];
-                                            var adc = item3.Values();
-                                            var helloq = JToken.FromObject(adc);
-                                            var jsonq = JsonConvert.SerializeObject(helloq);
+                                            ShippingPackage shippingPackage = new ShippingPackage();
+                                            for (mi = 0; mi < shippingPackages.Count(); mi++)
+                                            {
+                                                shippingPackage = shippingPackages[mi];
+                                                var adc = item3.Values();
+                                                var helloq = JToken.FromObject(adc);
+                                                var jsonq = JsonConvert.SerializeObject(helloq);
 
-                                            List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
-                                            shippingPackage.items = new Items();
-                                            shippingPackage.items = itemsqq.FirstOrDefault();
+                                                List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
+                                                shippingPackage.items = new Items();
+                                                shippingPackage.items = itemsqq.FirstOrDefault();
 
+                                            }
+                                            mi++;
                                         }
-                                        mi++;
                                     }
+
                                 }
-
                             }
+                            details.saleOrderDTO.shippingPackages = shippingPackages;
                         }
-                        details.saleOrderDTO.shippingPackages = shippingPackages;
-                    }
-                    //List SalesDTO Details
-                    SaleOrderDTO em = new SaleOrderDTO();
-                    em.code = code;
-                    em.source = Instance;
-                    var email = details.saleOrderDTO.notificationEmail;
-                    //em.code = details.saleOrderDTO.code;
-                    em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
-                    //elements.Add(em);
-                    parentList.elements.Add(em);
+                        //List SalesDTO Details
+                        SaleOrderDTO em = new SaleOrderDTO();
+                        em.code = code;
+                        em.source = Instance;
+                        var email = details.saleOrderDTO.notificationEmail;
+                        //em.code = details.saleOrderDTO.code;
+                        em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
+                        //elements.Add(em);
+                        parentList.elements.Add(em);
 
-                    //List addressdetails
+                        //List addressdetails
 
-                    for (int ads = 0; ads < details.saleOrderDTO.addresses.Count; ads++)
-                    {
-                        Address adrs = new Address();
-                        adrs.Code = code;
-                        //adrs.Code = details.saleOrderDTO.code;
-                        adrs.id = details.saleOrderDTO.addresses[ads].id;
-                        adrs.name = details.saleOrderDTO.addresses[ads].name;
-                        adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
-                        adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
-                        adrs.city = details.saleOrderDTO.addresses[ads].city;
-                        adrs.state = details.saleOrderDTO.addresses[ads].state;
-                        adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
-                        adrs.phone = details.saleOrderDTO.addresses[ads].phone;
-                        adrs.email = email;
-                        //adrs.email = details.saleOrderDTO.addresses[ads].email;
-                        adrs.Source = Instance;
+                        for (int ads = 0; ads < details.saleOrderDTO.addresses.Count; ads++)
+                        {
+                            Address adrs = new Address();
+                            adrs.Code = code;
+                            //adrs.Code = details.saleOrderDTO.code;
+                            adrs.id = details.saleOrderDTO.addresses[ads].id;
+                            adrs.name = details.saleOrderDTO.addresses[ads].name;
+                            adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
+                            adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
+                            adrs.city = details.saleOrderDTO.addresses[ads].city;
+                            adrs.state = details.saleOrderDTO.addresses[ads].state;
+                            adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
+                            adrs.phone = details.saleOrderDTO.addresses[ads].phone;
+                            adrs.email = email;
+                            //adrs.email = details.saleOrderDTO.addresses[ads].email;
+                            adrs.Source = Instance;
 
-                        //address.Add(adrs);
-                        parentList.address.Add(adrs);
+                            //address.Add(adrs);
+                            parentList.address.Add(adrs);
 
-                    }
-                    //Console.WriteLine(i);
-                    // }
+                        }
+                        //Console.WriteLine(i);
+                        // }
 
 
-                    //List shippingDetails
-                    for (int sd = 0; sd < details.saleOrderDTO.shippingPackages.Count; sd++)
-                    {
-                        ShippingPackage shipdetails = new ShippingPackage();
-                        shipdetails.code = code;
-                        //shipdetails.code = details.saleOrderDTO.code;
-                        shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
-                        shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
-                        shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
-                        shipdetails.Source = Instance;
+                        //List shippingDetails
+                        for (int sd = 0; sd < details.saleOrderDTO.shippingPackages.Count; sd++)
+                        {
+                            ShippingPackage shipdetails = new ShippingPackage();
+                            shipdetails.code = code;
+                            //shipdetails.code = details.saleOrderDTO.code;
+                            shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
+                            shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
+                            shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
+                            shipdetails.Source = Instance;
 
-                        //shipingdet.Add(shipdetails);
-                        parentList.Shipment.Add(shipdetails);
-                        Items qty = new Items();
-                        qty.Code = details.saleOrderDTO.code;
-                        qty.quantity = details.saleOrderDTO.shippingPackages[sd].items.quantity;
-                        qty.Source = Instance;
+                            //shipingdet.Add(shipdetails);
+                            parentList.Shipment.Add(shipdetails);
+                            Items qty = new Items();
+                            qty.Code = details.saleOrderDTO.code;
+                            qty.quantity = details.saleOrderDTO.shippingPackages[sd].items.quantity;
+                            qty.Source = Instance;
 
-                        //qtyitems.Add(qty);
-                        parentList.qtyitems.Add(qty);
-                    }
+                            //qtyitems.Add(qty);
+                            parentList.qtyitems.Add(qty);
+                        }
 
-                    //List salesorderitem
-                    for (int l = 0; l < details.saleOrderDTO.saleOrderItems.Count; l++)
-                    {
-                        SaleOrderItem sitem = new SaleOrderItem();
-                        sitem.code = code;
-                        //sitem.code = details.saleOrderDTO.code;
-                        sitem.shippingAddressId = details.saleOrderDTO.saleOrderItems[l].shippingAddressId;
-                        sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
-                        sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
-                        sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;
-                        sitem.prepaidAmount = details.saleOrderDTO.saleOrderItems[l].prepaidAmount;
-                        sitem.taxPercentage = details.saleOrderDTO.saleOrderItems[l].taxPercentage;
-                        sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
-                        sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
-                        sitem.Source = Instance;
-                        sitem.shippingPackageStatus = details.saleOrderDTO.saleOrderItems[l].shippingPackageStatus;
+                        //List salesorderitem
+                        for (int l = 0; l < details.saleOrderDTO.saleOrderItems.Count; l++)
+                        {
+                            SaleOrderItem sitem = new SaleOrderItem();
+                            sitem.code = code;
+                            //sitem.code = details.saleOrderDTO.code;
+                            sitem.shippingAddressId = details.saleOrderDTO.saleOrderItems[l].shippingAddressId;
+                            sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
+                            sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
+                            sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;
+                            sitem.prepaidAmount = details.saleOrderDTO.saleOrderItems[l].prepaidAmount;
+                            sitem.taxPercentage = details.saleOrderDTO.saleOrderItems[l].taxPercentage;
+                            sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
+                            sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
+                            sitem.Source = Instance;
+                            sitem.shippingPackageStatus = details.saleOrderDTO.saleOrderItems[l].shippingPackageStatus;
 
-                        //saleOrderItems.Add(sitem);
-                        parentList.saleOrderItems.Add(sitem);
-                    }
+                            //saleOrderItems.Add(sitem);
+                            parentList.saleOrderItems.Add(sitem);
+
+                        }
+                    //serviceResponse.ObjectParam = parentList;
+                    //serviceResponse.Errcode = results.Result.Errcode;
+                    //serviceResponse.IsSuccess = results.Result.IsSuccess;
+                    //serviceResponse.Errdesc = results.Result.Errdesc;
+                    //}
+                    //else
+                    //{
+                    serviceResponse.ObjectParam = parentList;
+                    serviceResponse.Errcode = results.Result.Errcode;
+                    serviceResponse.IsSuccess = results.Result.IsSuccess;
+                    serviceResponse.Errdesc = results.Result.Errdesc;
+                    //}
+
+
                 }
-                else
+                LLcheckcount = 0;
+                if (!results.Result.IsSuccess)
                 {
-                    return parentList;
+                    //return parentList;
+                    serviceResponse.ObjectParam = parentList;
+                    serviceResponse.Errcode = 400;
+                    serviceResponse.IsSuccess = results.Result.IsSuccess;
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = results.Result.Errdesc;
                 }
-
 
             }
-            LLcheckcount = 0;
-            return parentList;
+            catch (Exception ex)
+            {
+                serviceResponse.Errcode = 400;
+                serviceResponse.Errdesc = ex.Message;
+                serviceResponse.IsSuccess = false;                
+            }
+            return serviceResponse;
+           
         }
         public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount, string Servertype, string Instance)
         {
@@ -282,30 +316,31 @@ namespace Uniware_PandoIntegration.API
         public ServiceResponse<string> Action(List<Data> sendcode, string triggerid, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
-            ServiceResponse<string> resfinal = null;
+            ServiceResponse<string> ActionResult = new ServiceResponse<string>();
             var jsonre = JsonConvert.SerializeObject(new { data = sendcode });
             //resfinal = _Token.PostDataToDeliverypackList(sendcode).Result;
             Log.Information($"Post Data to Pando: {jsonre}");
-            resfinal = _Token.PostDataToDeliverypackList(jsonre, ServerType).Result;
+            ActionResult = _Token.PostDataToDeliverypackList(jsonre, ServerType).Result;
 
-            if (resfinal.Errcode < 200 || resfinal.Errcode > 299)
+            if (ActionResult.Errcode < 200 || ActionResult.Errcode > 299)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid,ServerType);
+                    ObjBusinessLayer.UpdatePostDatadetails(true, ActionResult.ObjectParam, triggerid,ServerType);
 
                     Action(sendcode, triggerid, Lcheckcount, ServerType);
                 }
                 else
                 {
-                    resfinal = null;
+                    ActionResult.ObjectParam = null;
+                    ActionResult.IsSuccess = true;
                 }
 
             }
 
-            return resfinal;
+            return ActionResult;
         }
 
         //public parentList RetriggerCode(string jsoncodes, string token, string code, int checkcount)

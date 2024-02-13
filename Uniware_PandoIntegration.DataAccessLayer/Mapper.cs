@@ -42,6 +42,35 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return customerProfile;
         }
+        public static List<Salesorder> GetCodesForRetrigger(DataSet pds)
+        {
+            List<Salesorder> customerProfile = new List<Salesorder>();
+            ServiceResponse<Salesorder> serviceResponse = new ServiceResponse<Salesorder>();
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                    {
+                        Salesorder sales = new Salesorder();
+                        sales.code = pds.Tables[0].Rows[i]["CODE"].ToString();
+                        sales.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+                        customerProfile.Add(sales);
+                    }
+                    // serviceResponse.Errcode = 200;
+                }
+                else
+                {
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return customerProfile;
+        }
         public static List<SKucode> Getskucodes(DataSet pds)
         {
             List<SKucode> skucodes = new List<SKucode>();
