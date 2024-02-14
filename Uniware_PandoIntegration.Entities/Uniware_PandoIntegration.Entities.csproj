@@ -294,6 +294,7 @@
     <Compile Include="TruckDetails.cs" />
     <Compile Include="UpdateShippingpackage.cs" />
     <Compile Include="UploadExcels.cs" />
+    <Compile Include="UserInstance.cs" />
     <Compile Include="UserLogin.cs" />
     <Compile Include="UserProfile.cs" />
     <Compile Include="WaybillSend.cs" />

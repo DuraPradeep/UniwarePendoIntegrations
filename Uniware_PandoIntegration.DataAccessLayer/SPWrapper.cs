@@ -539,6 +539,128 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
+
+        public static DataSet GetFailedSendRecords(string Instance, string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_RetriggerFailedData",
+                        CommandTimeout = 1000
+                    };
+                    com.Parameters.AddWithValue("@instance", Instance);
+
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
+        public static DataSet GetInstanceFromTriggerTable(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetInstanceFromTriggerTable",
+                        CommandTimeout = 1000
+                    };
+                    
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
+        public static void UpdateStatusinTriggerTable(string Triggerid, string Enviornment)
+        {
+
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                //con = GetConnection();
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_UpdateTriggerDataStatus";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@TriggerId", Triggerid);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
+        }
+
         public static DataSet GetCoderetrigger( string Enviornment)
         {
             //con = GetConnection();
@@ -4461,14 +4583,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return InstanceName;
         }
-        public static void InesrtTransaction(string Userid,string Transaction)
+        public static void InesrtTransaction(string Userid,string Transaction,string Enviornment)
         {
             //bool res;
             string InstanceName = string.Empty;
 
             try
             {
-                using (con = GetConnection())
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;

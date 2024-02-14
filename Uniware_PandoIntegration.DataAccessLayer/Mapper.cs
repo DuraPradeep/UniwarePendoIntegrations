@@ -154,6 +154,31 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return Finaldata;
         }
+        public static List<UserInstance> GetInstanceFromTriggerData(DataSet pds)
+        {
+            List<UserInstance> Finaldata = new List<UserInstance>();
+
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                    {
+                        UserInstance Sendingdata = new UserInstance();
+                        Sendingdata.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+                        Sendingdata.TriggerId = pds.Tables[0].Rows[i]["TriggerId"].ToString();
+                        
+                        Finaldata.Add(Sendingdata);
+                    }
+                }               
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Finaldata;
+        }
         public static List<Data> GetSendData(DataSet pds)
         {
             List<Data> Finaldata = new List<Data>();

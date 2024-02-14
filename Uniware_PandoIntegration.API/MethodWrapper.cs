@@ -275,43 +275,52 @@ namespace Uniware_PandoIntegration.API
             Log.Information(" Return order Api itemType_Get -" + jskucode + ": " + token);
 
             var resul = _Token.GetSkuDetails(jskucode, token, Servertype, Instance);
-            //List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
-            if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
+            try
             {
-                if (Lcheckcount != 3)
+                if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
                 {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ErrorDetails ed = new ErrorDetails();
-                    ed.Status = true;
-                    ed.SkuCode = skucode;
-                    ed.Reason = resul.Result.ObjectParam;
-                    errorskuDetails.Add(ed);
-                    var errorskucode = ObjBusinessLayer.UpdateSalesOrderError(errorskuDetails, 0,Servertype);
-                    var abc = ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount, Servertype, Instance);
+                    if (Lcheckcount != 3)
+                    {
+                        Thread.Sleep(3000);
+                        Lcheckcount += 1;
+                        ErrorDetails ed = new ErrorDetails();
+                        ed.Status = true;
+                        ed.SkuCode = skucode;
+                        ed.Reason = resul.Result.ObjectParam;
+                        errorskuDetails.Add(ed);
+                        var errorskucode = ObjBusinessLayer.UpdateSalesOrderError(errorskuDetails, 0, Servertype);
+                        var abc = ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount, Servertype, Instance);
+                    }
+                    else
+                    {
+                        itemsSku = null;
+                        Emailtrigger.SendEmailToAdmin("Sale Order");
+                    }
                 }
                 else
                 {
-                    itemsSku = null;
-                    Emailtrigger.SendEmailToAdmin("Sale Order");
-                }
-            }
-            else
-            {
-                var resl = JsonConvert.DeserializeObject<SkuRoot>(resul.Result.ObjectParam);
-                itemsSku.Code = code;
-                itemsSku.skuType = skucode;
-                itemsSku.categoryCode = resl.itemTypeDTO.itemDetailFieldsText;//categoryCode;
-                itemsSku.width = resl.itemTypeDTO.width;
-                itemsSku.height = resl.itemTypeDTO.height;
-                itemsSku.length = resl.itemTypeDTO.length;
-                itemsSku.weight = resl.itemTypeDTO.weight;
-                itemsSku.Source = Instance;
+                    var resl = JsonConvert.DeserializeObject<SkuRoot>(resul.Result.ObjectParam);
+                    itemsSku.Code = code;
+                    itemsSku.skuType = skucode;
+                    itemsSku.categoryCode = resl.itemTypeDTO.itemDetailFieldsText;//categoryCode;
+                    itemsSku.width = resl.itemTypeDTO.width;
+                    itemsSku.height = resl.itemTypeDTO.height;
+                    itemsSku.length = resl.itemTypeDTO.length;
+                    itemsSku.weight = resl.itemTypeDTO.weight;
+                    itemsSku.Source = Instance;
 
-                // itemTdto.Add(itemsSku);
+                    // itemTdto.Add(itemsSku);
+                }
+                //var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
+                return itemsSku;
             }
-            //var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
-            return itemsSku;
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            //List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
+           
         }
         public ServiceResponse<string> Action(List<Data> sendcode, string triggerid, int checkcount, string ServerType)
         {
@@ -334,10 +343,17 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ActionResult.ObjectParam = null;
-                    ActionResult.IsSuccess = true;
+                    ActionResult.ObjectParam = ActionResult.ObjectParam;
+                    ActionResult.IsSuccess = false;
+                    
                 }
 
+            }
+            else
+            {
+                ActionResult.ObjectParam = ActionResult.ObjectParam;
+                ActionResult.IsSuccess = true;
+                ActionResult.Errcode = 200;
             }
 
             return ActionResult;

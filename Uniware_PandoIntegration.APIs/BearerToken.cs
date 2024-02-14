@@ -292,16 +292,30 @@ namespace Uniware_PandoIntegration.APIs
                 //response.EnsureSuccessStatusCode();
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                //return responses;
+                dynamic data = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    var datas = (bool)data.successful;                  
+                    if (datas)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = 400;
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = data.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetSkuDetails(SkuCode, Token);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = data.errors[0].description;
                 }
             }
             catch (Exception ex)
@@ -380,7 +394,7 @@ namespace Uniware_PandoIntegration.APIs
                     string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
 
                     credentials = Encoding.ASCII.GetBytes(_credentials);
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice ");
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice");
                 }
                 else if (ServerType.ToLower() == "prod")
                 {

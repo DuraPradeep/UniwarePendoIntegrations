@@ -101,37 +101,29 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
+            //ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
             UserProfile Enviornment = new UserProfile();
             Enviornment.Environment = HttpContext.Session.GetString("Environment").ToString();
 
             //ServiceResponse<IActionResult> responses = new ServiceResponse<IActionResult>();
-            var responses = "";
+            //var responses = "";
             //triggerid = ApiControl.Get<ServiceResponse<List<PostErrorDetails>>>("api/UniwarePando/SendRecordStatus");
             var triggerids = HttpContext.Session.GetString("Saletriggerid");
             if (triggerids != null)
             {
-                //var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerPushData");
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/RetriggerPushData");
                 //responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/Retrigger");
-                responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/Retrigger");
-
-
-                //responses = ApiControl.Get("api/UniwarePando/Retrigger");
-                //msg = "Posted Failed Records";
-                msg = responses.ToString();
+                //responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/Retrigger");
+                msg = responses.Remove(0, 1).Remove(responses.Length - 2, 1);
             }
             else
             {
                 //responses = ApiControl.Get("api/UniwarePando/Retrigger");
-                responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/Retrigger");
-                 //responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/Retrigger");
-
-                //msg = "Failed Record Triggered Successfully";
-                msg = responses.ToString();
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/Retrigger");
+                msg = responses.Remove(0, 1).Remove(responses.Length - 2, 1); ;
 
             }
             return Json(new { Message = msg });
-            //return RedirectToAction("ErrorList","Home",new { msg });
         }
         [HttpGet]
         public IActionResult Login()
@@ -188,8 +180,12 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/PostWaybillGeneration");
+            //var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment= HttpContext.Session.GetString("Environment").ToString();
+            //var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/PostWaybillGeneration");
+            var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/RetriggerPushData");
+
             //msg = responses;
             msg = "Trigger successfully";
 
@@ -250,23 +246,22 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-
+            //var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment= HttpContext.Session.GetString("Environment").ToString();
             var triggerids = HttpContext.Session.GetString("ReturnTriId");
             if (triggerids != null)
             {
                 //var postres = ApiControl.Get("api/UniwarePando/ReturnorderFinalData");
                 //var responses = ApiControl.Get("api/UniwarePando/ReturnOrderAPIRetrigger");
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/ReturnorderFinalData");
+                //var postres = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/ReturnOrderAPIRetrigger");
 
-                var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/ReturnorderFinalData");
-                var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/ReturnOrderAPIRetrigger");
                 msg = responses.ToString();
-
-                //msg = "Posted Failed Records";
             }
             else
             {
-                var responses = ApiControl.Get("api/UniwarePando/ReturnOrderAPIRetrigger");
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/ReturnOrderAPIRetrigger");
                 msg = responses.ToString();
                 //msg = "Failed Record Triggered Successfully";
             }
@@ -319,20 +314,25 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment= HttpContext.Session.GetString("Environment").ToString();
 
             var triggerids = HttpContext.Session.GetString("STOWaybillTriId");
             if (triggerids != null)
             {
-                var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOwaybillFinalData");
-                var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOWaybillRetrigger");
+                //var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOwaybillFinalData");
+                //var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOWaybillRetrigger");
                 //var responses = ApiControl.Get("api/UniwarePando/STOWaybillRetrigger");
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/STOwaybillFinalData");
+
                 msg = responses;
                 //msg = "Posted Failed Records";
             }
             else
             {
-                var responses = ApiControl.Get("api/UniwarePando/STOWaybillRetrigger");
+                //var responses = ApiControl.Get("api/UniwarePando/STOWaybillRetrigger");
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/STOWaybillRetrigger");
+
                 msg = responses;
                 //msg = "Failed Record Triggered Successfully";
             }
@@ -383,19 +383,21 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment= HttpContext.Session.GetString("Environment").ToString();
 
             var triggerids = HttpContext.Session.GetString("STOAPITriId");
             if (triggerids != null)
             {
-                var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOAPIFinaldata");
-                var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOAPIRetrigger");
+                //    var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOAPIFinaldata");
+                //    var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/STOAPIRetrigger");
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/STOAPIFinaldata");
                 //var responses = ApiControl.Get("api/UniwarePando/STOAPIRetrigger");
                 msg = responses.ToString();
             }
             else
             {
-                var responses = ApiControl.Get("api/UniwarePando/STOAPIRetrigger");
+                var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/STOAPIRetrigger");
                 msg = responses.ToString();
             }
             return Json(new { Message = msg });
@@ -552,9 +554,11 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment= HttpContext.Session.GetString("Environment").ToString();
 
-            var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerAllocateShipping");
+            //var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerAllocateShipping");
+            var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/RetriggerAllocateShipping");
             msg = responses;
             return Json(new { Message = msg });
         }
@@ -593,9 +597,12 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment= HttpContext.Session.GetString("Environment").ToString();
 
-            var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerreversePickup");
+            //var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerreversePickup");
+            var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/RetriggerreversePickup");
+
             //var responses = ApiControl.Get("api/UniwarePando/RetriggerreversePickup");
             msg = responses;
             return Json(new { Message = msg });

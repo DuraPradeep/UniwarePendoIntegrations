@@ -339,7 +339,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
         //{
         //    Log.Information(message);
         //}
-        public string InsertAllsendingData(List<Data> itemDatun, string Enviornment)
+        public string InsertAllsendingData(List<Data> itemDatun, string Enviornment,string Instance)
         {
             string res;
             try
@@ -378,7 +378,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("cust_category");
                 dtsku.Columns.Add("cust_refid");
                 dtsku.Columns.Add("expected_delivery_date");
-                //dtsku.Columns.Add("Instance");
+                dtsku.Columns.Add("Instance");
 
 
                 for (int i = 0; i < itemDatun.Count; i++)
@@ -416,7 +416,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["cust_category"] = itemDatun[i].cust_category;
                     drsku["cust_refid"] = itemDatun[i].cust_ref_id;
                     drsku["expected_delivery_date"] = itemDatun[i].expected_delivery_date;
-                    //drsku["Instance"] = itemDatun[i].expected_delivery_date;
+                    drsku["Instance"] = Instance;
                     dtsku.Rows.Add(drsku);
                 }
                 res = SPWrapper.IsertAllsendingrec(dtsku,Enviornment);
@@ -500,6 +500,51 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
+
+        public List<Data> GetFailedSendRecords(string Instance, string Enviornment)
+        {
+            List<Data> AllRes = new List<Data>();
+            try
+            {
+                //CreateLog($" Get Code from DB ");
+
+                AllRes = Mapper.GetSendingAllrecords(SPWrapper.GetFailedSendRecords(Instance, Enviornment));
+                //CreateLog($" Get Code from DB Data{AllRes} ");
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+        public List<UserInstance> GetInstanceFromTriggerdata(string Enviornment)
+        {
+            List<UserInstance> AllRes = new List<UserInstance>();
+            try
+            {
+                //CreateLog($" Get Code from DB ");
+
+                AllRes = Mapper.GetInstanceFromTriggerData(SPWrapper.GetInstanceFromTriggerTable(Enviornment));
+                //CreateLog($" Get Code from DB Data{AllRes} ");
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+        public void UpdateStatusinTriggerTable( string triggerid, string Enviornment)
+        {
+            try
+            {
+                SPWrapper.UpdateStatusinTriggerTable(triggerid, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public List<Salesorder> GetCodeforRetrigger(string Enviornment)
         {
             List<Salesorder> serviceResponse = new List<Salesorder>();
@@ -2858,11 +2903,11 @@ namespace Uniware_PandoIntegration.BusinessLayer
         {
             return SPWrapper.GetEnviornmant(Username);
         }
-        public void InsertTransaction(string Userid, string Transaction)
+        public void InsertTransaction(string Userid, string Transaction, string Enviornment)
         {
             try
             {
-                SPWrapper.InesrtTransaction(Userid, Transaction);
+                SPWrapper.InesrtTransaction(Userid, Transaction, Enviornment);
             }
             catch (Exception ex)
             {
