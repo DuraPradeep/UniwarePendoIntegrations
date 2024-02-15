@@ -681,6 +681,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
+
         public static List<UpdateShippingpackagedb> GetUpdateShippingDetails(DataSet pds)
         {
             //List<UpdateShippingpackage> skucodes = new List<UpdateShippingpackage>();

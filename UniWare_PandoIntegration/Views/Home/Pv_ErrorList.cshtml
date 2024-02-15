@@ -66,9 +66,9 @@
     function geterrorcode() {
         debugger;
         //var length = 'HttpContext.Session.Getstring("Errorcodeoccur")'
-        var UserName = '@Html.Raw(this.ViewData["UserName"])'
+        var status = '@Html.Raw(this.ViewData["FailedStatus"])'
         debugger;
-        if (UserName == 1) {
+        if (status == 1) {
             debugger;
             $("#id_triggerbtn").css("display", "block");
         }

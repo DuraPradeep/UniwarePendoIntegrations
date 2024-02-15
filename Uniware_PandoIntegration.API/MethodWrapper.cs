@@ -7,6 +7,7 @@ using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
@@ -565,12 +566,12 @@ namespace Uniware_PandoIntegration.API
         //	}
         //	return resfinal;
         //}
-        public Task<ServiceResponse<string>> WaybillGenerationPostData(List<WaybillSend> AllData, int checkcount, string triggerid, string ServerType)
+        public ServiceResponse<string> WaybillGenerationPostData(List<WaybillSend> AllData, int checkcount, string triggerid, string ServerType)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             Log.Information($"Waybill Post Data : {jsonre}");
-
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -584,11 +585,16 @@ namespace Uniware_PandoIntegration.API
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Waybill Generation");
-                    return ResStatus = null;
-
+                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.IsSuccess = false;
                 }
             }
-            return ResStatus;
+            else
+            {
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true; 
+            }
+            return serviceResponse;
         }
         public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
@@ -1096,9 +1102,10 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype, string Instance)
+        public ServiceResponse<string> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
@@ -1111,21 +1118,26 @@ namespace Uniware_PandoIntegration.API
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Update Shipping Package");
-                    return ResStatus = null;
-
+                    //return ResStatus = null;
+                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.IsSuccess = false; 
+                    return serviceResponse;
                 }
             }
             else
             {
                 ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode,Servertype);
-                return ResStatus;
-
+                //return ResStatus;
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+                return serviceResponse;
             }
 
         }
-        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType, string Instance)
+        public ServiceResponse<string> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType, string Instance)
         {
             int Lcheckcount = checkcount;
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
@@ -1138,11 +1150,18 @@ namespace Uniware_PandoIntegration.API
                 }
                 {
                     Emailtrigger.SendEmailToAdmin("Allocate Shipping");
-                    return ResStatus = null;
+                    //return ResStatus = null;
+                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.IsSuccess = false; 
 
                 }
             }
-            return ResStatus;
+            else
+            {
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+            }
+            return serviceResponse;
         }
 
         public Task<ServiceResponse<string>> WaybillCancelPostData(List<CancelData> AllData, int checkcount)

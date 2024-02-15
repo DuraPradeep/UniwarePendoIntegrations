@@ -2606,6 +2606,195 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+        //public static string GetWaybillInstanceName(string Enviornment)
+        //{
+        //    string InstanceName = string.Empty;
+        //    try
+        //    {
+        //        if (Enviornment == "Prod")
+        //        {
+        //            con = new SqlConnection(ConnectionStringProd);
+        //        }
+        //        else
+        //        {
+        //            con = new SqlConnection(ConnectionString);
+        //        }
+        //        using (con)
+        //        {
+        //            com = new SqlCommand();
+        //            com.Connection = con;
+        //            com.CommandText = "Pro_GetWaybillInstance";
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            con.Open();
+        //            SqlDataReader dr;
+        //            dr = com.ExecuteReader();
+        //            while (dr.Read())
+        //            {
+        //                InstanceName = dr["Instance"].ToString();
+
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //CreateLog($"Error: {ex.Message}");
+        //        throw ex;
+        //    }
+        //    //finally { con.Close(); }
+        //    return InstanceName;
+
+        //}
+        public static DataSet GetWaybillInstanceName(string Enviornment)
+        {
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetWaybillInstance",
+                        CommandTimeout = 1000
+                    };
+
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static void UpdateStatusinWaybillTriggerTable(string Triggerid, string Enviornment)
+        {
+
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                //con = GetConnection();
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_UpdateWaybillFailedTriggerData";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@triggerid", Triggerid);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
+        }
+        public static void UpdateStatusinUpdateShippingTriggerTable(string ShippingPackageCode, string Enviornment)
+        {
+
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                //con = GetConnection();
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_UpdatePostDataFailedrecord";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@ShippingPackCode", ShippingPackageCode);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
+        }
+        public static DataSet GetWaybillFailedData(string Instance, string Enviornment)
+        {
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetWaybillFailedData",
+                        CommandTimeout = 1000
+                    };
+                    com.Parameters.AddWithValue("@instance", Instance);
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
         public static DataSet ReturnOrderStatus(string Enviornment)
         {
             //con = GetConnection();
@@ -4044,8 +4233,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static string GetInstanceName(string TrackingNo, string Enviornment)
         {
             string InstanceName = string.Empty;
-
-
             try
             {
                 if (Enviornment == "Prod")

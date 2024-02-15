@@ -65,8 +65,7 @@ namespace UniWare_PandoIntegration.Controllers
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetErrorCodes");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetSaleOrderErrorCodes");
 
             for (int i = 0; i < response.ObjectParam.Count; i++)
             {
@@ -74,11 +73,12 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     HttpContext.Session.SetString("Saletriggerid", response.ObjectParam[i].Triggerid);
                 }
+                if (response.ObjectParam[i].Reason!= "INVALID_SALE_ORDER_CODE")
+                {                    
+                        ViewData["FailedStatus"] = 1;
+                }
             }
-            if (response.ObjectParam.Count > 0)
-            {
-                ViewData["UserName"] = 1;
-            }
+            
             return View("~/Views/Home/Pv_ErrorList.cshtml", response.ObjectParam);
         }
         public JsonResult ErrorListDataObject()
@@ -86,12 +86,11 @@ namespace UniWare_PandoIntegration.Controllers
             ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>>("api/UniwarePando/GetErrorCodes");
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetErrorCodes");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetSaleOrderErrorCodes");
 
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
         }
@@ -163,14 +162,13 @@ namespace UniWare_PandoIntegration.Controllers
         [HttpGet]
         public ActionResult WaybillErrorList()
         {
-            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-
-            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api /UniwarePando/waybillErrorDetails");
-            if (response.ObjectParam.Count > 0)
+            ServiceResponse<List<EndpointErrorDetails>> response = new ServiceResponse<List<EndpointErrorDetails>>();//ApiControl = new ApiOperation();
+            response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/waybillErrorDetails");
+             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return View("~/Views/Home/Pv_WaybillErrorList.cshtml", response.ObjectParam);
 
@@ -184,10 +182,8 @@ namespace UniWare_PandoIntegration.Controllers
             UserProfile Enviornment = new UserProfile();
             Enviornment.Environment= HttpContext.Session.GetString("Environment").ToString();
             //var postres = ApiControl.Get<string>(Enviornment, "api/UniwarePando/PostWaybillGeneration");
-            var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/RetriggerPushData");
-
-            //msg = responses;
-            msg = "Trigger successfully";
+            var response = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/Retriggerwaybill");
+            msg = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             return Json(new { Message = msg });
         }
@@ -200,7 +196,7 @@ namespace UniWare_PandoIntegration.Controllers
             response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/waybillErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
             //return View("~/Views/Home/Pv_WaybillErrorList.cshtml");
@@ -222,7 +218,7 @@ namespace UniWare_PandoIntegration.Controllers
             }
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return View("~/Views/Home/Pv_ReturnOrderErrorList.cshtml", response.ObjectParam);
         }
@@ -237,7 +233,7 @@ namespace UniWare_PandoIntegration.Controllers
 
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
         }
@@ -304,7 +300,7 @@ namespace UniWare_PandoIntegration.Controllers
 
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
 
@@ -356,7 +352,7 @@ namespace UniWare_PandoIntegration.Controllers
             }
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return View("~/Views/Home/Pv_STOAPIErrorList.cshtml", response.ObjectParam);
             //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
@@ -372,7 +368,7 @@ namespace UniWare_PandoIntegration.Controllers
 
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
             //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
@@ -411,7 +407,7 @@ namespace UniWare_PandoIntegration.Controllers
 
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
 
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetErrorCodes");
+            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetSaleOrderErrorCodes");
             int count = 0;
             List<string> strings = new List<string>();
             string name;
@@ -429,7 +425,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 name = "Waybill generation";
                 count += 1;
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
                 strings.Add(name);
             }
             //return Order
@@ -440,7 +436,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 name = "return Order";
                 count += 1;
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
                 strings.Add(name);
             }
             //STO Waybill
@@ -451,7 +447,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 name = "STO Waybill";
                 count += 1;
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
                 strings.Add(name);
             }
             //STO API
@@ -462,7 +458,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 name = "STO API";
                 count += 1;
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
                 strings.Add(name);
             }
             ServiceResponse<List<EndpointErrorDetails>> UpdateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
@@ -471,7 +467,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 name = "Update Shipping";
                 count += 1;
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
                 strings.Add(name);
             }
             ServiceResponse<List<EndpointErrorDetails>> AlocateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
@@ -480,7 +476,7 @@ namespace UniWare_PandoIntegration.Controllers
             {
                 name = "Allocate Shipping";
                 count += 1;
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
                 strings.Add(name);
             }
 
@@ -499,7 +495,7 @@ namespace UniWare_PandoIntegration.Controllers
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/UpdateShippingErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return View("~/Views/Home/pv_UpdateShipping.cshtml", response.ObjectParam);
 
@@ -514,7 +510,7 @@ namespace UniWare_PandoIntegration.Controllers
             response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/UpdateShippingErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
             //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
@@ -524,10 +520,13 @@ namespace UniWare_PandoIntegration.Controllers
         {
             string msg;
             ApiControl = new ApiOperation(Apibase);
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            UserProfile Enviornment = new UserProfile();
+            Enviornment.Environment = HttpContext.Session.GetString("Environment").ToString();
 
             ServiceResponse<List<PostErrorDetails>> triggerid = new ServiceResponse<List<PostErrorDetails>>();
-            var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerUpdateShipping");
+            //var responses = ApiControl.Get<string>(Enviornment, "api/UniwarePando/RetriggerUpdateShipping");
+            var responses = ApiControl.Post1<ServiceResponse<string>, UserProfile>(Enviornment, "api/UniwarePando/RetriggerUpdateShipping");
+
 
             msg = responses;
             //msg = "Trigger successfully";
@@ -544,7 +543,7 @@ namespace UniWare_PandoIntegration.Controllers
             response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/AloateShippingErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return View("~/Views/Home/Pv_AlocateShipping.cshtml", response.ObjectParam);
             //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
@@ -573,7 +572,7 @@ namespace UniWare_PandoIntegration.Controllers
 
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
             //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");
@@ -588,7 +587,7 @@ namespace UniWare_PandoIntegration.Controllers
             response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/ReversePickupErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return View("~/Views/Home/pv_ReversePickup.cshtml", response.ObjectParam);
         }
@@ -616,7 +615,7 @@ namespace UniWare_PandoIntegration.Controllers
             response = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/ReversePickupErrorDetails");
             if (response.ObjectParam.Count > 0)
             {
-                ViewData["UserName"] = 1;
+                ViewData["FailedStatus"]  = 1;
             }
             return Json(response.ObjectParam);
             //return View("~/Views/Home/Pv_STOWaybillErrorList.cshtml");

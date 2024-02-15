@@ -793,7 +793,20 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return AllRes;
         }
-        public string InsertAllsendingDataReturnorder(List<WaybillSend> itemDatun, string Enviornment)
+        public List<WaybillSend> GetWaybillAllFailedRecrdsto(string Instance, string Enviornment)
+        {
+            List<WaybillSend> AllRes = new List<WaybillSend>();
+            try
+            {
+                AllRes = Mapper.GetWayBillSendrecords(SPWrapper.GetWaybillFailedData(Instance, Enviornment));
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+        public string InsertAllsendingDataReturnorder(List<WaybillSend> itemDatun, string Enviornment,string Instance)
         {
             string res;
             try
@@ -829,6 +842,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("clear");
                 dtsku.Columns.Add("cust_refid");
                 dtsku.Columns.Add("Trigger_ID");
+                dtsku.Columns.Add("Instance");
 
 
 
@@ -864,8 +878,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["clear"] = itemDatun[i].clear;
                     drsku["cust_refid"] = itemDatun[i].cust_ref_id;
                     drsku["Trigger_ID"] = id;
-
-
+                    drsku["Instance"] = Instance;
                     dtsku.Rows.Add(drsku);
                 }
                 res = SPWrapper.IsertwaybillPostData(dtsku, Enviornment);
@@ -1982,6 +1995,42 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
 
+        }
+        public List<UserInstance> GetWaybillInstanceName(string Enviornment)
+        {
+            List<UserInstance> AllRes = new List<UserInstance>();
+            try
+            {
+                AllRes = Mapper.GetInstanceFromTriggerData(SPWrapper.GetWaybillInstanceName(Enviornment));
+                //CreateLog($" Get Code from DB Data{AllRes} ");
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+            return AllRes;
+        }
+        public void UpdateStatusinWaybillTriggerTable(string triggerid, string Enviornment)
+        {
+            try
+            {
+                SPWrapper.UpdateStatusinWaybillTriggerTable(triggerid, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void UpdateStatusinUpdateshippingTriggerTable(string ShippingPackageCode, string Enviornment)
+        {
+            try
+            {
+                SPWrapper.UpdateStatusinUpdateShippingTriggerTable(ShippingPackageCode, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public ServiceResponse<List<CodesErrorDetails>> BLReturnOrderStatus(string Enviornment)
         {
