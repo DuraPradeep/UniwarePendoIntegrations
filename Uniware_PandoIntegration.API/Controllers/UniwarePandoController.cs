@@ -34,6 +34,7 @@ using DocumentFormat.OpenXml.Office2016.Excel;
 using Microsoft.Extensions.Hosting.Internal;
 using System.IO;
 using System.Text;
+using DocumentFormat.OpenXml.Office2019.Presentation;
 //using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
 
 namespace Uniware_PandoIntegration.API.Controllers
@@ -543,8 +544,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string FacilityCode = string.Empty;
                 for (int i = 0; i < parentList.ObjectParam.saleOrderItems.Count; i++)
                 {
-                    FacilityCode = parentList.ObjectParam.saleOrderItems[i].facilityCode;
-
+                    if (parentList.ObjectParam.saleOrderItems[i].shippingPackageCode == Records.Shipment.code)
+                    {
+                        FacilityCode = parentList.ObjectParam.saleOrderItems[i].facilityCode;
+                    }
                 }
 
 
@@ -1618,11 +1621,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 errorResponse.status = "Error";
                                 errorResponse.reason = response.ObjectParam;
                                 errorResponse.message = "";
+                                //successResponse.status = "Error";
+                                //successResponse.waybill = "";
+                                //successResponse.shippingLabel = "";
                                 _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
                                 return new JsonResult(errorResponse);
                             }
                         }
-                        return new JsonResult(successResponse);
+                        //return new JsonResult(successResponse);
 
                     }
                     //return Accepted("All Records Pushed Successfully");
@@ -1856,7 +1862,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
                         CustomFieldValue customFieldValue = new CustomFieldValue();
 
-                        customFieldValue.name = "TrackingLink";
+                        customFieldValue.name = "TrackingLink2";
                         customFieldValue.value = results[i].trackingLink;
                         updateShippingpackage.customFieldValues.Add(customFieldValue);
                         var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
@@ -3000,6 +3006,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                         reversePickupResponse.message = responsmessage;
                         reversePickupResponse.errors = "";
                         reversePickupResponse.warnings = "";
+                        _logger.LogInformation($"Tracking Status Success {JsonConvert.SerializeObject(reversePickupResponse)}");
+
                         return new JsonResult(reversePickupResponse);
                     }
                     else
@@ -3009,6 +3017,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                         reversePickupResponse.message = responsmessage;
                         reversePickupResponse.errors = "There Is not Data For Tacking";
                         reversePickupResponse.warnings = "";
+                        _logger.LogInformation($"Tracking Status Error {JsonConvert.SerializeObject(reversePickupResponse)}");
+
                         return new JsonResult(reversePickupResponse);
                     }
 
@@ -3031,6 +3041,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.message = ex.Message;
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
+                _logger.LogInformation($"Truck Details Master Updated. {JsonConvert.SerializeObject(reversePickupResponse)}");
+
                 return new JsonResult(reversePickupResponse);
                 throw;
             }

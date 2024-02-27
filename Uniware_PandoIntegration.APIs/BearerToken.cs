@@ -914,7 +914,7 @@ namespace Uniware_PandoIntegration.APIs
 
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             var jsonre = JsonConvert.SerializeObject(data);
-            CreateLog($" Update Shipping package:-  {jsonre}");
+            CreateLog($" Update Shipping package Post Data:-  {jsonre}");
             try
             {
                 var client = new HttpClient();
@@ -988,7 +988,7 @@ namespace Uniware_PandoIntegration.APIs
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             var jsonre = JsonConvert.SerializeObject(data);
             //string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Allocate Shipping:-  {jsonre}");
+            CreateLog($" Allocate Shipping Post Data:-  {jsonre}");
             try
             {
                 var client = new HttpClient();
@@ -1209,7 +1209,6 @@ namespace Uniware_PandoIntegration.APIs
 
                     }
                 }
-
 
                 request.Headers.Add("Facility", Facility);
                 request.Headers.Add("Authorization", "Bearer" + Token);

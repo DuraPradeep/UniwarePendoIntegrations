@@ -809,6 +809,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
