@@ -3019,6 +3019,25 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
+        public string GetSpecialCharacter(string Enviornment)
+        {
+            //var id = GenerateNumeric();
+            return SPWrapper.GetSpecialCharacter(Enviornment);
+        }
+        public string UpdateSpecialCharacterMaster(string Characters, string Enviornment)
+        {
+            string res;
+            try
+            {
+                res = SPWrapper.UpdateSpecialCharacterMaster(Characters, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            return res;
+        }
     }
 }
 

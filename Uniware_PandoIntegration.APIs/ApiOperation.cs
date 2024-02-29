@@ -142,7 +142,19 @@ namespace Uniware_PandoIntegration.APIs
             client.Dispose();
             return response.Content.ReadAsAsync<T>().Result;
         }
+        public T Get<T, t1, t2, t3>(t1 id, t2 id1, t3 id2, string Key, string Key1, string Key2, string uri)
+        {
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(t_BaseURL),
 
+            };
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage response = client.GetAsync(uri + "?" + Key + "=" + id + "&&" + Key1 + "=" + id1 + "&&" + Key2 + "=" + id2).Result;
+
+            client.Dispose();
+            return response.Content.ReadAsAsync<T>().Result;
+        }
 
     }
 }

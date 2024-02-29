@@ -3383,5 +3383,26 @@ namespace Uniware_PandoIntegration.API.Controllers
             ExecResult = ObjBusinessLayer.ResetPassword(userProfile, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
+
+        [HttpGet]
+        public ActionResult GetSpecialCharacters(string Enviornment)
+        {
+            string Servertype = Enviornment;
+            string CHaracters = string.Empty;
+            CHaracters = ObjBusinessLayer.GetSpecialCharacter(Servertype);
+            return new JsonResult(CHaracters);
+        }
+        [HttpPost]
+        public ActionResult UpdateSpecialCharacters(SpecialCharacterEntity specialCharacterEntity)
+        {
+            ObjBusinessLayer.InsertTransaction(specialCharacterEntity.userid, "Special Character Master", specialCharacterEntity.Enviornment);
+
+            string ExecResult = string.Empty;
+            _logger.LogInformation($"Special Character Master Update. {JsonConvert.SerializeObject(specialCharacterEntity)}");
+            ExecResult =  ObjBusinessLayer.UpdateSpecialCharacterMaster(specialCharacterEntity.Contents, specialCharacterEntity.Enviornment);
+            return new JsonResult(ExecResult.Trim());
+        }
+
+
     }
 }

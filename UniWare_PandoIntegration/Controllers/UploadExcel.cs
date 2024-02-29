@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR.Protocol;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
+using System;
 using System.Data;
 using System.Drawing.Printing;
+using System.IO;
 using System.Net.Mail;
 using System.Runtime.CompilerServices;
 using System.Runtime.Intrinsics.Arm;
+using System.Text;
 using Uniware_PandoIntegration.APIs;
 using Uniware_PandoIntegration.Entities;
 
@@ -138,10 +142,10 @@ namespace UniWare_PandoIntegration.Controllers
                 //int table = Convert.ToInt32(dataSet.Tables.Count);
                 //for (int i = 0; i < table; i++)
                 //{
-                    foreach (DataRow dr in cloned.Rows)
-                    {
-                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["FilterType"]), Instance = Convert.ToString(dr["Instance"]) });
-                    }
+                foreach (DataRow dr in cloned.Rows)
+                {
+                    empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["FilterType"]), Instance = Convert.ToString(dr["Instance"]) });
+                }
                 //}
                 string Environment = HttpContext.Session.GetString("Environment").ToString();
                 string userid = HttpContext.Session.GetString("LoginId").ToString();
@@ -150,7 +154,7 @@ namespace UniWare_PandoIntegration.Controllers
                 MainClass mainClass = new MainClass();
                 mainClass.UploadExcels = empList;
                 mainClass.Enviornment = Environment;
-                mainClass.Userid= userid;
+                mainClass.Userid = userid;
                 var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/UploadExcel");
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
@@ -286,7 +290,7 @@ namespace UniWare_PandoIntegration.Controllers
 
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-             ListcustomerModels = ApiControl.Get<List<FacilityMaintain>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetFacilityMaster_Details");
+            ListcustomerModels = ApiControl.Get<List<FacilityMaintain>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetFacilityMaster_Details");
 
 
             //ListcustomerModels = ApiControl.Get<List<FacilityMaintain>>("api/UniwarePando/GetFacilityMaster_Details");
@@ -402,8 +406,6 @@ namespace UniWare_PandoIntegration.Controllers
         {
             return View("~/Views/UploadExcel/TruckDetailsUpload.cshtml");
         }
-
-
         public ActionResult TruckDetailsMasterDownload()
         {
 
@@ -459,7 +461,6 @@ namespace UniWare_PandoIntegration.Controllers
                 return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
             }
         }
-
         public IActionResult UploadTruckMaster(IFormFile Upload)
         {
             if (Upload != null)
@@ -541,7 +542,7 @@ namespace UniWare_PandoIntegration.Controllers
                 TruckdetailsMap mainClass = new TruckdetailsMap();
                 mainClass.Enviornment = HttpContext.Session.GetString("Environment").ToString();
                 mainClass.TruckDetails = FacList;
-                mainClass.Userid= HttpContext.Session.GetString("LoginId").ToString();
+                mainClass.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
 
 
@@ -552,12 +553,10 @@ namespace UniWare_PandoIntegration.Controllers
             return RedirectToAction("Dashboard", "Home");
 
         }
-
         public ActionResult STOUpload()
         {
             return View("~/Views/UploadExcel/ExcelUploadForSTO.cshtml");
         }
-
         public IActionResult STOUploadExcel(IFormFile Upload)
         {
             if (Upload != null)
@@ -643,19 +642,19 @@ namespace UniWare_PandoIntegration.Controllers
                 //int table = Convert.ToInt32(dataSet.Tables.Count);
                 //for (int i = 0; i < table; i++)
                 //{
-                    foreach (DataRow dr in cloned.Rows)
-                    {
-                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["FilterType"]), Instance = Convert.ToString(dr["Instance"]) });
-                    }
+                foreach (DataRow dr in cloned.Rows)
+                {
+                    empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["FilterType"]), Instance = Convert.ToString(dr["Instance"]) });
+                }
                 //}
                 ApiControl = new ApiOperation(Apibase);
                 MainClass mainClass = new MainClass();
-                mainClass.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                mainClass.Enviornment = HttpContext.Session.GetString("Environment").ToString();
                 mainClass.UploadExcels = empList;
                 mainClass.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
                 var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/STOUpload").Trim();
-                
+
 
 
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
@@ -665,7 +664,6 @@ namespace UniWare_PandoIntegration.Controllers
             return RedirectToAction("Dashboard", "Home");
 
         }
-
         public ActionResult RegionUpload()
         {
             return View("~/Views/UploadExcel/ReagionMaster.cshtml");
@@ -749,7 +747,7 @@ namespace UniWare_PandoIntegration.Controllers
                 ApiControl = new ApiOperation(Apibase);
                 RegionMasterMap regionMasterMap = new RegionMasterMap();
                 regionMasterMap.RegionMasters = FacList;
-                regionMasterMap.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                regionMasterMap.Enviornment = HttpContext.Session.GetString("Environment").ToString();
                 regionMasterMap.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
 
@@ -812,7 +810,6 @@ namespace UniWare_PandoIntegration.Controllers
                 return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
             }
         }
-
         public ActionResult TrackingStatusUpload()
         {
             return View("~/Views/UploadExcel/TrackingStatusUpload.cshtml");
@@ -1021,7 +1018,6 @@ namespace UniWare_PandoIntegration.Controllers
                 return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
             }
         }
-
         public IActionResult CourierListUpload(IFormFile Upload)
         {
             if (Upload != null)
@@ -1092,9 +1088,9 @@ namespace UniWare_PandoIntegration.Controllers
                         CourierName = Convert.ToString(dr["Courier Name"])
                     });
                 }
-                TrackingMasterMapping trackingMasterMapping=new TrackingMasterMapping();
+                TrackingMasterMapping trackingMasterMapping = new TrackingMasterMapping();
                 trackingMasterMapping.TrackingMasters = FacList;
-                trackingMasterMapping.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                trackingMasterMapping.Enviornment = HttpContext.Session.GetString("Environment").ToString();
                 trackingMasterMapping.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
                 ApiControl = new ApiOperation(Apibase);
@@ -1105,7 +1101,6 @@ namespace UniWare_PandoIntegration.Controllers
             return RedirectToAction("Dashboard", "Home");
 
         }
-
         public ActionResult TrackingLinkUpload()
         {
             return View();
@@ -1134,7 +1129,7 @@ namespace UniWare_PandoIntegration.Controllers
                     worksheet.Cell(1, 1).Style.Font.FontColor = XLColor.Black;
                     worksheet.Cell(1, 1).Style.Font.Bold = true;
                     worksheet.Cell(1, 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
-                    
+
                     worksheet.Cell(1, 2).Value = "Tracking Link";
                     worksheet.Cell(1, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                     worksheet.Cell(1, 2).Style.Font.FontColor = XLColor.Black;
@@ -1165,7 +1160,6 @@ namespace UniWare_PandoIntegration.Controllers
                 return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
             }
         }
-
         public IActionResult TrackingMappingUpload(IFormFile Upload)
         {
             if (Upload != null)
@@ -1231,7 +1225,7 @@ namespace UniWare_PandoIntegration.Controllers
                 //string Environment = HttpContext.Session.GetString("Environment").ToString();
                 TrackingLinkMappingMap trackingLinkMappingMap = new TrackingLinkMappingMap();
                 trackingLinkMappingMap.TrackingLinkMappings = trackingLinkMappings;
-                trackingLinkMappingMap.Enviornment= HttpContext.Session.GetString("Environment").ToString();
+                trackingLinkMappingMap.Enviornment = HttpContext.Session.GetString("Environment").ToString();
                 trackingLinkMappingMap.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
                 ApiControl = new ApiOperation(Apibase);
@@ -1239,10 +1233,9 @@ namespace UniWare_PandoIntegration.Controllers
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             //return View("~/Views/UploadExcel/TrackingLinkUpload.cshtml");
-            return RedirectToAction("Dashboard","Home");
+            return RedirectToAction("Dashboard", "Home");
 
         }
-
         public ActionResult ShippingStatusMaster()
         {
             return View();
@@ -1299,7 +1292,6 @@ namespace UniWare_PandoIntegration.Controllers
                 return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
             }
         }
-
         public IActionResult ShippingStatusMasterUpload(IFormFile Upload)
         {
             if (Upload != null)
@@ -1375,5 +1367,44 @@ namespace UniWare_PandoIntegration.Controllers
             //return View("~/Views/UploadExcel/TrackingLinkUpload.cshtml");
             return RedirectToAction("Dashboard", "Home");
         }
+
+        public ActionResult SpecialCharactermaster()
+        {
+            return View();
+        }
+
+        public ActionResult SpecialCharacterData()
+        {
+            ApiControl = new ApiOperation(Apibase);
+            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            string fileName = "Shipping Status Master.xlsx";
+            try
+            {
+                var listdata = ApiControl.Get<string, string>(Enviornment, "Enviornment", "api/UniwarePando/GetSpecialCharacters");
+
+                byte[] bytes = Encoding.UTF8.GetBytes(listdata);
+                return File(bytes, "text/plain", "file.txt");
+            }
+            catch (Exception ex)
+            {
+                return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            }
+        }
+        public IActionResult SpecialCharacterMasterUpload(IFormFile Upload)
+        {
+            ApiControl = new ApiOperation(Apibase);
+            //string text = System.IO.File.ReadAllText(Upload);
+            SpecialCharacterEntity specialCharacterEntity = new SpecialCharacterEntity();
+            Upload.OpenReadStream().Position = 0;
+            specialCharacterEntity.Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            specialCharacterEntity.userid = HttpContext.Session.GetString("LoginId").ToString();
+            specialCharacterEntity.Contents = new StreamReader(Upload.OpenReadStream()).ReadToEnd();
+            var response = ApiControl.Post1< ServiceResponse<string>, SpecialCharacterEntity>(specialCharacterEntity,  "api/UniwarePando/UpdateSpecialCharacters");
+            TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
+            return RedirectToAction("Dashboard", "Home");
+
+        }
+
     }
 }

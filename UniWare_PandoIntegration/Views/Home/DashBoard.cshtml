@@ -315,6 +315,17 @@
 
         });
     }
+    function fn_SpecialCharacter() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/SpecialCharactermaster", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
 
 </script>
 
@@ -513,6 +524,14 @@
                 <div class="card text-white mb-4 text-center pointer">
                     <div class="card-body tile_list">
                         <p>Shipping Status Master</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_SpecialCharacter()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Special Character Master</p>
                     </div>
                 </div>
 

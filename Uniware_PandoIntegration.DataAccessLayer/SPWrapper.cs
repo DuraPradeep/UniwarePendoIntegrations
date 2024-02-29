@@ -779,7 +779,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static DataSet GetFailedCode( string Enviornment)
         {
 
@@ -825,8 +824,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             Log.Information(message);
         }
-
-
         public static string WaybillinsertMain(OmsToPandoRoot Mainres, string Enviornment)
         {
             string res;
@@ -924,7 +921,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-
         public static bool Waybillinsertitems(DataTable ds, string Enviornment)
         {
             bool res = false;
@@ -1125,7 +1121,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-
         public static DataSet GetWaybillSendData(string Instance, string Enviornment)
         {
 
@@ -1201,7 +1196,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
         public static bool InsertReturnOrderCode(DataTable dt,string Enviornment)
         {
             bool res;
@@ -1236,7 +1230,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
         public static DataSet GetReturnOrderCode(string Instacne, string Enviornment)
         {
 
@@ -2033,7 +2026,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
         public static DataSet GetSTOAPIgatepassCode( string Enviornment)
         {
             //con = GetConnection();
@@ -2281,7 +2273,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
         public static void UpdateSTOWaybillErrorCodesError(string reason, string Enviornment)
         {
             try
@@ -2455,7 +2446,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
         public static void UpdateSTOAPIErrorpostdata(bool status, string reason, string Triggerid, string Enviornment)
         {
 
@@ -2835,7 +2825,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static DataSet GetWaybillgatepassCodeRetrigger(string Enviornment)
         {
             //con = GetConnection();
@@ -2909,7 +2898,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static DataSet GetReturnOrderCodeRetrigger(string Enviornment)
         {
             //con = GetConnection();
@@ -2994,7 +2982,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return tokenEntity;
         }
-
         public static void IsertshippingUpdate(DataTable dt, string Enviornment)
         {
             string res;
@@ -3175,7 +3162,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-
         public static DataSet GetAllocateShippingData( string Enviornment)
         {
             //con = GetConnection();
@@ -3252,8 +3238,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-
         public static string IsertUpdateShippingrecords(UpdateShippingpackage dt, string triggerid, string FacilityCode, string Enviornment)
         {
             string res;
@@ -3302,7 +3286,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
         public static void UpdateShippingError(bool status, string reason, string Triggerid, string Enviornment)
         {
 
@@ -3376,7 +3359,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static DataSet GetUpdateShippingRetrigger( string Enviornment)
         {
             //con = GetConnection();
@@ -3415,8 +3397,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-
         public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid, string Enviornment)
         {
             string res;
@@ -3495,8 +3475,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-
-
         public static DataSet GetAlocateShippingStatus(string Enviornment)
         {
             //con = GetConnection();
@@ -3810,7 +3788,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid,string FacilityCode, string Enviornment)
         {
             string res;
@@ -4007,7 +3984,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static DataSet GetFacilityCode(string Enviornment)
         {
             //con = GetConnection();
@@ -4084,7 +4060,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static string UpdateFaciitymaster(DataTable dt, string Enviornment)
         {
             string status;
@@ -4230,7 +4205,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             ////return res;
         }
-
         public static string GetInstanceName(string TrackingNo, string Enviornment)
         {
             string InstanceName = string.Empty;
@@ -4525,7 +4499,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
-
         public static DataSet GetCourierNameDetails(string Enviornment)
         {
             //con = GetConnection();
@@ -4600,7 +4573,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
-
         public static DataSet GetTrackingMapping(string Enviornment)
         {
             //con = GetConnection();
@@ -4640,7 +4612,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
         public static string UpdateTrackingMappingList(DataTable dt, string Enviornment)
         {
             string status;
@@ -4676,7 +4647,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
-
         public static DataSet GetRoleMenuAccess(int UserId,string Enviornment)
         {
             //con = GetConnection();
@@ -4807,7 +4777,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             //return InstanceName;
         }
-
         public static DataSet GetRoleMaster(string Enviornment)
         {
             //con = GetConnection();
@@ -4847,8 +4816,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-
         public static int SaveGatePass(UserProfile userProfile)
         {
             //con = GetConnection();
@@ -4901,7 +4868,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             return getid;
         }
-
         public static DataSet GetShippingStatusMaster(string Enviornment)
         {
             //con = GetConnection();
@@ -5014,6 +4980,80 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return status;
         }
 
+        public static string GetSpecialCharacter (string Enviornment)
+        {
+            string InstanceName = string.Empty;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_GetSpecialCharacter";
+                    com.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlDataReader dr;
+                    dr = com.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        InstanceName = dr["Name"].ToString();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return InstanceName;
+
+        }
+
+        public static string UpdateSpecialCharacterMaster(string Characters, string Enviornment)
+        {
+            string RuturnCharacters;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Proc_InsertSpecialCharacter";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@finalcharacter", SqlDbType.VarChar, 100);
+                    com.Parameters["@finalcharacter"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@Characters", Characters);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    RuturnCharacters = Convert.ToString(com.Parameters["@finalcharacter"].Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return RuturnCharacters;
+        }
     }
 
 
