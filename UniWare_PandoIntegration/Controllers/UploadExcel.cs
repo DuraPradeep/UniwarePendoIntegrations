@@ -1384,7 +1384,7 @@ namespace UniWare_PandoIntegration.Controllers
                 var listdata = ApiControl.Get<string, string>(Enviornment, "Enviornment", "api/UniwarePando/GetSpecialCharacters");
 
                 byte[] bytes = Encoding.UTF8.GetBytes(listdata);
-                return File(bytes, "text/plain", "file.txt");
+                return File(bytes, "text/plain", "SpecialCharacter.txt");
             }
             catch (Exception ex)
             {

@@ -20,7 +20,7 @@
         var regex = new RegExp("([a-zA-Z0-9()\s_\\.\-:])+(" + allowedFiles.join('|') + ")$");
 
         if (!regex.test(fileUpload.val().toLowerCase())) {
-            alert("Please Text File");
+            alert("Please Upload Text File");
             return false;
         }
         return true;
@@ -62,11 +62,13 @@
 <div class="container">
     <div class="col-md-12">
 
-        <button class="btn btn-success " id="SpecialCharacter_Master"><i class="mdi mdi-download" style="color: #fff !important">Download Master</i></button>
+        <button class="btn btn-success " id="SpecialCharacter_Master" style="margin-left: 450px;">
+            <i class="mdi mdi-download" style="color: #fff !important">Download Master</i>
+        </button>
         <div class="col-md-3" style="padding:39px;margin-left: 210px;">
             <div class="left-side-content" style="margin-top:60px;">
                 <div style="width: 467px;height: 140px;">
-                    <div class="col-5 align-self-center" style="width: 270px;">
+                    <div class="col-5 align-self-center" style="width: 290px;">
                         <h4 class="page-title">Special Character Master</h4>
                     </div>
                     @using (Html.BeginForm("SpecialCharacterMasterUpload", "UploadExcel", FormMethod.Post, new { style = "padding:41px;margin-left:31px;background:#dc3545;border-radius:50px 20px;", enctype = "multipart/form-data", }))
