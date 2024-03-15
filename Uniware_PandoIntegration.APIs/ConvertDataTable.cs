@@ -30,6 +30,8 @@ namespace Uniware_PandoIntegration.APIs
                 {
                     //inserting property values to datatable rows
                     values[i] = Props[i].GetValue(item, null);
+                    values[i] = Props[i].GetValue(item, null);
+
                 }
                 dataTable.Rows.Add(values);
             }

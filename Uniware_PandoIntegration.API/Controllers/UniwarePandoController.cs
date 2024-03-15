@@ -586,7 +586,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance, Servertype);
                 if (sendwaybilldata.Count > 0)
                 {
-                    var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
+                    var triggerid =ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
                     var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
                     if (postres.IsSuccess)
                     {
@@ -607,6 +607,10 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
                     //return new JsonResult(errorResponse);
+                }
+                else
+                {
+
                 }
 
             }
@@ -1569,8 +1573,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ////Data Pushing to Pando
                 //var resu = _Token.GetTokens(Servertype).Result;
                 SuccessResponse successResponse = new SuccessResponse();
-
+                List<string> ErrorList = new List<string>();
                 var lists = ObjBusinessLayer.UpdateShipingPck(Servertype);
+                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
+
                 //var facilitycode = "";
                 if (lists.Count > 0)
                 {
@@ -1598,7 +1604,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             //var res = JsonConvert.SerializeObject(new { customFieldValues = new { name = customFieldValue.name, value = customFieldValue.value } });
                             //var dres=JsonConvert.DeserializeObject<CustomFieldValue>(res);
                         }
-                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode, Servertype);
+                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode, Servertype);
                         //string Instance = "SH";
                         var resu = _Token.GetTokens(Servertype, Instance).Result;
                         var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
@@ -1606,7 +1612,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                         if (token != null)
                         {
                             //var response = _Token.PostUpdateShippingpckg(updateShippingpackage);
-                            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype, Instance);
+                            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Servertype, Instance);
+                            //var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype, Instance);
                             if (response.IsSuccess)
                             {
                                 successResponse.status = "Success";
@@ -1617,18 +1624,26 @@ namespace Uniware_PandoIntegration.API.Controllers
                             }
                             else
                             {
-                                ErrorResponse errorResponse = new ErrorResponse();
-                                errorResponse.status = "Error";
-                                errorResponse.reason = response.ObjectParam;
-                                errorResponse.message = "";
-                                //successResponse.status = "Error";
-                                //successResponse.waybill = "";
-                                //successResponse.shippingLabel = "";
-                                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
-                                return new JsonResult(errorResponse);
+                                ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason" + response.ObjectParam);
+                                successResponse.status = "False";
+                                successResponse.waybill = response.ObjectParam;
+                                successResponse.shippingLabel = "";
+                                //ErrorResponse errorResponse = new ErrorResponse();
+                                //errorResponse.status = "Error";
+                                //errorResponse.reason = response.ObjectParam;
+                                //errorResponse.message = "";
+                                
+                                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(successResponse)}");
+                                //return new JsonResult(errorResponse);
                             }
                         }
                         //return new JsonResult(successResponse);
+
+                    }
+                    if(ErrorList.Count>0)
+                    {
+                        var serilizelist = JsonConvert.SerializeObject(ErrorList);
+                        Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList) );
 
                     }
                     //return Accepted("All Records Pushed Successfully");
@@ -1669,6 +1684,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             //if (token != null)
             //{
             var lists = ObjBusinessLayer.UpdateShipingPck(Servertype);
+            var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
+
             //var facilitycode = "";
             if (lists.Count > 0)
             {
@@ -1713,14 +1730,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                         }
 
                     }
-                    var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode, Servertype);
+                    //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode, Servertype);
                     //var response = _Token.PostUpdateShippingpckg(updateShippingpackage);
                     var resu = _Token.GetTokens(Servertype, Instance).Result;
                     var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                     string token = accesstoken.access_token;
                     if (token != null)
                     {
-                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype, Instance);
+                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Servertype, Instance);
 
                         //return Accepted(response.Result);
                     }
@@ -1753,6 +1770,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             SuccessResponse successResponse = new SuccessResponse();
 
             var lists = ObjBusinessLayer.UpdateShipingPckRetrigger(Servertype);
+            var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
+
             if (lists.Count > 0)
             {
                 for (int i = 0; i < lists.Count; i++)
@@ -1778,13 +1797,15 @@ namespace Uniware_PandoIntegration.API.Controllers
                             Instance = "DFX";
                         }
                     }
-                    var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode, Servertype);
+                    //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facilitycode, Servertype);
                     var resu = _Token.GetTokens(Servertype, Instance).Result;
                     var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                     string token = accesstoken.access_token;
                     if (token != null)
                     {
-                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype, Instance);
+                        //var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, token, facilitycode, Servertype, Instance);
+                        var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Servertype, Instance);
+
                         if (response.IsSuccess)
                         {
                             ExecResult += "Data Triggered Successfully";
@@ -1828,8 +1849,25 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
                 string Instance = string.Empty;
 
-
+                List<string> ErrorList = new List<string>();
+                List<string> AllocateError = new List<string>();
                 var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
+                List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
+
+                for (int i = 0; i < results.Count; i++)
+                {
+                    UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
+                    updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
+                    CustomFieldValue customFieldValue1 = new CustomFieldValue();
+                    updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
+                    customFieldValue1.name = "TrackingLink2";
+                    customFieldValue1.value = results[i].trackingLink;
+                    updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
+                    updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
+                    updateShippingpackagedbs.Add(updateShippingpackagedb);
+                }
+                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
+
                 if (results.Count > 0)
                 {
                     for (int i = 0; i < results.Count; i++)
@@ -1856,7 +1894,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         var facility = results[i].FacilityCode;
 
                         //Start Update Shipping Package to Send Data
-
+                        #region Allocate Shipping post data
                         UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
                         updateShippingpackage.shippingPackageCode = results[i].shippingPackageCode;
                         updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
@@ -1865,9 +1903,20 @@ namespace Uniware_PandoIntegration.API.Controllers
                         customFieldValue.name = "TrackingLink2";
                         customFieldValue.value = results[i].trackingLink;
                         updateShippingpackage.customFieldValues.Add(customFieldValue);
-                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
+                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
+                        #endregion
 
-                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
+                        
+
+                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
+
+                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                        if (responses.IsSuccess == false)
+                        {
+                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
+                        }
+
+                        //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
 
                         var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
                         var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
@@ -1881,11 +1930,23 @@ namespace Uniware_PandoIntegration.API.Controllers
                         }
                         else
                         {
+                            AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
                             successResponse.status = "False";
                             successResponse.waybill = response.ObjectParam;
                             successResponse.shippingLabel = "";
                             _logger.LogInformation($"Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
                         }
+                    }
+                    if (ErrorList.Count > 0)
+                    {
+                        var serilizelist = JsonConvert.SerializeObject(ErrorList);
+                        Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
+
+                    }
+                    if(AllocateError.Count>0)
+                    {
+                        Emailtrigger.SendEmailToAdmin("Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
+
                     }
                     //SuccessResponse successResponse = new SuccessResponse();
                     //successResponse.status = "Success";

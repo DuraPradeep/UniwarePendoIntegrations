@@ -99,7 +99,7 @@ namespace Uniware_PandoIntegration.API
                     else
                     {
                         LLcheckcount = 0;
-                        Emailtrigger.SendEmailToAdmin("Sale Order");
+                        Emailtrigger.SendEmailToAdmin("Sale Order", results.Result.Errdesc);
                         //parentList = null;
                         serviceResponse.ObjectParam =parentList;
                         serviceResponse.Errcode = results.Result.Errcode;
@@ -295,7 +295,7 @@ namespace Uniware_PandoIntegration.API
                     else
                     {
                         itemsSku = null;
-                        Emailtrigger.SendEmailToAdmin("Sale Order");
+                        Emailtrigger.SendEmailToAdmin("Sale Order", resul.Result.Errdesc);
                     }
                 }
                 else
@@ -584,7 +584,7 @@ namespace Uniware_PandoIntegration.API
                     WaybillGenerationPostData(AllData, Lcheckcount, triggerid, ServerType);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Waybill Generation");
+                    Emailtrigger.SendEmailToAdmin("Waybill Generation", ResStatus.Result.ObjectParam);
                     serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                     serviceResponse.IsSuccess = false;
                 }
@@ -653,7 +653,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("Return Order");
+                    Emailtrigger.SendEmailToAdmin("Return Order", list.Result.ObjectParam);
                     rootReturnorderAPI = null;
                 }
             }
@@ -829,7 +829,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("STO Waybill");
+                    Emailtrigger.SendEmailToAdmin("STO Waybill", list.Result.ObjectParam);
                     STOlists = null;
                 }
             }
@@ -1003,7 +1003,7 @@ namespace Uniware_PandoIntegration.API
                 else
                 {
                     //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-                    Emailtrigger.SendEmailToAdmin("STO API");
+                    Emailtrigger.SendEmailToAdmin("STO API", list.Result.ObjectParam);
                     STOlists = null;
                 }
             }
@@ -1094,7 +1094,7 @@ namespace Uniware_PandoIntegration.API
                     STOAPiPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("STO API");
+                    Emailtrigger.SendEmailToAdmin("STO API", ResStatus.Result.ObjectParam);
                     return ResStatus; ;
 
                 }
@@ -1107,19 +1107,22 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess!=true)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid,Servertype);
+                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid,Servertype);
                     UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Update Shipping Package");
+                    List<string> ErrorList = new List<string>();
+                    //ErrorList.Add(ResStatus.Result.ObjectParam);
+                    //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
                     //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.ObjectParam =  ResStatus.Result.Errdesc;
+                    //serviceResponse.ObjectParam = ErrorList.ToString();
                     serviceResponse.IsSuccess = false; 
                     return serviceResponse;
                 }
@@ -1139,20 +1142,21 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType, Instance);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
-                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, ServerType, Instance);
+                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, triggerid,ServerType);
+                    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Allocate Shipping");
+                    //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
                     //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
-                    serviceResponse.IsSuccess = false; 
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    serviceResponse.IsSuccess = false;
+                    return serviceResponse;
 
                 }
             }
@@ -1160,8 +1164,9 @@ namespace Uniware_PandoIntegration.API
             {
                 serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                 serviceResponse.IsSuccess = true;
+                return serviceResponse;
+
             }
-            return serviceResponse;
         }
 
         public Task<ServiceResponse<string>> WaybillCancelPostData(List<CancelData> AllData, int checkcount)
@@ -1220,7 +1225,7 @@ namespace Uniware_PandoIntegration.API
                     ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Reverse PickUp");
+                    Emailtrigger.SendEmailToAdmin("Reverse PickUp", ResStatus.Result.ObjectParam);
                     return ResStatus = null;
 
                 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "iIFodiZMLRlU/43hkQYrgL3a9+pPj3ABJQGevBYg/pjFhCqYtWJIHxJ/hKuFSegYIbERse/BjCPDtsaqZgcm6w==",
+  "dgSpecHash": "8dhIj47UEP18KnA3+DQMQPMa+5MVniXNHsyfWlAaxBNMnreYy9GUi9mj1vC8Ef8p/kXbo6ciTKnR3KgTxjn84g==",
   "success": true,
   "projectFilePath": "D:\\New Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
   "expectedPackageFiles": [
@@ -207,7 +207,11 @@
     "C:\\Users\\Ajay\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512",
     "C:\\Users\\Ajay\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Ajay\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\Ajay\\.nuget\\packages\\xlparser\\1.5.2\\xlparser.1.5.2.nupkg.sha512"
+    "C:\\Users\\Ajay\\.nuget\\packages\\xlparser\\1.5.2\\xlparser.1.5.2.nupkg.sha512",
+    "C:\\Users\\Ajay\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.16\\microsoft.windowsdesktop.app.ref.7.0.16.nupkg.sha512",
+    "C:\\Users\\Ajay\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.16\\microsoft.netcore.app.ref.7.0.16.nupkg.sha512",
+    "C:\\Users\\Ajay\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.16\\microsoft.aspnetcore.app.ref.7.0.16.nupkg.sha512",
+    "C:\\Users\\Ajay\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.16\\microsoft.netcore.app.host.win-x64.7.0.16.nupkg.sha512"
   ],
   "logs": [
     {

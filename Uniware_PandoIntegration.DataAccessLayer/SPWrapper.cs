@@ -22,6 +22,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             ConnectionString = IConfiguration.GetConnectionString("DBConnection");
             ConnectionStringProd = IConfiguration.GetConnectionString("DBConnectionProd");
+            //ConnectionStringProd = IConfiguration.GetConnectionString("DBConnection");
         }
         private static SqlConnection GetConnection()
         {
@@ -3238,9 +3239,49 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static string IsertUpdateShippingrecords(UpdateShippingpackage dt, string triggerid, string FacilityCode, string Enviornment)
+        //public static string IsertUpdateShippingrecords(UpdateShippingpackage dt, string triggerid, string FacilityCode, string Enviornment)
+        //{
+        //    string res;
+        //    try
+        //    {
+        //        if (Enviornment == "Prod")
+        //        {
+        //            con = new SqlConnection(ConnectionStringProd);
+        //        }
+        //        else
+        //        {
+        //            con = new SqlConnection(ConnectionString);
+        //        }
+        //        using (con)
+        //        {
+        //            com = new SqlCommand();
+        //            com.Connection = con;
+        //            com.CommandText = "sp_insertUpdateshippingFullData";
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
+        //            com.Parameters.AddWithValue("@name", dt.customFieldValues[0].name);
+        //            com.Parameters.AddWithValue("@value", dt.customFieldValues[0].value);
+        //            com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+        //            com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
+        //            com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
+        //            com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+        //            com.CommandTimeout = 1000;
+        //            con.Open();
+        //            com.ExecuteNonQuery();
+        //            res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //finally { con.Close(); }
+        //    return res;
+        //}
+
+        public static bool IsertUpdateShippingrecords(DataTable dt, string Enviornment)
         {
-            string res;
+            bool res;
             try
             {
                 if (Enviornment == "Prod")
@@ -3257,26 +3298,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Connection = con;
                     com.CommandText = "sp_insertUpdateshippingFullData";
                     com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
-                    //com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
-                    //com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
-                    //com.Parameters.AddWithValue("@shippingPackageTypeCode", dt.shippingPackageTypeCode);
-                    //com.Parameters.AddWithValue("@shippingPackageTypeCode", "");
-                    //com.Parameters.AddWithValue("@actualWeight", dt.actualWeight);
-                    //com.Parameters.AddWithValue("@noOfBoxes", dt.noOfBoxes);
-                    //com.Parameters.AddWithValue("@length", dt.shippingBox.length);
-                    //com.Parameters.AddWithValue("@width", dt.shippingBox.width);
-                    //com.Parameters.AddWithValue("@height", dt.shippingBox.height);
-                    com.Parameters.AddWithValue("@name", dt.customFieldValues[0].name);
-                    com.Parameters.AddWithValue("@value", dt.customFieldValues[0].value);
-                    com.Parameters.AddWithValue("@Trigger_Id", triggerid);
-                    com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
-                    com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
-                    com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@UpdateList", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+                    res = true;
                 }
             }
             catch (Exception ex)

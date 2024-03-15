@@ -961,14 +961,32 @@ namespace Uniware_PandoIntegration.APIs
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    //serviceResponse.Errcode = ((int)response.StatusCode);
+                    //return serviceResponse;
+                    var datastatus = (bool)datas.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = datas.errors[0].description;
 
                 }
             }
@@ -1035,17 +1053,44 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
                 CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    serviceResponse.IsSuccess=true;
+                //    return serviceResponse;
+                //}
+                //else
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    serviceResponse.IsSuccess = false;
+                //}
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    serviceResponse.IsSuccess=true;
-                    return serviceResponse;
+                    var datastatus = (bool)datas.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
                     serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = datas.errors[0].description;
+
                 }
             }
             catch (Exception ex)

@@ -2310,10 +2310,38 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public string UpdateShippingDataPost(UpdateShippingpackage updateShippingpackage, string FacilityCode, string Enviornment)
+        //public string UpdateShippingDataPost(UpdateShippingpackage updateShippingpackage, string FacilityCode, string Enviornment)
+        //{
+        //    var id = GenerateNumeric();
+        //    return SPWrapper.IsertUpdateShippingrecords(updateShippingpackage, id, FacilityCode,Enviornment);
+
+
+
+        //}
+        public bool UpdateShippingDataPost(List<UpdateShippingpackagedb> updateShippingpackage,  string Enviornment)
         {
             var id = GenerateNumeric();
-            return SPWrapper.IsertUpdateShippingrecords(updateShippingpackage, id, FacilityCode,Enviornment);
+            //DataTable UpdateListData = ConvertDataTable.ToDataTable(updateShippingpackage);
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("shippingPackageCode");
+            dataTable.Columns.Add("name");
+            dataTable.Columns.Add("value");
+            dataTable.Columns.Add("FacilityCode");
+            for (int i = 0; i < updateShippingpackage.Count; i++)
+            {
+                DataRow drsku = dataTable.NewRow();
+
+                drsku["shippingPackageCode"] = updateShippingpackage[i].shippingPackageCode;
+                for (int j = 0; j < updateShippingpackage[i].customFieldValues.Count; j++)
+                {
+                    drsku["name"] = updateShippingpackage[i].customFieldValues[j].name;
+                    drsku["value"] = updateShippingpackage[i].customFieldValues[j].value;
+                }
+                drsku["FacilityCode"] = updateShippingpackage[i].FacilityCode;
+                dataTable.Rows.Add(drsku);
+
+            }
+            return SPWrapper.IsertUpdateShippingrecords(dataTable, Enviornment);
         }
 
         public void UpdateShippingErrordetails(bool status, string Reason, string triggerid, string Enviornment)
