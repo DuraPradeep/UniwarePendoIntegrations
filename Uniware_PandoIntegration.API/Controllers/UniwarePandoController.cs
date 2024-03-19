@@ -1537,27 +1537,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var randomid = ObjBusinessLayer.GenerateNumeric();
                     updateShippingpackage.id = randomid;
                     updateShippingpackage.shippingPackageCode = shippingPackages[i].shippingPackageCode.ToString();
-                    //updateShippingpackage.shippingProviderCode = shippingPackages[i].shippingProviderCode.ToString();
-                    //updateShippingpackage.trackingNumber = shippingPackages[i].trackingNumber.ToString();
-                    //updateShippingpackage.shippingPackageTypeCode = shippingPackages[i].shippingPackageTypeCode.ToString();
-                    //updateShippingpackage.actualWeight = shippingPackages[i].actualWeight;
-                    //updateShippingpackage.noOfBoxes = shippingPackages[i].noOfBoxes;
                     updatelist.Add(updateShippingpackage);
-                    ////Shipping Box
-                    //ShippingBoxdb shippingBox = new ShippingBoxdb();
-                    //shippingBox.Id = randomid;
-                    //shippingBox.length = shippingPackages[i].shippingBox.length;
-                    //shippingBox.height = shippingPackages[i].shippingBox.height;
-                    //shippingBox.width = shippingPackages[i].shippingBox.width;
-                    //for (int l = 0; l < shippingPackages[i].shippingBox.Count; l++)
-                    //{
-                    //    ShippingBox shippingBox = new ShippingBox();
-                    //    shippingBox.Id = randomid;
-                    //    shippingBox.length = shippingPackages[i].shippingBox[l].length;
-                    //    shippingBox.height = shippingPackages[i].shippingBox[l].height;
-                    //    shippingBox.width = shippingPackages[i].shippingBox[l].width;
-                    //shipbox.Add(shippingBox);
-                    //}
                     for (int k = 0; k < shippingPackages[i].customFieldValues.Count; k++)
                     {
                         addCustomFieldValue customFieldValue = new addCustomFieldValue();
@@ -1833,7 +1813,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
         [HttpPost]
-        public IActionResult AllocateShipping(List<Allocateshipping> allocateshippings)
+        public IActionResult AllocateShipping(List<AllocateshippingPando> allocateshippings)
         {
 
             _logger.LogInformation($"Request Allocate Shipping {JsonConvert.SerializeObject(allocateshippings)}");
@@ -3040,6 +3020,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 if (!string.IsNullOrEmpty(token))
                 {
                     var TrackingList = ObjBusinessLayer.GetTrackingDetails(Servertype);
+                    ObjBusinessLayer.InsertTrackingStatusPostdata(TrackingList, Servertype);
+
                     if (TrackingList.Count > 0)
                     {
                         for (int i = 0; i < TrackingList.Count; i++)
@@ -3051,7 +3033,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
                             trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
                             trackingStatus.statusDate = TrackingList[i].statusDate;
-                            ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode, Servertype);
+                            //ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode, Servertype);
                             var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype, Instance);
                             if (res != null)
                             {

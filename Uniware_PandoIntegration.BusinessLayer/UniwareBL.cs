@@ -2239,7 +2239,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void InsertAllocate_Shipping(List<Allocateshipping> itemDatun, string Enviornment)
+        public void InsertAllocate_Shipping(List<AllocateshippingPando> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -2250,6 +2250,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("shippingProviderCode");
                 dtsku.Columns.Add("shippingCourier");
                 dtsku.Columns.Add("trackingNumber");
+                dtsku.Columns.Add("TrackingURL");
                 //dtsku.Columns.Add("generateUniwareShippingLabel");
                 for (int i = 0; i < itemDatun.Count; i++)
                 {
@@ -2259,6 +2260,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["shippingProviderCode"] = itemDatun[i].shippingProviderCode;
                     drsku["shippingCourier"] = itemDatun[i].shippingCourier;
                     drsku["trackingNumber"] = itemDatun[i].trackingNumber;
+                    drsku["TrackingURL"] = itemDatun[i].tracking_link_url;
                     //drsku["generateUniwareShippingLabel"] = itemDatun[i].generateUniwareShippingLabel;
                     dtsku.Rows.Add(drsku);
                 }
@@ -2755,10 +2757,32 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
-        public void InsertTrackingStatusPostdata(TrackingStatus updateShippingpackage, string Facility, string Enviornment)
+        public void InsertTrackingStatusPostdata(List<TrackingStatusDb>updateShippingpackage,string Enviornment)
         {
             var id = GenerateNumeric();
-            SPWrapper.InsertTrackingDetailsPostData(updateShippingpackage, id, Facility, Enviornment);
+            DataTable dtinstcode = new DataTable();
+            //dtinstcode.Columns.Add("Id");
+            dtinstcode.Columns.Add("providerCode");
+            dtinstcode.Columns.Add("trackingNumber");
+            dtinstcode.Columns.Add("trackingStatus");
+            dtinstcode.Columns.Add("statusDate");
+            dtinstcode.Columns.Add("shipmentTrackingStatusName");
+            dtinstcode.Columns.Add("facilitycode");
+
+
+            for (int i = 0; i < updateShippingpackage.Count; i++)
+            {
+                DataRow dr = dtinstcode.NewRow();
+                //dr["Id"] = elements[i].Id;
+                dr["providerCode"] = updateShippingpackage[i].providerCode;
+                dr["trackingNumber"] = updateShippingpackage[i].trackingNumber;
+                dr["trackingStatus"] = updateShippingpackage[i].trackingStatus;
+                dr["statusDate"] = updateShippingpackage[i].statusDate;
+                dr["shipmentTrackingStatusName"] = updateShippingpackage[i].shipmentTrackingStatusName;
+                dr["facilitycode"] = updateShippingpackage[i].facilitycode;
+                dtinstcode.Rows.Add(dr);
+            }
+            SPWrapper.InsertTrackingDetailsPostData(dtinstcode, Enviornment);
         }
 
         public string  GetInstanceName(string TrackingNo, string Enviornment)

@@ -4192,7 +4192,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static void InsertTrackingDetailsPostData(TrackingStatus dt, string triggerid, string Facility, string Enviornment)
+        //public static void InsertTrackingDetailsPostData(TrackingStatus dt, string triggerid, string Facility, string Enviornment)
+        public static void InsertTrackingDetailsPostData(DataTable dt, string Enviornment)
         {
             string res;
             try
@@ -4211,13 +4212,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Connection = con;
                     com.CommandText = "sp_InsertTrackingtatusData";
                     com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@providerCode", dt.providerCode);
-                    com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
-                    com.Parameters.AddWithValue("@trackingStatus", dt.trackingStatus);
-                    com.Parameters.AddWithValue("@statusDate", dt.statusDate);
-                    com.Parameters.AddWithValue("@shipmentTrackingStatusName", dt.shipmentTrackingStatusName);
-                    com.Parameters.AddWithValue("@facilitycode", Facility);
-                    com.Parameters.AddWithValue("@TriggerId", triggerid);
+                    com.Parameters.AddWithValue("@TrackingDetails", dt);
+                    //com.Parameters.AddWithValue("@providerCode", dt.providerCode);
+                    //com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                    //com.Parameters.AddWithValue("@trackingStatus", dt.trackingStatus);
+                    //com.Parameters.AddWithValue("@statusDate", dt.statusDate);
+                    //com.Parameters.AddWithValue("@shipmentTrackingStatusName", dt.shipmentTrackingStatusName);
+                    //com.Parameters.AddWithValue("@facilitycode", Facility);
+                    //com.Parameters.AddWithValue("@TriggerId", triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
