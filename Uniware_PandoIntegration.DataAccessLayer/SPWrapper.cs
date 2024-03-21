@@ -2392,7 +2392,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 }
                 using (con)
                 {
-                    con = GetConnection();
+                    //con = GetConnection();
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "Pro_STOAPIError";
@@ -2955,7 +2955,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             com = new SqlCommand();
             try
             {
-                using (con = GetConnection())
+                using (con = GetConnectionProd())
                 {
                     //con.Open();
                     SqlCommand sqlCommand = new SqlCommand();
@@ -4743,7 +4743,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
-                using (con = GetConnection())
+                using (con = GetConnectionProd())
                 {
                     com = new SqlCommand();
                     com.Connection = con;

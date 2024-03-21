@@ -503,8 +503,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                     _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(token)}");
                     return Unauthorized(new { status = "INVALID_CREDENTIALS", token = "Invalid credentials" });
                 }
-                result = JsonConvert.SerializeObject(new { status = "SUCCESS", token = token });
-                _logger.LogInformation($" Debug Object {JsonConvert.SerializeObject(token)}");
+                else
+                {
+                    result = JsonConvert.SerializeObject(new { status = "SUCCESS", token = token });
+                    _logger.LogInformation($" Debug Object {JsonConvert.SerializeObject(token)}");
+                }
             }
             catch (Exception ex) { _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(ex)}"); }
             return Ok(result);
@@ -516,6 +519,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult waybill(OmsToPandoRoot Records)
         {
+            Thread.Sleep(5000);
             _logger.LogInformation($"Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
             string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
             string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
@@ -1519,7 +1523,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [Authorize]
         public IActionResult UpdateShippingPackage(List<UpdateShippingpackage> shippingPackages)
         {
-
+            Thread.Sleep(5000);
             List<UpdateShippingpackagedb> updatelist = new List<UpdateShippingpackagedb>();
             List<ShippingBoxdb> shipbox = new List<ShippingBoxdb>();
             List<addCustomFieldValue> customFields = new List<addCustomFieldValue>();
@@ -1653,8 +1657,6 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
 
         }
-
-
         [HttpPost]
         public IActionResult PostUpdateShipingData()
         {
@@ -1729,7 +1731,6 @@ namespace Uniware_PandoIntegration.API.Controllers
             else return BadRequest("There is no record for Post");
 
         }
-
         [HttpGet]
         public ServiceResponse<List<EndpointErrorDetails>> UpdateShippingErrorDetails(string Enviornment)
         {
@@ -1815,10 +1816,9 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult AllocateShipping(List<AllocateshippingPando> allocateshippings)
         {
-
+            Thread.Sleep(5000);
             _logger.LogInformation($"Request Allocate Shipping {JsonConvert.SerializeObject(allocateshippings)}");
             SuccessResponse successResponse = new SuccessResponse();
-
             try
             {
                 //string Servertype = iconfiguration["ServerType:type"];
@@ -1923,7 +1923,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
 
                     }
-                    if(AllocateError.Count>0)
+                    if(AllocateError.Count > 0)
                     {
                         Emailtrigger.SendEmailToAdmin("Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
 
@@ -2094,11 +2094,12 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             try
             {
+                _logger.LogInformation($"Cancel Waybill: {JsonConvert.SerializeObject(waybill.waybill)}");
+                Thread.Sleep(5000);
                 //string Servertype = iconfiguration["ServerType:type"];
                 string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
                 string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
-                _logger.LogInformation($"Cancel Waybill: {JsonConvert.SerializeObject(waybill.waybill)}");
                 ObjBusinessLayer.WaybillCancel(waybill.waybill, Servertype);
                 var canceldata = ObjBusinessLayer.GetWaybillCancelData(Servertype);
 
@@ -2158,7 +2159,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             var SHSTOList = SHRO.Select(x => new Element() { code = x.Code, source = x.Instance }).ToList();
 
-
+            #region Sale Order process
             if (Slist.Count > 0)
             {
                 string Instance = "SH";
@@ -2359,7 +2360,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                     ExecResult += "Token Not Generated !";
                 }
             }
+            #endregion
 
+            #region Return Order Process
             if (DROlist.Count > 0)
             {
                 string Instance = "SH";
@@ -2549,7 +2552,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                     ExecResult += "Token Not Generated !";
                 }
             }
+            #endregion
 
+            #region STO Order Process
             if (SHSTOList.Count > 0)
             {
                 string Instance = "SH";
@@ -2720,6 +2725,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                     ExecResult += "Token Not Generated !";
                 }
             }
+
+            #endregion
             return new JsonResult(ExecResult);
         }
         [ServiceFilter(typeof(ActionFilterExample))]
@@ -2730,6 +2737,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 _logger.LogInformation($"Request Reverse Pickup {JsonConvert.SerializeObject(reversePickup)}");
+                Thread.Sleep(5000);
 
 
                 //string Servertype = iconfiguration["ServerType:type"];
@@ -2975,6 +2983,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 _logger.LogInformation($"Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
+                Thread.Sleep(5000);
                 //string Servertype = iconfiguration["ServerType:type"];
                 string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
                 string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
