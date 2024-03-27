@@ -35,6 +35,7 @@ using Microsoft.Extensions.Hosting.Internal;
 using System.IO;
 using System.Text;
 using DocumentFormat.OpenXml.Office2019.Presentation;
+using NuGet.Protocol;
 //using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
 
 namespace Uniware_PandoIntegration.API.Controllers
@@ -519,19 +520,27 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult waybill(OmsToPandoRoot Records)
         {
-            Thread.Sleep(5000);
             _logger.LogInformation($"Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
-            string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-            string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+            //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
+            //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
 
             //string Servertype = iconfiguration["ServerType:type"];
-            string Servertype = ObjBusinessLayer.GetEnviroment(Username);
 
             ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
             ErrorResponse errorResponse = new ErrorResponse();
 
             try
             {
+                Thread.Sleep(5000);
+                string Username = string.Empty;
+                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                {
+                    //var line = sr.ReadLine();
+                    Username = sr.ReadLine();
+                    sr.Close();
+                }
+                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
+
                 var jsoncodes = JsonConvert.SerializeObject(new { code = Records.Shipment.SaleOrderCode });
                 string Instance = string.Empty;
                 for (int x = 0; x < Records.Shipment.customField.Count; x++)
@@ -590,7 +599,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance, Servertype);
                 if (sendwaybilldata.Count > 0)
                 {
-                    var triggerid =ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
+                    var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
                     var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
                     if (postres.IsSuccess)
                     {
@@ -1523,15 +1532,23 @@ namespace Uniware_PandoIntegration.API.Controllers
         [Authorize]
         public IActionResult UpdateShippingPackage(List<UpdateShippingpackage> shippingPackages)
         {
-            Thread.Sleep(5000);
             List<UpdateShippingpackagedb> updatelist = new List<UpdateShippingpackagedb>();
             List<ShippingBoxdb> shipbox = new List<ShippingBoxdb>();
             List<addCustomFieldValue> customFields = new List<addCustomFieldValue>();
             _logger.LogInformation($" UpdateShippingPackage Request {JsonConvert.SerializeObject(shippingPackages)}");
             try
             {
-                string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                Thread.Sleep(5000);
+
+                //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
+                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                string Username = string.Empty;
+                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                {
+                    //var line = sr.ReadLine();
+                    Username = sr.ReadLine();
+                    sr.Close();
+                }
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 //string Servertype = iconfiguration["ServerType:type"];
 
@@ -1616,7 +1633,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 //errorResponse.status = "Error";
                                 //errorResponse.reason = response.ObjectParam;
                                 //errorResponse.message = "";
-                                
+
                                 _logger.LogInformation($" Error: {JsonConvert.SerializeObject(successResponse)}");
                                 //return new JsonResult(errorResponse);
                             }
@@ -1624,10 +1641,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //return new JsonResult(successResponse);
 
                     }
-                    if(ErrorList.Count>0)
+                    if (ErrorList.Count > 0)
                     {
                         var serilizelist = JsonConvert.SerializeObject(ErrorList);
-                        Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList) );
+                        Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
 
                     }
                     //return Accepted("All Records Pushed Successfully");
@@ -1761,7 +1778,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
                     updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
                     updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
-                    var Shippingpackcode= lists[i].shippingPackageCode;
+                    var Shippingpackcode = lists[i].shippingPackageCode;
                     var facilitycode = lists[i].FacilityCode;
                     for (int k = 0; k < lists[i].customFieldValues.Count; k++)
                     {
@@ -1816,14 +1833,22 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult AllocateShipping(List<AllocateshippingPando> allocateshippings)
         {
-            Thread.Sleep(5000);
             _logger.LogInformation($"Request Allocate Shipping {JsonConvert.SerializeObject(allocateshippings)}");
             SuccessResponse successResponse = new SuccessResponse();
             try
             {
-                //string Servertype = iconfiguration["ServerType:type"];
-                string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                Thread.Sleep(5000);
+                //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
+               // string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+
+                string Username = string.Empty;
+                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                {
+                    //var name = sr.ReadLine();                   
+                        Username = sr.ReadLine();
+                    sr.Close();
+                }
+
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
 
                 ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
@@ -1833,7 +1858,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 List<string> AllocateError = new List<string>();
                 var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
                 List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
-
+                List<Allocateshipping> allocatelist = new List<Allocateshipping>();
                 for (int i = 0; i < results.Count; i++)
                 {
                     UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
@@ -1845,8 +1870,20 @@ namespace Uniware_PandoIntegration.API.Controllers
                     updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
                     updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
                     updateShippingpackagedbs.Add(updateShippingpackagedb);
+
+                    #region Allocate looping
+                    Allocateshipping allocateshipping = new Allocateshipping();
+                    allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+                    allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+                    allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                    allocateshipping.shippingCourier = results[i].shippingCourier;
+                    allocateshipping.trackingNumber = results[i].trackingNumber;
+                    allocateshipping.trackingLink = results[i].trackingLink;
+                    allocatelist.Add(allocateshipping);
+                    #endregion
                 }
                 var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
+                //var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
 
                 if (results.Count > 0)
                 {
@@ -1886,7 +1923,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
                         #endregion
 
-                        
+
 
                         //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
 
@@ -1897,24 +1934,27 @@ namespace Uniware_PandoIntegration.API.Controllers
                         }
 
                         //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
-
-                        var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
-                        if(response.IsSuccess)
+                        if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
                         {
-                            successResponse.status = "Success";
-                            successResponse.waybill = "";
-                            successResponse.shippingLabel = "";
-                            _logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
-                            //return new JsonResult(successResponse);
-                        }
-                        else
-                        {
-                            AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
-                            successResponse.status = "False";
-                            successResponse.waybill = response.ObjectParam;
-                            successResponse.shippingLabel = "";
-                            _logger.LogInformation($"Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                            var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+                            var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                            //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
+                            if (response.IsSuccess)
+                            {
+                                successResponse.status = "Success";
+                                successResponse.waybill = "";
+                                successResponse.shippingLabel = "";
+                                _logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                                //return new JsonResult(successResponse);
+                            }
+                            else
+                            {
+                                AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
+                                successResponse.status = "False";
+                                successResponse.waybill = response.ObjectParam;
+                                successResponse.shippingLabel = "";
+                                _logger.LogInformation($"Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                            }
                         }
                     }
                     if (ErrorList.Count > 0)
@@ -1923,7 +1963,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
 
                     }
-                    if(AllocateError.Count > 0)
+                    if (AllocateError.Count > 0)
                     {
                         Emailtrigger.SendEmailToAdmin("Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
 
@@ -1997,7 +2037,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var Token = _Token.GetTokens(Servertype, Instance).Result;
                     var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
                     var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-                    var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
+                    var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                    //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                     if (response.IsSuccess)
                     {
                         successResponse.status = "Success";
@@ -2062,7 +2103,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                         var facilitycode = results[i].FacilityCode;
 
                         var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facilitycode, Servertype, Instance);
+                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facilitycode, Servertype, Instance);
+                        //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facilitycode, Servertype, Instance);
                         if (response.IsSuccess)
                         {
                             ExecResult += "Failed Record Triggered Successfully";
@@ -2097,8 +2139,15 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"Cancel Waybill: {JsonConvert.SerializeObject(waybill.waybill)}");
                 Thread.Sleep(5000);
                 //string Servertype = iconfiguration["ServerType:type"];
-                string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
+                string Username=string.Empty;
+                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                {
+                    //var name = sr.ReadLine();
+                    Username = sr.ReadLine();
+                    sr.Close();
+                }
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 ObjBusinessLayer.WaybillCancel(waybill.waybill, Servertype);
                 var canceldata = ObjBusinessLayer.GetWaybillCancelData(Servertype);
@@ -2741,8 +2790,16 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
                 //string Servertype = iconfiguration["ServerType:type"];
-                string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
+                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                string Username = string.Empty;
+                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                {
+                    //var name = sr.ReadLine();
+                    Username = sr.ReadLine(); 
+                    sr.Close();
+                }
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 string Instance = "SH";
                 var resu = _Token.GetTokens(Servertype, Instance).Result;
@@ -2985,8 +3042,16 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
                 Thread.Sleep(5000);
                 //string Servertype = iconfiguration["ServerType:type"];
-                string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
+                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                string Username = string.Empty;
+                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                {
+                    //var line = sr.ReadLine();
+                    Username = sr.ReadLine(); 
+                    sr.Close();
+                }
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 string Getinstance = string.Empty;
                 string Instance = string.Empty;
@@ -3093,7 +3158,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.message = ex.Message;
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
-                _logger.LogInformation($"Truck Details Master Updated. {JsonConvert.SerializeObject(reversePickupResponse)}");
+                _logger.LogInformation($"Truck Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
 
                 return new JsonResult(reversePickupResponse);
                 throw;
@@ -3451,7 +3516,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             string ExecResult = string.Empty;
             _logger.LogInformation($"Special Character Master Update. {JsonConvert.SerializeObject(specialCharacterEntity)}");
-            ExecResult =  ObjBusinessLayer.UpdateSpecialCharacterMaster(specialCharacterEntity.Contents, specialCharacterEntity.Enviornment);
+            ExecResult = ObjBusinessLayer.UpdateSpecialCharacterMaster(specialCharacterEntity.Contents, specialCharacterEntity.Enviornment);
             return new JsonResult(ExecResult.Trim());
         }
 

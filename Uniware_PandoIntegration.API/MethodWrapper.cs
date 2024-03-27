@@ -1137,7 +1137,7 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public ServiceResponse<string> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType, string Instance)
+        public ServiceResponse<string> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string shippingPackageCode, string Token, string FacilityCode, string ServerType, string Instance)
         {
             int Lcheckcount = checkcount;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -1148,7 +1148,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, triggerid,ServerType);
+                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
                     AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
                 }
                 {

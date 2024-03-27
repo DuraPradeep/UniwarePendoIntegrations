@@ -3195,7 +3195,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             catch (Exception ex)
             {
-                //CreateLog(ex.Message);
+                CreateLog("Allocate Shipping DB Insert "+ex.Message);
                 throw ex;
             }
             //finally { con.Close(); }
@@ -3345,7 +3345,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             //finally { con.Close(); }
-
         }
         public static DataSet GetUpdateShippingStatus( string Enviornment)
         {
@@ -3423,6 +3422,50 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+        //public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid, string Enviornment)
+        //{
+        //    string res;
+        //    try
+        //    {
+        //        if (Enviornment == "Prod")
+        //        {
+        //            con = new SqlConnection(ConnectionStringProd);
+        //        }
+        //        else
+        //        {
+        //            con = new SqlConnection(ConnectionString);
+        //        }
+        //        using (con)
+        //        {
+        //            com = new SqlCommand();
+        //            com.Connection = con;
+        //            com.CommandText = "sp_AllocateShippingPostData";
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
+        //            com.Parameters.AddWithValue("@shippingLabelMandatory", dt.shippingLabelMandatory);
+        //            com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
+        //            com.Parameters.AddWithValue("@shippingCourier", dt.shippingCourier);
+        //            com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+        //            com.Parameters.AddWithValue("@trackingLink", dt.trackingLink);
+        //            //com.Parameters.AddWithValue("@generateUniwareShippingLabel", dt.generateUniwareShippingLabel);
+        //            com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+
+        //            com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
+        //            com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+        //            com.CommandTimeout=1000;
+        //            con.Open();
+        //            com.ExecuteNonQuery();
+        //            res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //finally { con.Close(); }
+        //    return res;
+        //}
+
         public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid, string Enviornment)
         {
             string res;
@@ -3453,7 +3496,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
                     com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
                     com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Triggerid"].Value);
@@ -3466,7 +3509,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static void AllocateShippingError(bool status, string reason, string Triggerid, string Enviornment)
+        public static void AllocateShippingError(bool status, string reason, string shippingPackageCode, string Enviornment)
         {
 
             try
@@ -3485,7 +3528,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Connection = con;
                     com.CommandText = "AllocateShippingErrorStatus";
                     com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@triggerid", Triggerid);
+                    com.Parameters.AddWithValue("@triggerid", shippingPackageCode);
                     com.Parameters.AddWithValue("@status", status);
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;

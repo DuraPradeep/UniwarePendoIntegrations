@@ -2374,11 +2374,11 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public void AllocateErrorDetails(bool status, string Reason, string triggerid, string Enviornment)
+        public void AllocateErrorDetails(bool status, string Reason, string shippingPackageCode, string Enviornment)
         {
             try
             {
-                SPWrapper.AllocateShippingError(status, Reason, triggerid,Enviornment);
+                SPWrapper.AllocateShippingError(status, Reason, shippingPackageCode, Enviornment);
             }
             catch (Exception ex)
             {
@@ -2391,6 +2391,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
             var id = GenerateNumeric();
             return SPWrapper.IsertAllocateShippingrecords(updateShippingpackage, id, Enviornment);
         }
+
+
         public ServiceResponse<List<EndpointErrorDetails>> BLAlocateShippingStatus(string Enviornment)
         {
             ServiceResponse<List<EndpointErrorDetails>> codes = new ServiceResponse<List<EndpointErrorDetails>>();
