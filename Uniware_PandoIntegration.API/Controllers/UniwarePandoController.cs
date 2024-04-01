@@ -3520,6 +3520,30 @@ namespace Uniware_PandoIntegration.API.Controllers
             return new JsonResult(ExecResult.Trim());
         }
 
+        [HttpGet]
+        public ServiceResponse<DashboardsLists> GetDashboardDetails(string Enviornment)
+        {
+            string Servertype = Enviornment;
 
+            var returndata = ObjBusinessLayer.GetDashboardDetails(Servertype);
+            return returndata;
+        }
+        [HttpGet]
+        public List<TDashboardDetails> GetTrackingDetailsByName(string Enviornment,string Name)
+        {
+            string Servertype = Enviornment;
+
+            var returndata = ObjBusinessLayer.GetTrackingDetailsByName(Servertype,Name);
+            return returndata;
+        }
+
+        [HttpGet]
+        public List<TDashboardDetails> GetTrackingLink(string Enviornment, string SearchBy, string trackingNo)
+        {
+            string Servertype = Enviornment;
+
+            var returndata = ObjBusinessLayer.GetTrackingLink(Servertype, SearchBy, trackingNo);
+            return returndata;
+        }
     }
 }

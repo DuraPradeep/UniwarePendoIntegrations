@@ -288,6 +288,7 @@
     <Compile Include="SpecialCharacterEntity.cs" />
     <Compile Include="STOGatePass.cs" />
     <Compile Include="STOwaybillGetCode.cs" />
+    <Compile Include="TDashboardDetails.cs" />
     <Compile Include="TokenEntity.cs" />
     <Compile Include="TrackingLinkMapping.cs" />
     <Compile Include="TrackingMaster.cs" />

@@ -27,6 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\img\github.svg" />
+    <None Include="wwwroot\assets\img\twitter.svg" />
+    <None Include="wwwroot\assets\js\charts-bars.js" />
+    <None Include="wwwroot\assets\js\charts-lines.js" />
+    <None Include="wwwroot\assets\js\charts-pie.js" />
+    <None Include="wwwroot\assets\js\focus-trap.js" />
+    <None Include="wwwroot\assets\js\init-alpine.js" />
     <None Include="wwwroot\css\Landing.css" />
     <None Include="wwwroot\js\jquery-3.7.0.min.js" />
   </ItemGroup>

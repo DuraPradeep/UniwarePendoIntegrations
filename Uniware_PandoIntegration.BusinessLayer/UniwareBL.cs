@@ -3092,6 +3092,50 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
+
+
+        public ServiceResponse<DashboardsLists> GetDashboardDetails(string Enviornment)
+        {
+            ServiceResponse<DashboardsLists> List = new ServiceResponse<DashboardsLists>();
+            try
+            {
+                return List = Mapper.GetDashBoardDetails(SPWrapper.GetDashboardDetails(Enviornment));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<TDashboardDetails> GetTrackingDetailsByName(string Enviornment,string Name)
+        {
+            List<TDashboardDetails> List = new List<TDashboardDetails> ();
+            try
+            {
+                return List = Mapper.GetTrackingDetailsByName(SPWrapper.GetTrackingDetailsByName(Enviornment,Name));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public List<TDashboardDetails> GetTrackingLink(string Enviornment, string SearchBy, string trackingNo)
+        {
+            List<TDashboardDetails> List = new List<TDashboardDetails>();
+            try
+            {
+                return List = Mapper.GetTrackingDetailsByName(SPWrapper.GetTrackingLink(Enviornment, SearchBy, trackingNo));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
+
     }
 }
 

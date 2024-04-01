@@ -32,13 +32,15 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             return new SqlConnection(ConnectionStringProd);
         }
-        private static SqlConnection con = null;
-        private static SqlCommand com = null;
+        //private static SqlConnection con = null;
+        //private static SqlCommand com = null;
         public static bool InsertCodeInUniware(DataTable dt,string Enviornment)
         {
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -88,7 +90,9 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                if(Enviornment=="Prod") {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment=="Prod") {
                     con = new SqlConnection(ConnectionStringProd);
                 }
                 else
@@ -126,6 +130,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -163,6 +169,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -202,6 +210,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -239,6 +249,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -277,6 +289,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -317,6 +331,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -354,6 +370,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -393,6 +411,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -431,6 +451,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -469,6 +491,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -506,6 +530,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -549,6 +575,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -591,6 +619,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -629,6 +659,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -670,7 +702,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -710,6 +743,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -749,6 +784,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -784,11 +821,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
 
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -830,6 +869,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -878,6 +919,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -927,6 +970,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -961,6 +1006,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -994,6 +1041,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1038,6 +1087,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1082,6 +1133,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1129,6 +1182,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1166,6 +1221,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1202,6 +1259,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1236,9 +1295,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1276,6 +1337,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1309,6 +1372,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1340,11 +1405,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetReturnOrderSkuCode( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+                DataSet ds = new DataSet();
+
             try
             {
+                SqlDataAdapter da;
+                SqlCommand com;
+                SqlConnection con;
+
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1383,6 +1451,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1414,11 +1484,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetReturnOrderSendData(string Instance, string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da ;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1455,6 +1527,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1490,6 +1564,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool status = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1549,6 +1625,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1583,6 +1661,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1617,6 +1697,16 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 using (con)
                 {
                     com = new SqlCommand();
@@ -1644,6 +1734,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1680,6 +1772,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1710,11 +1804,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetWaybillgatepassCode( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1749,6 +1845,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1782,6 +1880,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1813,11 +1913,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetWaybillSKUCde(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da ;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1852,6 +1954,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1882,20 +1986,23 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         }
         public static DataSet GetWaybillSTOSendData( string Enviornment)
         {
-            if (Enviornment == "Prod")
-            {
-                con = new SqlConnection(ConnectionStringProd);
-            }
-            else
-            {
-                con = new SqlConnection(ConnectionString);
-            }
+            
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 using (con)
                 {
                     com = new SqlCommand()
@@ -1924,6 +2031,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -1956,13 +2065,16 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         }
         public static DataSet CheckLoginCredentials(string UserName, string Password/*,string Enviornment*/)
         {
-            com = new SqlCommand();
+            //com = new SqlCommand();
+
+            SqlCommand com;
+            SqlConnection con=new SqlConnection(ConnectionStringProd);
             DataSet ds = new DataSet();
-            SqlDataAdapter da = null;
-            DataTable dtConfig = new DataTable();
+            SqlDataAdapter da;
+            //DataTable dtConfig = new DataTable();
             try
             {
-                using (con = new SqlConnection(ConnectionStringProd))
+                using (con)
                 {
                     com = new SqlCommand
                     {
@@ -1981,7 +2093,6 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -1999,6 +2110,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2030,11 +2143,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetSTOAPIgatepassCode( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2069,6 +2184,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2102,6 +2219,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2133,11 +2252,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetSTOAPISKUCde(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2172,6 +2293,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2203,11 +2326,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetSTOAPiSendData(string Instance, string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2244,6 +2369,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2278,6 +2405,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2312,6 +2441,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2347,6 +2478,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2382,6 +2515,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2418,6 +2553,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2452,6 +2589,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2487,11 +2626,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetSTOAPIFailedCode( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //SqlCommand com ;
+            //SqlConnection con;
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2525,9 +2667,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetSTOErrorstatusCode( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            SqlCommand com;
+            SqlConnection con;
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
                 if (Enviornment == "Prod")
@@ -2547,7 +2690,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_WaybillStoStatus"
                     };
                     com.CommandTimeout = 1000;
-                    con.Open();
+                    //con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
                 }
@@ -2563,11 +2706,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetWaybillPoststatus( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //SqlCommand com ;
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2639,9 +2784,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetWaybillInstanceName(string Enviornment)
         {
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2679,6 +2826,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2716,6 +2865,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2752,9 +2903,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
 
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da ;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2790,31 +2943,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet ReturnOrderStatus(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            SqlCommand comd ;
+            SqlConnection cons;
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter Sda ;
             try
             {
+
                 if (Enviornment == "Prod")
                 {
-                    con = new SqlConnection(ConnectionStringProd);
+                    cons = new SqlConnection(ConnectionStringProd);
                 }
                 else
                 {
-                    con = new SqlConnection(ConnectionString);
+                    cons = new SqlConnection(ConnectionString);
                 }
-                using (con)
+                using (cons)
                 {
-                    com = new SqlCommand()
+                    comd = new SqlCommand()
                     {
-                        Connection = con,
+                        Connection = cons,
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_ReturnOrderStatus"
                     };
-                    com.CommandTimeout = 1000;
-                    con.Open();
-                    da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    comd.CommandTimeout = 1000;
+                    cons.Open();
+                    Sda = new SqlDataAdapter(comd);
+                    Sda.Fill(ds);
+                    cons.Close();
                 }
 
             }
@@ -2829,11 +2985,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetWaybillgatepassCodeRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2866,11 +3024,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetSTOAPIgatepassCodeRetrigger( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2902,11 +3062,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetReturnOrderCodeRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da ;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2917,13 +3079,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 }
                 using (con)
                 {
-                    SqlCommand sqlCommand = new SqlCommand();
-                    sqlCommand.Connection = con;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "sp_returnorderCodeforretrigger";
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = "sp_returnorderCodeforretrigger";
                     com.CommandTimeout = 1000;
                     con.Open();
-                    da = new SqlDataAdapter(sqlCommand);
+                    da = new SqlDataAdapter(com);
                     da.Fill(ds);
                 }
                 //com = new SqlCommand()
@@ -2952,9 +3114,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             TokenEntity tokenEntity = new TokenEntity();
             // con = GetConnection();
             // con = new SqlConnection(connectionString);
-            com = new SqlCommand();
+            //com = new SqlCommand();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 using (con = GetConnectionProd())
                 {
                     //con.Open();
@@ -2988,6 +3152,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -2999,15 +3165,16 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 using (con)
                 {
                     //con = GetConnection();
-                    SqlCommand sqlCommand = new SqlCommand();
-                    sqlCommand.Connection = con;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
                     //CommandType = CommandType.StoredProcedure,
-                    sqlCommand.CommandText = "sp_UpdateShippingpackage";
-                    sqlCommand.Parameters.AddWithValue("@records", dt);
+                    com.CommandText = "sp_UpdateShippingpackage";
+                    com.Parameters.AddWithValue("@records", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    sqlCommand.ExecuteNonQuery();
+                    com.ExecuteNonQuery();
+                    con.Close();
 
                 }
                 //con = GetConnection();
@@ -3032,6 +3199,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3064,6 +3233,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3095,11 +3266,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetUpdateShippingData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3135,6 +3308,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3166,11 +3341,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetAllocateShippingData( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da ;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3204,11 +3381,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetAllocateShippingDataForRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3284,6 +3463,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3317,6 +3498,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3349,11 +3532,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetUpdateShippingStatus( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3387,11 +3572,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetUpdateShippingRetrigger( string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3471,6 +3658,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3514,6 +3703,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3547,11 +3738,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetAlocateShippingStatus(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3587,6 +3780,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3620,6 +3815,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3650,11 +3847,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetWaybillCancelData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3691,6 +3890,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3724,6 +3925,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3757,6 +3960,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3790,6 +3995,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3821,11 +4028,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetReverseAllData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3862,6 +4071,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3918,6 +4129,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3953,6 +4166,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3984,11 +4199,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetReversePickUpErrorStatus(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4022,11 +4239,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetReversePickupDataForRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4056,11 +4275,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetFacilityCode(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4094,11 +4315,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetFacilityMaintainData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4134,6 +4357,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4169,6 +4394,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4200,11 +4427,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetTrackingDetails(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4241,6 +4470,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4281,6 +4512,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string InstanceName = string.Empty;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4320,6 +4553,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4353,6 +4588,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4386,11 +4623,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetTruckDetails(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4427,6 +4666,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4460,11 +4701,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetRegionDetails(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4499,11 +4742,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetTrackingStatusDetails(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4540,6 +4785,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4573,11 +4820,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetCourierNameDetails(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4614,6 +4863,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4647,11 +4898,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetTrackingMapping(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4688,6 +4941,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4721,12 +4976,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetRoleMenuAccess(int UserId,string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             //xMLCreator = new XMLCreator();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = null;
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4783,20 +5040,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             bool res;
             string InstanceName = string.Empty;
-
+            SqlCommand cmd;
+            SqlConnection cons;
             try
             {
-                using (con = GetConnectionProd())
+
+                using (cons = GetConnectionProd())
                 {
-                    com = new SqlCommand();
-                    com.Connection = con;
-                    com.CommandText = "Sp_GetEnviornment";
-                    com.CommandType = CommandType.StoredProcedure;
-                    com.CommandTimeout = 1000;
-                    com.Parameters.AddWithValue("@Username", Username);
-                    con.Open();
+                    cmd = new SqlCommand();
+                    cmd.Connection = cons;
+                    cmd.CommandText = "Sp_GetEnviornment";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 1000;
+                    cmd.Parameters.AddWithValue("@Username", Username);
+                    cons.Open();
                     SqlDataReader dr;
-                    dr = com.ExecuteReader();
+                    dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
                         InstanceName = dr["Environment"].ToString();
@@ -4819,6 +5078,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4851,11 +5112,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetRoleMaster(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4890,15 +5153,18 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static int SaveGatePass(UserProfile userProfile)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             int getid=0;
 
             //xMLCreator = new XMLCreator();
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = null;
-            DataTable dtConfig = new DataTable();
+            //DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            SqlCommand com;
+            SqlConnection con;
+            //DataTable dtConfig = new DataTable();
             try
             {
+             
                 if (userProfile.Environment== "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4909,6 +5175,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 }
                 using (con)
                 {
+                    com = new SqlCommand();
                     com.Connection = con;
                     com.CommandType = CommandType.StoredProcedure;
                     com.CommandText = "Pro_SaveUser";
@@ -4923,17 +5190,18 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Environment", userProfile.Environment);
                     con.Open();
                     getid =(int)com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
             {
                 getid = 0;
             }
-            finally
-            {
-                con.Close();
-                con = null;
-            }
+            //finally
+            //{
+            //    con.Close();
+            //    con = null;
+            //}
 
 
 
@@ -4942,11 +5210,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet GetShippingStatusMaster(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4983,6 +5253,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -5018,6 +5290,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string status;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -5056,6 +5330,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string InstanceName = string.Empty;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -5095,6 +5371,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             string RuturnCharacters;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -5124,6 +5402,127 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             //finally { con.Close(); }
             return RuturnCharacters;
+        }
+
+
+        public static DataSet GetDashboardDetails(string Enviornment)
+        {
+            //con = GetConnection();
+            SqlCommand comds;
+            SqlConnection conss ;
+            DataSet ds = new DataSet();
+            SqlDataAdapter Gda ;
+            try
+            {
+
+                if (Enviornment == "Prod")
+                {
+                    conss = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    conss = new SqlConnection(ConnectionString);
+                }
+                using (conss)
+                {
+                    comds = new SqlCommand()
+                    {
+                        Connection = conss,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetDashboardDetails"
+                    };
+                    comds.CommandTimeout = 1000;
+                    //conss.Open();
+                    Gda = new SqlDataAdapter(comds);
+                    Gda.Fill(ds);
+                    //conss.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+
+        public static DataSet GetTrackingDetailsByName(string Enviornment,string Name)
+        {
+            //con = GetConnection();
+            SqlCommand comds;
+            SqlConnection conss;
+            DataSet ds = new DataSet();
+            SqlDataAdapter Gda;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    conss = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    conss = new SqlConnection(ConnectionString);
+                }
+                using (conss)
+                {
+                    comds = new SqlCommand()
+                    {
+                        Connection = conss,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetStatusDetailsByParameter"
+                    };
+                    comds.Parameters.AddWithValue("@StatusName", Name);
+                    comds.CommandTimeout = 1000;
+                    //conss.Open();
+                    Gda = new SqlDataAdapter(comds);
+                    Gda.Fill(ds);
+                    //conss.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static DataSet GetTrackingLink(string Enviornment, string SearchBy, string trackingNo)
+        {
+            //con = GetConnection();
+            SqlCommand comds;
+            SqlConnection conss;
+            DataSet ds = new DataSet();
+            SqlDataAdapter Gda;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    conss = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    conss = new SqlConnection(ConnectionString);
+                }
+                using (conss)
+                {
+                    comds = new SqlCommand()
+                    {
+                        Connection = conss,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_getTackingLink"
+                    };
+                    comds.Parameters.AddWithValue("@searchBy", SearchBy);
+                    comds.Parameters.AddWithValue("@number", trackingNo);
+                    comds.CommandTimeout = 1000;
+                    //conss.Open();
+                    Gda = new SqlDataAdapter(comds);
+                    Gda.Fill(ds);
+                    //conss.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
         }
     }
 
