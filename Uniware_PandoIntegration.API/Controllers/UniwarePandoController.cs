@@ -121,7 +121,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //string token = deres.access_token.ToString();
             if (token != null)
             {
-                _logger.LogInformation("saleOrder/Get Api called.");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, saleOrder/Get Api called.");
                 var json = JsonConvert.SerializeObject(new { fromDate = fromdate, toDate = todate, dateType = datatype, status = status });
                 //var list = getCode(json, token, 0);
                 var list = _MethodWrapper.getCode(json, token, 0, Servertype, Instance);
@@ -132,7 +132,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var ds = ObjBusinessLayer.GetCode(Instance, Servertype);
 
                     ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
-                    _logger.LogInformation("Saleorder/search Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
                     List<ShippingPackage> shipingdet = new List<ShippingPackage>();
@@ -173,7 +173,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
                     var sku = ObjBusinessLayer.GetSKucodesBL(Instance, Servertype);
-                    _logger.LogInformation("ItemType/Get Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, ItemType/Get Api called.");
 
                     List<SKucode> skus = new List<SKucode>();
                     List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
@@ -233,7 +233,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //string token = deres.access_token.ToString();
             if (token != null)
             {
-                _logger.LogInformation("DFX saleOrder/Get Api called.");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, DFX saleOrder/Get Api called.");
                 var json = JsonConvert.SerializeObject(new { fromDate = fromdate, toDate = todate, dateType = datatype, status = status });
                 //var list = getCode(json, token, 0);
                 var list = _MethodWrapper.getCode(json, token, 0, Servertype, Instance);
@@ -244,7 +244,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var ds = ObjBusinessLayer.GetCode(Instance, Servertype);
 
                     ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
-                    _logger.LogInformation(" DFX Saleorder/search Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, DFX Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
                     List<ShippingPackage> shipingdet = new List<ShippingPackage>();
@@ -285,7 +285,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
                     var sku = ObjBusinessLayer.GetSKucodesBL(Instance, Servertype);
-                    _logger.LogInformation("ItemType/Get Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, ItemType/Get Api called.");
 
                     List<SKucode> skus = new List<SKucode>();
                     List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
@@ -339,7 +339,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public ActionResult Retrigger(UserProfile Enviornment)
         {
-            _logger.LogInformation("Sale Order Retriggered ");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Sale Order Retriggered ");
             string Servertype = Enviornment.Environment;
             var ds = ObjBusinessLayer.GetCodeforRetrigger(Servertype);
             string ExecResult = string.Empty;
@@ -361,7 +361,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 List<Items> qtyitems = new List<Items>();
                 List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
                 ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
-                _logger.LogInformation("Retrigger:-Saleorder/search Api called.");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Retrigger:-Saleorder/search Api called.");
                 for (int i = 0; i < ds.Count; i++)
                 {
                     var jsoncodes = JsonConvert.SerializeObject(new { code = ds[i] });
@@ -393,7 +393,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var resdto = ObjBusinessLayer.insertSalesDTO(elements, Servertype);
 
                 var sku = ObjBusinessLayer.GetSKucodesForRetrigger(Servertype);
-                _logger.LogInformation("Retrigger:-ItemType/Get Api called.");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Retrigger:-ItemType/Get Api called.");
                 List<SKucode> skus = new List<SKucode>();
                 List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
 
@@ -496,21 +496,21 @@ namespace Uniware_PandoIntegration.API.Controllers
             //GenerateToken generateToken=new GenerateToken(null) ;
             var token = _jWTManager.GenerateJWTTokens(tokenEntity, out tokenEntity);
             var result = "";
-            _logger.LogInformation($" log Object {JsonConvert.SerializeObject(token)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Token {JsonConvert.SerializeObject(token)}");
             try
             {
                 if (token == null)
                 {
-                    _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(token)}");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error Object {JsonConvert.SerializeObject(token)}");
                     return Unauthorized(new { status = "INVALID_CREDENTIALS", token = "Invalid credentials" });
                 }
                 else
                 {
                     result = JsonConvert.SerializeObject(new { status = "SUCCESS", token = token });
-                    _logger.LogInformation($" Debug Object {JsonConvert.SerializeObject(token)}");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Success Token {JsonConvert.SerializeObject(token)}");
                 }
             }
-            catch (Exception ex) { _logger.LogInformation($" Error Object {JsonConvert.SerializeObject(ex)}"); }
+            catch (Exception ex) { _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Token Error {JsonConvert.SerializeObject(ex)}"); }
             return Ok(result);
         }
         //[CustomAuthorizationFilter]
@@ -520,7 +520,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult waybill(OmsToPandoRoot Records)
         {
-            _logger.LogInformation($"Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
             //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
             //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
 
@@ -535,7 +535,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string Username = string.Empty;
                 using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 {
-                    //var line = sr.ReadLine();
                     Username = sr.ReadLine();
                     sr.Close();
                 }
@@ -606,14 +605,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                         errorResponse.status = "FAILED";
                         errorResponse.reason = "AWB not generated";
                         errorResponse.message = "AWB generation is in queue, please check after a few mins";
-                        _logger.LogInformation($" WayBill response {JsonConvert.SerializeObject(errorResponse)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
                     }
                     else
                     {
                         errorResponse.status = "FAILED";
                         errorResponse.reason = postres.ObjectParam;
                         errorResponse.message = "Resource requires authentication. Please check your authorization token.";
-                        _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
                     }
                     //_logger.LogInformation($"Reason:-  {postres.ObjectParam},{DateTime.Now.ToLongTimeString()}");
                     //return Accepted(postres.Result.ObjectParam);
@@ -633,7 +632,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 errorResponse.status = "FAILED";
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Resource requires authentication. Please check your authorization token.";
-                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
                 throw;
             }
             return new JsonResult(errorResponse);
@@ -643,30 +642,15 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult ReturnOrderAPI(string returnType = "CIR", string statusCode = "COMPLETE", string createdTo = "2023-07-11T14:20:40", string createdFrom = "2023-07-05T14:20:40")
         {
-            //RequestReturnOrder requestReturnOrder = new RequestReturnOrder();
-            //requestReturnOrder.returnType = returnType;
-            //requestReturnOrder.statusCode = statusCode;
-            //requestReturnOrder.createdTo = createdTo;
-            //requestReturnOrder.createdFrom = createdFrom;
-            //var todaydate = DateTime.Today;
-            //var unixepochdateda=todaydate.ToUniversalTime().Ticks;
             string Servertype = iconfiguration["ServerType:type"];
 
             //            
             var Facilities = ObjBusinessLayer.GetFacilityList(Servertype);
-
-
-            //var json = JsonConvert.SerializeObject(requestReturnOrder);
-            //var resu = _Token.GetTokens().Result;
-            //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             string Instance = "SH";
 
             string token = HttpContext.Session.GetString("Token");
             if (token != null)
             {
-                //string token = deres.access_token.ToString();
-                //PandoUniwariToken resu = _Token.GetTokens().Result;
-                //HttpContext.Session.SetString("Token", resu.access_token.ToString());
                 var json = JsonConvert.SerializeObject(new { returnType, statusCode, createdTo, createdFrom });
                 //string token = HttpContext.Session.GetString("Token");
                 foreach (var FacilityCode in Facilities)
@@ -716,11 +700,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             if (skudetails.Code != null)
                             {
                                 itemTdto.Add(skudetails);
-
-                                //return status;
                             }
-                            //else
-                            //    return BadRequest("Please Retrigger");
                         }
                         ObjBusinessLayer.insertReturOrderItemtypes(itemTdto, Servertype);
                         var sendata = ObjBusinessLayer.GetReturnOrderSendData(Instance, Servertype);
@@ -748,41 +728,16 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult ReturnOrderAPIDFX(string returnType = "CIR", string statusCode = "COMPLETE", string createdTo = "2023-07-11T14:20:40", string createdFrom = "2023-07-05T14:20:40")
         {
-            //RequestReturnOrder requestReturnOrder = new RequestReturnOrder();
-            //requestReturnOrder.returnType = returnType;
-            //requestReturnOrder.statusCode = statusCode;
-            //requestReturnOrder.createdTo = createdTo;
-            //requestReturnOrder.createdFrom = createdFrom;
-            //var todaydate = DateTime.Today;
-            //var unixepochdateda=todaydate.ToUniversalTime().Ticks;
             string Servertype = iconfiguration["ServerType:type"];
 
-            //            string[] Facilities = {
-            //"Hosur_Avigna"
-            //,"AVIGNA_DFX",
-            //"Gurgaon_New",
-            //"CHENNAI",
-            //"COCHIN",
-            //"KOLKATA",
-            //"Hydrabad_Item",
-            //"BHIWANDIITEM"
-            //                };
             var Facilities = ObjBusinessLayer.GetFacilityList(Servertype);
 
-
-            //var json = JsonConvert.SerializeObject(requestReturnOrder);
-            //var resu = _Token.GetTokens().Result;
-            //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             string Instance = "DFX";
 
             string token = HttpContext.Session.GetString("DFXToken");
             if (token != null)
             {
-                //string token = deres.access_token.ToString();
-                //PandoUniwariToken resu = _Token.GetTokens().Result;
-                //HttpContext.Session.SetString("Token", resu.access_token.ToString());
                 var json = JsonConvert.SerializeObject(new { returnType, statusCode, createdTo, createdFrom });
-                //string token = HttpContext.Session.GetString("Token");
                 foreach (var FacilityCode in Facilities)
                 {
 
@@ -796,9 +751,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                         List<ReturnAddressDetailsList> returnAddressDetailsLists = new List<ReturnAddressDetailsList>();
                         for (int j = 0; j < codes.ObjectParam.Count; j++)
                         {
-                            //ReturnOrderGet returnOrderGet = new ReturnOrderGet();
-                            //returnOrderGet.reversePickupCode = codes.ObjectParam[j].code;
-                            //var jdetail = JsonConvert.SerializeObject(returnOrderGet);
                             var jdetail = JsonConvert.SerializeObject(new { reversePickupCode = codes.ObjectParam[j].code });
 
                             var Code = codes.ObjectParam[j].code;
@@ -808,8 +760,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
                                 returnSaleOrderItems.AddRange(list.returnSaleOrderItems);
                             }
-                            //else
-                            //    return BadRequest("Please Retrigger");
 
                         }
                         ObjBusinessLayer.insertReturnSaleOrderitem(returnSaleOrderItems, Servertype);
@@ -831,11 +781,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             if (skudetails.Code != null)
                             {
                                 itemTdto.Add(skudetails);
-
-                                //return status;
                             }
-                            //else
-                            //    return BadRequest("Please Retrigger");
                         }
                         ObjBusinessLayer.insertReturOrderItemtypes(itemTdto, Servertype);
                         var sendata = ObjBusinessLayer.GetReturnOrderSendData(Instance, Servertype);
@@ -855,15 +801,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                 }
             }
             return BadRequest("Please Pass Valid token");
-            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            //string token = HttpContext.Session.GetString("Token");
 
 
         }
         [HttpGet]
         public string ReturnOrderAPIRetrigger(UserProfile Enviornment)
         {
-            Log.Information("Retriggered Return Order API");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Retriggered Return Order API");
             string Servertype = Enviornment.Environment;
             //string Servertype = iconfiguration["ServerType:type"];
             string Instance = "SH";
@@ -939,10 +883,6 @@ namespace Uniware_PandoIntegration.API.Controllers
             return "Please Pass valid Token";
 
 
-            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            //string token = HttpContext.Session.GetString("Token");
-
-
         }
         [HttpGet]
         public IActionResult ReturnorderFinalData(UserProfile Enviornment)
@@ -991,7 +931,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 foreach (var FacilityCode in Facilities)
                 {
                     var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
-                    Log.Information("STO WaybillGetPass Code" + jsonre + ": " + token);
+                    Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WaybillGetPass Code" + jsonre + ": " + token);
                     List<GatePassItemDTODb> gatePassItemDTOs = new List<GatePassItemDTODb>();
                     List<Elementdb> elements = new List<Elementdb>();
                     List<CustomFieldValuedb> customFieldDbs = new List<CustomFieldValuedb>();
@@ -1064,7 +1004,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 foreach (var FacilityCode in Facilities)
                 {
                     var jsonre = JsonConvert.SerializeObject(new { fromDate, toDate, type, statusCode });
-                    Log.Information("STO WaybillGetPass Code" + jsonre + ": " + token);
+                    Log.Information($" DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WaybillGetPass Code" + jsonre + ": " + token);
                     List<GatePassItemDTODb> gatePassItemDTOs = new List<GatePassItemDTODb>();
                     List<Elementdb> elements = new List<Elementdb>();
                     List<CustomFieldValuedb> customFieldDbs = new List<CustomFieldValuedb>();
@@ -1126,7 +1066,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpGet]
         public string STOWaybillRetrigger(UserProfile Enviornment)
         {
-            Log.Information("Retrigger STOwaybill api");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Retrigger STOwaybill api");
             string Servertype = Enviornment.Environment;
             //string Servertype = iconfiguration["ServerType:type"];
 
@@ -1234,7 +1174,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                 List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
                 List<Element> elements = new List<Element>();
-                Log.Information("STO API Called : " + jsonre + " " + token);
+                Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO API Called : " + jsonre + " " + token);
                 foreach (var FacilityCode in Facilities)
                 {
                     //var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
@@ -1309,7 +1249,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                 List<GatePassItemDTO> gatePassItemDTOs = new List<GatePassItemDTO>();
                 List<Element> elements = new List<Element>();
-                Log.Information("STO API Called : " + jsonre + " " + token);
+                Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO API Called : " + jsonre + " " + token);
                 foreach (var FacilityCode in Facilities)
                 {
                     //var res = _MethodWrapper.STOAPIGatePass(jsonre, token, 0, Servertype, FacilityCode.facilityCode, Instance);
@@ -1372,7 +1312,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpGet]
         public string STOAPIRetrigger(UserProfile Enviornment)
         {
-            Log.Information("STOAPI Retriggered");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STOAPI Retriggered");
             string Servertype = Enviornment.Environment;
             //string Servertype = iconfiguration["ServerType:type"];
             var Facilities = ObjBusinessLayer.GetFacilityList(Servertype);
@@ -1476,7 +1416,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public ActionResult Retriggerwaybill(UserProfile Enviornment)
         {
-            _logger.LogInformation($" WayBill response Retrigger FinalData");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response Retrigger FinalData");
 
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = Enviornment.Environment;
@@ -1500,14 +1440,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                         ExecResult += "Successfully Sended Failed Record";
                         ObjBusinessLayer.UpdateStatusinWaybillTriggerTable(failedtriggerid, Servertype);
 
-                        _logger.LogInformation($" WayBill Retrigger Response {JsonConvert.SerializeObject(postres.ObjectParam)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill Retrigger Response {JsonConvert.SerializeObject(postres.ObjectParam)}");
                     }
                     else
                     {
                         errorResponse.status = "FAILED";
                         errorResponse.reason = postres.ObjectParam;
                         errorResponse.message = "Resource requires authentication. Please check your authorization token.";
-                        _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
                         ExecResult += postres.ObjectParam;
                     }
                 }
@@ -1535,7 +1475,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             List<UpdateShippingpackagedb> updatelist = new List<UpdateShippingpackagedb>();
             List<ShippingBoxdb> shipbox = new List<ShippingBoxdb>();
             List<addCustomFieldValue> customFields = new List<addCustomFieldValue>();
-            _logger.LogInformation($" UpdateShippingPackage Request {JsonConvert.SerializeObject(shippingPackages)}");
+            _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, UpdateShippingPackage Request {JsonConvert.SerializeObject(shippingPackages)}");
             try
             {
                 Thread.Sleep(5000);
@@ -1621,7 +1561,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 successResponse.waybill = "";
                                 successResponse.shippingLabel = "";
                                 //successResponse.courierName = Records.courierName;
-                                _logger.LogInformation($" UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
+                                _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
                             }
                             else
                             {
@@ -1634,7 +1574,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 //errorResponse.reason = response.ObjectParam;
                                 //errorResponse.message = "";
 
-                                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(successResponse)}");
+                                _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(successResponse)}");
                                 //return new JsonResult(errorResponse);
                             }
                         }
@@ -1657,7 +1597,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     errorResponse.status = "Error";
                     errorResponse.reason = "There Is no Data For Trigger";
                     errorResponse.message = "Please Retrigger";
-                    _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                    _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
                     return new JsonResult(errorResponse);
                 }
 
@@ -1668,7 +1608,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 errorResponse.status = "Error";
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Please Retrigger";
-                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
                 return new JsonResult(errorResponse);
 
             }
@@ -1760,7 +1700,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult RetriggerUpdateShipping(UserProfile Enviornment)
         {
-            _logger.LogInformation($" UpdateShippingPackage Retrigger");
+            _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, UpdateShippingPackage Retrigger");
             string Servertype = Enviornment.Environment;
             //string Servertype = iconfiguration["ServerType:type"];
             string ExecResult = string.Empty;
@@ -1809,13 +1749,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                             ExecResult += "Data Triggered Successfully";
                             ObjBusinessLayer.UpdateStatusinUpdateshippingTriggerTable(Shippingpackcode, Servertype);
 
-                            _logger.LogInformation($" Retrigger UpdateShippingPackage response {JsonConvert.SerializeObject(ExecResult)}");
+                            _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, Retrigger UpdateShippingPackage response {JsonConvert.SerializeObject(ExecResult)}");
                         }
                         else
                         {
                             ExecResult += response.ObjectParam;
 
-                            _logger.LogInformation($" Error: {JsonConvert.SerializeObject(ExecResult)}");
+                            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()} , Error: {JsonConvert.SerializeObject(ExecResult)}");
                             //return new JsonResult(ExecResult);
                         }
                     }
@@ -1833,7 +1773,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpPost]
         public IActionResult AllocateShipping(List<AllocateshippingPando> allocateshippings)
         {
-            _logger.LogInformation($"Request Allocate Shipping {JsonConvert.SerializeObject(allocateshippings)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Request Allocate Shipping {JsonConvert.SerializeObject(allocateshippings)}");
             SuccessResponse successResponse = new SuccessResponse();
             try
             {
@@ -1927,11 +1867,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                         //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
 
-                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                        if (responses.IsSuccess == false)
-                        {
-                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
-                        }
+                        
 
                         //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
                         if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
@@ -1944,7 +1880,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 successResponse.status = "Success";
                                 successResponse.waybill = "";
                                 successResponse.shippingLabel = "";
-                                _logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
                                 //return new JsonResult(successResponse);
                             }
                             else
@@ -1953,8 +1889,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                                 successResponse.status = "False";
                                 successResponse.waybill = response.ObjectParam;
                                 successResponse.shippingLabel = "";
-                                _logger.LogInformation($"Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
                             }
+                        }
+
+                        //Idle for 5sec
+
+                        Thread.Sleep(5000);
+                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                        if (responses.IsSuccess == false)
+                        {
+                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
                         }
                     }
                     if (ErrorList.Count > 0)
@@ -1981,7 +1926,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     errorResponse.status = "Error";
                     errorResponse.reason = "No Data For Transaction";
                     errorResponse.message = "Please Retrigger";
-                    _logger.LogInformation($" Allocate Shipping response Error{JsonConvert.SerializeObject(errorResponse)}");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error{JsonConvert.SerializeObject(errorResponse)}");
                     return new JsonResult(errorResponse);
                 }
             }
@@ -1991,7 +1936,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 errorResponse.status = "Error";
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Please Retrigger";
-                _logger.LogInformation($" Error: {JsonConvert.SerializeObject(errorResponse)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()} , Error: {JsonConvert.SerializeObject(errorResponse)}");
                 return new JsonResult(errorResponse);
                 //throw ex;
             }
@@ -2004,7 +1949,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             string Servertype = iconfiguration["ServerType:type"];
             SuccessResponse successResponse = new SuccessResponse();
-            _logger.LogInformation($"Post Data Allocate Shipping");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Post Data Allocate Shipping");
             //string token = HttpContext.Session.GetString("STOToken");
             //var Token = _Token.GetTokens(Servertype).Result;
             string Instance = string.Empty;
@@ -2044,7 +1989,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         successResponse.status = "Success";
                         successResponse.waybill = "";
                         successResponse.shippingLabel = "";
-                        _logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
                         //return new JsonResult(successResponse);
                     }
                     else
@@ -2052,7 +1997,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         successResponse.status = "False";
                         successResponse.waybill = response.ObjectParam;
                         successResponse.shippingLabel = "";
-                        _logger.LogInformation($"Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
                     }
                     return Ok(successResponse);
                 }
@@ -2108,14 +2053,14 @@ namespace Uniware_PandoIntegration.API.Controllers
                         if (response.IsSuccess)
                         {
                             ExecResult += "Failed Record Triggered Successfully";
-                            _logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(response.ObjectParam)}");
+                            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(response.ObjectParam)}");
                             //return new JsonResult(successResponse);
                         }
                         else
                         {
                             ExecResult += response.ObjectParam;
 
-                            _logger.LogInformation($"Allocate Shipping response Error {JsonConvert.SerializeObject(response.ObjectParam)}");
+                            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(response.ObjectParam)}");
                         }
                         //return Ok(response.Result.ObjectParam);
                     }
@@ -2136,7 +2081,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             try
             {
-                _logger.LogInformation($"Cancel Waybill: {JsonConvert.SerializeObject(waybill.waybill)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Cancel Waybill: {JsonConvert.SerializeObject(waybill.waybill)}");
                 Thread.Sleep(5000);
                 //string Servertype = iconfiguration["ServerType:type"];
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
@@ -2151,6 +2096,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 ObjBusinessLayer.WaybillCancel(waybill.waybill, Servertype);
                 var canceldata = ObjBusinessLayer.GetWaybillCancelData(Servertype);
+                CancelResponse response = new CancelResponse();
 
                 //var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend();
                 if (canceldata.Count > 0)
@@ -2158,15 +2104,42 @@ namespace Uniware_PandoIntegration.API.Controllers
                     //var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata);
                     var postres = _MethodWrapper.WaybillCancelPostData(canceldata, 0);
                     //return postres;
-                    _logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
-                    //return Accepted(postres.Result.ObjectParam);
+                    if (postres.Result.IsSuccess)
+                    {
+                        //_logger.LogInformation($"Reason:-  {postres.Result.ObjectParam},{DateTime.Now.ToLongTimeString()}");
+                        //return Accepted(postres.Result.ObjectParam);
+                        response.status = "SUCCESS";
+                        response.waybill = waybill.waybill;
+                        response.errorMessage = "Order has been canceled";
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Reason:-  {response}");
+
+                        return new JsonResult(response);
+                    }
+                    else
+                    {
+                        response.status = "Failed";
+                        response.waybill = waybill.waybill;
+                        response.errorMessage = postres.Result.ObjectParam;
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Failed Reason:-  {response}");
+
+                        return new JsonResult(response);
+                    }
+                }
+                else
+                {
+                    response.status = "FAILED";
+                    response.waybill = waybill.waybill;
+                    response.errorMessage = "There is No Data For Cancelation";
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error Reason:-  {response}");
+
+                    return new JsonResult(response);
                 }
 
-                CancelResponse response = new CancelResponse();
-                response.status = "SUCCESS";
-                response.waybill = waybill.waybill;
-                response.errorMessage = "Order has been canceled";
-                return new JsonResult(response);
+                //CancelResponse response = new CancelResponse();
+                //response.status = "SUCCESS";
+                //response.waybill = waybill.waybill;
+                //response.errorMessage = "Order has been canceled";
+                //return new JsonResult(response);
             }
             catch (Exception ex)
             {
@@ -2174,15 +2147,17 @@ namespace Uniware_PandoIntegration.API.Controllers
                 response.status = "FAILED";
                 response.waybill = waybill.waybill;
                 response.errorMessage = ex.Message;
+                _logger.LogInformation($"Error Reason:-  {response},{DateTime.Now.ToLongTimeString()}");
+
                 return new JsonResult(response);
-                throw;
+                //throw;
             }
 
         }
         [HttpPost]
         public ActionResult UploadExcel(MainClass empLists)
         {
-            _logger.LogInformation($"Excel Upload Process. Data:-{JsonConvert.SerializeObject(empLists.UploadExcels)}");
+            _logger.LogInformation($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Excel Upload Process. Data:-{JsonConvert.SerializeObject(empLists.UploadExcels)}");
             string Servertype = empLists.Enviornment.ToString();
             string Userid = empLists.Userid;
             ObjBusinessLayer.InsertTransaction(Userid, "Dispatch Data Upload", Servertype);
@@ -2222,7 +2197,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var ds = ObjBusinessLayer.GetCode(Instance, Servertype);
 
                     ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
-                    _logger.LogInformation("Saleorder/search Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
                     List<ShippingPackage> shipingdet = new List<ShippingPackage>();
@@ -2261,7 +2236,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resdto = ObjBusinessLayer.insertSalesDTO(elements, Servertype);
 
                     var sku = ObjBusinessLayer.GetSKucodesBL(Instance, Servertype);
-                    _logger.LogInformation("ItemType/Get Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, ItemType/Get Api called.");
 
                     List<SKucode> skus = new List<SKucode>();
                     List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
@@ -2323,7 +2298,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var ds = ObjBusinessLayer.GetCode(Instance, Servertype);
 
                     ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
-                    _logger.LogInformation(" DFX Saleorder/search Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, DFX Saleorder/search Api called.");
                     List<Address> address = new List<Address>();
                     List<SaleOrderItem> saleOrderItems = new List<SaleOrderItem>();
                     List<ShippingPackage> shipingdet = new List<ShippingPackage>();
@@ -2362,7 +2337,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
                     var sku = ObjBusinessLayer.GetSKucodesBL(Instance, Servertype);
-                    _logger.LogInformation("ItemType/Get Api called.");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, ItemType/Get Api called.");
 
                     List<SKucode> skus = new List<SKucode>();
                     List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
@@ -2785,7 +2760,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             try
             {
-                _logger.LogInformation($"Request Reverse Pickup {JsonConvert.SerializeObject(reversePickup)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Request Reverse Pickup {JsonConvert.SerializeObject(reversePickup)}");
                 Thread.Sleep(5000);
 
 
@@ -2933,7 +2908,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = Enviornment.Environment;
-            _logger.LogInformation("Retrigger Reverse Pickup");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Retrigger Reverse Pickup");
 
             //var resu = _Token.GetTokens(Servertype).Result;
             string Instance = "SH";
@@ -3027,7 +3002,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //string Servertype = iconfiguration["ServerType:type"];
 
             string ExecResult = string.Empty;
-            _logger.LogInformation($"Facility Master Updated. {JsonConvert.SerializeObject(lists)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Facility Master Updated. {JsonConvert.SerializeObject(lists)}");
 
             ExecResult = ObjBusinessLayer.UploadFacilityMaster(lists, Servertype);
             return new JsonResult(ExecResult.Trim());
@@ -3039,18 +3014,22 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             try
             {
-                _logger.LogInformation($"Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
                 Thread.Sleep(5000);
-                //string Servertype = iconfiguration["ServerType:type"];
-                //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
                 string Username = string.Empty;
-                //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
-                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //{
+                //    //var line = sr.ReadLine();
+                //    Username = sr.ReadLine();
+                //    sr.Close();
+                    
+
+                //}
+                using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    //var line = sr.ReadLine();
-                    Username = sr.ReadLine(); 
-                    sr.Close();
+                    StreamReader streamReader = new StreamReader(stream);
+                    Username = streamReader.ReadLine();
+                    stream.Close();
                 }
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 string Getinstance = string.Empty;
@@ -3123,7 +3102,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         reversePickupResponse.message = responsmessage;
                         reversePickupResponse.errors = "";
                         reversePickupResponse.warnings = "";
-                        _logger.LogInformation($"Tracking Status Success {JsonConvert.SerializeObject(reversePickupResponse)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success {JsonConvert.SerializeObject(reversePickupResponse)}");
 
                         return new JsonResult(reversePickupResponse);
                     }
@@ -3134,7 +3113,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                         reversePickupResponse.message = responsmessage;
                         reversePickupResponse.errors = "There Is not Data For Tacking";
                         reversePickupResponse.warnings = "";
-                        _logger.LogInformation($"Tracking Status Error {JsonConvert.SerializeObject(reversePickupResponse)}");
+                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error {JsonConvert.SerializeObject(reversePickupResponse)}");
 
                         return new JsonResult(reversePickupResponse);
                     }
@@ -3158,7 +3137,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.message = ex.Message;
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
-                _logger.LogInformation($"Truck Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Truck Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
 
                 return new JsonResult(reversePickupResponse);
                 throw;
@@ -3174,7 +3153,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             List<TruckDetails> trucklist = new List<TruckDetails>();
             trucklist = TruckDetails.TruckDetails;
             string ExecResult = string.Empty;
-            _logger.LogInformation($"Truck Details Master Updated. {JsonConvert.SerializeObject(trucklist)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Truck Details Master Updated. {JsonConvert.SerializeObject(trucklist)}");
             ExecResult = ObjBusinessLayer.UpdateTruckDetailsMaster(trucklist, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
@@ -3222,7 +3201,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 foreach (var FacilityCode in Facilities)
                 {
                     var jsonre = JsonConvert.SerializeObject(new { res });
-                    Log.Information("STO WaybillGetPass Code Upload" + jsonre + ": " + token);
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WaybillGetPass Code Upload" + jsonre + ": " + token);
                     List<GatePassItemDTODb> gatePassItemDTOs = new List<GatePassItemDTODb>();
                     List<Elementdb> elements = new List<Elementdb>();
                     List<CustomFieldValuedb> customFieldDbs = new List<CustomFieldValuedb>();
@@ -3301,7 +3280,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 foreach (var FacilityCode in Facilities)
                 {
                     var jsonre = JsonConvert.SerializeObject(new { res });
-                    Log.Information("STO WaybillGetPass Code Upload" + jsonre + ": " + token);
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WaybillGetPass Code Upload" + jsonre + ": " + token);
                     List<GatePassItemDTODb> gatePassItemDTOs = new List<GatePassItemDTODb>();
                     List<Elementdb> elements = new List<Elementdb>();
                     List<CustomFieldValuedb> customFieldDbs = new List<CustomFieldValuedb>();
@@ -3371,7 +3350,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = ReagonList.Enviornment;
             ObjBusinessLayer.InsertTransaction(ReagonList.Userid, "Reagion Master Upload", Servertype);
 
-            _logger.LogInformation($"Reagon Details Master Updated. {JsonConvert.SerializeObject(regionlist)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Reagon Details Master Updated. {JsonConvert.SerializeObject(regionlist)}");
             ExecResult = ObjBusinessLayer.UpdateRegionMaster(regionlist, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
@@ -3406,7 +3385,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             ObjBusinessLayer.InsertTransaction(TruckDetails.Userid, "Tracking Status Master Upload", Servertype);
             //string Servertype = iconfiguration["ServerType:type"];
 
-            _logger.LogInformation($"Tracking Status Master Updated. {JsonConvert.SerializeObject(MasterList)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Master Updated. {JsonConvert.SerializeObject(MasterList)}");
             ExecResult = ObjBusinessLayer.UploadtTackingMasterDetails(MasterList, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
@@ -3430,7 +3409,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             trackingMaster = TruckDetails.TrackingMasters;
 
             string ExecResult = string.Empty;
-            _logger.LogInformation($"CourierName Update. {JsonConvert.SerializeObject(TruckDetails)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, CourierName Update. {JsonConvert.SerializeObject(TruckDetails)}");
             ExecResult = ObjBusinessLayer.UploadtCourireDetails(trackingMaster, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
@@ -3454,7 +3433,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             trackingLinkMapping = trackingLinkMappings.TrackingLinkMappings;
 
             string ExecResult = string.Empty;
-            _logger.LogInformation($"Tracking Mapping Update. {JsonConvert.SerializeObject(trackingLinkMappings)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Mapping Update. {JsonConvert.SerializeObject(trackingLinkMappings)}");
             ExecResult = ObjBusinessLayer.UploadTrackingMapping(trackingLinkMapping, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
@@ -3486,7 +3465,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             trackingLinkMapping = shippingStatusList.ShippingStatus;
 
             string ExecResult = string.Empty;
-            _logger.LogInformation($"Shipping Status Master Update. {JsonConvert.SerializeObject(shippingStatusList)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Shipping Status Master Update. {JsonConvert.SerializeObject(shippingStatusList)}");
             ExecResult = ObjBusinessLayer.UpdateShippingStatusMaster(trackingLinkMapping, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
@@ -3496,7 +3475,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //string Servertype = iconfiguration["ServerType:type"];
             string Servertype = userProfile.Environment;
             string ExecResult = string.Empty;
-            _logger.LogInformation($"ResetPassword. {JsonConvert.SerializeObject(userProfile)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, ResetPassword. {JsonConvert.SerializeObject(userProfile)}");
             ExecResult = ObjBusinessLayer.ResetPassword(userProfile, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
@@ -3515,7 +3494,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             ObjBusinessLayer.InsertTransaction(specialCharacterEntity.userid, "Special Character Master", specialCharacterEntity.Enviornment);
 
             string ExecResult = string.Empty;
-            _logger.LogInformation($"Special Character Master Update. {JsonConvert.SerializeObject(specialCharacterEntity)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Special Character Master Update. {JsonConvert.SerializeObject(specialCharacterEntity)}");
             ExecResult = ObjBusinessLayer.UpdateSpecialCharacterMaster(specialCharacterEntity.Contents, specialCharacterEntity.Enviornment);
             return new JsonResult(ExecResult.Trim());
         }

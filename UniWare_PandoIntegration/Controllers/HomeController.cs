@@ -23,6 +23,7 @@ namespace UniWare_PandoIntegration.Controllers
             Apibase = configuration.GetSection("baseaddress:Url").Value;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(string UserName, string Password)
         {
             try

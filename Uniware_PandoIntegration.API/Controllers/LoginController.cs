@@ -15,34 +15,35 @@ namespace Uniware_PandoIntegration.API.Controllers
         public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
+            //_logger.LogInformation("execute");
         }
         private UniwareBL ObjBusinessLayer = new();
         [HttpGet]
         public ServiceResponse<UserLogin> GetUserNamePassword(string UserName, string Password)
         {
             ObjBusinessLayer = new UniwareBL();
-            _logger.LogInformation("Check Credentials {DT}", DateTime.Now.ToLongTimeString());
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Check Credentials Username: "+UserName+" Password:- "+Password);
             return ObjBusinessLayer.CheckLoginCredentials(UserName, Password);
         }
         [HttpGet]
         public ServiceResponse<MenusAccess> GetRoleMenuAccess(int UserId,string Enviornment)
         {
             ObjBusinessLayer = new UniwareBL();
-            _logger.LogInformation("Get Role Menu Access {DT}", DateTime.Now.ToLongTimeString());
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Get Role Menu Access ");
             return ObjBusinessLayer.GetRoleMenuAccess(UserId,Enviornment);
         }
         [HttpGet]
         public IEnumerable<UserProfile> GetRoleMaster(string Environment)
         {
             ObjBusinessLayer = new UniwareBL();
-            _logger.LogInformation("Get Role Master at {DT}", DateTime.Now.ToLongTimeString());
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Get Role Master");
             return ObjBusinessLayer.GetRoleMaster(Environment);
         }
         [HttpPost]
         public int SaveUser(UserProfile userLogin)
         {
             ObjBusinessLayer=new UniwareBL();
-            _logger.LogInformation($"User Create at {DateTime.Now.ToLongTimeString()} User Details:- {JsonConvert.SerializeObject(userLogin)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, User Create, User Details:- {JsonConvert.SerializeObject(userLogin)}");
 
             return ObjBusinessLayer.SaveUser(userLogin);
         }

@@ -34,7 +34,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         }
         //private static SqlConnection con = null;
         //private static SqlCommand com = null;
-        public static bool InsertCodeInUniware(DataTable dt,string Enviornment)
+        public static bool InsertCodeInUniware(DataTable dt, string Enviornment)
         {
             bool res;
             try
@@ -60,6 +60,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tablesearch", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
 
@@ -83,7 +84,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
         }
 
-        public static DataSet GetCodeDB(string Instance,string Enviornment)
+        public static DataSet GetCodeDB(string Instance, string Enviornment)
         {
 
             DataSet ds = new DataSet();
@@ -92,12 +93,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 SqlCommand com;
                 SqlConnection con;
-                if (Enviornment=="Prod") {
+                if (Enviornment == "Prod")
+                {
                     con = new SqlConnection(ConnectionStringProd);
                 }
                 else
                 {
-                    con=new SqlConnection(ConnectionString);
+                    con = new SqlConnection(ConnectionString);
                 }
                 using (con)
                 {
@@ -114,6 +116,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -151,6 +154,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltype", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -190,6 +194,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltypes", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -230,6 +235,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltypes", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -270,6 +276,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
 
@@ -309,6 +316,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -355,6 +363,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -390,6 +399,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltypes", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -435,6 +445,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -445,8 +456,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             //finally { con.Close(); }
             return ds;
-        }        
-        public static string IsertAllsendingrec(DataTable dt,string Enviornment)
+        }
+        public static string IsertAllsendingrec(DataTable dt, string Enviornment)
         {
             string res;
             try
@@ -475,6 +486,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    con.Close();
                 }
 
             }
@@ -513,6 +525,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
 
@@ -553,6 +566,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
 
 
@@ -599,6 +613,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -638,10 +653,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "Pro_GetInstanceFromTriggerTable",
                         CommandTimeout = 1000
                     };
-                    
+
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -680,6 +696,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
 
 
@@ -694,7 +711,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
         }
 
-        public static DataSet GetCoderetrigger( string Enviornment)
+        public static DataSet GetCoderetrigger(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -724,6 +741,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -765,6 +783,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -806,6 +825,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -817,7 +837,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetFailedCode( string Enviornment)
+        public static DataSet GetFailedCode(string Enviornment)
         {
 
             //con = GetConnection();
@@ -902,7 +922,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = res = Convert.ToString(com.Parameters["@Primary_id"].Value); ;
+                    res = res = Convert.ToString(com.Parameters["@Primary_id"].Value);
+                    con.Close();
                 }
 
             }
@@ -914,7 +935,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool WaybillShipment(OmsToPandoRoot root, string primaryid,string FacilityCode, string Enviornment)
+        public static bool WaybillShipment(OmsToPandoRoot root, string primaryid, string FacilityCode, string Enviornment)
         {
             bool res = false;
             try
@@ -954,6 +975,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -990,7 +1012,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; 
+                    con.Close();
                 }
 
             }
@@ -1026,7 +1049,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -1071,7 +1094,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -1116,7 +1139,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -1163,7 +1186,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -1205,6 +1228,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -1245,6 +1269,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1254,7 +1279,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool InsertReturnOrderCode(DataTable dt,string Enviornment)
+        public static bool InsertReturnOrderCode(DataTable dt, string Enviornment)
         {
             bool res;
             try
@@ -1280,6 +1305,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                     //con.Close();
                 }
             }
@@ -1321,6 +1347,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -1358,6 +1385,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1393,6 +1421,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1402,10 +1431,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetReturnOrderSkuCode( string Enviornment)
+        public static DataSet GetReturnOrderSkuCode(string Enviornment)
         {
             //con = GetConnection();
-                DataSet ds = new DataSet();
+            DataSet ds = new DataSet();
 
             try
             {
@@ -1435,6 +1464,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
 
                 }
             }
@@ -1472,6 +1502,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1486,7 +1517,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //con = GetConnection();
             //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da ;
+            SqlDataAdapter da;
             try
             {
                 SqlCommand com;
@@ -1512,6 +1543,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1549,6 +1581,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1586,6 +1619,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1644,7 +1678,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -1680,7 +1714,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -1720,6 +1754,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1755,7 +1790,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@trigger_id", Triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -1791,7 +1826,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Getpasscode", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1801,7 +1836,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return res;
         }
-        public static DataSet GetWaybillgatepassCode( string Enviornment)
+        public static DataSet GetWaybillgatepassCode(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -1830,7 +1865,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1864,7 +1899,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Elements", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1899,7 +1934,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@itemtypeDTO", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1915,7 +1950,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //con = GetConnection();
             //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da ;
+            SqlDataAdapter da;
             try
             {
                 SqlCommand com;
@@ -1939,7 +1974,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1973,7 +2008,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Itemtypes", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1984,9 +2019,9 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetWaybillSTOSendData( string Enviornment)
+        public static DataSet GetWaybillSTOSendData(string Enviornment)
         {
-            
+
             //con = GetConnection();
             //com = new SqlCommand();
             DataSet ds = new DataSet();
@@ -2014,7 +2049,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
 
             }
@@ -2053,7 +2088,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2068,7 +2103,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //com = new SqlCommand();
 
             SqlCommand com;
-            SqlConnection con=new SqlConnection(ConnectionStringProd);
+            SqlConnection con = new SqlConnection(ConnectionStringProd);
             DataSet ds = new DataSet();
             SqlDataAdapter da;
             //DataTable dtConfig = new DataTable();
@@ -2087,7 +2122,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
 
             }
@@ -2129,7 +2164,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@GatePasses", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -2140,7 +2175,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetSTOAPIgatepassCode( string Enviornment)
+        public static DataSet GetSTOAPIgatepassCode(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -2169,7 +2204,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2203,7 +2238,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Elements", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -2238,7 +2273,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@itemtypeDTO", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -2279,7 +2314,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
-                    //con.Close();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2312,7 +2347,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Itemtypes", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -2353,7 +2388,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2391,7 +2426,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2424,7 +2459,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -2461,7 +2496,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@type", type);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -2499,7 +2534,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@trigger_id", Triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -2535,7 +2570,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -2572,7 +2607,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Codes", dt);
                     com.Parameters.AddWithValue("@type", type);
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -2610,7 +2645,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@trigger_id", Triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -2623,7 +2658,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static DataSet GetSTOAPIFailedCode( string Enviornment)
+        public static DataSet GetSTOAPIFailedCode(string Enviornment)
         {
             //con = GetConnection();
             //SqlCommand com ;
@@ -2653,7 +2688,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2664,7 +2699,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetSTOErrorstatusCode( string Enviornment)
+        public static DataSet GetSTOErrorstatusCode(string Enviornment)
         {
             //con = GetConnection();
             SqlCommand com;
@@ -2703,7 +2738,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetWaybillPoststatus( string Enviornment)
+        public static DataSet GetWaybillPoststatus(string Enviornment)
         {
             //con = GetConnection();
             //SqlCommand com ;
@@ -2733,6 +2768,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2810,6 +2846,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -2846,7 +2883,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@triggerid", Triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
 
@@ -2885,7 +2922,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@ShippingPackCode", ShippingPackageCode);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
 
@@ -2903,7 +2940,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
 
             DataSet ds = new DataSet();
-            SqlDataAdapter da ;
+            SqlDataAdapter da;
             try
             {
                 SqlCommand com;
@@ -2928,7 +2965,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@instance", Instance);
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
 
             }
@@ -2943,10 +2980,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static DataSet ReturnOrderStatus(string Enviornment)
         {
             //con = GetConnection();
-            SqlCommand comd ;
+            SqlCommand comd;
             SqlConnection cons;
             DataSet ds = new DataSet();
-            SqlDataAdapter Sda ;
+            SqlDataAdapter Sda;
             try
             {
 
@@ -3011,7 +3048,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -3021,7 +3058,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetSTOAPIgatepassCodeRetrigger( string Enviornment)
+        public static DataSet GetSTOAPIgatepassCodeRetrigger(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -3049,7 +3086,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -3064,7 +3101,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //con = GetConnection();
             //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da ;
+            SqlDataAdapter da;
             try
             {
                 SqlCommand com;
@@ -3086,7 +3123,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
                 //com = new SqlCommand()
                 //{
@@ -3132,12 +3169,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sqlCommand.Parameters.AddWithValue("@password", Password);
                     con.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
+             
                     //da.Fill(ds);
                     while (dr.Read())
                     {
                         tokenEntity.username = dr["username"].ToString();
                         tokenEntity.password = dr["password"].ToString();
                     }
+                    con.Close();
                 };
             }
             catch (Exception ex)
@@ -3218,7 +3257,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Records", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
             catch (Exception ex)
@@ -3250,9 +3289,9 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandText = "sp_CustomFiels";
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@Records", dt);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -3292,7 +3331,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -3327,7 +3366,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Records", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -3338,12 +3377,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static DataSet GetAllocateShippingData( string Enviornment)
+        public static DataSet GetAllocateShippingData(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da ;
+            SqlDataAdapter da;
             try
             {
                 SqlCommand com;
@@ -3364,15 +3403,15 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_getAllocate_Shipping"
                     };
-                    com.CommandTimeout= 1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
             {
-                CreateLog("Allocate Shipping DB Insert "+ex.Message);
+                CreateLog("Allocate Shipping DB Insert " + ex.Message);
                 throw ex;
             }
             //finally { con.Close(); }
@@ -3408,6 +3447,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3483,6 +3523,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -3517,9 +3558,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@triggerid", Triggerid);
                     com.Parameters.AddWithValue("@status", status);
                     com.Parameters.AddWithValue("@Reason", reason);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3529,7 +3571,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             //finally { con.Close(); }
         }
-        public static DataSet GetUpdateShippingStatus( string Enviornment)
+        public static DataSet GetUpdateShippingStatus(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -3559,6 +3601,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3569,7 +3612,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetUpdateShippingRetrigger( string Enviornment)
+        public static DataSet GetUpdateShippingRetrigger(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -3599,6 +3642,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3689,6 +3733,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3725,6 +3770,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3765,6 +3811,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3797,9 +3844,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandText = "sp_GetUpateShippingDataForRetrigger";
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@shippingpackagecode", Shippingpck);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3834,6 +3882,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@waybillId", waybillId);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3874,6 +3923,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -3910,6 +3960,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -3920,7 +3971,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool ReversePickUpAddress(DataTable dt,string Enviornment)
+        public static bool ReversePickUpAddress(DataTable dt, string Enviornment)
         {
             bool res;
             try
@@ -3945,6 +3996,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -3980,6 +4032,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -4015,6 +4068,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -4051,10 +4105,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_GetReversePickUpDetails"
                     };
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -4066,7 +4121,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid,string FacilityCode, string Enviornment)
+        public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid, string FacilityCode, string Enviornment)
         {
             string res;
             try
@@ -4115,6 +4170,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4151,6 +4207,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4186,6 +4243,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4226,6 +4284,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4263,6 +4322,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -4302,6 +4362,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4342,6 +4403,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4376,10 +4438,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.Add("@status", SqlDbType.VarChar, 100);
                     com.Parameters["@status"].Direction = ParameterDirection.Output;
                     com.Parameters.AddWithValue("@FacilityDetails", dt);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4414,6 +4477,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -4454,6 +4518,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4497,6 +4562,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
                 //res = Convert.ToString(com.Parameters["@Triggerid"].Value);
             }
@@ -4531,12 +4597,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@TrackingNo", TrackingNo);
                     con.Open();
                     SqlDataReader dr;
-                    dr=com.ExecuteReader();
-                    while(dr.Read())
+                    dr = com.ExecuteReader();
+                    while (dr.Read())
                     {
                         InstanceName = dr["name"].ToString();
 
                     }
+                    con.Close();
+
                 }
             }
             catch (Exception ex)
@@ -4548,7 +4616,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return InstanceName;
 
         }
-        public static bool STOWaybillCustField(DataTable ds,string Enviornment)
+        public static bool STOWaybillCustField(DataTable ds, string Enviornment)
         {
             bool res = false;
             try
@@ -4570,9 +4638,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandText = "sp_InsertSTOCustFiled";
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@CustDetails", ds);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -4611,6 +4680,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4646,10 +4716,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_GetTruckDetails"
                     };
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -4689,6 +4760,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4728,6 +4800,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -4769,6 +4842,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -4799,7 +4873,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     com = new SqlCommand();
                     com.Connection = con;
-                    com.CommandText = "sp_UpdateTrackingMaster"; 
+                    com.CommandText = "sp_UpdateTrackingMaster";
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.Add("@status", SqlDbType.VarChar, 100);
                     com.Parameters["@status"].Direction = ParameterDirection.Output;
@@ -4808,6 +4882,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4847,6 +4922,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -4886,6 +4962,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4925,6 +5002,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -4964,6 +5042,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -4973,7 +5052,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
-        public static DataSet GetRoleMenuAccess(int UserId,string Enviornment)
+        public static DataSet GetRoleMenuAccess(int UserId, string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -5002,6 +5081,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -5061,7 +5141,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         InstanceName = dr["Environment"].ToString();
 
                     }
-
+                    cons.Close();
                 }
             }
             catch (Exception ex)
@@ -5071,7 +5151,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return InstanceName;
         }
-        public static void InesrtTransaction(string Userid,string Transaction,string Enviornment)
+        public static void InesrtTransaction(string Userid, string Transaction, string Enviornment)
         {
             //bool res;
             string InstanceName = string.Empty;
@@ -5100,6 +5180,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     //SqlDataReader dr;
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -5139,6 +5220,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -5154,7 +5236,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             //con = GetConnection();
             //com = new SqlCommand();
-            int getid=0;
+            int getid = 0;
 
             //xMLCreator = new XMLCreator();
             //DataSet ds = new DataSet();
@@ -5164,8 +5246,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //DataTable dtConfig = new DataTable();
             try
             {
-             
-                if (userProfile.Environment== "Prod")
+
+                if (userProfile.Environment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
                 }
@@ -5189,7 +5271,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@MobileNo", userProfile.MobileNumber);
                     com.Parameters.AddWithValue("@Environment", userProfile.Environment);
                     con.Open();
-                    getid =(int)com.ExecuteNonQuery();
+                    getid = (int)com.ExecuteNonQuery();
                     con.Close();
                 }
             }
@@ -5237,6 +5319,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -5276,6 +5359,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -5315,6 +5399,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@Result"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -5325,7 +5410,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return status;
         }
 
-        public static string GetSpecialCharacter (string Enviornment)
+        public static string GetSpecialCharacter(string Enviornment)
         {
             string InstanceName = string.Empty;
             try
@@ -5354,6 +5439,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         InstanceName = dr["Name"].ToString();
 
                     }
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -5394,6 +5480,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     RuturnCharacters = Convert.ToString(com.Parameters["@finalcharacter"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -5409,9 +5496,9 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             //con = GetConnection();
             SqlCommand comds;
-            SqlConnection conss ;
+            SqlConnection conss;
             DataSet ds = new DataSet();
-            SqlDataAdapter Gda ;
+            SqlDataAdapter Gda;
             try
             {
 
@@ -5445,7 +5532,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return ds;
         }
 
-        public static DataSet GetTrackingDetailsByName(string Enviornment,string Name)
+        public static DataSet GetTrackingDetailsByName(string Enviornment, string Name)
         {
             //con = GetConnection();
             SqlCommand comds;
