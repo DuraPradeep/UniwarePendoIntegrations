@@ -99,7 +99,7 @@ namespace Uniware_PandoIntegration.API
                     else
                     {
                         LLcheckcount = 0;
-                        Emailtrigger.SendEmailToAdmin("Sale Order");
+                        Emailtrigger.SendEmailToAdmin("Sale Order", results.Result.Errdesc+", "+ jsoncodes);
                         //parentList = null;
                         serviceResponse.ObjectParam =parentList;
                         serviceResponse.Errcode = results.Result.Errcode;
@@ -273,7 +273,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             ItemTypeDTO itemsSku = new ItemTypeDTO();
             List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
-            Log.Information(" Return order Api itemType_Get -" + jskucode + ": " + token);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return order Api itemType_Get -" + jskucode + ": " + token);
 
             var resul = _Token.GetSkuDetails(jskucode, token, Servertype, Instance);
             try
@@ -295,7 +295,7 @@ namespace Uniware_PandoIntegration.API
                     else
                     {
                         itemsSku = null;
-                        Emailtrigger.SendEmailToAdmin("Sale Order");
+                        Emailtrigger.SendEmailToAdmin("Sale Order", resul.Result.Errdesc);
                     }
                 }
                 else
@@ -329,7 +329,7 @@ namespace Uniware_PandoIntegration.API
             ServiceResponse<string> ActionResult = new ServiceResponse<string>();
             var jsonre = JsonConvert.SerializeObject(new { data = sendcode });
             //resfinal = _Token.PostDataToDeliverypackList(sendcode).Result;
-            Log.Information($"Post Data to Pando: {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Post Data to Pando: {jsonre}");
             ActionResult = _Token.PostDataToDeliverypackList(jsonre, ServerType).Result;
 
             if (ActionResult.Errcode < 200 || ActionResult.Errcode > 299)
@@ -570,7 +570,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
-            Log.Information($"Waybill Post Data : {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
@@ -584,7 +584,7 @@ namespace Uniware_PandoIntegration.API
                     WaybillGenerationPostData(AllData, Lcheckcount, triggerid, ServerType);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Waybill Generation");
+                    Emailtrigger.SendEmailToAdmin("Waybill Generation", ResStatus.Result.ObjectParam);
                     serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                     serviceResponse.IsSuccess = false;
                 }
@@ -653,7 +653,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("Return Order");
+                    Emailtrigger.SendEmailToAdmin("Return Order", list.Result.ObjectParam);
                     rootReturnorderAPI = null;
                 }
             }
@@ -742,7 +742,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
             //var ResStatus= _Token.PostDataReturnOrderAPI(jsonre);
-            Log.Information($"Return Order Data Post: {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Order Data Post: {jsonre}");
             var ResStatus = _Token.PostDataToDeliverypackList(jsonre, ServerType);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -768,7 +768,7 @@ namespace Uniware_PandoIntegration.API
             var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode,Instance);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
-            Log.Information("STO WayBill response: " + list.Result.ObjectParam);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill response: " + list.Result.ObjectParam);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
 
             if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
@@ -803,9 +803,9 @@ namespace Uniware_PandoIntegration.API
         public STOlistsDB GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode, string instance)
         {
             int Lcheckcount = checkcount;
-            Log.Information("STO WayBill Elements: request " + jdetail);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill Elements: request " + jdetail);
             var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode,instance);
-            Log.Information("STO WayBill Elements response " + list.Result.ObjectParam);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill Elements response " + list.Result.ObjectParam);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             STOlistsDB STOlists = new STOlistsDB();
@@ -829,7 +829,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("STO Waybill");
+                    Emailtrigger.SendEmailToAdmin("STO Waybill", list.Result.ObjectParam);
                     STOlists = null;
                 }
             }
@@ -917,7 +917,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             //var ResStatus = _Token.WaybillSTOPostDataDeliverypackList(jsonre);
-            Log.Information($"STO Waybill Post Data : {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO Waybill Post Data : {jsonre}");
             var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -979,7 +979,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode,instance);
-            Log.Information("STOAPI Response: " + jdetail);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STOAPI Response: " + jdetail);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             STOlists STOlists = new STOlists();
             STOlists.gatePassItemDTOs = new List<GatePassItemDTO>();
@@ -1003,7 +1003,7 @@ namespace Uniware_PandoIntegration.API
                 else
                 {
                     //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-                    Emailtrigger.SendEmailToAdmin("STO API");
+                    Emailtrigger.SendEmailToAdmin("STO API", list.Result.ObjectParam);
                     STOlists = null;
                 }
             }
@@ -1081,7 +1081,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
             //var ResStatus = _Token.STOPApiostDataDeliverypackList(jsonre);
-            Log.Information($"STO API Post Data : {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO API Post Data : {jsonre}");
             var ResStatus = _Token.PostDataToDeliverypackList(jsonre, ServerType);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -1094,7 +1094,7 @@ namespace Uniware_PandoIntegration.API
                     STOAPiPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("STO API");
+                    Emailtrigger.SendEmailToAdmin("STO API", ResStatus.Result.ObjectParam);
                     return ResStatus; ;
 
                 }
@@ -1107,19 +1107,22 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess!=true)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid,Servertype);
+                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid,Servertype);
                     UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Update Shipping Package");
+                    List<string> ErrorList = new List<string>();
+                    //ErrorList.Add(ResStatus.Result.ObjectParam);
+                    //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
                     //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.ObjectParam =  ResStatus.Result.Errdesc;
+                    //serviceResponse.ObjectParam = ErrorList.ToString();
                     serviceResponse.IsSuccess = false; 
                     return serviceResponse;
                 }
@@ -1134,25 +1137,26 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public ServiceResponse<string> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType, string Instance)
+        public ServiceResponse<string> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string shippingPackageCode, string Token, string FacilityCode, string ServerType, string Instance)
         {
             int Lcheckcount = checkcount;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType, Instance);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
-                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, ServerType, Instance);
+                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
+                    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Allocate Shipping");
+                    //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
                     //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
-                    serviceResponse.IsSuccess = false; 
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    serviceResponse.IsSuccess = false;
+                    return serviceResponse;
 
                 }
             }
@@ -1160,8 +1164,9 @@ namespace Uniware_PandoIntegration.API
             {
                 serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                 serviceResponse.IsSuccess = true;
+                return serviceResponse;
+
             }
-            return serviceResponse;
         }
 
         public Task<ServiceResponse<string>> WaybillCancelPostData(List<CancelData> AllData, int checkcount)
@@ -1169,7 +1174,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             var ResStatus = _Token.DeleteDataTomaterialinvoice(jsonre);
-            Log.Information($" Way Bill Cancel Data:-  {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Way Bill Cancel Data:-  {jsonre}");
 
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -1207,7 +1212,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(AllData);
-            Log.Information($"Reverse PickUp Data:-  {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Reverse PickUp Data:-  {jsonre}");
 
             var ResStatus = _Token.ReversePickUp(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -1220,7 +1225,7 @@ namespace Uniware_PandoIntegration.API
                     ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Reverse PickUp");
+                    Emailtrigger.SendEmailToAdmin("Reverse PickUp", ResStatus.Result.ObjectParam);
                     return ResStatus = null;
 
                 }
@@ -1237,7 +1242,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(AllData);
-            Log.Information($"Tracking Status data:-  {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
 
             var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)

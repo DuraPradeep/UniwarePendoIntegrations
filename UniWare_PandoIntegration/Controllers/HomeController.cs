@@ -23,6 +23,7 @@ namespace UniWare_PandoIntegration.Controllers
             Apibase = configuration.GetSection("baseaddress:Url").Value;
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(string UserName, string Password)
         {
             try
@@ -429,16 +430,16 @@ namespace UniWare_PandoIntegration.Controllers
                 strings.Add(name);
             }
             //return Order
-            ServiceResponse<List<CodesErrorDetails>> resturnorer = new ServiceResponse<List<CodesErrorDetails>>();
-            //ApiControl = new ApiOperation();
-            resturnorer = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/ReturnOrderDetails");
-            if (resturnorer.ObjectParam.Count > 0)
-            {
-                name = "return Order";
-                count += 1;
-                ViewData["FailedStatus"]  = 1;
-                strings.Add(name);
-            }
+            //ServiceResponse<List<CodesErrorDetails>> resturnorer = new ServiceResponse<List<CodesErrorDetails>>();
+            ////ApiControl = new ApiOperation();
+            //resturnorer = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/UniwarePando/ReturnOrderDetails");
+            //if (resturnorer.ObjectParam.Count > 0)
+            //{
+            //    name = "return Order";
+            //    count += 1;
+            //    ViewData["FailedStatus"]  = 1;
+            //    strings.Add(name);
+            //}
             //STO Waybill
             ServiceResponse<List<CodesErrorDetails>> STOwaybill = new ServiceResponse<List<CodesErrorDetails>>();
             //ApiControl = new ApiOperation();

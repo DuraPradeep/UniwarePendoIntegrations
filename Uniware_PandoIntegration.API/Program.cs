@@ -18,6 +18,7 @@ using System.Net;
 //using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
 using Uniware_PandoIntegration.API.Controllers;
 using Uniware_PandoIntegration.API.ActionFilter;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,11 @@ var tokenValidationParameters = new TokenValidationParameters
 
 //    options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
 //});
+
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+{
+    builder.AllowAnyOrigin();
+}));
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

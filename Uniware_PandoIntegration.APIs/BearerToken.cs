@@ -65,23 +65,7 @@ namespace Uniware_PandoIntegration.APIs
                 {
                     BaseAddress = new Uri(URL)
                 };
-                //--------------------------
-
-                //HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(URL);
-                //request.Method = "GET";
-                //String test = String.Empty;
-                //using (HttpWebResponse respon = (HttpWebResponse)request.GetResponse())
-                //{
-                //    Stream dataStream = respon.GetResponseStream();
-                //    StreamReader reader = new StreamReader(dataStream);
-                //    test = reader.ReadToEnd();
-                //    reader.Close();
-                //    dataStream.Close();
-                //}
-
-
-
-                //------
+                
                 _client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = _client.GetAsync(URL).Result;
@@ -89,7 +73,7 @@ namespace Uniware_PandoIntegration.APIs
                 var responses = response.Content.ReadAsStreamAsync().Result;
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response:{responses}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{responses}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -120,7 +104,7 @@ namespace Uniware_PandoIntegration.APIs
             try
             {
 
-                CreateLog(" Api saleOrder Search Started" + Details + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Api saleOrder Search Started" + Details);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
                 if (servertype.ToLower() == "qa")
@@ -153,7 +137,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 if (response.IsSuccessStatusCode)
                 {
@@ -181,7 +165,7 @@ namespace Uniware_PandoIntegration.APIs
 
             try
             {
-                CreateLog(" Api saleorder get:- " + Code + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Api saleorder get:- " + Code + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
                 if (Servertype.ToLower() == "qa")
@@ -213,7 +197,7 @@ namespace Uniware_PandoIntegration.APIs
                 //response.EnsureSuccessStatusCode();
                 serviceResponse.ObjectParam = response.Content.ReadAsStringAsync().Result;
                 //HttpResponseMessage data = response.Content.ReadAsStringAsync().Result;
-                CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 dynamic data = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
                 
@@ -249,7 +233,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error: {ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -291,7 +275,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 //response.EnsureSuccessStatusCode();
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 dynamic data = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
 
                 if (response.IsSuccessStatusCode)
@@ -358,7 +342,7 @@ namespace Uniware_PandoIntegration.APIs
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -371,7 +355,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog("$ Error: " + ex.Message);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: " + ex.Message);
                 throw ex;
             }
             return serviceResponse;
@@ -412,7 +396,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
 
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -428,7 +412,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error:{ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error:{ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -440,7 +424,7 @@ namespace Uniware_PandoIntegration.APIs
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-                CreateLog("Return Order API Search Request" + Details + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Order API Search Request" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
 
@@ -485,7 +469,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-   {DateTime.Now.ToLongTimeString()} , Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -510,7 +494,7 @@ namespace Uniware_PandoIntegration.APIs
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-                CreateLog("Return Order API Get Request" + Details + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Order API Get Request" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
 
@@ -558,7 +542,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -716,7 +700,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error: {ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -771,7 +755,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 if (response.IsSuccessStatusCode)
                 {
@@ -786,7 +770,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error: {ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -914,7 +898,7 @@ namespace Uniware_PandoIntegration.APIs
 
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             var jsonre = JsonConvert.SerializeObject(data);
-            CreateLog($" Update Shipping package Post Data:-  {jsonre}");
+            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Update Shipping package Post Data:-  {jsonre}");
             try
             {
                 var client = new HttpClient();
@@ -960,15 +944,33 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    //serviceResponse.Errcode = ((int)response.StatusCode);
+                    //return serviceResponse;
+                    var datastatus = (bool)datas.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = datas.errors[0].description;
 
                 }
             }
@@ -988,7 +990,7 @@ namespace Uniware_PandoIntegration.APIs
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             var jsonre = JsonConvert.SerializeObject(data);
             //string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Allocate Shipping Post Data:-  {jsonre}");
+            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping Post Data:-  {jsonre}");
             try
             {
                 var client = new HttpClient();
@@ -1035,22 +1037,49 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    serviceResponse.IsSuccess=true;
+                //    return serviceResponse;
+                //}
+                //else
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    serviceResponse.IsSuccess = false;
+                //}
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    serviceResponse.IsSuccess=true;
-                    return serviceResponse;
+                    var datastatus = (bool)datas.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
                     serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = datas.errors[0].description;
+
                 }
             }
             catch (Exception ex)
             {
-                CreateLog($" Error:{ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error:{ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -1062,7 +1091,7 @@ namespace Uniware_PandoIntegration.APIs
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Request- : {data}");
+            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},DeleteMaterial Invoice Request- : {data}");
 
             try
             {
@@ -1076,7 +1105,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
 
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-   {DateTime.Now.ToLongTimeString()} , Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -1091,7 +1120,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error:{ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error:{ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -1105,14 +1134,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                //if (ServerType.ToLower() == "qa")
-                //{
-                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
-                //}
-                //else if (ServerType.ToLower() == "prod")
-                //{
-                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
-                //}
+               
 
                 if (ServerType.ToLower() == "qa")
                 {
@@ -1149,7 +1171,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"reverse pickup Response:-  {serviceResponse.ObjectParam}");
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:-  {serviceResponse.ObjectParam}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -1217,7 +1239,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"Tracking Details Response:-  {serviceResponse.ObjectParam}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:-  {serviceResponse.ObjectParam}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);

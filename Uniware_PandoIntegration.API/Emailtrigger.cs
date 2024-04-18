@@ -8,7 +8,7 @@ namespace Uniware_PandoIntegration.API
 {
     public class Emailtrigger
     {
-        public static void SendEmailToAdmin(string apiname/*, string content*/)
+        public static void SendEmailToAdmin(string apiname,string Reason/*, string content*/)
         {
             try
             {
@@ -20,14 +20,14 @@ namespace Uniware_PandoIntegration.API
                 content= content.Replace("{Urladdress}", "https://uniwarepandointegration.azurewebsites.net/");
                 content = content.Replace("{CompanyName}", "Duroflex Private Limited.");
                 content = content.Replace("{Apiname}", apiname);               
+                content = content.Replace("{Reason}", Reason);               
                 content = content.Replace("{SubCompanyName}", "DuroConnect");
                 content = content.Replace("{TeamName}", "DuroConnect Team");
                 content = content.Replace("{Address}", "Duroflex Private Limited. #30/6, NR Trident Tec Park, Hosur Main Road, HSR Layout, Sector 6,Bengaluru, Karnataka, India 560068");
                 content = content.Replace("{Country}", "India");
 
-                string emailId = "cw.ajay@duroflexworld.com";
-                 //emailId = "Asad.khan@duroflexworld.com,vivek.acharya@duroflexworld.com,mukul.bansal@duroflexworld.com";
-                //var emailIds = "cw.keerti@duroflexworld.com";
+                string emailId = "cw.ajay@duroflexworld.com,mukul.bansal@duroflexworld.com";
+                 //emailId = "Asad.khan@duroflexworld.com,vivek.acharya@duroflexworld.com,mukul.bansal@duroflexworld.com";               
                 using (MailMessage mail = new MailMessage())
                 {
                     mail.From = new MailAddress("itsupport@duroflexworld.com");
