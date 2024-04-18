@@ -99,7 +99,7 @@ namespace Uniware_PandoIntegration.API
                     else
                     {
                         LLcheckcount = 0;
-                        Emailtrigger.SendEmailToAdmin("Sale Order", results.Result.Errdesc);
+                        Emailtrigger.SendEmailToAdmin("Sale Order", results.Result.Errdesc+", "+ jsoncodes);
                         //parentList = null;
                         serviceResponse.ObjectParam =parentList;
                         serviceResponse.Errcode = results.Result.Errcode;

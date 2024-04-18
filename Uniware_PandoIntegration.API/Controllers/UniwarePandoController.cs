@@ -61,8 +61,6 @@ namespace Uniware_PandoIntegration.API.Controllers
         [HttpGet]
         public IActionResult GetToken()
         {
-            //BearerToken _Token = new BearerToken();
-            //PandoUniwariToken resu = _Token.GetTokens().Result;
             string Servertype = iconfiguration["ServerType:type"];
             string Instance = "SH";
             var resu = _Token.GetTokens(Servertype, Instance).Result;
@@ -70,16 +68,9 @@ namespace Uniware_PandoIntegration.API.Controllers
             if (resu.ObjectParam != null)
             {
                 string token = deres.access_token.ToString();
-                //HttpContext.Session.SetString("Token", resu.access_token.ToString());
                 HttpContext.Session.SetString("Token", token);
-                //return new PandoUniwariToken();
                 return Accepted(resu.ObjectParam);
-            }
-            //HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            //string token = HttpContext.Session.GetString("Token");
-            //string token = deres.access_token.ToString();
-            ////HttpContext.Session.SetString("Token", resu.access_token.ToString());
-            //HttpContext.Session.SetString("token", token);    
+            }  
             else
             {
                 return BadRequest("Something Went Wrong");
@@ -496,7 +487,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             //GenerateToken generateToken=new GenerateToken(null) ;
             var token = _jWTManager.GenerateJWTTokens(tokenEntity, out tokenEntity);
             var result = "";
-            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Token {JsonConvert.SerializeObject(token)}");
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Token Request:- {JsonConvert.SerializeObject(token)}");
             try
             {
                 if (token == null)
@@ -507,7 +498,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 else
                 {
                     result = JsonConvert.SerializeObject(new { status = "SUCCESS", token = token });
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Success Token {JsonConvert.SerializeObject(token)}");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Success Token:-  {JsonConvert.SerializeObject(token)}");
                 }
             }
             catch (Exception ex) { _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Token Error {JsonConvert.SerializeObject(ex)}"); }
@@ -521,11 +512,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public IActionResult waybill(OmsToPandoRoot Records)
         {
             _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
-            //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-            //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
-
-            //string Servertype = iconfiguration["ServerType:type"];
-
+            
             ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
             ErrorResponse errorResponse = new ErrorResponse();
 
@@ -594,8 +581,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code, Servertype);
                 ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code, Servertype);
 
-                //Data Pushed to Pando
                 var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance, Servertype);
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill Data Get From Database:- {JsonConvert.SerializeObject(sendwaybilldata)}");
                 if (sendwaybilldata.Count > 0)
                 {
                     var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
