@@ -42,7 +42,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ObjBusinessLayer.UpdateSaleOrderFirst(result.Result.ObjectParam,servertype);
+                    ObjBusinessLayer.UpdateSaleOrderFirst(result.Result.ObjectParam, servertype);
                 }
             }
             else
@@ -99,9 +99,9 @@ namespace Uniware_PandoIntegration.API
                     else
                     {
                         LLcheckcount = 0;
-                        Emailtrigger.SendEmailToAdmin("Sale Order", results.Result.Errdesc+", "+ jsoncodes);
+                        Emailtrigger.SendEmailToAdmin("Sale Order", results.Result.Errdesc + ", " + jsoncodes);
                         //parentList = null;
-                        serviceResponse.ObjectParam =parentList;
+                        serviceResponse.ObjectParam = parentList;
                         serviceResponse.Errcode = results.Result.Errcode;
                         serviceResponse.IsSuccess = results.Result.IsSuccess;
                         serviceResponse.Errdesc = results.Result.Errdesc;
@@ -113,125 +113,125 @@ namespace Uniware_PandoIntegration.API
                     var abc = stuff.SelectTokens("saleOrderDTO");
                     //if (results.Result.IsSuccess)
                     //{
-                        if (results.Result.ObjectParam.Contains("saleOrderDTO"))
-                        {
-                            var hello = JToken.FromObject(stuff);
-                            var jso = JsonConvert.SerializeObject(hello);
-                            salesorderRoot items = JsonConvert.DeserializeObject<salesorderRoot>(jso);
-                            details = items;
-                            List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
-                            shippingPackages = details.saleOrderDTO.shippingPackages;
+                    if (results.Result.ObjectParam.Contains("saleOrderDTO"))
+                    {
+                        var hello = JToken.FromObject(stuff);
+                        var jso = JsonConvert.SerializeObject(hello);
+                        salesorderRoot items = JsonConvert.DeserializeObject<salesorderRoot>(jso);
+                        details = items;
+                        List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
+                        shippingPackages = details.saleOrderDTO.shippingPackages;
 
-                            foreach (JProperty item in abc.Children())
+                        foreach (JProperty item in abc.Children())
+                        {
+                            if (item.Path == "saleOrderDTO.shippingPackages")
                             {
-                                if (item.Path == "saleOrderDTO.shippingPackages")
+                                foreach (var item2 in item.Children())
                                 {
-                                    foreach (var item2 in item.Children())
+                                    var mi = 0;
+                                    foreach (var item3 in item2.Children()["items"])
                                     {
-                                        var mi = 0;
-                                        foreach (var item3 in item2.Children()["items"])
+                                        ShippingPackage shippingPackage = new ShippingPackage();
+                                        for (mi = 0; mi < shippingPackages.Count(); mi++)
                                         {
-                                            ShippingPackage shippingPackage = new ShippingPackage();
-                                            for (mi = 0; mi < shippingPackages.Count(); mi++)
-                                            {
-                                                shippingPackage = shippingPackages[mi];
-                                                var adc = item3.Values();
-                                                var helloq = JToken.FromObject(adc);
-                                                var jsonq = JsonConvert.SerializeObject(helloq);
+                                            shippingPackage = shippingPackages[mi];
+                                            var adc = item3.Values();
+                                            var helloq = JToken.FromObject(adc);
+                                            var jsonq = JsonConvert.SerializeObject(helloq);
 
-                                                List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
-                                                shippingPackage.items = new Items();
-                                                shippingPackage.items = itemsqq.FirstOrDefault();
+                                            List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
+                                            shippingPackage.items = new Items();
+                                            shippingPackage.items = itemsqq.FirstOrDefault();
 
-                                            }
-                                            mi++;
                                         }
+                                        mi++;
                                     }
-
                                 }
+
                             }
-                            details.saleOrderDTO.shippingPackages = shippingPackages;
                         }
-                        //List SalesDTO Details
-                        SaleOrderDTO em = new SaleOrderDTO();
-                        em.code = code;
-                        em.source = Instance;
-                        var email = details.saleOrderDTO.notificationEmail;
-                        //em.code = details.saleOrderDTO.code;
-                        em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
-                        //elements.Add(em);
-                        parentList.elements.Add(em);
+                        details.saleOrderDTO.shippingPackages = shippingPackages;
+                    }
+                    //List SalesDTO Details
+                    SaleOrderDTO em = new SaleOrderDTO();
+                    em.code = code;
+                    em.source = Instance;
+                    var email = details.saleOrderDTO.notificationEmail;
+                    //em.code = details.saleOrderDTO.code;
+                    em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
+                    //elements.Add(em);
+                    parentList.elements.Add(em);
 
-                        //List addressdetails
+                    //List addressdetails
 
-                        for (int ads = 0; ads < details.saleOrderDTO.addresses.Count; ads++)
-                        {
-                            Address adrs = new Address();
-                            adrs.Code = code;
-                            //adrs.Code = details.saleOrderDTO.code;
-                            adrs.id = details.saleOrderDTO.addresses[ads].id;
-                            adrs.name = details.saleOrderDTO.addresses[ads].name;
-                            adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
-                            adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
-                            adrs.city = details.saleOrderDTO.addresses[ads].city;
-                            adrs.state = details.saleOrderDTO.addresses[ads].state;
-                            adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
-                            adrs.phone = details.saleOrderDTO.addresses[ads].phone;
-                            adrs.email = email;
-                            //adrs.email = details.saleOrderDTO.addresses[ads].email;
-                            adrs.Source = Instance;
+                    for (int ads = 0; ads < details.saleOrderDTO.addresses.Count; ads++)
+                    {
+                        Address adrs = new Address();
+                        adrs.Code = code;
+                        //adrs.Code = details.saleOrderDTO.code;
+                        adrs.id = details.saleOrderDTO.addresses[ads].id;
+                        adrs.name = details.saleOrderDTO.addresses[ads].name;
+                        adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
+                        adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
+                        adrs.city = details.saleOrderDTO.addresses[ads].city;
+                        adrs.state = details.saleOrderDTO.addresses[ads].state;
+                        adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
+                        adrs.phone = details.saleOrderDTO.addresses[ads].phone;
+                        adrs.email = email;
+                        //adrs.email = details.saleOrderDTO.addresses[ads].email;
+                        adrs.Source = Instance;
 
-                            //address.Add(adrs);
-                            parentList.address.Add(adrs);
+                        //address.Add(adrs);
+                        parentList.address.Add(adrs);
 
-                        }
-                        //Console.WriteLine(i);
-                        // }
+                    }
+                    //Console.WriteLine(i);
+                    // }
 
 
-                        //List shippingDetails
-                        for (int sd = 0; sd < details.saleOrderDTO.shippingPackages.Count; sd++)
-                        {
-                            ShippingPackage shipdetails = new ShippingPackage();
-                            shipdetails.code = code;
-                            //shipdetails.code = details.saleOrderDTO.code;
-                            shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
-                            shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
-                            shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
-                            shipdetails.Source = Instance;
+                    //List shippingDetails
+                    for (int sd = 0; sd < details.saleOrderDTO.shippingPackages.Count; sd++)
+                    {
+                        ShippingPackage shipdetails = new ShippingPackage();
+                        shipdetails.code = code;
+                        //shipdetails.code = details.saleOrderDTO.code;
+                        shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
+                        shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
+                        shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
+                        shipdetails.Source = Instance;
 
-                            //shipingdet.Add(shipdetails);
-                            parentList.Shipment.Add(shipdetails);
-                            Items qty = new Items();
-                            qty.Code = details.saleOrderDTO.code;
-                            qty.quantity = details.saleOrderDTO.shippingPackages[sd].items.quantity;
-                            qty.Source = Instance;
+                        //shipingdet.Add(shipdetails);
+                        parentList.Shipment.Add(shipdetails);
+                        Items qty = new Items();
+                        qty.Code = details.saleOrderDTO.code;
+                        qty.quantity = details.saleOrderDTO.shippingPackages[sd].items.quantity;
+                        qty.Source = Instance;
 
-                            //qtyitems.Add(qty);
-                            parentList.qtyitems.Add(qty);
-                        }
+                        //qtyitems.Add(qty);
+                        parentList.qtyitems.Add(qty);
+                    }
 
-                        //List salesorderitem
-                        for (int l = 0; l < details.saleOrderDTO.saleOrderItems.Count; l++)
-                        {
-                            SaleOrderItem sitem = new SaleOrderItem();
-                            sitem.code = code;
-                            //sitem.code = details.saleOrderDTO.code;
-                            sitem.shippingAddressId = details.saleOrderDTO.saleOrderItems[l].shippingAddressId;
-                            sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
-                            sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
-                            sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;
-                            sitem.prepaidAmount = details.saleOrderDTO.saleOrderItems[l].prepaidAmount;
-                            sitem.taxPercentage = details.saleOrderDTO.saleOrderItems[l].taxPercentage;
-                            sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
-                            sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
-                            sitem.Source = Instance;
-                            sitem.shippingPackageStatus = details.saleOrderDTO.saleOrderItems[l].shippingPackageStatus;
+                    //List salesorderitem
+                    for (int l = 0; l < details.saleOrderDTO.saleOrderItems.Count; l++)
+                    {
+                        SaleOrderItem sitem = new SaleOrderItem();
+                        sitem.code = code;
+                        //sitem.code = details.saleOrderDTO.code;
+                        sitem.shippingAddressId = details.saleOrderDTO.saleOrderItems[l].shippingAddressId;
+                        sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
+                        sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
+                        sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;
+                        sitem.prepaidAmount = details.saleOrderDTO.saleOrderItems[l].prepaidAmount;
+                        sitem.taxPercentage = details.saleOrderDTO.saleOrderItems[l].taxPercentage;
+                        sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
+                        sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
+                        sitem.Source = Instance;
+                        sitem.shippingPackageStatus = details.saleOrderDTO.saleOrderItems[l].shippingPackageStatus;
 
-                            //saleOrderItems.Add(sitem);
-                            parentList.saleOrderItems.Add(sitem);
+                        //saleOrderItems.Add(sitem);
+                        parentList.saleOrderItems.Add(sitem);
 
-                        }
+                    }
                     //serviceResponse.ObjectParam = parentList;
                     //serviceResponse.Errcode = results.Result.Errcode;
                     //serviceResponse.IsSuccess = results.Result.IsSuccess;
@@ -263,10 +263,10 @@ namespace Uniware_PandoIntegration.API
             {
                 serviceResponse.Errcode = 400;
                 serviceResponse.Errdesc = ex.Message;
-                serviceResponse.IsSuccess = false;                
+                serviceResponse.IsSuccess = false;
             }
             return serviceResponse;
-           
+
         }
         public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount, string Servertype, string Instance)
         {
@@ -321,7 +321,7 @@ namespace Uniware_PandoIntegration.API
                 throw ex;
             }
             //List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
-           
+
         }
         public ServiceResponse<string> Action(List<Data> sendcode, string triggerid, int checkcount, string ServerType)
         {
@@ -338,7 +338,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdatePostDatadetails(true, ActionResult.ObjectParam, triggerid,ServerType);
+                    ObjBusinessLayer.UpdatePostDatadetails(true, ActionResult.ObjectParam, triggerid, ServerType);
 
                     Action(sendcode, triggerid, Lcheckcount, ServerType);
                 }
@@ -346,7 +346,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     ActionResult.ObjectParam = ActionResult.ObjectParam;
                     ActionResult.IsSuccess = false;
-                    
+
                 }
 
             }
@@ -580,7 +580,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
+                    ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam, triggerid, ServerType);
                     WaybillGenerationPostData(AllData, Lcheckcount, triggerid, ServerType);
                 }
                 {
@@ -592,7 +592,7 @@ namespace Uniware_PandoIntegration.API
             else
             {
                 serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
-                serviceResponse.IsSuccess = true; 
+                serviceResponse.IsSuccess = true;
             }
             return serviceResponse;
         }
@@ -600,7 +600,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
-            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim(),Instance);
+            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim(), Instance);
             if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -611,7 +611,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ObjBusinessLayer.BLReturnOrderError(results.Result.ObjectParam,ServerType);
+                    ObjBusinessLayer.BLReturnOrderError(results.Result.ObjectParam, ServerType);
 
                 }
             }
@@ -765,7 +765,7 @@ namespace Uniware_PandoIntegration.API
         public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode,Instance);
+            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode, Instance);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill response: " + list.Result.ObjectParam);
@@ -781,7 +781,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam,ServerType);
+                    ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam, ServerType);
                     rootReturnorderAPI = null;
                 }
             }
@@ -804,7 +804,7 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill Elements: request " + jdetail);
-            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode,instance);
+            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode, instance);
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill Elements response " + list.Result.ObjectParam);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
@@ -824,7 +824,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 1,ServerType);
+                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 1, ServerType);
                     GetGatePassElements(jdetail, token, code, Lcheckcount, ServerType, FacilityCode, instance);
                 }
                 else
@@ -926,7 +926,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
+                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid, ServerType);
                     WaybillSTOPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
@@ -978,7 +978,7 @@ namespace Uniware_PandoIntegration.API
         public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string Facilitycode, string instance)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode,instance);
+            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode, instance);
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STOAPI Response: " + jdetail);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             STOlists STOlists = new STOlists();
@@ -997,7 +997,7 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 1,ServerType);
+                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 1, ServerType);
                     GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount, ServerType, Facilitycode, instance);
                 }
                 else
@@ -1090,7 +1090,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid,ServerType);
+                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid, ServerType);
                     STOAPiPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
@@ -1107,13 +1107,13 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess!=true)
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid,Servertype);
+                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid, Servertype);
                     UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
@@ -1121,15 +1121,15 @@ namespace Uniware_PandoIntegration.API
                     //ErrorList.Add(ResStatus.Result.ObjectParam);
                     //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
                     //return ResStatus = null;
-                    serviceResponse.ObjectParam =  ResStatus.Result.Errdesc;
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
                     //serviceResponse.ObjectParam = ErrorList.ToString();
-                    serviceResponse.IsSuccess = false; 
+                    serviceResponse.IsSuccess = false;
                     return serviceResponse;
                 }
             }
             else
             {
-                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode,Servertype);
+                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode, Servertype);
                 //return ResStatus;
                 serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                 serviceResponse.IsSuccess = true;
@@ -1221,7 +1221,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid,Servertype);
+                    ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid, Servertype);
                     ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
@@ -1232,17 +1232,19 @@ namespace Uniware_PandoIntegration.API
             }
             else
             {
-                ObjBusinessLayer.BLUpdateErrorDetailsReversePickup(AllData.reversePickupCode,Servertype);
+                ObjBusinessLayer.BLUpdateErrorDetailsReversePickup(AllData.reversePickupCode, Servertype);
                 return ResStatus;
 
             }
 
         }
-        public Task<ServiceResponse<string>> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype, string Instance)
+        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(AllData);
-            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
+            //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+
 
             var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -1252,16 +1254,26 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+
                 }
+                else
                 {
-                    //Emailtrigger.SendEmailToAdmin("Reverse PickUp");
-                    return ResStatus = null;
+
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    serviceResponse.IsSuccess = false;
+                    //return serviceResponse;
+
                 }
             }
             else
             {
-                return ResStatus;
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+                //return serviceResponse;
+
             }
+            return serviceResponse;
 
         }
 

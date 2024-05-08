@@ -1187,22 +1187,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     TDashboardDetails details = new TDashboardDetails();
                     details.TrackingNumber = pds.Tables[0].Rows[i]["TrackingNumber"].ToString();
                     details.DisplayOrder = pds.Tables[0].Rows[i]["DisplayOrderCode"].ToString();
-                    details.ShipmentID = pds.Tables[0].Rows[i]["ShipmentId"].ToString();
-                    details.LatestStatus = pds.Tables[0].Rows[i]["Status"].ToString();
+                    details.OrderStatus = pds.Tables[0].Rows[i]["OrderStatus"].ToString();
                     details.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
                     details.trackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();
                     details.CustomerName = pds.Tables[0].Rows[i]["CustomerName"].ToString();
                     details.CustomerPhone = pds.Tables[0].Rows[i]["CustomerPhone"].ToString();
-                    details.FacilityCode = pds.Tables[0].Rows[i]["FacilityCode"].ToString();
                     details.CustomerCity = pds.Tables[0].Rows[i]["CustomerCity"].ToString();
-                    details.InvoiceDate = pds.Tables[0].Rows[i]["InvoiceDate"].ToString();
-                    details.MaterialCode = pds.Tables[0].Rows[i]["MaterialCode"].ToString();
-                    details.Quantity = pds.Tables[0].Rows[i]["Quantity"].ToString();
-                    details.UOM = pds.Tables[0].Rows[0]["UOM"].ToString();
-                    details.IndentID = pds.Tables[0].Rows[i]["IndentID"].ToString();
                     details.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
-                    details.state = pds.Tables[0].Rows[i]["state"].ToString();
-                    details.Region = pds.Tables[0].Rows[i]["Region"].ToString();
                     TrackingDetails.Add(details);
                 }
             }

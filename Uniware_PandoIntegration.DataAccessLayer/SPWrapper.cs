@@ -4488,7 +4488,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetTrackingDetails(string Enviornment)
+        public static DataSet GetTrackingDetails(string Enviornment, DataTable dt)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -4513,7 +4513,9 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Connection = con,
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_getTrackingDetails"
+
                     };
+                    com.Parameters.AddWithValue("@Trackdetails", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);

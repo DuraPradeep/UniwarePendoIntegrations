@@ -542,7 +542,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Order Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -944,7 +944,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Update Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
 
                 if (response.IsSuccessStatusCode)
@@ -1039,7 +1039,7 @@ namespace Uniware_PandoIntegration.APIs
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
 
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Allocate Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //if (response.IsSuccessStatusCode)
                 //{
                 //    serviceResponse.Errcode = ((int)response.StatusCode);
@@ -1196,6 +1196,8 @@ namespace Uniware_PandoIntegration.APIs
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Post Data:-  {Details} , FacilityCode:- {Facility}");
+
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
                 //if (ServerType.ToLower() == "qa")
@@ -1239,16 +1241,52 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:-  {serviceResponse.ObjectParam}");
-                if (response.IsSuccessStatusCode)
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Status Response:-  {serviceResponse.ObjectParam}");
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    return serviceResponse;
+                //}
+                //else
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    //GetCode(Details, Token);
+                //}
+                if (((int)response.StatusCode) == 200)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var datastatus = (bool)datas.successful;
+                        if (datastatus)
+                        {
+                            serviceResponse.Errcode = ((int)response.StatusCode);
+                            serviceResponse.IsSuccess = true;
+                            return serviceResponse;
+                        }
+                        else
+                        {
+                            serviceResponse.Errcode = ((int)response.StatusCode);
+                            serviceResponse.IsSuccess = false;
+                            serviceResponse.Errdesc = datas.errors[0].description;
+                            return serviceResponse;
+                        }
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+
+                    }
                 }
-                else
-                {
+                else {
+
                     serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetCode(Details, Token);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = serviceResponse.ObjectParam;
+
                 }
             }
             catch (Exception ex)

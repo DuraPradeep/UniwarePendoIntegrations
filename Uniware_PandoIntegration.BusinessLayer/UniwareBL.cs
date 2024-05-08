@@ -2792,11 +2792,33 @@ namespace Uniware_PandoIntegration.BusinessLayer
             //var id = GenerateNumeric();
            return SPWrapper.GetInstanceName(TrackingNo,Enviornment);
         }
-        public List<TrackingStatusDb> GetTrackingDetails(string Enviornment)
+        public List<TrackingStatusDb> GetTrackingDetails(string Enviornment, List<TrackingStatusDb> elements)
         {
             try
             {
-                return Mapper.GetTrackingDetails(SPWrapper.GetTrackingDetails(Enviornment));
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Id");
+                dtinstcode.Columns.Add("providerCode");
+                dtinstcode.Columns.Add("trackingNumber");
+                dtinstcode.Columns.Add("trackingStatus");
+                dtinstcode.Columns.Add("statusDate");
+                dtinstcode.Columns.Add("shipmentTrackingStatusName");
+                dtinstcode.Columns.Add("facilitycode");
+
+
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Id"] = elements[i].Id;
+                    dr["providerCode"] = elements[i].providerCode;
+                    dr["trackingNumber"] = elements[i].trackingNumber;
+                    dr["trackingStatus"] = elements[i].trackingStatus;
+                    dr["statusDate"] = elements[i].statusDate;
+                    dr["shipmentTrackingStatusName"] = elements[i].shipmentTrackingStatusName;
+                    dr["facilitycode"] = elements[i].facilitycode;
+                    dtinstcode.Rows.Add(dr);
+                }
+                return Mapper.GetTrackingDetails(SPWrapper.GetTrackingDetails(Enviornment, dtinstcode));
             }
             catch (Exception ex)
             {
