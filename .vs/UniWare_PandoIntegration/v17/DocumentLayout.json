@@ -1,14 +1,45 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\github\\Pando\\",
+  "WorkspaceRootPath": "E:\\Duroflex\\UniwarePendoIntegrations\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{96FAAB92-8858-442C-8FAD-499E2F91C094}|UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj|d:\\github\\pando\\uniware_pandointegration\\libman.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{96FAAB92-8858-442C-8FAD-499E2F91C094}|UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj|solutionrelative:uniware_pandointegration\\libman.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|e:\\duroflex\\uniwarependointegrations\\uniware_pandointegration.api\\actionfilter\\customauthorizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|solutionrelative:uniware_pandointegration.api\\actionfilter\\customauthorizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{96FAAB92-8858-442C-8FAD-499E2F91C094}|UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj|d:\\github\\pando\\uniware_pandointegration\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{96FAAB92-8858-442C-8FAD-499E2F91C094}|UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj|solutionrelative:uniware_pandointegration\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{96FAAB92-8858-442C-8FAD-499E2F91C094}|UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj|e:\\duroflex\\uniwarependointegrations\\uniware_pandointegration\\actionfilters\\authorizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{96FAAB92-8858-442C-8FAD-499E2F91C094}|UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj|solutionrelative:uniware_pandointegration\\actionfilters\\authorizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|e:\\duroflex\\uniwarependointegrations\\uniware_pandointegration.api\\uniware_pandointegration.api.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|solutionrelative:uniware_pandointegration.api\\uniware_pandointegration.api.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|e:\\duroflex\\uniwarependointegrations\\uniware_pandointegration.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|solutionrelative:uniware_pandointegration.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|e:\\duroflex\\uniwarependointegrations\\uniware_pandointegration.api\\controllers\\uniwarepandocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|solutionrelative:uniware_pandointegration.api\\controllers\\uniwarepandocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|e:\\duroflex\\uniwarependointegrations\\uniware_pandointegration.api\\generatetoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8A683F02-DFB2-493A-B20A-63A424CD63D5}|Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj|solutionrelative:uniware_pandointegration.api\\generatetoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.ConflictResolution.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{763C62C6-4DDF-428E-B040-572DC180FF55}|Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj|E:\\Duroflex\\UniwarePendoIntegrations\\uniware_pandointegration.dataaccesslayer\\mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{763C62C6-4DDF-428E-B040-572DC180FF55}|Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj|solutionrelative:uniware_pandointegration.dataaccesslayer\\mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{763C62C6-4DDF-428E-B040-572DC180FF55}|Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj|E:\\Duroflex\\UniwarePendoIntegrations\\uniware_pandointegration.dataaccesslayer\\uniwaredb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{763C62C6-4DDF-428E-B040-572DC180FF55}|Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj|solutionrelative:uniware_pandointegration.dataaccesslayer\\uniwaredb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{01CDEAFB-B48C-4599-AAE1-16157CCE8D0A}|Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj|E:\\Duroflex\\UniwarePendoIntegrations\\uniware_pandointegration.businesslayer\\uniwarebl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{01CDEAFB-B48C-4599-AAE1-16157CCE8D0A}|Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj|solutionrelative:uniware_pandointegration.businesslayer\\uniwarebl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,15 +49,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CustomAuthorizationFilter.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\ActionFilter\\CustomAuthorizationFilter.cs",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\ActionFilter\\CustomAuthorizationFilter.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\ActionFilter\\CustomAuthorizationFilter.cs",
+              "RelativeToolTip": "Uniware_PandoIntegration.API\\ActionFilter\\CustomAuthorizationFilter.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAFQAAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T17:02:47.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
             },
             {
               "$type": "Bookmark",
@@ -34,11 +82,19 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
@@ -46,53 +102,130 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:138:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:137:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
               "$type": "Bookmark",
               "Name": "ST:134:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "libman.json",
-              "DocumentMoniker": "D:\\github\\Pando\\UniWare_PandoIntegration\\libman.json",
-              "RelativeDocumentMoniker": "UniWare_PandoIntegration\\libman.json",
-              "ToolTip": "D:\\github\\Pando\\UniWare_PandoIntegration\\libman.json",
-              "RelativeToolTip": "UniWare_PandoIntegration\\libman.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-04T11:19:27.733Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\github\\Pando\\UniWare_PandoIntegration\\appsettings.json",
-              "RelativeDocumentMoniker": "UniWare_PandoIntegration\\appsettings.json",
-              "ToolTip": "D:\\github\\Pando\\UniWare_PandoIntegration\\appsettings.json",
-              "RelativeToolTip": "UniWare_PandoIntegration\\appsettings.json",
+              "Title": "AuthorizationFilter.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\ActionFilters\\AuthorizationFilter.cs",
+              "RelativeDocumentMoniker": "UniWare_PandoIntegration\\ActionFilters\\AuthorizationFilter.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\ActionFilters\\AuthorizationFilter.cs",
+              "RelativeToolTip": "UniWare_PandoIntegration\\ActionFilters\\AuthorizationFilter.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-04T11:12:16.163Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-09T17:13:37.887Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Program.cs",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\Program.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Program.cs",
+              "RelativeToolTip": "Uniware_PandoIntegration.API\\Program.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAYwFIAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-01T06:45:13.199Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UniwarePandoController.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Controllers\\UniwarePandoController.cs",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\Controllers\\UniwarePandoController.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Controllers\\UniwarePandoController.cs",
+              "RelativeToolTip": "Uniware_PandoIntegration.API\\Controllers\\UniwarePandoController.cs",
+              "ViewState": "AQIAAFkEAAAAAAAAAAAgwGcEAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-12-01T06:29:05.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Microsoft.NET.ConflictResolution.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.ConflictResolution.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.ConflictResolution.targets",
+              "ViewState": "AQIAAFAAAAAAAAAAAAAvwG8AAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2023-11-30T11:20:47.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GenerateToken.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\GenerateToken.cs",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\GenerateToken.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\GenerateToken.cs",
+              "RelativeToolTip": "Uniware_PandoIntegration.API\\GenerateToken.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAowBYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-11-27T10:23:40.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Uniware_PandoIntegration.API",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+              "RelativeToolTip": "Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2023-11-27T09:59:28.668Z",
               "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Mapper.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Mapper.cs",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.DataAccessLayer\\Mapper.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Mapper.cs",
+              "RelativeToolTip": "Uniware_PandoIntegration.DataAccessLayer\\Mapper.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-11-27T09:07:55.46Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UniwareDB.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\UniwareDB.cs",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.DataAccessLayer\\UniwareDB.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\UniwareDB.cs",
+              "RelativeToolTip": "Uniware_PandoIntegration.DataAccessLayer\\UniwareDB.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-11-27T10:08:13.712Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UniwareBL.cs",
+              "DocumentMoniker": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\UniwareBL.cs",
+              "RelativeDocumentMoniker": "Uniware_PandoIntegration.BusinessLayer\\UniwareBL.cs",
+              "ToolTip": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\UniwareBL.cs",
+              "RelativeToolTip": "Uniware_PandoIntegration.BusinessLayer\\UniwareBL.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2023-11-27T09:08:23.599Z"
             }
           ]
         }
