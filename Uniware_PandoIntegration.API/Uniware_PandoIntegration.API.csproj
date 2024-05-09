@@ -37,4 +37,10 @@
     <ProjectReference Include="..\UniWare_PandoIntegration\UniWare_PandoIntegration.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Template\Retrigger.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

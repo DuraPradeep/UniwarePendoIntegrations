@@ -124,7 +124,7 @@
 </head>
 
 <body>
-    @if (ViewBag.Message != null)
+    @if (TempData["Success"] != null)
     {
         <script>
 
@@ -138,8 +138,8 @@
                         },
                     },
                 };
-                iqwerty.toast.toast('@ViewBag.Message', options);
-                ////alert('@ViewBag.Message');
+                iqwerty.toast.toast('@TempData["Success"]', options);
+                ////alert('@TempData["Success"]');
 
             });
 

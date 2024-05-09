@@ -11,6 +11,7 @@ namespace Uniware_PandoIntegration.Entities
         public string code { get; set; }
         public string updated { get; set; }
         public string created { get; set; }
+        public string Source { get; set; }
     }
     public class RootReturnOrder
     {
@@ -35,6 +36,7 @@ namespace Uniware_PandoIntegration.Entities
         public string phone { get; set; }
         public object email { get; set; }
         public string type { get; set; }
+        public string Source { get; set; }
     }
     public class ReturnSaleOrderItem
     {
@@ -43,6 +45,7 @@ namespace Uniware_PandoIntegration.Entities
         public string reversePickupCode { get; set; }
         public string quantity { get; set; }
         public string saleOrderCode { get; set; }
+        public string Source { get; set; }
 
     }
     public class RootReturnorderAPI

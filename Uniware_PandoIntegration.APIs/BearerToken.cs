@@ -15,6 +15,8 @@ using System.Net;
 using System.Runtime.Remoting.Channels;
 using System.Data;
 using System.Configuration;
+using System.IO;
+using Superpower.Parsers;
 
 namespace Uniware_PandoIntegration.APIs
 {
@@ -55,7 +57,7 @@ namespace Uniware_PandoIntegration.APIs
                     }
                     else if (Instance.ToLower() == "dfx")
                     {
-                        URL = "https://myduroflexworld.unicommerce.com/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
+                        URL = "https://myduroflexworld.unicommerce.co.in/oauth/token?grant_type=password&client_id=my-trusted-client&username=analytics@mysleepyhead.com&password=Unisleepy@123";
 
                     }
                 }
@@ -63,17 +65,26 @@ namespace Uniware_PandoIntegration.APIs
                 {
                     BaseAddress = new Uri(URL)
                 };
+                
                 _client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
                 var response = _client.GetAsync(URL).Result;
-                var responses = response.Content.ReadAsStringAsync().Result;
+                //var responses = response.Content.ReadAsStringAsync().Result;
+                var responses = response.Content.ReadAsStreamAsync().Result;
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response:{responses}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{responses}");
                 if (response.IsSuccessStatusCode)
                 {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
                     return serviceResponse;
 
+                }
+                else
+                {
+                    serviceResponse.Errdesc = await response.Content.ReadAsStringAsync();
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    //GetCode(Details, Token);
                 }
 
             }
@@ -86,14 +97,14 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> GetCode(string Details, string Token, string servertype,string instance)
+        public async Task<ServiceResponse<string>> GetCode(string Details, string Token, string servertype, string instance)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
 
-                CreateLog(" Api saleOrder Search Started" + Details + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Api saleOrder Search Started" + Details);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
                 if (servertype.ToLower() == "qa")
@@ -102,7 +113,7 @@ namespace Uniware_PandoIntegration.APIs
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/saleOrder/search");
                     }
-                    else if(instance.ToLower() =="dfx")
+                    else if (instance.ToLower() == "dfx")
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/saleOrder/search");
 
@@ -114,9 +125,9 @@ namespace Uniware_PandoIntegration.APIs
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/saleOrder/search");
                     }
-                    else if(instance.ToLower()=="dfx")
+                    else if (instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/saleOrder/search");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/saleOrder/search");
 
                     }
                 }
@@ -126,7 +137,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 if (response.IsSuccessStatusCode)
                 {
@@ -148,13 +159,13 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> GetCodeDetails(string Code, string Token, string Servertype,string Instance)
+        public async Task<ServiceResponse<string>> GetCodeDetails(string Code, string Token, string Servertype, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
             try
             {
-                CreateLog(" Api saleorder get:- " + Code + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Api saleorder get:- " + Code + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
                 if (Servertype.ToLower() == "qa")
@@ -174,9 +185,9 @@ namespace Uniware_PandoIntegration.APIs
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/saleorder/get");
                     }
-                    else if(Instance.ToLower() =="dfx")
+                    else if (Instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/oms/saleorder/get");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/saleorder/get");
                     }
                 }
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -184,28 +195,50 @@ namespace Uniware_PandoIntegration.APIs
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 //response.EnsureSuccessStatusCode();
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                serviceResponse.ObjectParam = response.Content.ReadAsStringAsync().Result;
+                //HttpResponseMessage data = response.Content.ReadAsStringAsync().Result;
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
+                dynamic data = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+                
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    //var ErrorDesc = data.errors[0].description;
+                    var datas = (bool)data.successful;
+
+                    //var errors = data.errors;                    
+                    if (datas)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = 400;
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = data.errors[0].description;
+                        return serviceResponse;
+                    }
+
+
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = data.errors[0].description;
                     //GetCodeDetails(Code, Token);
                 }
             }
             catch (Exception ex)
             {
-                CreateLog($" Error: {ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {ex.Message}");
                 throw ex;
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> GetSkuDetails(string SkuCode, string Token, string Servertype,string Instance)
+        public async Task<ServiceResponse<string>> GetSkuDetails(string SkuCode, string Token, string Servertype, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
@@ -218,7 +251,7 @@ namespace Uniware_PandoIntegration.APIs
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/catalog/itemType/get");
                     }
-                    else if(Instance.ToLower() =="dfx")
+                    else if (Instance.ToLower() == "dfx")
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/catalog/itemType/get");
 
@@ -230,9 +263,9 @@ namespace Uniware_PandoIntegration.APIs
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/catalog/itemType/get");
                     }
-                    else if(Instance.ToLower() =="dfx")
+                    else if (Instance.ToLower() == "dfx")
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.com/services/rest/v1/catalog/itemType/get");
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/catalog/itemType/get");
 
                     }
                 }
@@ -242,17 +275,31 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 //response.EnsureSuccessStatusCode();
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
-                //return responses;
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                dynamic data = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    var datas = (bool)data.successful;                  
+                    if (datas)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = 400;
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = data.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetSkuDetails(SkuCode, Token);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = data.errors[0].description;
                 }
             }
             catch (Exception ex)
@@ -295,7 +342,7 @@ namespace Uniware_PandoIntegration.APIs
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -308,7 +355,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog("$ Error: " + ex.Message);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: " + ex.Message);
                 throw ex;
             }
             return serviceResponse;
@@ -331,7 +378,7 @@ namespace Uniware_PandoIntegration.APIs
                     string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
 
                     credentials = Encoding.ASCII.GetBytes(_credentials);
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice ");
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://duroflex-mitm.gopando.in/inbound/api/transactions/order/material-invoice");
                 }
                 else if (ServerType.ToLower() == "prod")
                 {
@@ -349,46 +396,71 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
 
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
 
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = true;
                     return serviceResponse;
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
-
+                    serviceResponse.IsSuccess = false;
                 }
             }
             catch (Exception ex)
             {
-                CreateLog($" Error:{ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error:{ex.Message}");
                 throw ex;
             }
             return serviceResponse;
 
         }
 
-        public async Task<ServiceResponse<string>> ReturnOrderGetCode(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> ReturnOrderGetCode(string Details, string Token, string Servertype, string Instance, string FacilityCode)
         {
-
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-
-                CreateLog("Return Order API Search Request" + Details + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Order API Search Request" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
+
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/return/search");
+
+                    }
                 }
-                else if (ServerType.ToLower() == "prod")
+                else if (Servertype.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, " https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/return/search");
+
+                    }
                 }
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/search");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/search");
+                //}
 
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -397,7 +469,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-   {DateTime.Now.ToLongTimeString()} , Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -417,26 +489,52 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> ReturnOrderGet(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> ReturnOrderGet(string Details, string Token, string Servertype, string FacilityCode, string Instance)
         {
-
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-
-                CreateLog("Return Order API Get Request" + Details + ": " + Token);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Order API Get Request" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
-                {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/get");
 
-                }
-                else if (ServerType.ToLower() == "prod")
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/return/get");
 
+                    }
                 }
+                else if (Servertype.ToLower() == "prod")
+                {
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/return/get");
+
+                    }
+                }
+
+
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/return/get");
+
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/return/get");
+
+                //}
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
                 var content = new StringContent(Details, null, "application/json");
@@ -444,7 +542,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Order Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
@@ -540,7 +638,7 @@ namespace Uniware_PandoIntegration.APIs
         //    return serviceResponse;
         //}
 
-        public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> FetchingGetPassCode(string Details, string Token, string Servertype, string FacilityCode, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
@@ -548,14 +646,39 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+
+                    }
                 }
-                else if (ServerType.ToLower() == "prod")
+                else if (Servertype.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/purchase/gatepass/search");
+
+                    }
                 }
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
+                //}
                 //var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/search");
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -577,12 +700,12 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error: {ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {ex.Message}");
                 throw ex;
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> FetchingGetPassElements(string Details, string Token, string ServerType, string FacilityCode)
+        public async Task<ServiceResponse<string>> FetchingGetPassElements(string Details, string Token, string Servertype, string FacilityCode, string Instance)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -591,14 +714,39 @@ namespace Uniware_PandoIntegration.APIs
                 //CreateLog("STO WaybillGetPass Code" + Details + ": " + Token);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-                if (ServerType.ToLower() == "qa")
+
+                if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+
+                    }
                 }
-                else if (ServerType.ToLower() == "prod")
+                else if (Servertype.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/purchase/gatepass/get");
+
+                    }
                 }
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead2.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "http://sleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
+                //}
                 //var request = new HttpRequestMessage(HttpMethod.Post, "http://stgsleepyhead.unicommerce.com/services/rest/v1/purchase/gatepass/get");
                 request.Headers.Add("Facility", FacilityCode);
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -607,7 +755,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
-                CreateLog($" Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 if (response.IsSuccessStatusCode)
                 {
@@ -622,7 +770,7 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error: {ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -743,25 +891,50 @@ namespace Uniware_PandoIntegration.APIs
 
         //}
 
-        public async Task<ServiceResponse<string>> PostUpdateShippingpckg(UpdateShippingpackage data, string Token, string FacilityCode, string Servertype)
+        public async Task<ServiceResponse<string>> PostUpdateShippingpckg(UpdateShippingpackage data, string Token, string FacilityCode, string Servertype, string Instance)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             var jsonre = JsonConvert.SerializeObject(data);
-            CreateLog($" Update Shipping package:-  {jsonre}");
+            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Update Shipping package Post Data:-  {jsonre}");
             try
             {
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
+                //if (Servertype.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                //}
+                //else if (Servertype.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                //}
+
                 if (Servertype.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+
+                    }
                 }
                 else if (Servertype.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/shippingPackage/edit");
+
+                    }
                 }
                 //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/edit");
                 request.Headers.Add("Facility", FacilityCode);
@@ -771,15 +944,33 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Update Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    //serviceResponse.Errcode = ((int)response.StatusCode);
+                    //return serviceResponse;
+                    var datastatus = (bool)datas.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = datas.errors[0].description;
 
                 }
             }
@@ -791,7 +982,7 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
 
         }
-        public async Task<ServiceResponse<string>> PostAllocateShipping(Allocateshipping data, string Token, string FacilityCode, string ServerType)
+        public async Task<ServiceResponse<string>> PostAllocateShipping(Allocateshipping data, string Token, string FacilityCode, string ServerType, string Instance)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -799,20 +990,45 @@ namespace Uniware_PandoIntegration.APIs
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             var jsonre = JsonConvert.SerializeObject(data);
             //string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Allocate Shipping:-  {jsonre}");
+            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping Post Data:-  {jsonre}");
             try
             {
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                //}
+
                 if (ServerType.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+
+                    }
                 }
                 else if (ServerType.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+
+                    }
                 }
-                //var request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead.unicommerce.com/services/rest/v1/oms/shippingPackage/allocateShippingProvider");
+
                 request.Headers.Add("Facility", FacilityCode);
                 //request.Headers.Add("Facility", "Hosur_Avigna");
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -821,21 +1037,49 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Allocate Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    serviceResponse.IsSuccess=true;
+                //    return serviceResponse;
+                //}
+                //else
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    serviceResponse.IsSuccess = false;
+                //}
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    var datastatus = (bool)datas.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+                        return serviceResponse;
+                    }
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = datas.errors[0].description;
 
                 }
             }
             catch (Exception ex)
             {
-                CreateLog($" Error:{ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error:{ex.Message}");
                 throw ex;
             }
             return serviceResponse;
@@ -847,7 +1091,7 @@ namespace Uniware_PandoIntegration.APIs
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             //var jsonre = JsonConvert.SerializeObject(new { data = data });
             string _credentials = "system+demoduro@pando.ai:Pandowelcome@123";
-            CreateLog($" Request- : {data}");
+            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},DeleteMaterial Invoice Request- : {data}");
 
             try
             {
@@ -861,7 +1105,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
 
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($" Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-   {DateTime.Now.ToLongTimeString()} , Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -876,28 +1120,49 @@ namespace Uniware_PandoIntegration.APIs
             }
             catch (Exception ex)
             {
-                CreateLog($" Error:{ex.Message}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error:{ex.Message}");
                 throw ex;
             }
             return serviceResponse;
 
         }
 
-        public async Task<ServiceResponse<string>> ReversePickUp(string Details, string Token, string Facility, string ServerType)
+        public async Task<ServiceResponse<string>> ReversePickUp(string Details, string Token, string Facility, string ServerType, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
+               
+
                 if (ServerType.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+
+                    }
                 }
                 else if (ServerType.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/reversePickup/edit");
+
+                    }
                 }
+
+
+
 
                 request.Headers.Add("Facility", Facility);
                 request.Headers.Add("Authorization", "Bearer" + Token);
@@ -906,7 +1171,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"reverse pickup Response:-  {serviceResponse.ObjectParam}");
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:-  {serviceResponse.ObjectParam}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -926,20 +1191,47 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> TrackingStatus(string Details, string Token, string Facility, string ServerType)
+        public async Task<ServiceResponse<string>> TrackingStatus(string Details, string Token, string Facility, string ServerType, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Post Data:-  {Details} , FacilityCode:- {Facility}");
+
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
+                //if (ServerType.ToLower() == "qa")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                //}
+                //else if (ServerType.ToLower() == "prod")
+                //{
+                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                //}
+
                 if (ServerType.ToLower() == "qa")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+
+                    }
                 }
                 else if (ServerType.ToLower() == "prod")
                 {
-                    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                    if (Instance.ToLower() == "sh")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
+                    }
+                    else if (Instance.ToLower() == "dfx")
+                    {
+                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/updateShipmentTrackingStatus");
+
+                    }
                 }
 
                 request.Headers.Add("Facility", Facility);
@@ -949,16 +1241,52 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"Tracking Details Response:-  {serviceResponse.ObjectParam}");
-                if (response.IsSuccessStatusCode)
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Status Response:-  {serviceResponse.ObjectParam}");
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    return serviceResponse;
+                //}
+                //else
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    //GetCode(Details, Token);
+                //}
+                if (((int)response.StatusCode) == 200)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var datastatus = (bool)datas.successful;
+                        if (datastatus)
+                        {
+                            serviceResponse.Errcode = ((int)response.StatusCode);
+                            serviceResponse.IsSuccess = true;
+                            return serviceResponse;
+                        }
+                        else
+                        {
+                            serviceResponse.Errcode = ((int)response.StatusCode);
+                            serviceResponse.IsSuccess = false;
+                            serviceResponse.Errdesc = datas.errors[0].description;
+                            return serviceResponse;
+                        }
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = datas.errors[0].description;
+
+                    }
                 }
-                else
-                {
+                else {
+
                     serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetCode(Details, Token);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = serviceResponse.ObjectParam;
+
                 }
             }
             catch (Exception ex)

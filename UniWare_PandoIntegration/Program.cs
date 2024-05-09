@@ -9,8 +9,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.Add(new ServiceDescriptor(typeof(ApiOperation), new ApiOperation(configuration.GetSection("baseaddress:Url").Value)));
-
-
  var app = builder.Build();
 
 // Configure the HTTP request pipeline.

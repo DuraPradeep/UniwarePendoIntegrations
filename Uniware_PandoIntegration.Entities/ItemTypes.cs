@@ -53,6 +53,7 @@ namespace Uniware_PandoIntegration.Entities
         public int? minOrderSize { get; set; }
         public object expiryDate { get; set; }
         public string skuType { get; set; }
+        public string Source { get; set; }
     }
 
     public class SkuRoot

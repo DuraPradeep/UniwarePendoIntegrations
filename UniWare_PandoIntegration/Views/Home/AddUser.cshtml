@@ -1,0 +1,123 @@
+﻿@model Uniware_PandoIntegration.Entities.UserProfile
+@{
+    ViewBag.Title = "CreateUser";
+    Layout = null;
+}
+<script>
+    function fn_UserListBreadcrumb(input) {
+        debugger;
+        $(".preloader").fadeIn();
+        $.get("/Home/Dashboard").done(function (data) {
+            ////
+            $(".preloader").fadeOut();
+            $("#dv_PartialView").html(data);
+        })
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Yinka Enoch Adedokun">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/UniWare_PandoIntegration.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/jquery-3.7.0.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/toast.min.js"></script>
+</head>
+
+<div class="container-fluid">
+
+    @*   @using(Ajax.BeginForm("SaveUpdateUserMaster", "ApplicationMangement", new AjaxOptions { HttpMethod = "POST", LoadingElementId = "spinner", OnFailure = "" }, new { id = "UserMaster" }))
+    {
+    <div class="card">
+    <div class="card-body add_user_class">
+
+    *@<div class="row">
+    </div>
+    <div class="row">
+    </div>
+    <div class="row">
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="card">
+        <div class="card-body add_user_class">
+            <form asp-action="SaveUser" asp-controller="Home" method="post">
+
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 star">
+                        @Html.Label("User Name")
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Enter Unique User Name", @title = "Enter Unique User Name", @onchange = "fn_CheckUserName(this)", @required = "required", @pattern = "^(\\w+ ?)*$" })
+
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.Label("Password")
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @onchange = "", @required = "required" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 star">
+                        @Html.Label("Primary Contact")
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @MaxLength = "13", @title = "Country-code & 10 Digits or 10 Digits Number", @onchange = "", @required = "required", @placeholder = "Enter Valid Mobile Number ", @pattern = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$" })
+                    </div>
+                   
+                   
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 star">
+                        @Html.Label("First Name")
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Enter First Name", @onchange = "", @required = "required", @pattern = "^[a-zA-Z-,]+(\\s{0,1}[a-zA-Z-, ])*$" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.Label("Last Name")
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.TextBoxFor(m => m.Lastname, new { @class = "form-control", @placeholder = "Enter Last Name", @onchange = "", @required = "required" })
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.Label("Personal Email")
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Email", @onchange = "", @required = "required", @pattern = "[^@]+@[^@]+\\.[a-zA-Z]{2,6}" })
+                    </div>
+                    
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 star">
+                        @Html.Label("Role")
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        @Html.DropDownListFor(m => m.Roleid, Model.RoleNameList, "Select Role", new { @class = "form-control", @onchange = "", @required = "required" })
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group">
+                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                        <div class="input_field button_central">
+                            <input type="submit" name="submit" id="submit" class="btn btn-danger red-text-dark" value="Save" />
+                              <a href="~/Home/Dashboard" class="logo"><input type="button" name="Back" id="Back" class="btn btn-danger red-text-dark"  value="Back" /></a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@*
+    }
+</div> *@

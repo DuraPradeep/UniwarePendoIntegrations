@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -6,6 +7,7 @@ using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
@@ -22,7 +24,7 @@ namespace Uniware_PandoIntegration.API
         BearerToken _Token = new BearerToken();
         private bool disposedValue;
         Emailtrigger Emailtrigger = new Emailtrigger();
-        public List<Element> getCode(string json, string token, int checkcount, string servertype,string instance)
+        public List<Element> getCode(string json, string token, int checkcount, string servertype, string instance)
         {
             int Lcheckcount = checkcount;
             var result = _Token.GetCode(json, token, servertype, instance);
@@ -40,7 +42,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
-                    ObjBusinessLayer.UpdateSaleOrderFirst(result.Result.ObjectParam);
+                    ObjBusinessLayer.UpdateSaleOrderFirst(result.Result.ObjectParam, servertype);
                 }
             }
             else
@@ -50,15 +52,17 @@ namespace Uniware_PandoIntegration.API
                 {
                     Element elmts = new Element();
                     elmts.code = code.elements[i].code;
+                    elmts.source = instance;
                     elmt.Add(elmts);
                     //dtinstcode.Rows.Add(code.elements[i].code);
                 }
             }
             return elmt;
         }
-        public parentList PassCodeer(string jsoncodes, string token, string code, int checkcounter, string Servertype,string Instance)
+        public ServiceResponse<parentList> PassCodeer(string jsoncodes, string token, string code, int checkcounter, string Servertype, string Instance)
         {
             int LLcheckcount = checkcounter;
+            ServiceResponse<parentList> serviceResponse = new ServiceResponse<parentList>();
             parentList parentList = new parentList();
             parentList.elements = new List<SaleOrderDTO>();
             parentList.Shipment = new List<ShippingPackage>();
@@ -72,217 +76,288 @@ namespace Uniware_PandoIntegration.API
             List<ShippingPackage> shipingdet = new List<ShippingPackage>();
             List<Items> qtyitems = new List<Items>();
             List<SaleOrderDTO> elements = new List<SaleOrderDTO>();
-            var results = _Token.GetCodeDetails(jsoncodes, token, Servertype, Instance);
-            if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
+            try
             {
-                if (checkcounter < 3)
+                var results = _Token.GetCodeDetails(jsoncodes, token, Servertype, Instance);
+                if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
                 {
-                    Thread.Sleep(3000);
-                    LLcheckcount += 1;
-                    string codes = code;
-                    ErrorDetails ed = new ErrorDetails();
-                    ed.Code = codes;
-                    ed.Reason = results.Result.ObjectParam;
-                    ed.Status = true;
-                    errorDetails.Add(ed);
-                    // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
-                    var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
-                    PassCodeer(jsoncodes, token, code, LLcheckcount, Servertype, Instance);
+                    if (checkcounter < 3)
+                    {
+                        Thread.Sleep(3000);
+                        LLcheckcount += 1;
+                        string codes = code;
+                        ErrorDetails ed = new ErrorDetails();
+                        ed.Code = codes;
+                        ed.Reason = results.Result.Errdesc;
+                        ed.Status = true;
+                        errorDetails.Add(ed);
+                        // var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1);
+                        var errorcode = ObjBusinessLayer.UpdateSalesOrderError(errorDetails, 1, Servertype);
+                        PassCodeer(jsoncodes, token, code, LLcheckcount, Servertype, Instance);
 
+                    }
+                    else
+                    {
+                        LLcheckcount = 0;
+                        Emailtrigger.SendEmailToAdmin("Sale Order", results.Result.Errdesc + ", " + jsoncodes);
+                        //parentList = null;
+                        serviceResponse.ObjectParam = parentList;
+                        serviceResponse.Errcode = results.Result.Errcode;
+                        serviceResponse.IsSuccess = results.Result.IsSuccess;
+                        serviceResponse.Errdesc = results.Result.Errdesc;
+                    }
                 }
                 else
                 {
-                    LLcheckcount = 0;
-                    Emailtrigger.SendEmailToAdmin("Sale Order");
-                    parentList = null;
-                }
-            }
-            else
-            {
-                JObject stuff = JObject.Parse(results.Result.ObjectParam);
-                var abc = stuff.SelectTokens("saleOrderDTO");
-                if (results.Result.ObjectParam.Contains("saleOrderDTO"))
-                {
-                    var hello = JToken.FromObject(stuff);
-                    var jso = JsonConvert.SerializeObject(hello);
-                    salesorderRoot items = JsonConvert.DeserializeObject<salesorderRoot>(jso);
-                    details = items;
-                    List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
-                    shippingPackages = details.saleOrderDTO.shippingPackages;
-
-                    foreach (JProperty item in abc.Children())
+                    JObject stuff = JObject.Parse(results.Result.ObjectParam);
+                    var abc = stuff.SelectTokens("saleOrderDTO");
+                    //if (results.Result.IsSuccess)
+                    //{
+                    if (results.Result.ObjectParam.Contains("saleOrderDTO"))
                     {
-                        if (item.Path == "saleOrderDTO.shippingPackages")
+                        var hello = JToken.FromObject(stuff);
+                        var jso = JsonConvert.SerializeObject(hello);
+                        salesorderRoot items = JsonConvert.DeserializeObject<salesorderRoot>(jso);
+                        details = items;
+                        List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
+                        shippingPackages = details.saleOrderDTO.shippingPackages;
+
+                        foreach (JProperty item in abc.Children())
                         {
-                            foreach (var item2 in item.Children())
+                            if (item.Path == "saleOrderDTO.shippingPackages")
                             {
-                                var mi = 0;
-                                foreach (var item3 in item2.Children()["items"])
+                                foreach (var item2 in item.Children())
                                 {
-                                    ShippingPackage shippingPackage = new ShippingPackage();
-                                    for (mi = 0; mi < shippingPackages.Count(); mi++)
+                                    var mi = 0;
+                                    foreach (var item3 in item2.Children()["items"])
                                     {
-                                        shippingPackage = shippingPackages[mi];
-                                        var adc = item3.Values();
-                                        var helloq = JToken.FromObject(adc);
-                                        var jsonq = JsonConvert.SerializeObject(helloq);
+                                        ShippingPackage shippingPackage = new ShippingPackage();
+                                        for (mi = 0; mi < shippingPackages.Count(); mi++)
+                                        {
+                                            shippingPackage = shippingPackages[mi];
+                                            var adc = item3.Values();
+                                            var helloq = JToken.FromObject(adc);
+                                            var jsonq = JsonConvert.SerializeObject(helloq);
 
-                                        List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
-                                        shippingPackage.items = new Items();
-                                        shippingPackage.items = itemsqq.FirstOrDefault();
+                                            List<Items> itemsqq = JsonConvert.DeserializeObject<List<Items>>(jsonq);
+                                            shippingPackage.items = new Items();
+                                            shippingPackage.items = itemsqq.FirstOrDefault();
 
+                                        }
+                                        mi++;
                                     }
-                                    mi++;
                                 }
+
                             }
-
                         }
+                        details.saleOrderDTO.shippingPackages = shippingPackages;
                     }
-                    details.saleOrderDTO.shippingPackages = shippingPackages;
+                    //List SalesDTO Details
+                    SaleOrderDTO em = new SaleOrderDTO();
+                    em.code = code;
+                    em.source = Instance;
+                    var email = details.saleOrderDTO.notificationEmail;
+                    //em.code = details.saleOrderDTO.code;
+                    em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
+                    //elements.Add(em);
+                    parentList.elements.Add(em);
+
+                    //List addressdetails
+
+                    for (int ads = 0; ads < details.saleOrderDTO.addresses.Count; ads++)
+                    {
+                        Address adrs = new Address();
+                        adrs.Code = code;
+                        //adrs.Code = details.saleOrderDTO.code;
+                        adrs.id = details.saleOrderDTO.addresses[ads].id;
+                        adrs.name = details.saleOrderDTO.addresses[ads].name;
+                        adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
+                        adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
+                        adrs.city = details.saleOrderDTO.addresses[ads].city;
+                        adrs.state = details.saleOrderDTO.addresses[ads].state;
+                        adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
+                        adrs.phone = details.saleOrderDTO.addresses[ads].phone;
+                        adrs.email = email;
+                        //adrs.email = details.saleOrderDTO.addresses[ads].email;
+                        adrs.Source = Instance;
+
+                        //address.Add(adrs);
+                        parentList.address.Add(adrs);
+
+                    }
+                    //Console.WriteLine(i);
+                    // }
+
+
+                    //List shippingDetails
+                    for (int sd = 0; sd < details.saleOrderDTO.shippingPackages.Count; sd++)
+                    {
+                        ShippingPackage shipdetails = new ShippingPackage();
+                        shipdetails.code = code;
+                        //shipdetails.code = details.saleOrderDTO.code;
+                        shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
+                        shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
+                        shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
+                        shipdetails.Source = Instance;
+
+                        //shipingdet.Add(shipdetails);
+                        parentList.Shipment.Add(shipdetails);
+                        Items qty = new Items();
+                        qty.Code = details.saleOrderDTO.code;
+                        qty.quantity = details.saleOrderDTO.shippingPackages[sd].items.quantity;
+                        qty.Source = Instance;
+
+                        //qtyitems.Add(qty);
+                        parentList.qtyitems.Add(qty);
+                    }
+
+                    //List salesorderitem
+                    for (int l = 0; l < details.saleOrderDTO.saleOrderItems.Count; l++)
+                    {
+                        SaleOrderItem sitem = new SaleOrderItem();
+                        sitem.code = code;
+                        //sitem.code = details.saleOrderDTO.code;
+                        sitem.shippingAddressId = details.saleOrderDTO.saleOrderItems[l].shippingAddressId;
+                        sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
+                        sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
+                        sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;
+                        sitem.prepaidAmount = details.saleOrderDTO.saleOrderItems[l].prepaidAmount;
+                        sitem.taxPercentage = details.saleOrderDTO.saleOrderItems[l].taxPercentage;
+                        sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
+                        sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
+                        sitem.Source = Instance;
+                        sitem.shippingPackageStatus = details.saleOrderDTO.saleOrderItems[l].shippingPackageStatus;
+
+                        //saleOrderItems.Add(sitem);
+                        parentList.saleOrderItems.Add(sitem);
+
+                    }
+                    //serviceResponse.ObjectParam = parentList;
+                    //serviceResponse.Errcode = results.Result.Errcode;
+                    //serviceResponse.IsSuccess = results.Result.IsSuccess;
+                    //serviceResponse.Errdesc = results.Result.Errdesc;
+                    //}
+                    //else
+                    //{
+                    serviceResponse.ObjectParam = parentList;
+                    serviceResponse.Errcode = results.Result.Errcode;
+                    serviceResponse.IsSuccess = results.Result.IsSuccess;
+                    serviceResponse.Errdesc = results.Result.Errdesc;
+                    //}
+
+
                 }
-                //List SalesDTO Details
-                SaleOrderDTO em = new SaleOrderDTO();
-                em.code = code;
-                //em.code = details.saleOrderDTO.code;
-                em.displayOrderCode = details.saleOrderDTO.displayOrderCode;
-                //elements.Add(em);
-                parentList.elements.Add(em);
-
-                //List addressdetails
-
-                for (int ads = 0; ads < details.saleOrderDTO.addresses.Count; ads++)
+                LLcheckcount = 0;
+                if (!results.Result.IsSuccess)
                 {
-                    Address adrs = new Address();
-                    adrs.Code = code;
-                    //adrs.Code = details.saleOrderDTO.code;
-                    adrs.id= details.saleOrderDTO.addresses[ads].id;
-                    adrs.name = details.saleOrderDTO.addresses[ads].name;
-                    adrs.addressLine1 = details.saleOrderDTO.addresses[ads].addressLine1;
-                    adrs.addressLine2 = details.saleOrderDTO.addresses[ads].addressLine2;
-                    adrs.city = details.saleOrderDTO.addresses[ads].city;
-                    adrs.state = details.saleOrderDTO.addresses[ads].state;
-                    adrs.pincode = details.saleOrderDTO.addresses[ads].pincode;
-                    adrs.phone = details.saleOrderDTO.addresses[ads].phone;
-                    adrs.email = details.saleOrderDTO.addresses[ads].email;
-                    //address.Add(adrs);
-                    parentList.address.Add(adrs);
-
-                }
-                //Console.WriteLine(i);
-                // }
-
-
-                //List shippingDetails
-                for (int sd = 0; sd < details.saleOrderDTO.shippingPackages.Count; sd++)
-                {
-                    ShippingPackage shipdetails = new ShippingPackage();
-                    shipdetails.code = code;
-                    //shipdetails.code = details.saleOrderDTO.code;
-                    shipdetails.invoiceCode = details.saleOrderDTO.shippingPackages[sd].invoiceCode;
-                    shipdetails.invoiceDate = details.saleOrderDTO.shippingPackages[sd].invoiceDate;
-                    shipdetails.status = details.saleOrderDTO.shippingPackages[sd].status;
-                    //shipingdet.Add(shipdetails);
-                    parentList.Shipment.Add(shipdetails);
-                    Items qty = new Items();
-                    qty.Code = details.saleOrderDTO.code;
-                    qty.quantity = details.saleOrderDTO.shippingPackages[sd].items.quantity;
-                    //qtyitems.Add(qty);
-                    parentList.qtyitems.Add(qty);
-                }
-
-                //List salesorderitem
-                for (int l = 0; l < details.saleOrderDTO.saleOrderItems.Count; l++)
-                {
-                    SaleOrderItem sitem = new SaleOrderItem();
-                    sitem.code = code;
-                    //sitem.code = details.saleOrderDTO.code;
-                    sitem.shippingAddressId = details.saleOrderDTO.saleOrderItems[l].shippingAddressId;
-                    sitem.shippingPackageCode = details.saleOrderDTO.saleOrderItems[l].shippingPackageCode;
-                    sitem.id = details.saleOrderDTO.saleOrderItems[l].id;
-                    sitem.itemSku = details.saleOrderDTO.saleOrderItems[l].itemSku;
-                    sitem.prepaidAmount = details.saleOrderDTO.saleOrderItems[l].prepaidAmount;
-                    sitem.taxPercentage = details.saleOrderDTO.saleOrderItems[l].taxPercentage;
-                    sitem.totalPrice = details.saleOrderDTO.saleOrderItems[l].totalPrice;
-                    sitem.facilityCode = details.saleOrderDTO.saleOrderItems[l].facilityCode;
-                    //saleOrderItems.Add(sitem);
-                    parentList.saleOrderItems.Add(sitem);
+                    //return parentList;
+                    serviceResponse.ObjectParam = parentList;
+                    serviceResponse.Errcode = 400;
+                    serviceResponse.IsSuccess = results.Result.IsSuccess;
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = results.Result.Errdesc;
                 }
 
             }
-            LLcheckcount = 0;
-            return parentList;
+            catch (Exception ex)
+            {
+                serviceResponse.Errcode = 400;
+                serviceResponse.Errdesc = ex.Message;
+                serviceResponse.IsSuccess = false;
+            }
+            return serviceResponse;
+
         }
-        public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount, string Servertype,string Instance)
+        public ItemTypeDTO ReturnSkuCode(string jskucode, string token, string code, string skucode, int checkcount, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
             ItemTypeDTO itemsSku = new ItemTypeDTO();
             List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
-            Log.Information(" Return order Api itemType_Get -" + jskucode + ": " + token);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return order Api itemType_Get -" + jskucode + ": " + token);
 
-            var resul = _Token.GetSkuDetails(jskucode, token, Servertype,Instance);
-            //List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
-            if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
+            var resul = _Token.GetSkuDetails(jskucode, token, Servertype, Instance);
+            try
             {
-                if (Lcheckcount != 3)
+                if (resul.Result.Errcode < 200 || resul.Result.Errcode > 299)
                 {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ErrorDetails ed = new ErrorDetails();
-                    ed.Status = true;
-                    ed.SkuCode = skucode;
-                    ed.Reason = resul.Result.ObjectParam;
-                    errorskuDetails.Add(ed);
-                    var errorskucode = ObjBusinessLayer.UpdateSkucodeError(errorskuDetails, 0);
-                    var abc = ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount, Servertype,Instance);
+                    if (Lcheckcount != 3)
+                    {
+                        Thread.Sleep(3000);
+                        Lcheckcount += 1;
+                        ErrorDetails ed = new ErrorDetails();
+                        ed.Status = true;
+                        ed.SkuCode = skucode;
+                        ed.Reason = resul.Result.ObjectParam;
+                        errorskuDetails.Add(ed);
+                        var errorskucode = ObjBusinessLayer.UpdateSalesOrderError(errorskuDetails, 0, Servertype);
+                        var abc = ReturnSkuCode(jskucode, token, code, skucode, Lcheckcount, Servertype, Instance);
+                    }
+                    else
+                    {
+                        itemsSku = null;
+                        Emailtrigger.SendEmailToAdmin("Sale Order", resul.Result.Errdesc);
+                    }
                 }
                 else
                 {
-                    itemsSku = null;
-                    Emailtrigger.SendEmailToAdmin("Sale Order");
+                    var resl = JsonConvert.DeserializeObject<SkuRoot>(resul.Result.ObjectParam);
+                    itemsSku.Code = code;
+                    itemsSku.skuType = skucode;
+                    itemsSku.categoryCode = resl.itemTypeDTO.itemDetailFieldsText;//categoryCode;
+                    itemsSku.width = resl.itemTypeDTO.width;
+                    itemsSku.height = resl.itemTypeDTO.height;
+                    itemsSku.length = resl.itemTypeDTO.length;
+                    itemsSku.weight = resl.itemTypeDTO.weight;
+                    itemsSku.Source = Instance;
+
+                    // itemTdto.Add(itemsSku);
                 }
+                //var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
+                return itemsSku;
             }
-            else
+            catch (Exception ex)
             {
-                var resl = JsonConvert.DeserializeObject<SkuRoot>(resul.Result.ObjectParam);
-                itemsSku.Code = code;
-                itemsSku.skuType = skucode;
-                itemsSku.categoryCode = resl.itemTypeDTO.itemDetailFieldsText;//categoryCode;
-                itemsSku.width = resl.itemTypeDTO.width;
-                itemsSku.height = resl.itemTypeDTO.height;
-                itemsSku.length = resl.itemTypeDTO.length;
-                itemsSku.weight = resl.itemTypeDTO.weight;
-                // itemTdto.Add(itemsSku);
+
+                throw ex;
             }
-            //var resitemtype = ObjBusinessLayer.InsertitemSku(itemTdto);
-            return itemsSku;
+            //List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
+
         }
         public ServiceResponse<string> Action(List<Data> sendcode, string triggerid, int checkcount, string ServerType)
         {
             int Lcheckcount = checkcount;
-            ServiceResponse<string> resfinal = null;
+            ServiceResponse<string> ActionResult = new ServiceResponse<string>();
             var jsonre = JsonConvert.SerializeObject(new { data = sendcode });
             //resfinal = _Token.PostDataToDeliverypackList(sendcode).Result;
-            Log.Information($"Post Data to Pando: {jsonre}");
-            resfinal = _Token.PostDataToDeliverypackList(jsonre, ServerType).Result;
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Post Data to Pando: {jsonre}");
+            ActionResult = _Token.PostDataToDeliverypackList(jsonre, ServerType).Result;
 
-            if (resfinal.Errcode < 200 || resfinal.Errcode > 299)
+            if (ActionResult.Errcode < 200 || ActionResult.Errcode > 299)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdatePostDatadetails(true, resfinal.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdatePostDatadetails(true, ActionResult.ObjectParam, triggerid, ServerType);
 
                     Action(sendcode, triggerid, Lcheckcount, ServerType);
                 }
                 else
                 {
-                    resfinal = null;
+                    ActionResult.ObjectParam = ActionResult.ObjectParam;
+                    ActionResult.IsSuccess = false;
+
                 }
 
             }
+            else
+            {
+                ActionResult.ObjectParam = ActionResult.ObjectParam;
+                ActionResult.IsSuccess = true;
+                ActionResult.Errcode = 200;
+            }
 
-            return resfinal;
+            return ActionResult;
         }
 
         //public parentList RetriggerCode(string jsoncodes, string token, string code, int checkcount)
@@ -491,12 +566,12 @@ namespace Uniware_PandoIntegration.API
         //	}
         //	return resfinal;
         //}
-        public Task<ServiceResponse<string>> WaybillGenerationPostData(List<WaybillSend> AllData, int checkcount, string triggerid, string ServerType)
+        public ServiceResponse<string> WaybillGenerationPostData(List<WaybillSend> AllData, int checkcount, string triggerid, string ServerType)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
-            Log.Information($"Waybill Post Data : {jsonre}");
-
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {jsonre}");
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -505,33 +580,38 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdateWaybillErrordetails(true, ResStatus.Result.ObjectParam, triggerid, ServerType);
                     WaybillGenerationPostData(AllData, Lcheckcount, triggerid, ServerType);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Waybill Generation");
-                    return ResStatus = null;
-
+                    Emailtrigger.SendEmailToAdmin("Waybill Generation", ResStatus.Result.ObjectParam);
+                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.IsSuccess = false;
                 }
             }
-            return ResStatus;
+            else
+            {
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+            }
+            return serviceResponse;
         }
-        public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode)
+        public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
             List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
-            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim());
+            var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim(), Instance);
             if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    GetReturnorderCode(json, token, Lcheckcount, ServerType, FacilityCode);
+                    GetReturnorderCode(json, token, Lcheckcount, ServerType, FacilityCode, Instance);
                 }
                 else
                 {
-                    ObjBusinessLayer.BLReturnOrderError(results.Result.ObjectParam);
+                    ObjBusinessLayer.BLReturnOrderError(results.Result.ObjectParam, ServerType);
 
                 }
             }
@@ -542,15 +622,16 @@ namespace Uniware_PandoIntegration.API
                 {
                     ReturnorderCode elmts = new ReturnorderCode();
                     elmts.code = Dresult.returnOrders[i].code;
+                    elmts.Source = Instance;
                     returnorderCode.Add(elmts);
                 }
             }
             return returnorderCode;
         }
-        public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode)
+        public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.ReturnOrderGet(jdetail, token, ServerType, FacilityCode);
+            var list = _Token.ReturnOrderGet(jdetail, token, ServerType, FacilityCode, Instance);
             RootReturnorderAPI rootReturnorderAPI = new RootReturnorderAPI();
             rootReturnorderAPI.returnAddressDetailsList = new List<ReturnAddressDetailsList>();
             rootReturnorderAPI.returnSaleOrderItems = new List<ReturnSaleOrderItem>();
@@ -567,12 +648,12 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = Code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails, 1);
-                    GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode);
+                    var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails, 1, ServerType);
+                    GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode, Instance);
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("Return Order");
+                    Emailtrigger.SendEmailToAdmin("Return Order", list.Result.ObjectParam);
                     rootReturnorderAPI = null;
                 }
             }
@@ -587,6 +668,7 @@ namespace Uniware_PandoIntegration.API
                     returnSaleOrderItem.skuCode = Dlist.returnSaleOrderItems[k].skuCode;
                     returnSaleOrderItem.saleOrderCode = Dlist.returnSaleOrderItems[k].saleOrderCode;
                     returnSaleOrderItem.quantity = Dlist.returnSaleOrderItems.Count.ToString();
+                    returnSaleOrderItem.Source = Instance;
 
                     rootReturnorderAPI.returnSaleOrderItems.Add(returnSaleOrderItem);
                 }
@@ -602,6 +684,7 @@ namespace Uniware_PandoIntegration.API
                     returnAddressDetailsList.phone = Dlist.returnAddressDetailsList[l].phone;
                     returnAddressDetailsList.email = Dlist.returnAddressDetailsList[l].email;
                     returnAddressDetailsList.city = Dlist.returnAddressDetailsList[l].city;
+                    returnAddressDetailsList.Source = Instance;
                     //returnAddressDetailsLists.Add(returnAddressDetailsList);
                     rootReturnorderAPI.returnAddressDetailsList.Add(returnAddressDetailsList);
                 }
@@ -659,7 +742,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
             //var ResStatus= _Token.PostDataReturnOrderAPI(jsonre);
-            Log.Information($"Return Order Data Post: {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Order Data Post: {jsonre}");
             var ResStatus = _Token.PostDataToDeliverypackList(jsonre, ServerType);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -668,7 +751,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateReturnOrderPostDataError(true, ResStatus.Result.ObjectParam, Trigerid);
+                    ObjBusinessLayer.UpdateReturnOrderPostDataError(true, ResStatus.Result.ObjectParam, Trigerid, ServerType);
                     PostDataReturnOrder(AllData, Trigerid, Lcheckcount, ServerType);
                 }
                 {
@@ -679,13 +762,13 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode)
+        public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
-            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
+            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode, Instance);
             Element rootReturnorderAPI = new Element();
             List<Element> listcode = new List<Element>();
-            Log.Information("STO WayBill response: " + list.Result.ObjectParam);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill response: " + list.Result.ObjectParam);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
 
             if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
@@ -694,11 +777,11 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    GatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode);
+                    GatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode, Instance);
                 }
                 else
                 {
-                    ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam);
+                    ObjBusinessLayer.STOWaybillErrorCodes(list.Result.ObjectParam, ServerType);
                     rootReturnorderAPI = null;
                 }
             }
@@ -709,6 +792,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Element code = new Element();
                     code.code = Dlist.elements[i].code;
+                    code.source = Instance;
                     listcode.Add(code);
                 }
             }
@@ -716,12 +800,12 @@ namespace Uniware_PandoIntegration.API
             //return rootReturnorderAPI;
             return listcode;
         }
-        public STOlistsDB GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode)
+        public STOlistsDB GetGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string FacilityCode, string instance)
         {
             int Lcheckcount = checkcount;
-            Log.Information("STO WayBill Elements: request " + jdetail);
-            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode);
-            Log.Information("STO WayBill Elements response " + list.Result.ObjectParam);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill Elements: request " + jdetail);
+            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, FacilityCode, instance);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill Elements response " + list.Result.ObjectParam);
 
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             STOlistsDB STOlists = new STOlistsDB();
@@ -740,12 +824,12 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 1);
-                    GetGatePassElements(jdetail, token, code, Lcheckcount, ServerType, FacilityCode);
+                    ObjBusinessLayer.UpdateWaybillGatepassError(errorCodeDetails, 1, ServerType);
+                    GetGatePassElements(jdetail, token, code, Lcheckcount, ServerType, FacilityCode, instance);
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("STO Waybill");
+                    Emailtrigger.SendEmailToAdmin("STO Waybill", list.Result.ObjectParam);
                     STOlists = null;
                 }
             }
@@ -759,12 +843,14 @@ namespace Uniware_PandoIntegration.API
                     codes.reference = Dlist.elements[i].reference;
                     codes.toPartyName = Dlist.elements[i].toPartyName;
                     codes.invoiceCode = Dlist.elements[i].invoiceCode;
-                    for (int k= 0; k < Dlist.elements[i].customFieldValues.Count; k++)
+                    codes.Source = instance;
+                    for (int k = 0; k < Dlist.elements[i].customFieldValues.Count; k++)
                     {
                         CustomFieldValuedb customFieldValue = new CustomFieldValuedb();
                         customFieldValue.Code = Dlist.elements[i].code;
                         customFieldValue.fieldName = Dlist.elements[i].customFieldValues[k].fieldName;
                         customFieldValue.fieldValue = Dlist.elements[i].customFieldValues[k].fieldValue;
+                        customFieldValue.Source = instance;
                         STOlists.customFieldDbs.Add(customFieldValue);
                     }
                     STOlists.elements.Add(codes);
@@ -775,6 +861,7 @@ namespace Uniware_PandoIntegration.API
                         gatePassItemDTO.quantity = Dlist.elements[i].gatePassItemDTOs[j].quantity;
                         gatePassItemDTO.itemTypeSKU = Dlist.elements[i].gatePassItemDTOs[j].itemTypeSKU;
                         gatePassItemDTO.unitPrice = Dlist.elements[i].gatePassItemDTOs[j].unitPrice;
+                        gatePassItemDTO.Source = instance;
                         STOlists.gatePassItemDTOs.Add(gatePassItemDTO);
                     }
                 }
@@ -830,7 +917,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             //var ResStatus = _Token.WaybillSTOPostDataDeliverypackList(jsonre);
-            Log.Information($"STO Waybill Post Data : {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO Waybill Post Data : {jsonre}");
             var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -839,7 +926,7 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdateSTOWaybillPosterreoe(true, ResStatus.Result.ObjectParam, triggerid, ServerType);
                     WaybillSTOPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
@@ -849,56 +936,57 @@ namespace Uniware_PandoIntegration.API
             }
             return ResStatus;
         }
-        public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode)
+        //public List<Element> STOAPIGatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
+        //{
+        //    int Lcheckcount = checkcount;
+        //    ServiceResponse<string> response = new ServiceResponse<string>();
+        //    var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
+        //    Element rootReturnorderAPI = new Element();
+        //    List<Element> listcode = new List<Element>();
+        //    Log.Information("STO APi response: " + list.Result.ObjectParam);
+        //    List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+
+        //    if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
+        //    {
+        //        if (Lcheckcount != 3)
+        //        {
+        //            Thread.Sleep(3000);
+        //            Lcheckcount += 1;
+        //            STOAPIGatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode, Instance);
+        //        }
+        //        else
+        //        {
+        //            ObjBusinessLayer.STOAPIErrorCodes(list.Result.ObjectParam);
+        //            rootReturnorderAPI = null;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        var Dlist = JsonConvert.DeserializeObject<STOGatePass>(list.Result.ObjectParam);
+        //        for (int i = 0; i < Dlist.elements.Count; i++)
+        //        {
+        //            Element code = new Element();
+        //            code.code = Dlist.elements[i].code;
+        //            code.source = Instance;
+        //            listcode.Add(code);
+        //        }
+        //    }
+
+        //    //return rootReturnorderAPI;
+        //    return listcode;
+        //}
+        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string Facilitycode, string instance)
         {
             int Lcheckcount = checkcount;
-            ServiceResponse<string> response = new ServiceResponse<string>();
-            var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode);
-            Element rootReturnorderAPI = new Element();
-            List<Element> listcode = new List<Element>();
-            Log.Information("STO APi response: " + list.Result.ObjectParam);
-            List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
-
-            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)
-            {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    STOAPIGatePass(jdetail, token, Lcheckcount, ServerType, FacilityCode);
-                }
-                else
-                {
-                    ObjBusinessLayer.STOAPIErrorCodes(list.Result.ObjectParam);
-                    rootReturnorderAPI = null;
-                }
-            }
-            else
-            {
-                var Dlist = JsonConvert.DeserializeObject<STOGatePass>(list.Result.ObjectParam);
-                for (int i = 0; i < Dlist.elements.Count; i++)
-                {
-                    Element code = new Element();
-                    code.code = Dlist.elements[i].code;
-                    listcode.Add(code);
-                }
-            }
-
-            //return rootReturnorderAPI;
-            return listcode;
-        }
-        public STOlists GetSTOAPIGatePassElements(string jdetail, string token, string code, int checkcount, string ServerType, string Facilitycode)
-        {
-            int Lcheckcount = checkcount;
-            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode);
-            Log.Information("STOAPI Response: " + jdetail);
+            var list = _Token.FetchingGetPassElements(jdetail, token, ServerType, Facilitycode, instance);
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STOAPI Response: " + jdetail);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
             STOlists STOlists = new STOlists();
             STOlists.gatePassItemDTOs = new List<GatePassItemDTO>();
             STOlists.elements = new List<Element>();
             ServiceResponse<string> response = new ServiceResponse<string>();
 
-            if (list.Result.Errcode < 200 || list.Result.Errcode > 299 || list.Status.ToString() == "Calceled")
+            if (list.Result.Errcode < 200 || list.Result.Errcode > 299)//list.Status.ToString() == "Calceled"
             {
                 if (Lcheckcount != 3)
                 {
@@ -909,13 +997,13 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Code = code;
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
-                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 1);
-                    GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount, ServerType, Facilitycode);
+                    ObjBusinessLayer.UpdateSTOAPIError(errorCodeDetails, 1, ServerType);
+                    GetSTOAPIGatePassElements(jdetail, token, code, Lcheckcount, ServerType, Facilitycode, instance);
                 }
                 else
                 {
                     //var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails);
-                    Emailtrigger.SendEmailToAdmin("STO API");
+                    Emailtrigger.SendEmailToAdmin("STO API", list.Result.ObjectParam);
                     STOlists = null;
                 }
             }
@@ -929,6 +1017,7 @@ namespace Uniware_PandoIntegration.API
                     codes.reference = Dlist.elements[i].reference;
                     codes.toPartyName = Dlist.elements[i].toPartyName;
                     codes.invoiceCode = Dlist.elements[i].invoiceCode;
+                    codes.source = instance;
                     STOlists.elements.Add(codes);
                     for (int j = 0; j < Dlist.elements[i].gatePassItemDTOs.Count; j++)
                     {
@@ -937,6 +1026,7 @@ namespace Uniware_PandoIntegration.API
                         gatePassItemDTO.quantity = Dlist.elements[i].gatePassItemDTOs[j].quantity;
                         gatePassItemDTO.itemTypeSKU = Dlist.elements[i].gatePassItemDTOs[j].itemTypeSKU;
                         gatePassItemDTO.unitPrice = Dlist.elements[i].gatePassItemDTOs[j].unitPrice;
+                        gatePassItemDTO.Source = instance;
                         STOlists.gatePassItemDTOs.Add(gatePassItemDTO);
                     }
                 }
@@ -991,7 +1081,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData.ObjectParam });
             //var ResStatus = _Token.STOPApiostDataDeliverypackList(jsonre);
-            Log.Information($"STO API Post Data : {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO API Post Data : {jsonre}");
             var ResStatus = _Token.PostDataToDeliverypackList(jsonre, ServerType);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -1000,11 +1090,11 @@ namespace Uniware_PandoIntegration.API
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid);
+                    ObjBusinessLayer.UpdateSTOAPIPosterreoe(true, ResStatus.Result.ObjectParam, triggerid, ServerType);
                     STOAPiPostData(AllData, triggerid, Lcheckcount, ServerType);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("STO API");
+                    Emailtrigger.SendEmailToAdmin("STO API", ResStatus.Result.ObjectParam);
                     return ResStatus; ;
 
                 }
@@ -1012,53 +1102,71 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public Task<ServiceResponse<string>> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype)
+        public ServiceResponse<string> UpdateShippingPackagePostData(UpdateShippingpackage AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
-            var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype);
+                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid, Servertype);
+                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Update Shipping Package");
-                    return ResStatus = null;
+                    List<string> ErrorList = new List<string>();
+                    //ErrorList.Add(ResStatus.Result.ObjectParam);
+                    //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
+                    //return ResStatus = null;
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    //serviceResponse.ObjectParam = ErrorList.ToString();
+                    serviceResponse.IsSuccess = false;
+                    return serviceResponse;
+                }
+            }
+            else
+            {
+                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode, Servertype);
+                //return ResStatus;
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+                return serviceResponse;
+            }
+
+        }
+        public ServiceResponse<string> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string shippingPackageCode, string Token, string FacilityCode, string ServerType, string Instance)
+        {
+            int Lcheckcount = checkcount;
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType, Instance);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
+            {
+                if (Lcheckcount != 3)
+                {
+                    Thread.Sleep(3000);
+                    Lcheckcount += 1;
+                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
+                    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
+                }
+                {
+                    //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
+                    //return ResStatus = null;
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    serviceResponse.IsSuccess = false;
+                    return serviceResponse;
 
                 }
             }
             else
             {
-                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode);
-                return ResStatus;
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+                return serviceResponse;
 
             }
-
-        }
-        public Task<ServiceResponse<string>> AllocatingShippingPostData(Allocateshipping AllData, int checkcount, string triggerid, string Token, string FacilityCode, string ServerType)
-        {
-            int Lcheckcount = checkcount;
-            var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
-            {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    AllocatingShippingPostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, ServerType);
-                }
-                {
-                    Emailtrigger.SendEmailToAdmin("Allocate Shipping");
-                    return ResStatus = null;
-
-                }
-            }
-            return ResStatus;
         }
 
         public Task<ServiceResponse<string>> WaybillCancelPostData(List<CancelData> AllData, int checkcount)
@@ -1066,7 +1174,7 @@ namespace Uniware_PandoIntegration.API
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             var ResStatus = _Token.DeleteDataTomaterialinvoice(jsonre);
-            Log.Information($" Way Bill Cancel Data:-  {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Way Bill Cancel Data:-  {jsonre}");
 
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
@@ -1100,60 +1208,72 @@ namespace Uniware_PandoIntegration.API
                 disposedValue = true;
             }
         }
-        public Task<ServiceResponse<string>> ReversePickUpdetails(ReversePickup AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype)
+        public Task<ServiceResponse<string>> ReversePickUpdetails(ReversePickup AllData, int checkcount, string triggerid, string Token, string FacilityCode, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(AllData);
-            Log.Information($"Reverse PickUp Data:-  {jsonre}");
+            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Reverse PickUp Data:-  {jsonre}");
 
-            var ResStatus = _Token.ReversePickUp(jsonre, Token, FacilityCode, Servertype);
+            var ResStatus = _Token.ReversePickUp(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid);
-                    ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype);
+                    ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid, Servertype);
+                    ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 }
                 {
-                    Emailtrigger.SendEmailToAdmin("Reverse PickUp");
+                    Emailtrigger.SendEmailToAdmin("Reverse PickUp", ResStatus.Result.ObjectParam);
                     return ResStatus = null;
 
                 }
             }
             else
             {
-                ObjBusinessLayer.BLUpdateErrorDetailsReversePickup(AllData.reversePickupCode);
+                ObjBusinessLayer.BLUpdateErrorDetailsReversePickup(AllData.reversePickupCode, Servertype);
                 return ResStatus;
 
             }
 
         }
-        public Task<ServiceResponse<string>> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype)
+        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(AllData);
-            Log.Information($"Tracking Status data:-  {jsonre}");
+            //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-            var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype);
+
+            var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
                 {
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
-                    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype);
+                    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+
                 }
+                else
                 {
-                    //Emailtrigger.SendEmailToAdmin("Reverse PickUp");
-                    return ResStatus = null;
+
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    serviceResponse.IsSuccess = false;
+                    //return serviceResponse;
+
                 }
             }
             else
             {
-                return ResStatus;
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+                //return serviceResponse;
+
             }
+            return serviceResponse;
 
         }
 

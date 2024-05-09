@@ -25,13 +25,25 @@
         return true;
     }
 </script>
+<style>
+    .page-title {
+        font-family: Times New Roman;
+        font-size: 25px;
+        color: #dc3545;
+        margin-left: 25px;
+        font-weight: 500;
+    }
+</style>
 
 
 <div class="container">
     <div class="col-md-12">
         <div class="col-md-3" style="padding:39px;margin-left: 210px;" ">
             <div class="left-side-content" style="margin-top:60px;">
-                <div style="width: 467px;height: 140px;">
+                <div style="width: 497px;height: 140px;">
+                    <div class="col-8 align-self-center">
+                        <h4 class="page-title">Sale Order Upload</h4>
+                    </div>
         @using (Html.BeginForm("UploadExcelData", "UploadExcel", FormMethod.Post, new { style = "padding:41px;margin-left:31px;background:#dc3545;border-radius:50px 20px;", enctype = "multipart/form-data", }))
         {
                         <div class="form-group">

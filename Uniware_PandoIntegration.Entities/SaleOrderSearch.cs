@@ -60,6 +60,7 @@ namespace Uniware_PandoIntegration.Entities
     public class Salesorder
     {
         public string code { get; set; }
+        public string Instance { get; set; }
     }
     public class SKucode
     {
