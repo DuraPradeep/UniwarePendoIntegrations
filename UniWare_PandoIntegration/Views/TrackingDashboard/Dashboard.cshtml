@@ -1,0 +1,362 @@
+﻿@* @model Uniware_PandoIntegration.Entities.DashboardsLists *@
+
+
+
+
+
+
+<link href="~/css/font_family.css" rel="stylesheet" />
+<link href="~/css/css_bootstrap.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap/dist/css/fontawesome4.7.0.min.css" rel="stylesheet" />
+<script src="~/js/jquery-3.7.0.min.js"></script>
+<script src="~/js/toast.min.js"></script>
+<script src="~/js/jquery.datatables.min.js"></script>
+<script src="~/js/datatables.bootstrap.min.js"></script>
+<script src="~/js/datatables.responsive.min.js"></script>
+<script src="~/js/responsive.bootstrap.min.js"></script>
+<link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
+<link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
+<style>
+    .status_width {
+        width: 12.333333% !important;
+        height: 117px;
+    }
+
+    .inner_icon_details {
+        padding: 0px !important
+    }
+
+    thead {
+        background-color: #dc3545!important;
+        color:#fff;
+    }
+     .dataTables_length {
+            display: block !important;
+        }
+
+    div.dataTables_wrapper div.dataTables_length select{
+        padding-top: 0px;
+        text-align: center;
+    }
+</style>
+<div class="container-fluid">
+    <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
+        <!-- Desktop sidebar -->
+        <!-- Mobile sidebar -->
+        <!-- Backdrop -->
+
+        <div class="flex flex-col flex-1 w-full">
+
+
+            <div class="container-fluid px-6 mx-auto grid">
+                <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200" style="padding-bottom: 20px;margin-top:0px !important;">
+                    Tracking Dashboard
+                </h2>
+                <div class="row" id="row">
+                </div>
+                <div class="w-full overflow-hidden rounded-lg shadow-xs" style="margin-top: 30px;">
+                    <div class="w-full">
+                        <table id="TrackingDetails" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            @*  <thead>
+                            <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800" style="font-size:12px;">
+                            <th class="px-4 py-3">Tracking Number</th>
+                            <th class="px-4 py-3">Display Order Code</th>
+                            <th class="px-4 py-3">Shipment Id</th>
+                            <th class="px-4 py-3">Status</th>
+                            <th class="px-4 py-3">Courier Name</th>
+                            <th class="px-4 py-3">Tracking Link</th>
+                            <th class="px-4 py-3">Customer Name</th>
+                            <th class="px-4 py-3">Phone</th>
+                            <th class="px-4 py-3">Facility</th>
+                            <th class="px-4 py-3">Customer City</th>
+                            <th class="px-4 py-3">Invoice Date</th>
+                            <th class="px-4 py-3">Material Code</th>
+                            <th class="px-4 py-3">Quantity</th>
+                            <th class="px-4 py-3">UOM</th>
+                            <th class="px-4 py-3">Indent ID</th>
+                            <th class="px-4 py-3">Pincode</th>
+                            <th class="px-4 py-3">State</th>
+                            <th class="px-4 py-3">Zone</th>
+                            </tr>
+                            </thead> *@
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            fn_GetAllDetails();
+
+        })
+
+        function fn_GetAllDetails() {
+            debugger;
+            $("#overlay").fadeIn();
+            $.get("/TrackingDashboard/Getalldetails", {}).done(function (data) {
+
+                var da = $("#row");
+                data.trackingDetails.forEach((element) =>
+                    da.append('<div class="col-md-1 flex items-center p-4 bg-white status_width" style="box-shadow: 4px 1px 8px 1px; cursor: pointer; #969696;margin: 0px 10px 10px 15px;text-align:center;" onclick=fn_getStatusBasedOnName(this,`' + element.statusName + '`)><div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500 inner_icon_details"><img src="/Images/'+ element.statusName +'.png" alt="user" class="icon_dashboard" width="31" ></div><div><p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style = "font-size: 15px; font-weight: 600; text-transform: capitalize;">' + element.statusName.replace('_', ' ') + ' </p><p class= "text-lg font-semibold text-gray-700 dark:text-gray-200" style = "font-size: 15px; font-weight: 600;">' + element.count + ' </p></div></div>')
+                );
+                debugger;
+
+                if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
+                    table = $('#TrackingDetails').DataTable();
+                    table.clear();
+                    table.destroy();
+                }
+                if (data.dashboardDetails.length != 0) {
+                    debugger;
+                    $('#TrackingDetails').DataTable({
+                        "info": true,
+                        "responsive": false,
+                        "paging": true,
+                        "scrollX": true,
+                        "searching": true,
+                        "ordering": true,
+                        data: data.dashboardDetails,
+
+                        "columns": [
+
+                            {
+                                data: "trackingNumber",
+                                title: "Tracking Number"
+                            },
+                            {
+                                data: "displayOrder",
+                                title: "Display Order Code"
+                            },
+                            {
+                                data: "shipmentID",
+                                title: "Shipment Id"
+                            },
+                            {
+                                data: "latestStatus",
+                                title: "Status"
+                            },
+                            {
+                                data: "courierName",
+                                title: "Courier Name"
+                            },
+                            {
+                                data: "trackingLink",
+                                title: "Tracking Link",
+                                render: function (data, type, row) {
+                                    return '<a href="' + data + '" target="_blanck">' + data + '</a>'
+                                }
+
+                            },
+                            {
+                                data: "customerName",
+                                title: "Customer Name"
+                            },
+                            {
+                                data: "customerPhone",
+                                title: "Phone"
+                            },
+                            {
+                                data: "facilityCode",
+                                title: "Facility"
+                            },
+                            {
+                                data: "customerCity",
+                                title: "City"
+                            },
+                            {
+                                data: "invoiceDate",
+                                title: "Invoice Date"
+                            },
+                            {
+                                data: "materialCode",
+                                title: "Material Code"
+                            },
+                            {
+                                data: "quantity",
+                                title: "Quantity"
+                            },
+                            {
+                                data: "uom",
+                                title: "UOM"
+                            },
+                            {
+                                data: "indentID",
+                                title: "Indent Number"
+                            },
+                            {
+                                data: "pincode",
+                                title: "Pincode"
+                            },
+                            {
+                                data: "state",
+                                title: "State"
+                            },
+                            {
+                                data: "region",
+                                title: "Region"
+                            }
+                        ]
+                    })
+                    $("#overlay").fadeOut();
+
+                }
+                else {
+                    iqwerty.toast.toast("No Failed Records Found!!");
+                }
+            });
+
+
+
+        }
+
+
+        function fn_getStatusBasedOnName(select, name) {
+            debugger;
+            $("#overlay").fadeIn();
+            $.get("/TrackingDashboard/GetStatusDetailsByName", {
+                Name: name
+            }).done(function (data) {
+                debugger;
+                if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
+                    table = $('#TrackingDetails').DataTable();
+                    table.clear();
+                    table.destroy();
+                }
+                if (data.length != 0) {
+                    debugger;
+                    $('#TrackingDetails').DataTable({
+                        "info": true,
+                        "stateSave": true,
+                        "dom": 'Bfrltip',
+                        "scrollX": true,
+                        "orderCellsTop": true,
+                        "searchDelay": 500,
+                        "responsive": false,
+                        data: data,
+
+                        // "columns": [
+
+                        //     { data: "trackingNumber" },
+                        //     { data: "displayOrder" },
+                        //     { data: "shipmentID" },
+                        //     { data: "latestStatus" },
+                        //     { data: "courierName" },
+                        //     {
+                        //         data: "trackingLink",
+                        //         render: function (data, type, row) {
+                        //             return '<a href="' + data + '" target="_blanck">' + data + '</a>'
+                        //         }
+
+                        //     },
+                        //     { data: "customerName" },
+                        //     { data: "customerPhone" },
+                        //     { data: "facilityCode" },
+                        //     { data: "customerCity" },
+                        //     { data: "invoiceDate" },
+                        //     { data: "materialCode" },
+                        //     { data: "quantity" },
+                        //     { data: "uom" },
+                        //     { data: "indentID" },
+                        //     { data: "pincode" },
+                        //     { data: "state" },
+                        //     { data: "region" }
+
+                        // ]
+                        "columns": [
+
+                            {
+                                data: "trackingNumber",
+                                title: "Tracking Number"
+                            },
+                            {
+                                data: "displayOrder",
+                                title: "Display Order Code"
+                            },
+                            {
+                                data: "shipmentID",
+                                title: "Shipment Id"
+                            },
+                            {
+                                data: "latestStatus",
+                                title: "Status"
+                            },
+                            {
+                                data: "courierName",
+                                title: "Courier Name"
+                            },
+                            {
+                                data: "trackingLink",
+                                title: "Tracking Link",
+                                render: function (data, type, row) {
+                                    return '<a href="' + data + '" target="_blanck">' + data + '</a>'
+                                }
+
+                            },
+                            {
+                                data: "customerName",
+                                title: "Customer Name"
+                            },
+                            {
+                                data: "customerPhone",
+                                title: "Phone"
+                            },
+                            {
+                                data: "facilityCode",
+                                title: "Facility"
+                            },
+                            {
+                                data: "customerCity",
+                                title: "City"
+                            },
+                            {
+                                data: "invoiceDate",
+                                title: "Invoice Date"
+                            },
+                            {
+                                data: "materialCode",
+                                title: "Material Code"
+                            },
+                            {
+                                data: "quantity",
+                                title: "Quantity"
+                            },
+                            {
+                                data: "uom",
+                                title: "UOM"
+                            },
+                            {
+                                data: "indentID",
+                                title: "Indent Number"
+                            },
+                            {
+                                data: "pincode",
+                                title: "Pincode"
+                            },
+                            {
+                                data: "state",
+                                title: "State"
+                            },
+                            {
+                                data: "region",
+                                title: "Region"
+                            }
+                        ]
+                    })
+                    $("#overlay").fadeOut();
+
+                }
+                else {
+                    $("#overlay").fadeOut();
+
+                    iqwerty.toast.toast("No Failed Records Found!!");
+                }
+            });
+
+        }
+
+
+
+    </script>
+</div>
+

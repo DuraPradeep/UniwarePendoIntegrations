@@ -42,6 +42,35 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return customerProfile;
         }
+        public static List<Salesorder> GetCodesForRetrigger(DataSet pds)
+        {
+            List<Salesorder> customerProfile = new List<Salesorder>();
+            ServiceResponse<Salesorder> serviceResponse = new ServiceResponse<Salesorder>();
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                    {
+                        Salesorder sales = new Salesorder();
+                        sales.code = pds.Tables[0].Rows[i]["CODE"].ToString();
+                        sales.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+                        customerProfile.Add(sales);
+                    }
+                    // serviceResponse.Errcode = 200;
+                }
+                else
+                {
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return customerProfile;
+        }
         public static List<SKucode> Getskucodes(DataSet pds)
         {
             List<SKucode> skucodes = new List<SKucode>();
@@ -106,16 +135,41 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Sendingdata.expected_delivery_date = pds.Tables[0].Rows[i]["expected_delivery_date"].ToString();
                         Sendingdata.exclude_vehicle_type = new List<string>();
                         for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
-                        {                            
+                        {
                             Sendingdata.exclude_vehicle_type.Add(pds.Tables[1].Rows[j]["Details"].ToString());
                         }
                         Finaldata.Add(Sendingdata);
                     }
-                   
+
                 }
                 else
                 {
 
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return Finaldata;
+        }
+        public static List<UserInstance> GetInstanceFromTriggerData(DataSet pds)
+        {
+            List<UserInstance> Finaldata = new List<UserInstance>();
+
+            try
+            {
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                    {
+                        UserInstance Sendingdata = new UserInstance();
+                        Sendingdata.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+                        Sendingdata.TriggerId = pds.Tables[0].Rows[i]["TriggerId"].ToString();
+
+                        Finaldata.Add(Sendingdata);
+                    }
                 }
 
             }
@@ -502,6 +556,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     userLogin.UserName = Convert.ToString(pds.Tables[0].Rows[0]["UserName"]);
                     userLogin.Password = pds.Tables[0].Rows[0]["Password"].ToString();
+                    userLogin.LoginID = pds.Tables[0].Rows[0]["LoginID"].ToString();
+                    userLogin.RoleId = pds.Tables[0].Rows[0]["RoleId"].ToString();
+                    userLogin.PhoneNumber = pds.Tables[0].Rows[0]["MobileNumber"].ToString();
+                    userLogin.Email = pds.Tables[0].Rows[0]["Email"].ToString();
+                    userLogin.Environment = pds.Tables[0].Rows[0]["Environment"].ToString();
                     serviceResponse.ObjectParam = userLogin;
                     serviceResponse.Errcode = 200;
                 }
@@ -587,7 +646,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     for (int j = 0; j < pds.Tables[1].Rows.Count; j++)
                     {
                         returncode.exclude_vehicle_type.Add(pds.Tables[1].Rows[j]["Details"].ToString());
-                    }                   
+                    }
                     userProfile.Add(returncode);
                 }
                 skucodes.ObjectParam = userProfile;
@@ -622,6 +681,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
+
         public static List<UpdateShippingpackagedb> GetUpdateShippingDetails(DataSet pds)
         {
             //List<UpdateShippingpackage> skucodes = new List<UpdateShippingpackage>();
@@ -695,6 +755,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sKucode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
                     //sKucode.generateUniwareShippingLabel = pds.Tables[0].Rows[i]["generateUniwareShippingLabel"].ToString();
                     sKucode.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
+                    sKucode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+                    sKucode.trackingLink = pds.Tables[0].Rows[i]["trackingLink"].ToString();
 
                     userProfile.Add(sKucode);
 
@@ -747,7 +809,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
                     PickUpAddress pickUpAddress = new PickUpAddress();
                     Dimension dimension = new Dimension();
-                    CustomField customField=new CustomField();
+                    CustomField customField = new CustomField();
 
                     reversePickup.reversePickupCode = pds.Tables[0].Rows[i]["reversepickupcode"].ToString();
                     reversePickup.pickupInstruction = pds.Tables[0].Rows[i]["pickupInstruction"].ToString();
@@ -757,14 +819,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     reversePickup.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
                     reversePickup.FaciityCode = pds.Tables[0].Rows[i]["Facility"].ToString();
 
-                    pickUpAddress.id= pds.Tables[0].Rows[i]["id"].ToString();
-                    pickUpAddress.name= pds.Tables[0].Rows[i]["name"].ToString();
-                    pickUpAddress.addressLine1= pds.Tables[0].Rows[i]["addressLine1"].ToString();
-                    pickUpAddress.addressLine2= pds.Tables[0].Rows[i]["addressLine2"].ToString();
-                    pickUpAddress.city= pds.Tables[0].Rows[i]["city"].ToString();
-                    pickUpAddress.state=pds.Tables[0].Rows[i]["state"].ToString();
-                    pickUpAddress.phone= pds.Tables[0].Rows[i]["phone"].ToString();
-                    pickUpAddress.pincode= pds.Tables[0].Rows[i]["pincode"].ToString();
+                    pickUpAddress.id = pds.Tables[0].Rows[i]["id"].ToString();
+                    pickUpAddress.name = pds.Tables[0].Rows[i]["name"].ToString();
+                    pickUpAddress.addressLine1 = pds.Tables[0].Rows[i]["addressLine1"].ToString();
+                    pickUpAddress.addressLine2 = pds.Tables[0].Rows[i]["addressLine2"].ToString();
+                    pickUpAddress.city = pds.Tables[0].Rows[i]["city"].ToString();
+                    pickUpAddress.state = pds.Tables[0].Rows[i]["state"].ToString();
+                    pickUpAddress.phone = pds.Tables[0].Rows[i]["phone"].ToString();
+                    pickUpAddress.pincode = pds.Tables[0].Rows[i]["pincode"].ToString();
                     reversePickup.pickUpAddress = pickUpAddress;
 
                     dimension.boxLength = pds.Tables[0].Rows[i]["boxLength"].ToString();
@@ -773,15 +835,15 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     dimension.boxWeight = pds.Tables[0].Rows[i]["boxWeight"].ToString();
                     reversePickup.dimension = dimension;
 
-                    customField.name= pds.Tables[0].Rows[i]["name"].ToString();
-                    customField.value= pds.Tables[0].Rows[i]["value"].ToString();
+                    customField.name = pds.Tables[0].Rows[i]["name"].ToString();
+                    customField.value = pds.Tables[0].Rows[i]["value"].ToString();
                     reversePickup.customFields.Add(customField);
 
                     userProfile.Add(reversePickup);
                 }
-               
+
                 return userProfile;
-               
+
             }
             catch (Exception ex)
             {
@@ -829,8 +891,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.Mobile = pds.Tables[0].Rows[i]["Mobile_number"].ToString();
                     returncode.Region = pds.Tables[0].Rows[i]["Region"].ToString();
                     returncode.Email = pds.Tables[0].Rows[i]["email"].ToString();
+                    returncode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+
                     FacilityList.Add(returncode);
-                }         
+                }
             }
             catch (Exception ex)
             {
@@ -872,6 +936,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 {
                     TruckDetails returncode = new TruckDetails();
                     returncode.Details = pds.Tables[0].Rows[i]["Details"].ToString();
+                    returncode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
                     FacilityList.Add(returncode);
                 }
             }
@@ -882,5 +947,262 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return FacilityList;
         }
+        public static List<RegionMaster> MPGetRegionDetails(DataSet pds)
+        {
+            List<RegionMaster> FacilityList = new List<RegionMaster>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    RegionMaster returncode = new RegionMaster();
+                    returncode.State = pds.Tables[0].Rows[i]["State"].ToString();
+                    returncode.Region = pds.Tables[0].Rows[i]["Region"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
+        public static List<TrackingMaster> GetTrackingStatusDetails(DataSet pds)
+        {
+            List<TrackingMaster> FacilityList = new List<TrackingMaster>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingMaster returncode = new TrackingMaster();
+                    returncode.UniwareStatus = pds.Tables[0].Rows[i]["UniwareStatus"].ToString();
+                    returncode.PandoStatus = pds.Tables[0].Rows[i]["PandoStatus"].ToString();
+                    returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
+        public static List<TrackingMaster> GetCourierNameDetails(DataSet pds)
+        {
+            List<TrackingMaster> FacilityList = new List<TrackingMaster>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingMaster returncode = new TrackingMaster();
+                    returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
+
+        public static List<TrackingLinkMapping> GetTrackingLink(DataSet pds)
+        {
+            List<TrackingLinkMapping> MappingList = new List<TrackingLinkMapping>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingLinkMapping returncode = new TrackingLinkMapping();
+                    returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    returncode.TrackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();
+                    MappingList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return MappingList;
+        }
+
+
+        public static ServiceResponse<MenusAccess> GetRoleMenuAccess(DataSet pds)
+        {
+            ServiceResponse<MenusAccess> serviceResponse = new ServiceResponse<MenusAccess>();
+            List<RoleMenuAccess> RoleMenuAccessList = new List<RoleMenuAccess>();
+            List<Menus> MenuLists = new List<Menus>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    Menus uobj = new Menus
+                    {
+                        MenuID = Convert.ToInt32(pds.Tables[0].Rows[i]["MenuID"]),
+                        MenuTitle = pds.Tables[0].Rows[i]["MenuTitle"].ToString(),
+                        ActionName = pds.Tables[0].Rows[i]["ActionName"].ToString(),
+                        ControllerName = pds.Tables[0].Rows[i]["ControllerName"].ToString()
+                    };
+
+                    MenuLists.Add(uobj);
+                }
+
+                for (int i = 0; i < pds.Tables[1].Rows.Count; i++)
+                {
+                    RoleMenuAccess uobj = new RoleMenuAccess
+                    {
+                        MenuAccessId = Convert.ToInt32(pds.Tables[1].Rows[i]["MenuAccessId"]),
+                        MenuId = Convert.ToInt32(pds.Tables[1].Rows[i]["MenuId"]),
+                        Role = Convert.ToInt16(pds.Tables[1].Rows[i]["Role"]),
+                        UserID = Convert.ToInt32(pds.Tables[1].Rows[i]["UserID"])
+                    };
+
+                    RoleMenuAccessList.Add(uobj);
+                }
+                MenusAccess MenusAccess = new MenusAccess();
+                MenusAccess.RoleMenuAccessesList = RoleMenuAccessList;
+                MenusAccess.MenusList = MenuLists;
+                serviceResponse.ObjectParam = MenusAccess;
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Errcode = 500;
+                serviceResponse.Errdesc = ex.Message;
+                serviceResponse.ObjectParam = new MenusAccess();
+            }
+            return serviceResponse;
+        }
+        public static List<UserProfile> GetRoleMaster(DataSet pds)
+        {
+            ServiceResponse<List<UserProfile>> serviceResponse = new ServiceResponse<List<UserProfile>>();
+            //List<RoleMenuAccess> RoleMenuAccessList = new List<RoleMenuAccess>();
+            List<UserProfile> MenuLists = new List<UserProfile>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    UserProfile uobj = new UserProfile
+                    {
+                        Roleid = Convert.ToInt32(pds.Tables[0].Rows[i]["RoleId"]),
+                        RoleName = pds.Tables[0].Rows[i]["RoleName"].ToString()
+                    };
+
+                    MenuLists.Add(uobj);
+                }
+
+                //serviceResponse.ObjectParam = MenuLists;
+            }
+            catch (Exception ex)
+            {
+                //serviceResponse.Errcode = 500;
+                //serviceResponse.Errdesc = ex.Message;
+                //serviceResponse.ObjectParam = new List<UserProfile>();
+            }
+            return MenuLists;
+        }
+
+        public static List<ShippingStatus> GetShippingMaster(DataSet pds)
+        {
+            List<ShippingStatus> ShippingStatus = new List<ShippingStatus>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    ShippingStatus returncode = new ShippingStatus();
+                    returncode.StatusName = pds.Tables[0].Rows[i]["StatusName"].ToString();
+                    //returncode.Instanc = pds.Tables[0].Rows[i]["Instance"].ToString();
+                    ShippingStatus.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return ShippingStatus;
+        }
+
+
+        public static ServiceResponse<DashboardsLists> GetDashBoardDetails(DataSet pds)
+        {
+            ServiceResponse<DashboardsLists> DashboardDetails = new ServiceResponse<DashboardsLists>();
+            DashboardsLists dashboardsLists = new DashboardsLists();
+            List<TDashboardDetails> userProfile = new List<TDashboardDetails>();
+            List<TrackingDetails> trackingDetails = new List<TrackingDetails>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingDetails details = new TrackingDetails();
+                    details.StatusName = pds.Tables[0].Rows[i]["Name"].ToString();
+                    details.Count = pds.Tables[0].Rows[i]["Total"].ToString();
+                    trackingDetails.Add(details);
+                }
+                for (int i = 0; i < pds.Tables[1].Rows.Count; i++)
+                {
+                    TDashboardDetails details = new TDashboardDetails();
+                    details.TrackingNumber = pds.Tables[1].Rows[i]["TrackingNumber"].ToString();
+                    details.DisplayOrder = pds.Tables[1].Rows[i]["DisplayOrderCode"].ToString();
+                    details.ShipmentID = pds.Tables[1].Rows[i]["ShipmentId"].ToString();
+                    details.LatestStatus = pds.Tables[1].Rows[i]["Status"].ToString();
+                    details.CourierName = pds.Tables[1].Rows[i]["CourierName"].ToString();
+                    details.trackingLink = pds.Tables[1].Rows[i]["TrackingLink"].ToString();
+                    details.CustomerName = pds.Tables[1].Rows[i]["CustomerName"].ToString();
+                    details.CustomerPhone = pds.Tables[1].Rows[i]["CustomerPhone"].ToString();
+                    details.FacilityCode = pds.Tables[1].Rows[i]["FacilityCode"].ToString();
+                    details.CustomerCity = pds.Tables[1].Rows[i]["CustomerCity"].ToString();
+                    details.InvoiceDate = pds.Tables[1].Rows[i]["InvoiceDate"].ToString();
+                    details.MaterialCode = pds.Tables[1].Rows[i]["MaterialCode"].ToString();
+                    details.Quantity = pds.Tables[1].Rows[i]["Quantity"].ToString();
+                    details.UOM = pds.Tables[1].Rows[i]["UOM"].ToString();
+                    details.IndentID = pds.Tables[1].Rows[i]["IndentID"].ToString();
+                    details.Pincode = pds.Tables[1].Rows[i]["Pincode"].ToString();
+                    details.state = pds.Tables[1].Rows[i]["state"].ToString();
+                    details.Region = pds.Tables[1].Rows[i]["Region"].ToString();
+
+                    //skucodes.Add(sKucode);
+                    userProfile.Add(details);//new CodesErrorDetails();// Add(sKucode);
+                }
+                dashboardsLists.dashboardDetails = userProfile;
+                dashboardsLists.trackingDetails = trackingDetails;
+                DashboardDetails.ObjectParam = dashboardsLists;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return DashboardDetails;
+        }
+        public static List<TDashboardDetails> GetTrackingDetailsByName(DataSet pds)
+        {
+            List<TDashboardDetails> TrackingDetails = new List<TDashboardDetails>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TDashboardDetails details = new TDashboardDetails();
+                    details.TrackingNumber = pds.Tables[0].Rows[i]["TrackingNumber"].ToString();
+                    details.DisplayOrder = pds.Tables[0].Rows[i]["DisplayOrderCode"].ToString();
+                    details.OrderStatus = pds.Tables[0].Rows[i]["OrderStatus"].ToString();
+                    details.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    details.trackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();
+                    details.CustomerName = pds.Tables[0].Rows[i]["CustomerName"].ToString();
+                    details.CustomerPhone = pds.Tables[0].Rows[i]["CustomerPhone"].ToString();
+                    details.CustomerCity = pds.Tables[0].Rows[i]["CustomerCity"].ToString();
+                    details.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
+                    TrackingDetails.Add(details);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return TrackingDetails;
+        }
+
     }
 }

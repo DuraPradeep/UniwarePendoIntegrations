@@ -1,0 +1,148 @@
+﻿@model Uniware_PandoIntegration.Entities.MenusAccess
+
+
+@*<link href="~/Content/Style/CustomStyle.css" rel="stylesheet" />*@
+@* <script src="~/Scripts/Master/Dashboard.js"></script> *@
+<style>
+
+    .menu_item {
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+    }
+
+        .menu_item li {
+            list-style: none;
+            display: inline-block;
+            margin-right: 35px;
+        }
+
+            .menu_item li a {
+                display: block;
+                padding: 15px 15px;
+                background-color: #fff;
+                min-width: 100px;
+                text-align: center;
+                color: #333;
+                text-decoration: none;
+                transition: all 0.3s;
+            }
+
+                .menu_item li a span.icons-nav {
+                    display: block;
+                }
+
+                    .menu_item li a span.icons-nav img {
+                        width: 64px;
+                        padding: 10px;
+                        /*background-color: #dbd2d2;*/
+                        border-radius: 10px;
+                    }
+
+                .menu_item li a:hover {
+                    background-color: #ccc;
+                    border-radius: 10px;
+                    transition: all 0.3s;
+                }
+
+                .menu_item li a span.items_title {
+                    margin-top: 8px;
+                    display: block;
+                }
+
+    .pointer
+    {
+        cursor: pointer;
+        border-radius: 20px;        
+
+    }
+
+    .tile_list {
+        color: #dc3545;
+        font-weight: 700;
+        box-shadow: 1px 1px 10px 2px gray;
+        border-radius: 20px;
+    }
+
+    
+</style>
+<style>
+
+    .sales .ct-series-a .ct-line, .sales .ct-series-a .ct-point {
+        stroke: #e60a1d;
+        stroke-width: 3px;
+    }
+
+    .overviewcard {
+        color: red;
+    }
+</style>
+<script>
+
+    function DynamicUrl(action, Controller) {
+        debugger;
+
+        $(".preloader").fadeIn();
+        var URl = "/" + Controller + "/" + action;
+        // window.open(URl)
+        // window.location.href = URl;
+        // window.location.reload(URl);
+
+        $.post(URl).done(function (data) {
+            debugger;
+            $(".preloader").fadeOut();
+            // window.location.replace(data);
+            $("#dv_PartialView").html(data);
+        })
+
+
+
+
+    }
+</script>
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            iqwerty.toast.toast('@TempData["Success"]');
+        };
+    </script>
+
+}
+
+
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+
+<div class="row">
+    <ul class="main-overview">
+        @if (Model.MenusList != null)
+        {
+            foreach (var item in Model.MenusList)
+            {
+                foreach (var ASSIGNitem in Model.RoleMenuAccessesList)
+                {
+                    if (ASSIGNitem.MenuId == item.MenuID)
+                    {
+                        <div class="col-md-4 overviewcard tiles" onclick="javascript:DynamicUrl('@item.ActionName','@item.ControllerName');">
+                            <div class="card text-white mb-4 text-center pointer">
+                                <div class="card-body tile_list">
+                                    <p>@item.MenuTitle</p>
+
+                                </div>
+                            </div>
+                            @* <div class="overviewcard__info"><h3 class="card-title mb-0" style="color:@item.FontColor;font-family:Montserrat, sans-serif">@item.MenuTitle</h3></div> *@
+                        </div>
+                    }
+                }
+            }
+
+
+        }
+
+    </ul>
+
+
+</div>
+

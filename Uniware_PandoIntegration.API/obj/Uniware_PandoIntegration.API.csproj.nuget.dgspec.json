@@ -10,7 +10,7 @@
         "projectName": "Uniware_PandoIntegration.Common",
         "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj",
         "frameworks": {
-          "net481": {
+          "net48": {
             "projectReferences": {
               "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
                 "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
@@ -20,7 +20,7 @@
         }
       },
       "frameworks": {
-        "net481": {}
+        "net48": {}
       }
     },
     "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj": {
@@ -144,7 +144,7 @@
         "projectName": "Uniware_PandoIntegration.BusinessLayer",
         "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj",
         "frameworks": {
-          "net481": {
+          "net48": {
             "projectReferences": {
               "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
                 "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
@@ -160,7 +160,7 @@
         }
       },
       "frameworks": {
-        "net481": {}
+        "net48": {}
       }
     },
     "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
@@ -169,7 +169,7 @@
         "projectName": "Uniware_PandoIntegration.DataAccessLayer",
         "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
         "frameworks": {
-          "net481": {
+          "net48": {
             "projectReferences": {
               "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
                 "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
@@ -182,7 +182,7 @@
         }
       },
       "frameworks": {
-        "net481": {}
+        "net48": {}
       }
     },
     "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
@@ -191,13 +191,13 @@
         "projectName": "Uniware_PandoIntegration.Entities",
         "projectPath": "E:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
         "frameworks": {
-          "net481": {
+          "net48": {
             "projectReferences": {}
           }
         }
       },
       "frameworks": {
-        "net481": {}
+        "net48": {}
       }
     },
     "E:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj": {
@@ -270,7 +270,11 @@
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.16, )"
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.jQuery.Unobtrusive.Ajax": {
+              "target": "Package",
+              "version": "[3.2.6, )"
             }
           },
           "imports": [

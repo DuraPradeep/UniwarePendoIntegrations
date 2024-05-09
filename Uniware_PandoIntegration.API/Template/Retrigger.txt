@@ -4,7 +4,10 @@
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">{CompanyName}</a>
     </div>
     <p style="font-size:1.1em">Hi,</p>
-    <p> Trigger API <b>{Apiname}</b> some records failed, Failed Records Avaliable in Website Please Retrigger. Please Visit {Urladdress}</p>
+    <p> Trigger API <b>{Apiname}</b> some records failed, </br>
+     {Reason}. </p>
+    <p> 
+    Failed Records Avaliable in Website Please Retrigger. Please Visit {Urladdress}</p>
   
     <p style="font-size:0.9em;">Regards,<br />{TeamName}</p>
     <hr style="border:none;border-top:1px solid #eee" />

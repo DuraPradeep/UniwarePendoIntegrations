@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -14,24 +15,41 @@ namespace Uniware_PandoIntegration.DataAccessLayer
     public class SPWrapper
     {
         public static string ConnectionString { get; set; }
+        public static string ConnectionStringProd { get; set; }
 
         public SPWrapper(string connectionString, IConfiguration IConfiguration)
         {
 
             ConnectionString = IConfiguration.GetConnectionString("DBConnection");
+            ConnectionStringProd = IConfiguration.GetConnectionString("DBConnectionProd");
+            //ConnectionStringProd = IConfiguration.GetConnectionString("DBConnection");
         }
         private static SqlConnection GetConnection()
         {
             return new SqlConnection(ConnectionString);
         }
-        private static SqlConnection con = null;
-        private static SqlCommand com = null;
-        public static bool InsertCodeInUniware(DataTable dt)
+        private static SqlConnection GetConnectionProd()
+        {
+            return new SqlConnection(ConnectionStringProd);
+        }
+        //private static SqlConnection con = null;
+        //private static SqlCommand com = null;
+        public static bool InsertCodeInUniware(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     //con = GetConnection();
                     com = new SqlCommand();
@@ -42,6 +60,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tablesearch", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
 
@@ -65,14 +84,24 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
         }
 
-        public static DataSet GetCodeDB()
+        public static DataSet GetCodeDB(string Instance, string Enviornment)
         {
 
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     //con = GetConnection();
                     //com = new SqlCommand();
@@ -83,9 +112,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetCode",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@instance", Instance);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -97,12 +128,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             ////finally { con.Close(); }
             return ds;
         }
-        public static bool InsertSaleOrderDTO(DataTable dt)
+        public static bool InsertSaleOrderDTO(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     //con = GetConnection();
                     com = new SqlCommand();
@@ -113,6 +154,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltype", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -126,12 +168,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-        public static bool Insertaddress(DataTable dt)
+        public static bool Insertaddress(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -142,6 +194,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltypes", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -157,12 +210,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-        public static bool InsertShippingDetails(DataTable dt)
+        public static bool InsertShippingDetails(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -172,6 +235,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltypes", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -186,12 +250,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-        public static bool InsertsalesorderItems(DataTable dt)
+        public static bool InsertsalesorderItems(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     //con = GetConnection();
                     com = new SqlCommand();
@@ -202,6 +276,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
 
@@ -216,12 +291,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
         }
 
-        public static bool InsertItems(DataTable dt)
+        public static bool InsertItems(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -231,6 +316,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -245,7 +331,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             ////finally { con.Close(); }
             return res;
         }
-        public static DataSet GetSkuCodeDB()
+        public static DataSet GetSkuCodeDB(string Instance, string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -253,7 +339,17 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -262,9 +358,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetSkuCode",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
+
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -275,12 +374,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             ////finally { con.Close(); }
             return ds;
         }
-        public static bool IsertItemtypes(DataTable dt)
+        public static bool IsertItemtypes(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -290,6 +399,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@tbltypes", dt);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
                 //con = GetConnection();
@@ -303,7 +413,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetAllSendRecords()
+        public static DataSet GetAllSendRecords(string Instance, string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -311,7 +421,17 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -320,9 +440,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetAllRecords",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
+
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -334,38 +457,23 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        //public static DataSet PostStatus()
-        //{
-        //    con = GetConnection();
-        //    com = new SqlCommand();
-        //    DataSet ds = new DataSet();
-        //    SqlDataAdapter da = new SqlDataAdapter();
-        //    try
-        //    {
-        //        com = new SqlCommand()
-        //        {
-        //            Connection = con,
-        //            CommandText = "select TriggerId from TriggerDataRecords where Status=1"
-        //        };
-        //        con.Open();
-        //        da = new SqlDataAdapter(com);
-        //        da.Fill(ds);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //CreateLog(ex.Message);
-        //        throw ex;
-        //    }
-        //    //finally { con.Close(); }
-        //    return ds;
-        //}
-        public static string IsertAllsendingrec(DataTable dt)
+        public static string IsertAllsendingrec(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 //con = GetConnection();
-                using (con = GetConnection())
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -378,6 +486,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    con.Close();
                 }
 
             }
@@ -389,13 +498,23 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
         }
 
-        public static bool UpdateSalesorderDetails(DataTable dt, int type)
+        public static bool UpdateSalesorderDetails(DataTable dt, int type, string Enviornment)
         {
             bool res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 //con = GetConnection();
-                using (con = GetConnection())
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -406,6 +525,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
 
@@ -418,13 +538,23 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static void Updatedetailspostdata(bool status, string reason, string Triggerid)
+        public static void Updatedetailspostdata(bool status, string reason, string Triggerid, string Enviornment)
         {
 
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 //con = GetConnection();
-                using (con = GetConnection())
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -436,6 +566,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
 
 
@@ -449,7 +580,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static DataSet GetCoderetrigger()
+
+        public static DataSet GetFailedSendRecords(string Instance, string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -457,7 +589,147 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_RetriggerFailedData",
+                        CommandTimeout = 1000
+                    };
+                    com.Parameters.AddWithValue("@instance", Instance);
+
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
+        public static DataSet GetInstanceFromTriggerTable(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetInstanceFromTriggerTable",
+                        CommandTimeout = 1000
+                    };
+
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
+        public static void UpdateStatusinTriggerTable(string Triggerid, string Enviornment)
+        {
+
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                //con = GetConnection();
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_UpdateTriggerDataStatus";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@TriggerId", Triggerid);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    con.Close();
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
+        }
+
+        public static DataSet GetCoderetrigger(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -469,6 +741,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -480,7 +753,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetSendCode()
+        public static DataSet GetSendCode(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -488,7 +761,17 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -500,6 +783,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -511,7 +795,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetSkuCodeforRetrigger()
+        public static DataSet GetSkuCodeforRetrigger(string Enviornment)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -519,7 +803,17 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -531,6 +825,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -542,16 +837,26 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-        public static DataSet GetFailedCode()
+        public static DataSet GetFailedCode(string Enviornment)
         {
+
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -563,6 +868,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -578,16 +884,24 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             Log.Information(message);
         }
-
-
-        public static string WaybillinsertMain(OmsToPandoRoot Mainres)
+        public static string WaybillinsertMain(OmsToPandoRoot Mainres, string Enviornment)
         {
             string res;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 //con = GetConnection();
                 com = new SqlCommand();
-                using (con = GetConnection())
+                using (con)
                 {
                     com.Connection = con;
                     com.CommandText = "sp_InsertWaybillmain";
@@ -608,7 +922,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = res = Convert.ToString(com.Parameters["@Primary_id"].Value); ;
+                    res = res = Convert.ToString(com.Parameters["@Primary_id"].Value);
+                    con.Close();
                 }
 
             }
@@ -620,14 +935,24 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool WaybillShipment(OmsToPandoRoot root, string primaryid)
+        public static bool WaybillShipment(OmsToPandoRoot root, string primaryid, string FacilityCode, string Enviornment)
         {
             bool res = false;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 //con = GetConnection();
                 com = new SqlCommand();
-                using (con = GetConnection())
+                using (con)
                 {
                     com.Connection = con;
                     com.CommandText = "sp_InsertShipmentwaybill";
@@ -645,10 +970,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@length", root.Shipment.length);
                     com.Parameters.AddWithValue("@height", root.Shipment.height);
                     com.Parameters.AddWithValue("@breadth", root.Shipment.breadth);
+                    com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -660,14 +987,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-
-        public static bool Waybillinsertitems(DataTable ds)
+        public static bool Waybillinsertitems(DataTable ds, string Enviornment)
         {
             bool res = false;
             try
             {
-
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -677,7 +1012,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; 
+                    con.Close();
                 }
 
             }
@@ -688,13 +1024,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool WaybillinsertCustomfield(DataTable ds)
+        public static bool WaybillinsertCustomfield(DataTable ds, string Enviornment)
         {
             bool res = false;
             try
             {
-
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -704,7 +1049,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -714,12 +1059,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool WaybillPickupAddress(PickupAddressDetails root, string primaryid)
+        public static bool WaybillPickupAddress(PickupAddressDetails root, string primaryid, string Enviornment)
         {
             bool res = false;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -739,7 +1094,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -750,12 +1105,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool WaybillreturnAddress(ReturnAddressDetails root, string primaryid)
+        public static bool WaybillreturnAddress(ReturnAddressDetails root, string primaryid, string Enviornment)
         {
             bool res = false;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -774,7 +1139,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -786,12 +1151,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-        public static bool WaybilldeliveryAddress(DeliveryAddressDetails root, string primaryid)
+        public static bool WaybilldeliveryAddress(DeliveryAddressDetails root, string primaryid, string Enviornment)
         {
             bool res = false;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -811,7 +1186,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true;
+                    res = true; con.Close();
                 }
             }
             catch (Exception ex)
@@ -823,15 +1198,24 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
 
         }
-
-        public static DataSet GetWaybillSendData()
+        public static DataSet GetWaybillSendData(string Instance, string Enviornment)
         {
 
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -840,9 +1224,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_SendWaybillDetails",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@instance", Instance);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -854,12 +1240,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static string IsertwaybillPostData(DataTable dt)
+        public static string IsertwaybillPostData(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
 
                 {
                     com = new SqlCommand();
@@ -873,6 +1269,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -882,13 +1279,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
-        public static bool InsertReturnOrderCode(DataTable dt)
+        public static bool InsertReturnOrderCode(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -899,6 +1305,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                     //con.Close();
                 }
             }
@@ -909,16 +1316,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
-        public static DataSet GetReturnOrderCode()
+        public static DataSet GetReturnOrderCode(string Instacne, string Enviornment)
         {
 
             //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -927,9 +1343,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_GetReturnOrderCode",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instacne);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -941,12 +1359,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static bool InsertReturnSaleOrderitem(DataTable dt)
+        public static bool InsertReturnSaleOrderitem(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -957,6 +1385,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -966,12 +1395,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool InsertReturnaddress(DataTable dt)
+        public static bool InsertReturnaddress(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -982,6 +1421,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -991,15 +1431,26 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetReturnOrderSkuCode()
+        public static DataSet GetReturnOrderSkuCode(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+
             try
             {
-                using (con = GetConnection())
+                SqlDataAdapter da;
+                SqlCommand com;
+                SqlConnection con;
+
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
 
 
@@ -1013,6 +1464,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
 
                 }
             }
@@ -1024,12 +1476,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static bool InsertReturnOrderItemtypes(DataTable dt)
+        public static bool InsertReturnOrderItemtypes(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1040,6 +1502,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1049,15 +1512,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetReturnOrderSendData()
+        public static DataSet GetReturnOrderSendData(string Instance, string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1066,9 +1539,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_sendReturnOrderAPIData",
                         CommandTimeout = 1000
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1079,12 +1554,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static void UpdateWaybillError(bool status, string reason, string Triggerid)
+        public static void UpdateWaybillError(bool status, string reason, string Triggerid, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1096,6 +1581,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1106,12 +1592,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static bool UpdateReurnOrdercodeError(DataTable dt, int type)
+        public static bool UpdateReurnOrdercodeError(DataTable dt, int type, string Enviornment)
         {
             bool status = false;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1123,6 +1619,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = true;
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1158,11 +1655,21 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         //    return status;
         //}
 
-        public static void UpdateSaleOrderSearchError(string reason)
+        public static void UpdateSaleOrderSearchError(string reason, string Enviornment)
         {
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1171,7 +1678,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -1184,11 +1691,21 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static void UpdateReturnOrderError(string reason)
+        public static void UpdateReturnOrderError(string reason, string Enviornment)
         {
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1197,7 +1714,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -1209,12 +1726,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static string IsertReturnOrderPostData(DataTable dt)
+        public static string IsertReturnOrderPostData(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1227,6 +1754,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1236,12 +1764,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static void UpdateReturnOrderPostDataError(bool status, string reason, string Triggerid)
+        public static void UpdateReturnOrderPostDataError(bool status, string reason, string Triggerid, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1252,7 +1790,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@trigger_id", Triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -1264,12 +1802,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static bool InsertGetPassCode(DataTable dt)
+        public static bool InsertGetPassCode(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1278,7 +1826,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Getpasscode", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1288,15 +1836,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return res;
         }
-        public static DataSet GetWaybillgatepassCode()
+        public static DataSet GetWaybillgatepassCode(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1307,7 +1865,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1317,12 +1875,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static bool InsertGetPassElements(DataTable dt)
+        public static bool InsertGetPassElements(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1331,7 +1899,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Elements", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1342,12 +1910,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool InsertItemTypeDTO(DataTable dt)
+        public static bool InsertItemTypeDTO(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1356,7 +1934,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@itemtypeDTO", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1367,15 +1945,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetWaybillSKUCde()
+        public static DataSet GetWaybillSKUCde(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1386,7 +1974,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1396,12 +1984,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static bool InsertWaybillItemsType(DataTable dt)
+        public static bool InsertWaybillItemsType(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1410,7 +2008,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Itemtypes", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1421,15 +2019,26 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetWaybillSTOSendData()
+        public static DataSet GetWaybillSTOSendData(string Enviornment)
         {
+
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1440,7 +2049,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
 
             }
@@ -1452,12 +2061,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static string IsertWaybillPostData(DataTable dt)
+        public static string IsertWaybillPostData(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1469,7 +2088,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1479,18 +2098,18 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet CheckLoginCredentials(string UserName, string Password)
+        public static DataSet CheckLoginCredentials(string UserName, string Password/*,string Enviornment*/)
         {
-            //con = GetConnection();
-            // con = GetConnection();
-            // con = new SqlConnection(connectionString);
-            com = new SqlCommand();
+            //com = new SqlCommand();
+
+            SqlCommand com;
+            SqlConnection con = new SqlConnection(ConnectionStringProd);
             DataSet ds = new DataSet();
-            SqlDataAdapter da = null;
-            DataTable dtConfig = new DataTable();
+            SqlDataAdapter da;
+            //DataTable dtConfig = new DataTable();
             try
             {
-                using (con = GetConnection())
+                using (con)
                 {
                     com = new SqlCommand
                     {
@@ -1503,13 +2122,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
 
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -1522,12 +2140,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             return ds;
         }
-        public static bool InsertSTOAPIGetPassCode(DataTable dt)
+        public static bool InsertSTOAPIGetPassCode(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1536,7 +2164,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@GatePasses", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1547,16 +2175,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
-        public static DataSet GetSTOAPIgatepassCode()
+        public static DataSet GetSTOAPIgatepassCode(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1567,7 +2204,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1577,12 +2214,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static bool InsertSTOAPIGetPassElements(DataTable dt)
+        public static bool InsertSTOAPIGetPassElements(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1591,7 +2238,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Elements", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1602,12 +2249,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool InsertSTOAPIItemTypeDTO(DataTable dt)
+        public static bool InsertSTOAPIItemTypeDTO(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1616,7 +2273,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@itemtypeDTO", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1627,15 +2284,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetSTOAPISKUCde()
+        public static DataSet GetSTOAPISKUCde(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1647,7 +2314,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
-                    //con.Close();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1656,12 +2323,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return ds;
         }
-        public static bool InsertSTOAPiItemsType(DataTable dt)
+        public static bool InsertSTOAPiItemsType(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1670,7 +2347,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Itemtypes", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1681,15 +2358,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetSTOAPiSendData()
+        public static DataSet GetSTOAPiSendData(string Instance, string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1697,10 +2384,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_GetallDataSTOApi"
                     };
+                    com.Parameters.AddWithValue("@Instance", Instance);
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1711,12 +2399,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static string IsertSTOAPIAllData(DataTable dt)
+        public static string IsertSTOAPIAllData(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1728,7 +2426,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value);
+                    res = Convert.ToString(com.Parameters["@Trigger_id"].Value); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1738,12 +2436,21 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
-        public static void UpdateSTOWaybillErrorCodesError(string reason)
+        public static void UpdateSTOWaybillErrorCodesError(string reason, string Enviornment)
         {
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1752,7 +2459,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -1764,12 +2471,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static bool UpdateErrorWaybill(DataTable dt, int type)
+        public static bool UpdateErrorWaybill(DataTable dt, int type, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1779,7 +2496,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@type", type);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1791,12 +2508,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static void UpdateSTOwaybillErrorpostdata(bool status, string reason, string Triggerid)
+        public static void UpdateSTOwaybillErrorpostdata(bool status, string reason, string Triggerid, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1807,7 +2534,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@trigger_id", Triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
 
@@ -1819,13 +2546,23 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static void UpdateSTOAPIError(string reason)
+        public static void UpdateSTOAPIError(string reason, string Enviornment)
         {
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
                 {
-                    con = GetConnection();
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    //con = GetConnection();
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "Pro_STOAPIError";
@@ -1833,7 +2570,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -1846,12 +2583,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static bool UpdateSTOAPI(DataTable dt, int type)
+        public static bool UpdateSTOAPI(DataTable dt, int type, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1860,7 +2607,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Codes", dt);
                     com.Parameters.AddWithValue("@type", type);
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                     res = true;
                 }
             }
@@ -1872,13 +2619,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
-        public static void UpdateSTOAPIErrorpostdata(bool status, string reason, string Triggerid)
+        public static void UpdateSTOAPIErrorpostdata(bool status, string reason, string Triggerid, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -1889,7 +2645,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@trigger_id", Triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -1902,15 +2658,26 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static DataSet GetSTOAPIFailedCode()
+        public static DataSet GetSTOAPIFailedCode(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //SqlCommand com ;
+            //SqlConnection con;
             DataSet ds = new DataSet();
             SqlDataAdapter da = new SqlDataAdapter();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1921,7 +2688,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -1932,15 +2699,24 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetSTOErrorstatusCode()
+        public static DataSet GetSTOErrorstatusCode(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            SqlCommand com;
+            SqlConnection con;
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1949,7 +2725,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandText = "sp_WaybillStoStatus"
                     };
                     com.CommandTimeout = 1000;
-                    con.Open();
+                    //con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
                 }
@@ -1962,15 +2738,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetWaybillPoststatus()
+        public static DataSet GetWaybillPoststatus(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //SqlCommand com ;
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -1982,6 +2768,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -1992,26 +2779,74 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet ReturnOrderStatus()
+        //public static string GetWaybillInstanceName(string Enviornment)
+        //{
+        //    string InstanceName = string.Empty;
+        //    try
+        //    {
+        //        if (Enviornment == "Prod")
+        //        {
+        //            con = new SqlConnection(ConnectionStringProd);
+        //        }
+        //        else
+        //        {
+        //            con = new SqlConnection(ConnectionString);
+        //        }
+        //        using (con)
+        //        {
+        //            com = new SqlCommand();
+        //            com.Connection = con;
+        //            com.CommandText = "Pro_GetWaybillInstance";
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            con.Open();
+        //            SqlDataReader dr;
+        //            dr = com.ExecuteReader();
+        //            while (dr.Read())
+        //            {
+        //                InstanceName = dr["Instance"].ToString();
+
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //CreateLog($"Error: {ex.Message}");
+        //        throw ex;
+        //    }
+        //    //finally { con.Close(); }
+        //    return InstanceName;
+
+        //}
+        public static DataSet GetWaybillInstanceName(string Enviornment)
         {
-            //con = GetConnection();
-            com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
                         Connection = con,
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_ReturnOrderStatus"
+                        CommandText = "Pro_GetWaybillInstance",
+                        CommandTimeout = 1000
                     };
-                    com.CommandTimeout = 1000;
+
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -2023,16 +2858,186 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-        public static DataSet GetWaybillgatepassCodeRetrigger()
+        public static void UpdateStatusinWaybillTriggerTable(string Triggerid, string Enviornment)
         {
-            //con = GetConnection();
-            com = new SqlCommand();
-            DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                //con = GetConnection();
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_UpdateWaybillFailedTriggerData";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@triggerid", Triggerid);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery(); con.Close();
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
+        }
+        public static void UpdateStatusinUpdateShippingTriggerTable(string ShippingPackageCode, string Enviornment)
+        {
+
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                //con = GetConnection();
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_UpdatePostDataFailedrecord";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@ShippingPackCode", ShippingPackageCode);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery(); con.Close();
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
+        }
+        public static DataSet GetWaybillFailedData(string Instance, string Enviornment)
+        {
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetWaybillFailedData",
+                        CommandTimeout = 1000
+                    };
+                    com.Parameters.AddWithValue("@instance", Instance);
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds); con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet ReturnOrderStatus(string Enviornment)
+        {
+            //con = GetConnection();
+            SqlCommand comd;
+            SqlConnection cons;
+            DataSet ds = new DataSet();
+            SqlDataAdapter Sda;
+            try
+            {
+
+                if (Enviornment == "Prod")
+                {
+                    cons = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    cons = new SqlConnection(ConnectionString);
+                }
+                using (cons)
+                {
+                    comd = new SqlCommand()
+                    {
+                        Connection = cons,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "sp_ReturnOrderStatus"
+                    };
+                    comd.CommandTimeout = 1000;
+                    cons.Open();
+                    Sda = new SqlDataAdapter(comd);
+                    Sda.Fill(ds);
+                    cons.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet GetWaybillgatepassCodeRetrigger(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2043,7 +3048,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2053,15 +3058,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetSTOAPIgatepassCodeRetrigger()
+        public static DataSet GetSTOAPIgatepassCodeRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2071,7 +3086,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     };
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2081,25 +3096,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-        public static DataSet GetReturnOrderCodeRetrigger()
+        public static DataSet GetReturnOrderCodeRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (SqlConnection con = new SqlConnection(ConnectionString))
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
                 {
-                    SqlCommand sqlCommand = new SqlCommand();
-                    sqlCommand.Connection = con;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
-                    sqlCommand.CommandText = "sp_returnorderCodeforretrigger";
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = "sp_returnorderCodeforretrigger";
                     com.CommandTimeout = 1000;
                     con.Open();
-                    da = new SqlDataAdapter(sqlCommand);
-                    da.Fill(ds);
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds); con.Close();
                 }
                 //com = new SqlCommand()
                 //{
@@ -2127,10 +3151,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             TokenEntity tokenEntity = new TokenEntity();
             // con = GetConnection();
             // con = new SqlConnection(connectionString);
-            com = new SqlCommand();
+            //com = new SqlCommand();
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                using (con = GetConnectionProd())
                 {
                     //con.Open();
                     SqlCommand sqlCommand = new SqlCommand();
@@ -2143,12 +3169,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sqlCommand.Parameters.AddWithValue("@password", Password);
                     con.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
+             
                     //da.Fill(ds);
                     while (dr.Read())
                     {
                         tokenEntity.username = dr["username"].ToString();
                         tokenEntity.password = dr["password"].ToString();
                     }
+                    con.Close();
                 };
             }
             catch (Exception ex)
@@ -2158,24 +3186,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return tokenEntity;
         }
-
-        public static void IsertshippingUpdate(DataTable dt)
+        public static void IsertshippingUpdate(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (SqlConnection cons = new SqlConnection(ConnectionString))
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     //con = GetConnection();
-                    SqlCommand sqlCommand = new SqlCommand();
-                    sqlCommand.Connection = cons;
-                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
                     //CommandType = CommandType.StoredProcedure,
-                    sqlCommand.CommandText = "sp_UpdateShippingpackage";
-                    sqlCommand.Parameters.AddWithValue("@records", dt);
+                    com.CommandText = "sp_UpdateShippingpackage";
+                    com.Parameters.AddWithValue("@records", dt);
                     com.CommandTimeout = 1000;
-                    cons.Open();
-                    sqlCommand.ExecuteNonQuery();
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    con.Close();
 
                 }
                 //con = GetConnection();
@@ -2195,12 +3233,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static void IsertShippingBox(DataTable dt)
+        public static void IsertShippingBox(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2209,7 +3257,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Records", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2219,21 +3267,31 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static void IsertCustomFields(DataTable dt)
+        public static void IsertCustomFields(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "sp_CustomFiels";
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@Records", dt);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -2244,14 +3302,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static DataSet GetUpdateShippingData()
+        public static DataSet GetUpdateShippingData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
-            {using (con = GetConnection())
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2262,7 +3331,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
@@ -2273,12 +3342,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static void IsertAllocate_Shipping(DataTable dt)
+        public static void IsertAllocate_Shipping(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2287,7 +3366,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@Records", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
-                    com.ExecuteNonQuery();
+                    com.ExecuteNonQuery(); con.Close();
                 }
 
             }
@@ -2298,16 +3377,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-
-        public static DataSet GetAllocateShippingData()
+        public static DataSet GetAllocateShippingData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2315,29 +3403,39 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_getAllocate_Shipping"
                     };
-                    com.CommandTimeout= 1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
-                    da.Fill(ds);
+                    da.Fill(ds); con.Close();
                 }
             }
             catch (Exception ex)
             {
-                //CreateLog(ex.Message);
+                CreateLog("Allocate Shipping DB Insert " + ex.Message);
                 throw ex;
             }
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetAllocateShippingDataForRetrigger()
+        public static DataSet GetAllocateShippingDataForRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2349,6 +3447,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2359,39 +3458,73 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+        //public static string IsertUpdateShippingrecords(UpdateShippingpackage dt, string triggerid, string FacilityCode, string Enviornment)
+        //{
+        //    string res;
+        //    try
+        //    {
+        //        if (Enviornment == "Prod")
+        //        {
+        //            con = new SqlConnection(ConnectionStringProd);
+        //        }
+        //        else
+        //        {
+        //            con = new SqlConnection(ConnectionString);
+        //        }
+        //        using (con)
+        //        {
+        //            com = new SqlCommand();
+        //            com.Connection = con;
+        //            com.CommandText = "sp_insertUpdateshippingFullData";
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
+        //            com.Parameters.AddWithValue("@name", dt.customFieldValues[0].name);
+        //            com.Parameters.AddWithValue("@value", dt.customFieldValues[0].value);
+        //            com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+        //            com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
+        //            com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
+        //            com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+        //            com.CommandTimeout = 1000;
+        //            con.Open();
+        //            com.ExecuteNonQuery();
+        //            res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //finally { con.Close(); }
+        //    return res;
+        //}
 
-
-        public static string IsertUpdateShippingrecords(UpdateShippingpackage dt, string triggerid, string FacilityCode)
+        public static bool IsertUpdateShippingrecords(DataTable dt, string Enviornment)
         {
-            string res;
+            bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "sp_insertUpdateshippingFullData";
                     com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
-                    //com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
-                    //com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
-                    //com.Parameters.AddWithValue("@shippingPackageTypeCode", dt.shippingPackageTypeCode);
-                    //com.Parameters.AddWithValue("@shippingPackageTypeCode", "");
-                    //com.Parameters.AddWithValue("@actualWeight", dt.actualWeight);
-                    //com.Parameters.AddWithValue("@noOfBoxes", dt.noOfBoxes);
-                    //com.Parameters.AddWithValue("@length", dt.shippingBox.length);
-                    //com.Parameters.AddWithValue("@width", dt.shippingBox.width);
-                    //com.Parameters.AddWithValue("@height", dt.shippingBox.height);
-                    com.Parameters.AddWithValue("@name", dt.customFieldValues[0].name);
-                    com.Parameters.AddWithValue("@value", dt.customFieldValues[0].value);
-                    com.Parameters.AddWithValue("@Trigger_Id", triggerid);
-                    com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
-                    com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
-                    com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@UpdateList", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+                    con.Close();
+                    res = true;
                 }
             }
             catch (Exception ex)
@@ -2401,13 +3534,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-
-        public static void UpdateShippingError(bool status, string reason, string Triggerid)
+        public static void UpdateShippingError(bool status, string reason, string Triggerid, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2416,9 +3558,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@triggerid", Triggerid);
                     com.Parameters.AddWithValue("@status", status);
                     com.Parameters.AddWithValue("@Reason", reason);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2427,17 +3570,26 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             //finally { con.Close(); }
-
         }
-        public static DataSet GetUpdateShippingStatus()
+        public static DataSet GetUpdateShippingStatus(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2449,6 +3601,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2459,16 +3612,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-        public static DataSet GetUpdateShippingRetrigger()
+        public static DataSet GetUpdateShippingRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2480,6 +3642,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2490,14 +3653,66 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+        //public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid, string Enviornment)
+        //{
+        //    string res;
+        //    try
+        //    {
+        //        if (Enviornment == "Prod")
+        //        {
+        //            con = new SqlConnection(ConnectionStringProd);
+        //        }
+        //        else
+        //        {
+        //            con = new SqlConnection(ConnectionString);
+        //        }
+        //        using (con)
+        //        {
+        //            com = new SqlCommand();
+        //            com.Connection = con;
+        //            com.CommandText = "sp_AllocateShippingPostData";
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.Parameters.AddWithValue("@shippingPackageCode", dt.shippingPackageCode);
+        //            com.Parameters.AddWithValue("@shippingLabelMandatory", dt.shippingLabelMandatory);
+        //            com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
+        //            com.Parameters.AddWithValue("@shippingCourier", dt.shippingCourier);
+        //            com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+        //            com.Parameters.AddWithValue("@trackingLink", dt.trackingLink);
+        //            //com.Parameters.AddWithValue("@generateUniwareShippingLabel", dt.generateUniwareShippingLabel);
+        //            com.Parameters.AddWithValue("@Trigger_Id", triggerid);
 
+        //            com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
+        //            com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
+        //            com.CommandTimeout=1000;
+        //            con.Open();
+        //            com.ExecuteNonQuery();
+        //            res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //finally { con.Close(); }
+        //    return res;
+        //}
 
-        public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid)
+        public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2508,15 +3723,17 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@shippingProviderCode", dt.shippingProviderCode);
                     com.Parameters.AddWithValue("@shippingCourier", dt.shippingCourier);
                     com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                    com.Parameters.AddWithValue("@trackingLink", dt.trackingLink);
                     //com.Parameters.AddWithValue("@generateUniwareShippingLabel", dt.generateUniwareShippingLabel);
                     com.Parameters.AddWithValue("@Trigger_Id", triggerid);
 
                     com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
                     com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2526,23 +3743,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static void AllocateShippingError(bool status, string reason, string Triggerid)
+        public static void AllocateShippingError(bool status, string reason, string shippingPackageCode, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "AllocateShippingErrorStatus";
                     com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@triggerid", Triggerid);
+                    com.Parameters.AddWithValue("@triggerid", shippingPackageCode);
                     com.Parameters.AddWithValue("@status", status);
                     com.Parameters.AddWithValue("@Reason", reason);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2553,17 +3781,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-
-
-        public static DataSet GetAlocateShippingStatus()
+        public static DataSet GetAlocateShippingStatus(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2575,6 +3811,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2585,21 +3822,32 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static void UpdateShippingErrorDetais(string Shippingpck)
+        public static void UpdateShippingErrorDetais(string Shippingpck, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "sp_GetUpateShippingDataForRetrigger";
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@shippingpackagecode", Shippingpck);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2610,12 +3858,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static void WaybillCancelId(string waybillId)
+        public static void WaybillCancelId(string waybillId, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2624,6 +3882,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@waybillId", waybillId);
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2634,15 +3893,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static DataSet GetWaybillCancelData()
+        public static DataSet GetWaybillCancelData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2654,6 +3923,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -2665,12 +3935,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static bool ReversePickupMain(DataTable dt)
+        public static bool ReversePickupMain(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2680,6 +3960,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -2690,12 +3971,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool ReversePickUpAddress(DataTable dt)
+        public static bool ReversePickUpAddress(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2705,6 +3996,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -2715,12 +4007,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool ReverseDimension(DataTable dt)
+        public static bool ReverseDimension(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2730,6 +4032,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -2740,12 +4043,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static bool ReverseCustomField(DataTable dt)
+        public static bool ReverseCustomField(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2755,6 +4068,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -2765,15 +4079,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetReverseAllData()
+        public static DataSet GetReverseAllData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2781,10 +4105,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_GetReversePickUpDetails"
                     };
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -2796,13 +4121,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-        public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid)
+        public static string IsertRevrserePickUprecords(ReversePickup dt, string triggerid, string FacilityCode, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2829,12 +4163,14 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@name", dt.customFields[0].name);
                     com.Parameters.AddWithValue("@value", dt.customFields[0].value);
                     com.Parameters.AddWithValue("@Trigger_Id", triggerid);
+                    com.Parameters.AddWithValue("@FacilityCode", FacilityCode);
                     com.Parameters.Add("@Triggerid", SqlDbType.VarChar, 100);
                     com.Parameters["@Triggerid"].Direction = ParameterDirection.Output;
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
                     res = Convert.ToString(com.Parameters["@Triggerid"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2844,12 +4180,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static void ReversePickUpError(bool status, string reason, string Triggerid)
+        public static void ReversePickUpError(bool status, string reason, string Triggerid, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2861,6 +4207,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2871,12 +4218,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static void UpdateErrorDetailsReversePickup(string reversepickupcode)
+        public static void UpdateErrorDetailsReversePickup(string reversepickupcode, string Enviornment)
         {
 
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -2886,6 +4243,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2896,15 +4254,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static DataSet GetReversePickUpErrorStatus()
+        public static DataSet GetReversePickUpErrorStatus(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2916,6 +4284,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2926,14 +4295,24 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetReversePickupDataForRetrigger()
+        public static DataSet GetReversePickupDataForRetrigger(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
                 com = new SqlCommand()
                 {
                     Connection = con,
@@ -2943,6 +4322,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 con.Open();
                 da = new SqlDataAdapter(com);
                 da.Fill(ds);
+                con.Close();
             }
             catch (Exception ex)
             {
@@ -2952,16 +4332,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-        public static DataSet GetFacilityCode()
+        public static DataSet GetFacilityCode(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -2973,6 +4362,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -2983,15 +4373,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static DataSet GetFacilityMaintainData()
+        public static DataSet GetFacilityMaintainData(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -3003,6 +4403,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3013,14 +4414,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-
-        public static string UpdateFaciitymaster(DataTable dt)
+        public static string UpdateFaciitymaster(DataTable dt, string Enviornment)
         {
             string status;
             try
             {
-
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -3029,10 +4438,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.Add("@status", SqlDbType.VarChar, 100);
                     com.Parameters["@status"].Direction = ParameterDirection.Output;
                     com.Parameters.AddWithValue("@FacilityDetails", dt);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3042,12 +4452,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
-        public static bool InsertTrackingDetails(DataTable dt)
+        public static bool InsertTrackingDetails(DataTable dt, string Enviornment)
         {
             bool res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -3057,6 +4477,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -3067,26 +4488,39 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static DataSet GetTrackingDetails()
+        public static DataSet GetTrackingDetails(string Enviornment, DataTable dt)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
                         Connection = con,
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_getTrackingDetails"
+
                     };
+                    com.Parameters.AddWithValue("@Trackdetails", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3097,27 +4531,40 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static void InsertTrackingDetailsPostData(TrackingStatus dt, string triggerid, string Facility)
+        //public static void InsertTrackingDetailsPostData(TrackingStatus dt, string triggerid, string Facility, string Enviornment)
+        public static void InsertTrackingDetailsPostData(DataTable dt, string Enviornment)
         {
             string res;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "sp_InsertTrackingtatusData";
                     com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@providerCode", dt.providerCode);
-                    com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
-                    com.Parameters.AddWithValue("@trackingStatus", dt.trackingStatus);
-                    com.Parameters.AddWithValue("@statusDate", dt.statusDate);
-                    com.Parameters.AddWithValue("@shipmentTrackingStatusName", dt.shipmentTrackingStatusName);
-                    com.Parameters.AddWithValue("@facilitycode", Facility);
-                    com.Parameters.AddWithValue("@TriggerId", triggerid);
+                    com.Parameters.AddWithValue("@TrackingDetails", dt);
+                    //com.Parameters.AddWithValue("@providerCode", dt.providerCode);
+                    //com.Parameters.AddWithValue("@trackingNumber", dt.trackingNumber);
+                    //com.Parameters.AddWithValue("@trackingStatus", dt.trackingStatus);
+                    //com.Parameters.AddWithValue("@statusDate", dt.statusDate);
+                    //com.Parameters.AddWithValue("@shipmentTrackingStatusName", dt.shipmentTrackingStatusName);
+                    //com.Parameters.AddWithValue("@facilitycode", Facility);
+                    //com.Parameters.AddWithValue("@TriggerId", triggerid);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                 }
                 //res = Convert.ToString(com.Parameters["@Triggerid"].Value);
             }
@@ -3128,22 +4575,75 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             ////return res;
         }
-        public static bool STOWaybillCustField(DataTable ds)
+        public static string GetInstanceName(string TrackingNo, string Enviornment)
+        {
+            string InstanceName = string.Empty;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "sp_GetInstanceName";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@TrackingNo", TrackingNo);
+                    con.Open();
+                    SqlDataReader dr;
+                    dr = com.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        InstanceName = dr["name"].ToString();
+
+                    }
+                    con.Close();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return InstanceName;
+
+        }
+        public static bool STOWaybillCustField(DataTable ds, string Enviornment)
         {
             bool res = false;
             try
             {
-
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
                     com.CommandText = "sp_InsertSTOCustFiled";
                     com.CommandType = CommandType.StoredProcedure;
                     com.Parameters.AddWithValue("@CustDetails", ds);
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
+                    con.Close();
                     res = true;
                 }
             }
@@ -3154,12 +4654,22 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return res;
         }
-        public static string UpdateTruckDetails(DataTable dt)
+        public static string UpdateTruckDetails(DataTable dt, string Enviornment)
         {
             string status;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand();
                     com.Connection = con;
@@ -3172,6 +4682,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     com.ExecuteNonQuery();
                     status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
                 }
             }
             catch (Exception ex)
@@ -3181,15 +4692,25 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return status;
         }
-        public static DataSet GetTruckDetails()
+        public static DataSet GetTruckDetails(string Enviornment)
         {
             //con = GetConnection();
-            com = new SqlCommand();
+            //com = new SqlCommand();
             DataSet ds = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter();
+            SqlDataAdapter da;
             try
             {
-                using (con = GetConnection())
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
                 {
                     com = new SqlCommand()
                     {
@@ -3197,10 +4718,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "sp_GetTruckDetails"
                     };
-                    com.CommandTimeout=1000;
+                    com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
+                    con.Close();
                 }
 
             }
@@ -3212,7 +4734,885 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+        public static string UpdateRegionMaster(DataTable dt, string Enviornment)
+        {
+            string status;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Sp_InsertRegionMaster";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@RgionList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+        public static DataSet GetRegionDetails(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_GetRegionDetails"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
 
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static DataSet GetTrackingStatusDetails(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_GetTrackingStatusMaster"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static string UpdateTrackingStatus(DataTable dt, string Enviornment)
+        {
+            string status;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "sp_UpdateTrackingMaster";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@MasterList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+        public static DataSet GetCourierNameDetails(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_getCourierName"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static string UpdateCourierList(DataTable dt, string Enviornment)
+        {
+            string status;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Sp_InsertCourierName";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@CourierList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+        public static DataSet GetTrackingMapping(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_GetTrackingMappingList"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static string UpdateTrackingMappingList(DataTable dt, string Enviornment)
+        {
+            string status;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Sp_UploadTrackingmapping";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@TrackingMappingList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+        public static DataSet GetRoleMenuAccess(int UserId, string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            //xMLCreator = new XMLCreator();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                com = new SqlCommand
+                {
+                    Connection = con,
+                    CommandType = CommandType.StoredProcedure,
+                    CommandText = "Proc_GetRoleMenuAccess"
+                };
+                com.Parameters.AddWithValue("@USERID", UserId);
+                con.Open();
+                da = new SqlDataAdapter(com);
+                da.Fill(ds);
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return ds;
+        }
+
+        //public static bool InsertTokenUsername(string Username)
+        //{
+        //    bool res;
+        //    try
+        //    {                
+        //        using (con=GetConnection())
+        //        {
+        //            com = new SqlCommand();
+        //            com.Connection = con;
+        //            com.CommandText = "Sp_Insertuser";
+        //            com.CommandType = CommandType.StoredProcedure;
+        //            com.Parameters.AddWithValue("@username", Username);
+        //            com.CommandTimeout = 1000;
+        //            con.Open();
+        //            com.ExecuteNonQuery();
+        //            res = true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    //finally { con.Close(); }
+        //    return res;
+        //}
+        public static string GetEnviornmant(string Username)
+        {
+            bool res;
+            string InstanceName = string.Empty;
+            SqlCommand cmd;
+            SqlConnection cons;
+            try
+            {
+
+                using (cons = GetConnectionProd())
+                {
+                    cmd = new SqlCommand();
+                    cmd.Connection = cons;
+                    cmd.CommandText = "Sp_GetEnviornment";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 1000;
+                    cmd.Parameters.AddWithValue("@Username", Username);
+                    cons.Open();
+                    SqlDataReader dr;
+                    dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        InstanceName = dr["Environment"].ToString();
+
+                    }
+                    cons.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return InstanceName;
+        }
+        public static void InesrtTransaction(string Userid, string Transaction, string Enviornment)
+        {
+            //bool res;
+            string InstanceName = string.Empty;
+
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_InsertTransaction";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandTimeout = 1000;
+                    com.Parameters.AddWithValue("@UserId", Userid);
+                    com.Parameters.AddWithValue("@TransactionName", Transaction);
+                    con.Open();
+                    //SqlDataReader dr;
+                    com.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            //return InstanceName;
+        }
+        public static DataSet GetRoleMaster(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetRoleMaster"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static int SaveGatePass(UserProfile userProfile)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            int getid = 0;
+
+            //xMLCreator = new XMLCreator();
+            //DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            SqlCommand com;
+            SqlConnection con;
+            //DataTable dtConfig = new DataTable();
+            try
+            {
+
+                if (userProfile.Environment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandText = "Pro_SaveUser";
+                    com.CommandTimeout = 0;
+                    com.Parameters.AddWithValue("@username", userProfile.Username);
+                    com.Parameters.AddWithValue("@Password", userProfile.Password);
+                    com.Parameters.AddWithValue("@Firstname", userProfile.FirstName);
+                    com.Parameters.AddWithValue("@Lastname", userProfile.Lastname);
+                    com.Parameters.AddWithValue("@Email", userProfile.Email);
+                    com.Parameters.AddWithValue("@Roleid", userProfile.Roleid);
+                    com.Parameters.AddWithValue("@MobileNo", userProfile.MobileNumber);
+                    com.Parameters.AddWithValue("@Environment", userProfile.Environment);
+                    con.Open();
+                    getid = (int)com.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                getid = 0;
+            }
+            //finally
+            //{
+            //    con.Close();
+            //    con = null;
+            //}
+
+
+
+            return getid;
+        }
+        public static DataSet GetShippingStatusMaster(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetShippingStatus"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static string UpdateShippingStatusMaster(DataTable dt, string Enviornment)
+        {
+            string status;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_InsertShippingStatus";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@status", SqlDbType.VarChar, 100);
+                    com.Parameters["@status"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@StatusList", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@status"].Value);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+        public static string ResetPassword(UserProfile userProfile, string Enviornment)
+        {
+            string status;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_Resetpassword";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@Result", SqlDbType.VarChar, 100);
+                    com.Parameters["@Result"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@username", userProfile.Username);
+                    com.Parameters.AddWithValue("@OldPassword", userProfile.Password);
+                    com.Parameters.AddWithValue("@NewPassword", userProfile.NewPassword);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    status = Convert.ToString(com.Parameters["@Result"].Value);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return status;
+        }
+
+        public static string GetSpecialCharacter(string Enviornment)
+        {
+            string InstanceName = string.Empty;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_GetSpecialCharacter";
+                    com.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    SqlDataReader dr;
+                    dr = com.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        InstanceName = dr["Name"].ToString();
+
+                    }
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return InstanceName;
+
+        }
+
+        public static string UpdateSpecialCharacterMaster(string Characters, string Enviornment)
+        {
+            string RuturnCharacters;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Proc_InsertSpecialCharacter";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@finalcharacter", SqlDbType.VarChar, 100);
+                    com.Parameters["@finalcharacter"].Direction = ParameterDirection.Output;
+                    com.Parameters.AddWithValue("@Characters", Characters);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    RuturnCharacters = Convert.ToString(com.Parameters["@finalcharacter"].Value);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return RuturnCharacters;
+        }
+
+
+        public static DataSet GetDashboardDetails(string Enviornment)
+        {
+            //con = GetConnection();
+            SqlCommand comds;
+            SqlConnection conss;
+            DataSet ds = new DataSet();
+            SqlDataAdapter Gda;
+            try
+            {
+
+                if (Enviornment == "Prod")
+                {
+                    conss = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    conss = new SqlConnection(ConnectionString);
+                }
+                using (conss)
+                {
+                    comds = new SqlCommand()
+                    {
+                        Connection = conss,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetDashboardDetails"
+                    };
+                    comds.CommandTimeout = 1000;
+                    //conss.Open();
+                    Gda = new SqlDataAdapter(comds);
+                    Gda.Fill(ds);
+                    //conss.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+
+        public static DataSet GetTrackingDetailsByName(string Enviornment, string Name)
+        {
+            //con = GetConnection();
+            SqlCommand comds;
+            SqlConnection conss;
+            DataSet ds = new DataSet();
+            SqlDataAdapter Gda;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    conss = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    conss = new SqlConnection(ConnectionString);
+                }
+                using (conss)
+                {
+                    comds = new SqlCommand()
+                    {
+                        Connection = conss,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetStatusDetailsByParameter"
+                    };
+                    comds.Parameters.AddWithValue("@StatusName", Name);
+                    comds.CommandTimeout = 1000;
+                    //conss.Open();
+                    Gda = new SqlDataAdapter(comds);
+                    Gda.Fill(ds);
+                    //conss.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        public static DataSet GetTrackingLink(string Enviornment, string SearchBy, string trackingNo)
+        {
+            //con = GetConnection();
+            SqlCommand comds;
+            SqlConnection conss;
+            DataSet ds = new DataSet();
+            SqlDataAdapter Gda;
+            try
+            {
+                if (Enviornment == "Prod")
+                {
+                    conss = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    conss = new SqlConnection(ConnectionString);
+                }
+                using (conss)
+                {
+                    comds = new SqlCommand()
+                    {
+                        Connection = conss,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_getTackingLink"
+                    };
+                    comds.Parameters.AddWithValue("@searchBy", SearchBy);
+                    comds.Parameters.AddWithValue("@number", trackingNo);
+                    comds.CommandTimeout = 1000;
+                    //conss.Open();
+                    Gda = new SqlDataAdapter(comds);
+                    Gda.Fill(ds);
+                    //conss.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
     }
 
 

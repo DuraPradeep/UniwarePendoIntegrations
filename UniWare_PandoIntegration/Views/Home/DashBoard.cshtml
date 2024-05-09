@@ -1,4 +1,8 @@
-﻿@{
+﻿@* @model Uniware_PandoIntegration.Entities.MenusAccess *@
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -45,6 +49,7 @@
     .project-tiles:hover {
         color: #dc3545;
     }
+
     /* Hover classes for individual project boxes */
     .project-tiles:hover {
         background-color: gray;
@@ -53,7 +58,7 @@
     .dashboard_tiles {
         margin-top: 30px;
         padding: 50px;
-        box-shadow: 1px 1px 10px 2px gray;
+        /* box-shadow: 1px 1px 10px 2px gray; */
     }
 
     .tile_list {
@@ -128,39 +133,7 @@
             fn_SaleOrder();
         });
     }
-    //function fn_SaleOrder() {
-    //    debugger;
-    //    //$("#overlay").fadeIn(500);
-    //    $.get("/Home/ErrorListDataObject", {}).done(function (data) {
-    //        //console.log(data);
-    //        //$("#overlay").fadeOut(500);
-    //        debugger;
-    //        //$("a").removeClass("dropdown-toggle");
 
-    //        if (data.length != 0) {
-    //            debugger;
-    //            $('#saleorderTblId').DataTable({
-    //                "processing": true,
-    //                "info": true,
-    //                "stateSave": true,
-    //                data: data,
-
-    //                "columns": [
-    //                    //{ data:  },
-    //                    { data: "code" },
-    //                    { data: "itemSku" },
-    //                    { data: "triggerid" },
-    //                    { data: "reason" }
-    //                ]
-    //            })
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //        else {
-    //            iqwerty.toast.toast("No Failed Records Found!!");
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //    });
-    //}
     function fn_WaybillErrorList() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -171,37 +144,7 @@
             fn_WaybillErrorListDataObject();
         });
     }
-    //function fn_WaybillErrorListDataObject() {
-    //    debugger;
-    //    //$("#overlay").fadeIn(500);
-    //    $.get("/Home/WaybillErrorListDataObject", {}).done(function (data) {
-    //        console.log(data);
-    //        //$("#overlay").fadeOut(500);
-    //        debugger;
-    //        //$("a").removeClass("dropdown-toggle");
 
-    //        if (data.length != 0) {
-    //            debugger;
-    //            $('#wayBillTblId').DataTable({
-    //                "processing": true,
-    //                "info": true,
-    //                "stateSave": true,
-    //                data: data,
-
-    //                "columns": [
-
-    //                    { data: "triggerid" },
-    //                    { data: "reason" }
-    //                ]
-    //            })
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //        else {
-    //            iqwerty.toast.toast("No Failed Records Found!!");
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //    });
-    //}
 
     function fn_ReturnOrderErrorList() {
         debugger;
@@ -215,39 +158,7 @@
 
         });
     }
-    //function fn_ReturnOrderErrorListDataObject() {
-    //    debugger;
-    //    //$("#overlay").fadeIn(500);
-    //    $.get("/Home/ReturnOrderErrorListDataObject", {}).done(function (data) {
-    //        console.log(data);
-    //        //$("#overlay").fadeOut(500);
-    //        debugger;
-    //        //$("a").removeClass("dropdown-toggle");
 
-    //        if (data.length != 0) {
-    //            debugger;
-    //            $('#returnOrderTblId').DataTable({
-    //                "processing": true,
-    //                "info": true,
-    //                "stateSave": true,
-    //                data: data,
-
-    //                "columns": [
-    //                    //{ data:  },
-    //                    { data: "code" },
-    //                    { data: "itemSku" },
-    //                    { data: "triggerid" },
-    //                    { data: "reason" }
-    //                ]
-    //            })
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //        else {
-    //            iqwerty.toast.toast("No Failed Records Found!!");
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //    });
-    //}
     function fn_STOWaybillErrorList() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -260,39 +171,6 @@
 
         });
     }
-    //function fn_STOWaybillErrorListDataObject() {
-    //    debugger;
-    //    //$("#overlay").fadeIn(500);
-    //    $.get("/Home/STOWaybillErrorListDataObject", {}).done(function (data) {
-    //        console.log(data);
-    //        //$("#overlay").fadeOut(500);
-    //        debugger;
-    //        //$("a").removeClass("dropdown-toggle");
-
-    //        if (data.length != 0) {
-    //            debugger;
-    //            $('#stoWayBillTblId').DataTable({
-    //                "processing": true,
-    //                "info": true,
-    //                "stateSave": true,
-    //                data: data,
-
-    //                "columns": [
-    //                    //{ data:  },
-    //                    { data: "code" },
-    //                    { data: "itemSku" },
-    //                    { data: "triggerid" },
-    //                    { data: "reason" }
-    //                ]
-    //            })
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //        else {
-    //            iqwerty.toast.toast("No Failed Records Found!!");
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //    });
-    //}
 
     function fn_STOAPI() {
         debugger;
@@ -304,38 +182,7 @@
 
         });
     }
-    //function fn_STOAPIDataObject() {
-    //    debugger;
-    //    //$("#overlay").fadeIn(500);
-    //    $.get("/Home/STOAPIErrorListData", {}).done(function (data) {
-    //        console.log(data);
-    //        //$("#overlay").fadeOut(500);
-    //        debugger;
-    //        //$("a").removeClass("dropdown-toggle");
 
-    //       if (data.length != 0) {
-    //        debugger;
-    //            $('#stoApiId').DataTable({
-    //            "processing": true,
-    //            "info": true,
-    //            "stateSave": true,
-    //            data: data,
-
-    //            "columns": [
-    //                { data: "code" },
-    //                { data: "itemSku" },
-    //                { data: "triggerid" },
-    //                { data: "reason" }
-    //            ]
-    //        })
-    //        //$("#overlay").fadeOut(500);
-    //        }
-    //        else {
-    //            iqwerty.toast.toast("No Failed Records Found!!");
-    //            //$("#overlay").fadeOut(500);
-    //        }
-    //    });
-    //}
     function fn_UpdateShipping() {
         debugger;
         $("#overlay").fadeIn(500);
@@ -413,17 +260,88 @@
 
         });
     }
+    function fn_RegionMaster() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/RegionUpload", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+    function fn_TrackingStatusMaster() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/TrackingStatusUpload", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+    function fn_CourierList() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/CourierNameUpload", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+    function fn_TrackingLink() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/TrackingLinkUpload", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+    function fn_ShippingStatus() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/ShippingStatusMaster", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+    function fn_SpecialCharacter() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/SpecialCharactermaster", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
 
 </script>
-@*<div class="loader">
-    <div class="lds-ripple">
-        <div class="lds-pos"></div>
-        <div class="lds-pos"></div>
-    </div>
-</div>*@
-@if (ViewBag.Message != null)
+
+
+
+@*
+@if (TempData["Success"] != null)
 {
-    <script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            iqwerty.toast.toast('@TempData["Success"]');
+        };
+    </script>
+
+    @*<script>
 
         $(document).ready(function () {
             //debugger;
@@ -435,52 +353,53 @@
                     },
                 },
             };
-            iqwerty.toast.toast('@ViewBag.Message', options);
-            ////alert('@ViewBag.Message');
+            iqwerty.toast.toast('@TempData["Success"]', options);
+            ////alert('@TempData["Success"]');
 
         });
 
 
+    </script>*@
+
+@*}*@
+
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            iqwerty.toast.toast('@TempData["Success"]');
+        };
     </script>
+
 }
 <div class="dashboard_tiles">
     <div class="row">
-
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_BindTable();">
-
             <div class="card text-white text-center mb-4 pointer">
                 <div class="card-body tile_list">
-                    @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
-                    <p>
-                        Sale Order API
-                    </p>
+                    <p>Sale Order API</p>
                 </div>
             </div>
         </div>
 
-        <d iv class="col-lg-4 mb-4 mb-lg-0" onclick="fn_WaybillErrorList();">
-
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_WaybillErrorList();">
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
                     <p>Waybill Generation API</p>
                 </div>
             </div>
-        </d>
+        </div>
 
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReturnOrderErrorList()">
-
             <div class="card text-white text-center mb-4 pointer">
                 <div class="card-body tile_list">
                     <p>Return Order API</p>
                 </div>
             </div>
-
         </div>
-
     </div>
     <div class="row">
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_STOWaybillErrorList()">
-
             <div class="card text-white text-center mb-4 pointer">
                 <div class="card-body tile_list">
                     @*<h5 class="card-title">Panel title that wraps to a new line</h5>*@
@@ -491,80 +410,156 @@
         </div>
 
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_STOAPI()">
-
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
-                    <p>STO API</p>
+                    <p>STO Created API</p>
                 </div>
             </div>
 
         </div>
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_UpdateShipping()">
-
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
-                    <p>Update Shipping</p>
+                    <p>Update Shipping API</p>
                 </div>
             </div>
 
         </div>
 
     </div>
+
     <div class="row">
+
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_AllocateShipping()">
-
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
-                    <p>Allocate Shipping</p>
+                    <p>Allocate Shipping API</p>
                 </div>
             </div>
 
         </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelUpload()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Excel Upload</p>
-                </div>
-            </div>
 
-        </div>
         <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ReversePickUp()">
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
-                    <p>Reverse Pickup</p>
+                    <p>Reverse Pickup API</p>
                 </div>
             </div>
 
         </div>
+        
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelUpload()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Dispatch Data Upload</p>
+                    </div>
+                </div>
 
+            </div>
+        
     </div>
-    <div class="row">
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelMasterUpload()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Facility Master Update</p>
+    @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") == "1")
+    {
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelMasterUpload()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Facility Master Upload</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelTruckMaster()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>Truck Details Master</p>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ExcelTruckMaster()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Truck Details Master Upload</p>
+                    </div>
                 </div>
-            </div>
 
-        </div>
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_StoGatePass()">
-            <div class="card text-white mb-4 text-center pointer">
-                <div class="card-body tile_list">
-                    <p>STO Gate Pass Upload</p>
-                </div>
             </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_StoGatePass()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>STO Waybill Upload</p>
+                    </div>
+                </div>
 
+            </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_RegionMaster()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Region Master Upload</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TrackingStatusMaster()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Tracking Status Master Upload</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_CourierList()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Courier List Upload</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_TrackingLink()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Tracking Link Mapping</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_ShippingStatus()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Shipping Status Master</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_SpecialCharacter()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Special Character Master</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+
 
 
 </div>
+
+@* @if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            iqwerty.toast.toast('@TempData["Success"]');
+        };
+    </script>
+
+}
+<div class="dashboard_tiles">
+    <div class="row" id="dv_PartialView">
+        @Html.Partial("~/Views/Home/pv_MenusList.cshtml", Model)
+
+    </div>
+
+
+</div> *@
+
 
 

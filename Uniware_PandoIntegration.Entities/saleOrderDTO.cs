@@ -21,6 +21,7 @@ namespace Uniware_PandoIntegration.Entities
         public string phone { get; set; }
         public object email { get; set; }
         public object type { get; set; }
+        public string Source { get; set; }
     }
 
     public class BillingAddress
@@ -57,6 +58,7 @@ namespace Uniware_PandoIntegration.Entities
         public string itemTypePageUrl { get; set; }
         public int? quantity { get; set; }
         public string Code { get; set;}
+        public string Source { get; set;}
     }
 
     public class salesorderRoot
@@ -184,6 +186,8 @@ namespace Uniware_PandoIntegration.Entities
         public object itemDetailFields { get; set; }
         public string channelSaleOrderItemCode { get; set; }
         public object effectiveTolerance { get; set; }
+
+        public string Source { get; set; }
     }
 
     public class ShippingPackage
@@ -222,6 +226,7 @@ namespace Uniware_PandoIntegration.Entities
         public List<object> customFieldValues { get; set; }
         public string shippingLabelLink { get; set; }
         public object irn { get; set; }
+        public string Source{ get; set; }
     }
     public class parentList
     {

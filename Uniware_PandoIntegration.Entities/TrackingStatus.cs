@@ -23,6 +23,7 @@ namespace Uniware_PandoIntegration.Entities
         public string statusDate { get; set; }
         public string shipmentTrackingStatusName { get; set; }
         public string facilitycode { get; set; }
+        public string Instance { get; set;}
     }
     public class TrackingResponse
     {

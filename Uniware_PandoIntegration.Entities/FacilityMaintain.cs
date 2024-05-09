@@ -17,5 +17,12 @@ namespace Uniware_PandoIntegration.Entities
         public string Mobile { get; set; }
         public string Region { get; set; }
         public string Email { get; set; }
+        public string Instance { get; set; }
+    }
+    public class FacilityList
+    {
+        public List<FacilityMaintain> Listoffacility { get; set; }
+        public string Enviornment { get; set; }
+        public string UserId { get;  set; }
     }
 }
