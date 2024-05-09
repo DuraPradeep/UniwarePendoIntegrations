@@ -36,6 +36,9 @@ using System.IO;
 using System.Text;
 using DocumentFormat.OpenXml.Office2019.Presentation;
 using NuGet.Protocol;
+using DocumentFormat.OpenXml.Bibliography;
+using RepoDb.Extensions.QueryFields;
+using static Uniware_PandoIntegration.API.DelegateCalling;
 //using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
 
 namespace Uniware_PandoIntegration.API.Controllers
@@ -70,7 +73,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string token = deres.access_token.ToString();
                 HttpContext.Session.SetString("Token", token);
                 return Accepted(resu.ObjectParam);
-            }  
+            }
             else
             {
                 return BadRequest("Something Went Wrong");
@@ -512,7 +515,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public IActionResult waybill(OmsToPandoRoot Records)
         {
             _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
-            
+
             ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
             ErrorResponse errorResponse = new ErrorResponse();
 
@@ -1766,13 +1769,13 @@ namespace Uniware_PandoIntegration.API.Controllers
             {
                 Thread.Sleep(5000);
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-               // string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                // string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
 
                 string Username = string.Empty;
                 using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 {
                     //var name = sr.ReadLine();                   
-                        Username = sr.ReadLine();
+                    Username = sr.ReadLine();
                     sr.Close();
                 }
 
@@ -1854,7 +1857,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                         //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
 
-                        
+
 
                         //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
                         if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
@@ -2072,7 +2075,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 Thread.Sleep(5000);
                 //string Servertype = iconfiguration["ServerType:type"];
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                string Username=string.Empty;
+                string Username = string.Empty;
                 //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
                 using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 {
@@ -2759,7 +2762,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 {
                     //var name = sr.ReadLine();
-                    Username = sr.ReadLine(); 
+                    Username = sr.ReadLine();
                     sr.Close();
                 }
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
@@ -2997,7 +3000,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
         [HttpPost]
-        public ActionResult TrackingStatus(List<TrackingStatusDb> TrackingDetails)
+        public IActionResult TrackingStatus(List<TrackingStatusDb> TrackingDetails)
         {
             try
             {
@@ -3009,7 +3012,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //    //var line = sr.ReadLine();
                 //    Username = sr.ReadLine();
                 //    sr.Close();
-                    
+
 
                 //}
                 using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -3050,71 +3053,115 @@ namespace Uniware_PandoIntegration.API.Controllers
                     Instance = Getinstance;
                 }
                 var details = ObjBusinessLayer.BLinsertTrackingDetails(trackingStatusDbs, Servertype);
-                //var resu = _Token.GetTokens(Servertype).Result;
 
-                //string Instance = "SH";
-                var resu = _Token.GetTokens(Servertype, Instance).Result;
-                var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-                string token = accesstoken.access_token;
-                string responsmessage = string.Empty;
-                if (!string.IsNullOrEmpty(token))
+
+                DelegateCalling obj = new DelegateCalling();
+                //AsyncCallback objs=new AsyncCallback();
+               // DelegateTrackingStatus delige = new DelegateTrackingStatus(obj.CallingTrackingStatus);
+                //var workTask = delige.BeginInvoke(Servertype, Instance, trackingStatusDbs,null,null);
+                Task.Run(() =>
                 {
-                    var TrackingList = ObjBusinessLayer.GetTrackingDetails(Servertype);
-                    ObjBusinessLayer.InsertTrackingStatusPostdata(TrackingList, Servertype);
+                   obj.CallingTrackingStatus(Servertype, Instance, trackingStatusDbs);
 
-                    if (TrackingList.Count > 0)
-                    {
-                        for (int i = 0; i < TrackingList.Count; i++)
-                        {
+                    //publishAction("hello");
+                    //Console.WriteLine("Done");
+                });
 
-                            TrackingStatus trackingStatus = new TrackingStatus();
-                            trackingStatus.providerCode = TrackingList[i].providerCode;
-                            trackingStatus.trackingStatus = TrackingList[i].trackingStatus;
-                            trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
-                            trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
-                            trackingStatus.statusDate = TrackingList[i].statusDate;
-                            //ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode, Servertype);
-                            var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype, Instance);
-                            if (res != null)
-                            {
-                                responsmessage = res.Result.ObjectParam.ToString();
-                            }
-                            else
-                            {
-                                responsmessage = "Something went wrong in API";
-                            }
-                        }
-                        TrackingResponse reversePickupResponse = new TrackingResponse();
-                        reversePickupResponse.successful = true;
-                        reversePickupResponse.message = responsmessage;
-                        reversePickupResponse.errors = "";
-                        reversePickupResponse.warnings = "";
-                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success {JsonConvert.SerializeObject(reversePickupResponse)}");
 
-                        return new JsonResult(reversePickupResponse);
-                    }
-                    else
-                    {
-                        TrackingResponse reversePickupResponse = new TrackingResponse();
-                        reversePickupResponse.successful = false;
-                        reversePickupResponse.message = responsmessage;
-                        reversePickupResponse.errors = "There Is not Data For Tacking";
-                        reversePickupResponse.warnings = "";
-                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error {JsonConvert.SerializeObject(reversePickupResponse)}");
+                //delige.EndInvoke(result);
+                //var followUpTask = workTask.ContinueWith(obj.CallingTrackingStatus());
+                //var ret = await workTask;
+                //await followUpTask;
+                //Task task = Task.Run(() => delige(Servertype, Instance, trackingStatusDbs));
+                //task.Wait();
 
-                        return new JsonResult(reversePickupResponse);
-                    }
 
+                //Abbc(Servertype,Instance, trackingStatusDbs);
+                if (details)
+                {
+                    TrackingResponse reversePickupResponse = new TrackingResponse();
+                    reversePickupResponse.successful = true;
+                    reversePickupResponse.message = "Data Received from Pando";
+                    reversePickupResponse.errors = "";
+                    reversePickupResponse.warnings = "";
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
+                    return new JsonResult(reversePickupResponse);
                 }
                 else
                 {
                     TrackingResponse reversePickupResponse = new TrackingResponse();
-                    reversePickupResponse.successful = false;
-                    reversePickupResponse.message = "Token Not Generated";
+                    reversePickupResponse.successful = true;
+                    reversePickupResponse.message = "Data Received from Pando";
                     reversePickupResponse.errors = "";
                     reversePickupResponse.warnings = "";
-                    return new JsonResult(reversePickupResponse);
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
+                    return Problem("No Data Received",null,204,"Not received",null);
                 }
+                //var resu = _Token.GetTokens(Servertype).Result;
+
+                //string Instance = "SH";
+                //var resu = _Token.GetTokens(Servertype, Instance).Result;
+                //var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+                //string token = accesstoken.access_token;
+                //string responsmessage = string.Empty;
+                //if (!string.IsNullOrEmpty(token))
+                //{
+                //    var TrackingList = ObjBusinessLayer.GetTrackingDetails(Servertype, trackingStatusDbs);
+                //    ObjBusinessLayer.InsertTrackingStatusPostdata(TrackingList, Servertype);
+
+                //    if (TrackingList.Count > 0)
+                //    {
+                //        for (int i = 0; i < TrackingList.Count; i++)
+                //        {
+
+                //            TrackingStatus trackingStatus = new TrackingStatus();
+                //            trackingStatus.providerCode = TrackingList[i].providerCode;
+                //            trackingStatus.trackingStatus = TrackingList[i].trackingStatus;
+                //            trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
+                //            trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
+                //            trackingStatus.statusDate = TrackingList[i].statusDate;
+                //            //ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode, Servertype);
+                //            var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype, Instance);
+                //            if (res.IsSuccess)
+                //            {
+                //                responsmessage = res.ObjectParam.ToString();
+                //            }
+                //            else
+                //            {
+                //                responsmessage = res.ObjectParam.ToString();
+                //            }
+                //        }
+                //        TrackingResponse reversePickupResponse = new TrackingResponse();
+                //        reversePickupResponse.successful = true;
+                //        reversePickupResponse.message = responsmessage;
+                //        reversePickupResponse.errors = "";
+                //        reversePickupResponse.warnings = "";
+                //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                //        return new JsonResult(reversePickupResponse);
+                //    }
+                //    else
+                //    {
+                //        TrackingResponse reversePickupResponse = new TrackingResponse();
+                //        reversePickupResponse.successful = false;
+                //        reversePickupResponse.message = responsmessage;
+                //        reversePickupResponse.errors = "There Is not Data For Tacking";
+                //        reversePickupResponse.warnings = "";
+                //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                //        return new JsonResult(reversePickupResponse);
+                //    }
+
+                //}
+                //else
+                //{
+                //    TrackingResponse reversePickupResponse = new TrackingResponse();
+                //    reversePickupResponse.successful = false;
+                //    reversePickupResponse.message = "Token Not Generated";
+                //    reversePickupResponse.errors = "";
+                //    reversePickupResponse.warnings = "";
+                //    return new JsonResult(reversePickupResponse);
+                //}
 
             }
             catch (Exception ex)
@@ -3125,11 +3172,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Truck Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
-
-                return new JsonResult(reversePickupResponse);
+                return Problem(ex.Message, null,204,"Not received",null);
+                //return new JsonResult(reversePickupResponse);
                 throw;
             }
         }
+
+
 
         [HttpPost]
         public ActionResult TruckDetailsUpdate(TruckdetailsMap TruckDetails)
@@ -3495,11 +3544,11 @@ namespace Uniware_PandoIntegration.API.Controllers
             return returndata;
         }
         [HttpGet]
-        public List<TDashboardDetails> GetTrackingDetailsByName(string Enviornment,string Name)
+        public List<TDashboardDetails> GetTrackingDetailsByName(string Enviornment, string Name)
         {
             string Servertype = Enviornment;
 
-            var returndata = ObjBusinessLayer.GetTrackingDetailsByName(Servertype,Name);
+            var returndata = ObjBusinessLayer.GetTrackingDetailsByName(Servertype, Name);
             return returndata;
         }
 
