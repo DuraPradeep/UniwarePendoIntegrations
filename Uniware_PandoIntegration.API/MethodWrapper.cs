@@ -570,9 +570,9 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
-            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {jsonre}");
+            //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
+            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType, AllData[0].delivery_number);
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
@@ -918,7 +918,7 @@ namespace Uniware_PandoIntegration.API
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             //var ResStatus = _Token.WaybillSTOPostDataDeliverypackList(jsonre);
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO Waybill Post Data : {jsonre}");
-            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
+            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType, AllData[0].delivery_number);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
@@ -1241,12 +1241,13 @@ namespace Uniware_PandoIntegration.API
         public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
-            var jsonre = JsonConvert.SerializeObject(AllData);
+            //var jsonre = JsonConvert.SerializeObject(AllData);
             //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
 
-            var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype, Instance);
+            var ResStatus = _Token.TrackingStatus(AllData, Token, FacilityCode, Servertype, Instance);
+
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
                 if (Lcheckcount != 3)
@@ -1254,12 +1255,13 @@ namespace Uniware_PandoIntegration.API
                     Thread.Sleep(3000);
                     Lcheckcount += 1;
                     TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
+                    ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData.trackingNumber, Servertype);
+
                     serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
 
                 }
                 else
                 {
-
                     serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
                     serviceResponse.IsSuccess = false;
                     //return serviceResponse;
@@ -1268,6 +1270,8 @@ namespace Uniware_PandoIntegration.API
             }
             else
             {
+                ObjBusinessLayer.TrackingStatusError(false, ResStatus.Result.ObjectParam, AllData.trackingNumber, Servertype);
+
                 serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                 serviceResponse.IsSuccess = true;
                 //return serviceResponse;

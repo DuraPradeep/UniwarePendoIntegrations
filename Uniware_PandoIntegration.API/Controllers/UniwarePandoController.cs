@@ -61,6 +61,8 @@ namespace Uniware_PandoIntegration.API.Controllers
         BearerToken _Token = new BearerToken();
         private UniwareBL ObjBusinessLayer = new();
         MethodWrapper _MethodWrapper = new MethodWrapper();
+        DelegateCalling obj = new DelegateCalling();
+
         [HttpGet]
         public IActionResult GetToken()
         {
@@ -521,99 +523,125 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             try
             {
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
                 string Username = string.Empty;
-                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
-                {
-                    Username = sr.ReadLine();
-                    sr.Close();
-                }
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
+                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //{
+                //    Username = sr.ReadLine();
+                //    sr.Close();
+                //}
 
-                var jsoncodes = JsonConvert.SerializeObject(new { code = Records.Shipment.SaleOrderCode });
-                string Instance = string.Empty;
-                for (int x = 0; x < Records.Shipment.customField.Count; x++)
+                using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    if (Records.Shipment.customField[x].name == "INDENTID_DFX")
-                        Instance = "DFX";
-                    else if (Records.Shipment.customField[x].name == "INDENTID_SH")
-                        Instance = "SH";
-                }
-                var resu = _Token.GetTokens(Servertype, Instance).Result;
-                var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-                string token = deres.access_token.ToString();
-                parentList = _MethodWrapper.PassCodeer(jsoncodes, token, "", 0, Servertype, Instance);
-                string FacilityCode = string.Empty;
-                for (int i = 0; i < parentList.ObjectParam.saleOrderItems.Count; i++)
-                {
-                    if (parentList.ObjectParam.saleOrderItems[i].shippingPackageCode == Records.Shipment.code)
-                    {
-                        FacilityCode = parentList.ObjectParam.saleOrderItems[i].facilityCode;
-                    }
+                    StreamReader streamReader = new StreamReader(stream);
+                    Username = streamReader.ReadLine();
+                    stream.Close();
                 }
 
-
-                RootResponse rootResponse = new RootResponse();
-                string primaryid = ObjBusinessLayer.insertWaybillMain(Records, Servertype);
-                ObjBusinessLayer.insertWaybillshipment(Records, primaryid, FacilityCode, Servertype);
-                List<Item> items = new List<Item>();
-                List<CustomField> customfields = new List<CustomField>();
-                for (int i = 0; i < Records.Shipment.items.Count; i++)
+                Task.Run(() =>
                 {
-                    Item item = new Item();
-                    item.name = Records.Shipment.items[i].name;
-                    item.description = Records.Shipment.items[i].description;
-                    item.quantity = Records.Shipment.items[i].quantity;
-                    item.skuCode = Records.Shipment.items[i].skuCode;
-                    item.itemPrice = Records.Shipment.items[i].itemPrice;
-                    item.imageURL = Records.Shipment.items[i].imageURL;
-                    item.hsnCode = Records.Shipment.items[i].hsnCode;
-                    item.tags = Records.Shipment.items[i].tags;
-                    items.Add(item);
-                }
-                for (int i = 0; i < Records.Shipment.customField.Count; i++)
+                    obj.CallingWaybill(Records,Username);
+                });
+
+                if (Records!=null)
                 {
-                    CustomField customFieldValue = new CustomField();
-                    customFieldValue.name = Records.Shipment.customField[i].name;
-                    customFieldValue.value = Records.Shipment.customField[i].value;
-                    customfields.Add(customFieldValue);
-                }
-                ObjBusinessLayer.insertWaybilldeliveryaddress(Records.deliveryAddressDetails, primaryid, Servertype);
-                ObjBusinessLayer.insertWaybillpickupadres(Records.pickupAddressDetails, primaryid, Servertype);
-                ObjBusinessLayer.insertWaybillReturnaddress(Records.returnAddressDetails, primaryid, Servertype);
-                ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code, Servertype);
-                ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code, Servertype);
-
-                var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance, Servertype);
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill Data Get From Database:- {JsonConvert.SerializeObject(sendwaybilldata)}");
-                if (sendwaybilldata.Count > 0)
-                {
-                    var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
-                    var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
-                    if (postres.IsSuccess)
-                    {
-                        errorResponse.status = "FAILED";
-                        errorResponse.reason = "AWB not generated";
-                        errorResponse.message = "AWB generation is in queue, please check after a few mins";
-                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
-                    }
-                    else
-                    {
-                        errorResponse.status = "FAILED";
-                        errorResponse.reason = postres.ObjectParam;
-                        errorResponse.message = "Resource requires authentication. Please check your authorization token.";
-                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
-                    }
-                    //_logger.LogInformation($"Reason:-  {postres.ObjectParam},{DateTime.Now.ToLongTimeString()}");
-                    //return Accepted(postres.Result.ObjectParam);
-
-
-                    //return new JsonResult(errorResponse);
+                    errorResponse.status = "FAILED";
+                    errorResponse.reason = "AWB not generated";
+                    errorResponse.message = "AWB generation is in queue, please check after a few mins";
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
                 }
                 else
                 {
-
+                    errorResponse.status = "FAILED";
+                    errorResponse.reason = "Data Not came From Uniware";
+                    errorResponse.message = "Resource requires authentication. Please check your authorization token.";
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
                 }
+
+                //var jsoncodes = JsonConvert.SerializeObject(new { code = Records.Shipment.SaleOrderCode });
+                //string Instance = string.Empty;
+                //for (int x = 0; x < Records.Shipment.customField.Count; x++)
+                //{
+                //    if (Records.Shipment.customField[x].name == "INDENTID_DFX")
+                //        Instance = "DFX";
+                //    else if (Records.Shipment.customField[x].name == "INDENTID_SH")
+                //        Instance = "SH";
+                //}
+                //var resu = _Token.GetTokens(Servertype, Instance).Result;
+                //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+                //string token = deres.access_token.ToString();
+                //parentList = _MethodWrapper.PassCodeer(jsoncodes, token, "", 0, Servertype, Instance);
+                //string FacilityCode = string.Empty;
+                //for (int i = 0; i < parentList.ObjectParam.saleOrderItems.Count; i++)
+                //{
+                //    if (parentList.ObjectParam.saleOrderItems[i].shippingPackageCode == Records.Shipment.code)
+                //    {
+                //        FacilityCode = parentList.ObjectParam.saleOrderItems[i].facilityCode;
+                //    }
+                //}
+
+
+                //RootResponse rootResponse = new RootResponse();
+                //string primaryid = ObjBusinessLayer.insertWaybillMain(Records, Servertype);
+                //ObjBusinessLayer.insertWaybillshipment(Records, primaryid, FacilityCode, Servertype);
+                //List<Item> items = new List<Item>();
+                //List<CustomField> customfields = new List<CustomField>();
+                //for (int i = 0; i < Records.Shipment.items.Count; i++)
+                //{
+                //    Item item = new Item();
+                //    item.name = Records.Shipment.items[i].name;
+                //    item.description = Records.Shipment.items[i].description;
+                //    item.quantity = Records.Shipment.items[i].quantity;
+                //    item.skuCode = Records.Shipment.items[i].skuCode;
+                //    item.itemPrice = Records.Shipment.items[i].itemPrice;
+                //    item.imageURL = Records.Shipment.items[i].imageURL;
+                //    item.hsnCode = Records.Shipment.items[i].hsnCode;
+                //    item.tags = Records.Shipment.items[i].tags;
+                //    items.Add(item);
+                //}
+                //for (int i = 0; i < Records.Shipment.customField.Count; i++)
+                //{
+                //    CustomField customFieldValue = new CustomField();
+                //    customFieldValue.name = Records.Shipment.customField[i].name;
+                //    customFieldValue.value = Records.Shipment.customField[i].value;
+                //    customfields.Add(customFieldValue);
+                //}
+                //ObjBusinessLayer.insertWaybilldeliveryaddress(Records.deliveryAddressDetails, primaryid, Servertype);
+                //ObjBusinessLayer.insertWaybillpickupadres(Records.pickupAddressDetails, primaryid, Servertype);
+                //ObjBusinessLayer.insertWaybillReturnaddress(Records.returnAddressDetails, primaryid, Servertype);
+                //ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code, Servertype);
+                //ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code, Servertype);
+
+                //var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance, Servertype);
+                //_logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill Data Get From Database:- {JsonConvert.SerializeObject(sendwaybilldata)}");
+                //if (sendwaybilldata.Count > 0)
+                //{
+                //    var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
+                //    var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
+                //    if (postres.IsSuccess)
+                //    {
+                //        errorResponse.status = "FAILED";
+                //        errorResponse.reason = "AWB not generated";
+                //        errorResponse.message = "AWB generation is in queue, please check after a few mins";
+                //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
+                //    }
+                //    else
+                //    {
+                //        errorResponse.status = "FAILED";
+                //        errorResponse.reason = postres.ObjectParam;
+                //        errorResponse.message = "Resource requires authentication. Please check your authorization token.";
+                //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
+                //    }
+                //    //_logger.LogInformation($"Reason:-  {postres.ObjectParam},{DateTime.Now.ToLongTimeString()}");
+                //    //return Accepted(postres.Result.ObjectParam);
+
+
+                //    //return new JsonResult(errorResponse);
+                //}
+                //else
+                //{
+
+                //}
 
             }
             catch (Exception ex)
@@ -1767,148 +1795,41 @@ namespace Uniware_PandoIntegration.API.Controllers
             SuccessResponse successResponse = new SuccessResponse();
             try
             {
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
                 // string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
 
                 string Username = string.Empty;
-                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //{
+                //    //var name = sr.ReadLine();                   
+                //    Username = sr.ReadLine();
+                //    sr.Close();
+                //}
+
+                using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    //var name = sr.ReadLine();                   
-                    Username = sr.ReadLine();
-                    sr.Close();
+                    StreamReader streamReader = new StreamReader(stream);
+                    Username = streamReader.ReadLine();
+                    stream.Close();
                 }
+
+
 
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
 
-                ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
-                string Instance = string.Empty;
-
-                List<string> ErrorList = new List<string>();
-                List<string> AllocateError = new List<string>();
-                var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
-                List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
-                List<Allocateshipping> allocatelist = new List<Allocateshipping>();
-                for (int i = 0; i < results.Count; i++)
+                bool insertstatus=ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
+                Task.Run(() =>
                 {
-                    UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
-                    updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
-                    CustomFieldValue customFieldValue1 = new CustomFieldValue();
-                    updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
-                    customFieldValue1.name = "TrackingLink2";
-                    customFieldValue1.value = results[i].trackingLink;
-                    updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
-                    updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
-                    updateShippingpackagedbs.Add(updateShippingpackagedb);
-
-                    #region Allocate looping
-                    Allocateshipping allocateshipping = new Allocateshipping();
-                    allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
-                    allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
-                    allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
-                    allocateshipping.shippingCourier = results[i].shippingCourier;
-                    allocateshipping.trackingNumber = results[i].trackingNumber;
-                    allocateshipping.trackingLink = results[i].trackingLink;
-                    allocatelist.Add(allocateshipping);
-                    #endregion
-                }
-                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
-                //var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-
-                if (results.Count > 0)
+                    obj.CallingAllocateShipping(Servertype, allocateshippings);
+                });
+                if(insertstatus)
                 {
-                    for (int i = 0; i < results.Count; i++)
-                    {
-                        Allocateshipping allocateshipping = new Allocateshipping();
-                        allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
-                        allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
-                        allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
-                        allocateshipping.shippingCourier = results[i].shippingCourier;
-                        allocateshipping.trackingNumber = results[i].trackingNumber;
-                        allocateshipping.trackingLink = results[i].trackingLink;
-
-                        var reference = results[i].Instance;
-                        if (reference == "Duroflex")
-                        {
-                            Instance = "DFX";
-                        }
-                        else
-                        {
-                            Instance = "SH";
-                        }
-                        var Token = _Token.GetTokens(Servertype, Instance).Result;
-                        var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
-                        var facility = results[i].FacilityCode;
-
-                        //Start Update Shipping Package to Send Data
-                        #region Allocate Shipping post data
-                        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                        updateShippingpackage.shippingPackageCode = results[i].shippingPackageCode;
-                        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
-                        CustomFieldValue customFieldValue = new CustomFieldValue();
-
-                        customFieldValue.name = "TrackingLink2";
-                        customFieldValue.value = results[i].trackingLink;
-                        updateShippingpackage.customFieldValues.Add(customFieldValue);
-                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
-                        #endregion
-
-
-
-                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
-
-
-
-                        //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
-                        if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
-                        {
-                            var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-                            var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                            //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
-                            if (response.IsSuccess)
-                            {
-                                successResponse.status = "Success";
-                                successResponse.waybill = "";
-                                successResponse.shippingLabel = "";
-                                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
-                                //return new JsonResult(successResponse);
-                            }
-                            else
-                            {
-                                AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
-                                successResponse.status = "False";
-                                successResponse.waybill = response.ObjectParam;
-                                successResponse.shippingLabel = "";
-                                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
-                            }
-                        }
-
-                        //Idle for 5sec
-
-                        Thread.Sleep(5000);
-                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                        if (responses.IsSuccess == false)
-                        {
-                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
-                        }
-                    }
-                    if (ErrorList.Count > 0)
-                    {
-                        var serilizelist = JsonConvert.SerializeObject(ErrorList);
-                        Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
-
-                    }
-                    if (AllocateError.Count > 0)
-                    {
-                        Emailtrigger.SendEmailToAdmin("Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
-
-                    }
-                    //SuccessResponse successResponse = new SuccessResponse();
-                    //successResponse.status = "Success";
-                    //successResponse.waybill = "";
-                    //successResponse.shippingLabel = "";
-                    //_logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
-                    return new JsonResult(successResponse);
+                    successResponse.status = "Success";
+                    successResponse.waybill = "";
+                    successResponse.shippingLabel = "";
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping Data Received From Pando {JsonConvert.SerializeObject(successResponse)}");
+                    return Ok(successResponse);
                 }
                 else
                 {
@@ -1916,9 +1837,148 @@ namespace Uniware_PandoIntegration.API.Controllers
                     errorResponse.status = "Error";
                     errorResponse.reason = "No Data For Transaction";
                     errorResponse.message = "Please Retrigger";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error{JsonConvert.SerializeObject(errorResponse)}");
-                    return new JsonResult(errorResponse);
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error from Pando{JsonConvert.SerializeObject(errorResponse)}");
+                   // return new JsonResult(errorResponse);
+                    //_logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
+                    return Problem("No Data Received", null, 204, "Not received", null);
                 }
+                //string Instance = string.Empty;
+
+                //List<string> ErrorList = new List<string>();
+                //List<string> AllocateError = new List<string>();
+                //var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
+                //List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
+                //List<Allocateshipping> allocatelist = new List<Allocateshipping>();
+                //for (int i = 0; i < results.Count; i++)
+                //{
+                //    UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
+                //    updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
+                //    CustomFieldValue customFieldValue1 = new CustomFieldValue();
+                //    updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
+                //    customFieldValue1.name = "TrackingLink2";
+                //    customFieldValue1.value = results[i].trackingLink;
+                //    updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
+                //    updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
+                //    updateShippingpackagedbs.Add(updateShippingpackagedb);
+
+                //    #region Allocate looping
+                //    Allocateshipping allocateshipping = new Allocateshipping();
+                //    allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+                //    allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+                //    allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                //    allocateshipping.shippingCourier = results[i].shippingCourier;
+                //    allocateshipping.trackingNumber = results[i].trackingNumber;
+                //    allocateshipping.trackingLink = results[i].trackingLink;
+                //    allocatelist.Add(allocateshipping);
+                //    #endregion
+                //}
+                //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
+                ////var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+
+                //if (results.Count > 0)
+                //{
+                //    for (int i = 0; i < results.Count; i++)
+                //    {
+                //        Allocateshipping allocateshipping = new Allocateshipping();
+                //        allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+                //        allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+                //        allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                //        allocateshipping.shippingCourier = results[i].shippingCourier;
+                //        allocateshipping.trackingNumber = results[i].trackingNumber;
+                //        allocateshipping.trackingLink = results[i].trackingLink;
+
+                //        var reference = results[i].Instance;
+                //        if (reference == "Duroflex")
+                //        {
+                //            Instance = "DFX";
+                //        }
+                //        else
+                //        {
+                //            Instance = "SH";
+                //        }
+                //        var Token = _Token.GetTokens(Servertype, Instance).Result;
+                //        var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+                //        var facility = results[i].FacilityCode;
+
+                //        //Start Update Shipping Package to Send Data
+                //        #region Allocate Shipping post data
+                //        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
+                //        updateShippingpackage.shippingPackageCode = results[i].shippingPackageCode;
+                //        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+                //        CustomFieldValue customFieldValue = new CustomFieldValue();
+
+                //        customFieldValue.name = "TrackingLink2";
+                //        customFieldValue.value = results[i].trackingLink;
+                //        updateShippingpackage.customFieldValues.Add(customFieldValue);
+                //        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
+                //        #endregion
+
+
+
+                //        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
+
+
+
+                //        //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
+                //        if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
+                //        {
+                //            var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+                //            var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                //            //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
+                //            if (response.IsSuccess)
+                //            {
+                //                successResponse.status = "Success";
+                //                successResponse.waybill = "";
+                //                successResponse.shippingLabel = "";
+                //                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                //                //return new JsonResult(successResponse);
+                //            }
+                //            else
+                //            {
+                //                AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
+                //                successResponse.status = "False";
+                //                successResponse.waybill = response.ObjectParam;
+                //                successResponse.shippingLabel = "";
+                //                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                //            }
+                //        }
+
+                //        //Idle for 5sec
+
+                //        Thread.Sleep(5000);
+                //        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                //        if (responses.IsSuccess == false)
+                //        {
+                //            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
+                //        }
+                //    }
+                //    if (ErrorList.Count > 0)
+                //    {
+                //        var serilizelist = JsonConvert.SerializeObject(ErrorList);
+                //        Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
+
+                //    }
+                //    if (AllocateError.Count > 0)
+                //    {
+                //        Emailtrigger.SendEmailToAdmin("Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
+
+                //    }
+                //    //SuccessResponse successResponse = new SuccessResponse();
+                //    //successResponse.status = "Success";
+                //    //successResponse.waybill = "";
+                //    //successResponse.shippingLabel = "";
+                //    //_logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                //    return new JsonResult(successResponse);
+                //}
+                //else
+                //{
+                //    ErrorResponse errorResponse = new ErrorResponse();
+                //    errorResponse.status = "Error";
+                //    errorResponse.reason = "No Data For Transaction";
+                //    errorResponse.message = "Please Retrigger";
+                //    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error{JsonConvert.SerializeObject(errorResponse)}");
+                //    return new JsonResult(errorResponse);
+                //}
             }
             catch (Exception ex)
             {
@@ -1927,7 +1987,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Please Retrigger";
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()} , Error: {JsonConvert.SerializeObject(errorResponse)}");
-                return new JsonResult(errorResponse);
+                //return new JsonResult(errorResponse);
+                return Problem(ex.Message, null, 204, "Not received", null);
+
                 //throw ex;
             }
             // return Accepted();
@@ -3005,7 +3067,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
                 string Username = string.Empty;
                 //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 //{
@@ -3055,28 +3117,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var details = ObjBusinessLayer.BLinsertTrackingDetails(trackingStatusDbs, Servertype);
 
 
-                DelegateCalling obj = new DelegateCalling();
-                //AsyncCallback objs=new AsyncCallback();
-               // DelegateTrackingStatus delige = new DelegateTrackingStatus(obj.CallingTrackingStatus);
-                //var workTask = delige.BeginInvoke(Servertype, Instance, trackingStatusDbs,null,null);
                 Task.Run(() =>
                 {
                    obj.CallingTrackingStatus(Servertype, Instance, trackingStatusDbs);
-
-                    //publishAction("hello");
-                    //Console.WriteLine("Done");
                 });
-
-
-                //delige.EndInvoke(result);
-                //var followUpTask = workTask.ContinueWith(obj.CallingTrackingStatus());
-                //var ret = await workTask;
-                //await followUpTask;
-                //Task task = Task.Run(() => delige(Servertype, Instance, trackingStatusDbs));
-                //task.Wait();
-
-
-                //Abbc(Servertype,Instance, trackingStatusDbs);
                 if (details)
                 {
                     TrackingResponse reversePickupResponse = new TrackingResponse();
@@ -3085,16 +3129,16 @@ namespace Uniware_PandoIntegration.API.Controllers
                     reversePickupResponse.errors = "";
                     reversePickupResponse.warnings = "";
                     _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
-                    return new JsonResult(reversePickupResponse);
+                    return Ok(reversePickupResponse);
                 }
                 else
                 {
                     TrackingResponse reversePickupResponse = new TrackingResponse();
                     reversePickupResponse.successful = true;
-                    reversePickupResponse.message = "Data Received from Pando";
+                    reversePickupResponse.message = "No Data Received";
                     reversePickupResponse.errors = "";
                     reversePickupResponse.warnings = "";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
                     return Problem("No Data Received",null,204,"Not received",null);
                 }
                 //var resu = _Token.GetTokens(Servertype).Result;
@@ -3171,7 +3215,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.message = ex.Message;
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Truck Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
                 return Problem(ex.Message, null,204,"Not received",null);
                 //return new JsonResult(reversePickupResponse);
                 throw;

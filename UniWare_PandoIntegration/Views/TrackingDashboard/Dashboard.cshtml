@@ -34,6 +34,12 @@
             display: block !important;
         }
 
+    .cv-spinner {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     div.dataTables_wrapper div.dataTables_length select{
         padding-top: 0px;
         text-align: center;
@@ -84,6 +90,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
     <script>
         $(document).ready(function () {
@@ -144,7 +151,9 @@
                                 data: "trackingLink",
                                 title: "Tracking Link",
                                 render: function (data, type, row) {
-                                    return '<a href="' + data + '" target="_blanck">' + data + '</a>'
+                                    // return '<a href="' + data + '" target="_blank">' + data + '</a>'
+                                    return '<a href="' + data + '" target="_blank">track</a>'
+
                                 }
 
                             },
