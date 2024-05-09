@@ -215,7 +215,6 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\System.Numerics.Vectors.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.AssemblyReference.cache
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.CoreCompileInputs.cache
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.CopyComplete
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.pdb
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
@@ -275,3 +274,4 @@ D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegra
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.CopyComplete
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.dll
 D:\UniWare\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.pdb
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_.C60AFF33.Up2Date

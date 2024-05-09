@@ -223,7 +223,6 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bi
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\System.Net.Http.Formatting.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.csproj.AssemblyReference.cache
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.csproj.CoreCompileInputs.cache
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.csproj.CopyComplete
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.pdb
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
@@ -285,3 +284,4 @@ D:\UniWare\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoInteg
 D:\UniWare\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.csproj.CopyComplete
 D:\UniWare\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.dll
 D:\UniWare\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.pdb
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_.04718B8F.Up2Date

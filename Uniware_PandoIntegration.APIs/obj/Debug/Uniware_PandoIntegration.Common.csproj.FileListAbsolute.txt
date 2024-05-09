@@ -627,7 +627,6 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Umb
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Umbraco.Core.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.AssemblyReference.cache
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CoreCompileInputs.cache
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CopyComplete
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.pdb
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
@@ -792,3 +791,6 @@ D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Comm
 D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CopyComplete
 D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.dll
 D:\UniWare\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.pdb
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_.C3F25E0F.Up2Date
