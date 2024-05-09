@@ -600,9 +600,7 @@ D:\github\Pando\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_Pando
 D:\github\Pando\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_.04718B8F.Up2Date
 D:\github\Pando\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.dll
 D:\github\Pando\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_PandoIntegration.DataAccessLayer.pdb
-<<<<<<< HEAD
 >>>>>>> d4f44f9df355dcda6505413aa79d72703c5638d4
-=======
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\Microsoft.AspNetCore.Mvc.Core.dll
@@ -674,5 +672,4 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bi
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\Microsoft.Extensions.ObjectPool.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\Microsoft.Extensions.Localization.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.DataAccessLayer\obj\Debug\Uniware_.04718B8F.Up2Date
 >>>>>>> Pradeep

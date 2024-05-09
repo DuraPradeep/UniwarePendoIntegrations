@@ -327,9 +327,7 @@ D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegra
 D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_.0FBC89EC.Up2Date
 D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
 D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-<<<<<<< HEAD
 >>>>>>> d4f44f9df355dcda6505413aa79d72703c5638d4
-=======
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.dll
@@ -420,5 +418,4 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Text.Encodings.Web.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.Extensions.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_.0FBC89EC.Up2Date
 >>>>>>> Pradeep

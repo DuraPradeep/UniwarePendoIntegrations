@@ -584,9 +584,7 @@ D:\github\Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIn
 D:\github\Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_.C60AFF33.Up2Date
 D:\github\Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.dll
 D:\github\Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.pdb
-<<<<<<< HEAD
 >>>>>>> d4f44f9df355dcda6505413aa79d72703c5638d4
-=======
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.Mvc.Core.dll
@@ -658,5 +656,4 @@ E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.ObjectPool.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.Localization.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_.C60AFF33.Up2Date
 >>>>>>> Pradeep
