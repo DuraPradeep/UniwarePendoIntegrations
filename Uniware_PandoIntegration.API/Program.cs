@@ -19,6 +19,7 @@ using System.Net;
 using Uniware_PandoIntegration.API.Controllers;
 using Uniware_PandoIntegration.API.ActionFilter;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,10 @@ var tokenValidationParameters = new TokenValidationParameters
     IssuerSigningKey = new SymmetricSecurityKey(Key),
     RequireExpirationTime = false,
 };
+
+
+
+
 //builder.Services.AddAuthorization(options =>
 //{
 //    var defaultAuthorizationPolicyBuilder = new AuthorizationPolicyBuilder(

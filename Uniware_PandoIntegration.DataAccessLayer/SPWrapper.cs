@@ -3342,9 +3342,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static void IsertAllocate_Shipping(DataTable dt, string Enviornment)
+        public static bool IsertAllocate_Shipping(DataTable dt, string Enviornment)
         {
             string res;
+            bool result = false;
+
             try
             {
                 SqlCommand com;
@@ -3367,6 +3369,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery(); con.Close();
+                    result = true ;
                 }
 
             }
@@ -3375,6 +3378,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             //finally { con.Close(); }
+            return result;
 
         }
         public static DataSet GetAllocateShippingData(string Enviornment)
@@ -5612,6 +5616,44 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             return ds;
+        }
+        public static void TrackingStatusErrorUpdate(bool status, string reason, string TrackingNumber, string Enviornment)
+        {
+
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_InsertTrackingStatusError";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@trackingnumber", TrackingNumber);
+                    com.Parameters.AddWithValue("@status", status);
+                    com.Parameters.AddWithValue("@Reason", reason);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
         }
     }
 

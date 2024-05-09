@@ -2239,7 +2239,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void InsertAllocate_Shipping(List<AllocateshippingPando> itemDatun, string Enviornment)
+        public bool InsertAllocate_Shipping(List<AllocateshippingPando> itemDatun, string Enviornment)
         {
             string res;
             try
@@ -2264,7 +2264,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     //drsku["generateUniwareShippingLabel"] = itemDatun[i].generateUniwareShippingLabel;
                     dtsku.Rows.Add(drsku);
                 }
-                SPWrapper.IsertAllocate_Shipping(dtsku, Enviornment);
+                return SPWrapper.IsertAllocate_Shipping(dtsku, Enviornment);
 
             }
             catch (Exception ex)
@@ -2272,6 +2272,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                 throw ex;
             }
+            
 
         }
 
@@ -3154,6 +3155,18 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
 
+        }
+
+        public void TrackingStatusError(bool status, string Reason, string Trackingnumber, string Enviornment)
+        {
+            try
+            {
+                SPWrapper.TrackingStatusErrorUpdate(status, Reason, Trackingnumber, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
