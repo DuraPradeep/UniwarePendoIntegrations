@@ -19,4 +19,10 @@
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Uniware_PandoIntegration.APIs">
+      <HintPath>..\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.APIs.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
