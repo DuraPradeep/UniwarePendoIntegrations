@@ -32,10 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Uniware_PandoIntegration.BusinessLayer\Uniware_PandoIntegration.BusinessLayer.csproj" />
     <ProjectReference Include="..\Uniware_PandoIntegration.DataAccessLayer\Uniware_PandoIntegration.DataAccessLayer.csproj" />
     <ProjectReference Include="..\UniWare_PandoIntegration\UniWare_PandoIntegration.csproj" />

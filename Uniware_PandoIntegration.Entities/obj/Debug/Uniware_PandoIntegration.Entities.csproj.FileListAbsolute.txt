@@ -1,327 +1,114 @@
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-D:\UniWarePandoIntegration\UniWare_PandoIntegration\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-D:\Duroflex\UniwarePando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-C:\Users\Pradeep bisht\Source\Repos\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.Policy.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Html.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Extensions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Features.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.JsonPatch.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Core.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.WebUtilities.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.DotNet.PlatformAbstractions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyModel.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Hosting.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.ObjectPool.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Options.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.WebEncoders.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Net.Http.Headers.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Win32.Registry.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.Bson.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.ComponentModel.Annotations.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Diagnostics.DiagnosticSource.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.AccessControl.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Cryptography.Xml.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Permissions.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Principal.Windows.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Text.Encodings.Web.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.Extensions.dll
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.Policy.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Diagnostics.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Html.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Extensions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Features.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.JsonPatch.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Core.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.DataAnnotations.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Formatters.Json.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.ResponseCaching.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.WebUtilities.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Hosting.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.ObjectPool.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Options.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.WebEncoders.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Net.Http.Headers.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.Bson.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Text.Encodings.Web.xml
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.Extensions.xml
 E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
-D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
-D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-D:\UniWare\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
-D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
-D:\Latest Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-D:\Latest Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\Latest Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
-D:\Latest Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-D:\Latest Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.Policy.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Extensions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Features.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Core.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.WebUtilities.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.DotNet.PlatformAbstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyModel.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Hosting.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.ObjectPool.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Options.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Net.Http.Headers.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ComponentModel.Annotations.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Diagnostics.DiagnosticSource.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Text.Encodings.Web.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.Extensions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.Policy.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Extensions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Features.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Core.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.ResponseCaching.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.WebUtilities.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Hosting.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.ObjectPool.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Options.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Net.Http.Headers.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Diagnostics.DiagnosticSource.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Text.Encodings.Web.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.Extensions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Html.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.JsonPatch.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.Abstractions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.WebEncoders.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Win32.Registry.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.Bson.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.AccessControl.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Cryptography.Xml.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Permissions.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Principal.Windows.dll
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Diagnostics.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Html.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.JsonPatch.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.DataAnnotations.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Formatters.Json.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.Abstractions.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.WebEncoders.xml
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.Bson.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.Policy.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Diagnostics.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Html.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Extensions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Features.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.JsonPatch.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Core.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.DataAnnotations.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Formatters.Json.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.WebUtilities.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.DotNet.PlatformAbstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyModel.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Hosting.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Logging.Abstractions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.ObjectPool.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Options.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.WebEncoders.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Net.Http.Headers.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Win32.Registry.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.Bson.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ComponentModel.Annotations.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Diagnostics.DiagnosticSource.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.AccessControl.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Cryptography.Xml.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Permissions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Security.Principal.Windows.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Text.Encodings.Web.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.Extensions.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authorization.Policy.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Cryptography.Internal.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.DataProtection.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Diagnostics.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Html.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Extensions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Http.Features.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.JsonPatch.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Core.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.DataAnnotations.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.Formatters.Json.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Mvc.ViewFeatures.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.ResponseCaching.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Routing.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.WebUtilities.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Configuration.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.FileProviders.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Hosting.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Localization.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Logging.Abstractions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.ObjectPool.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Options.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.Primitives.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Extensions.WebEncoders.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.Net.Http.Headers.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\Newtonsoft.Json.Bson.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Buffers.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Diagnostics.DiagnosticSource.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Memory.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Numerics.Vectors.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Text.Encodings.Web.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.Extensions.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
-D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
-D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_.0FBC89EC.Up2Date
-D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
-D:\github\Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_.0FBC89EC.Up2Date
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
+E:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb

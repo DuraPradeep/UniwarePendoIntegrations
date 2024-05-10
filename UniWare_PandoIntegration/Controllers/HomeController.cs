@@ -39,7 +39,6 @@ namespace UniWare_PandoIntegration.Controllers
                         HttpContext.Session.SetString("LoginId", serviceResponseg.ObjectParam.LoginID);
                         HttpContext.Session.SetString("Role", serviceResponseg.ObjectParam.RoleId);
                         HttpContext.Session.SetString("Environment", serviceResponseg.ObjectParam.Environment);
-
                         HttpContext.Session.SetString("NotificationCount", "1");
                         //TempData["Success"] = "Welcome "+ HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";
                         //TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName")+ " to the Dashboard!!";

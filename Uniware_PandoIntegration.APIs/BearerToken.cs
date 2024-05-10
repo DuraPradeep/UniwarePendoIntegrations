@@ -362,7 +362,7 @@ namespace Uniware_PandoIntegration.APIs
 
         }
 
-        public async Task<ServiceResponse<string>> PostDataTomaterialinvoice(string data, string ServerType)
+        public async Task<ServiceResponse<string>> PostDataTomaterialinvoice(string data , string ServerType,string Deliveryno)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -370,6 +370,9 @@ namespace Uniware_PandoIntegration.APIs
 
             try
             {
+                //var data = JsonConvert.SerializeObject(new { data = AllData });
+                Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {data}");
+
                 var client = new HttpClient();
                 var credentials = new byte[100];
                 var request = new HttpRequestMessage();
@@ -396,7 +399,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
 
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill DeliveryNo:- {Deliveryno}, Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -944,7 +947,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Update Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, shippingPackageCode {data.shippingPackageCode}, Update Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
 
                 if (response.IsSuccessStatusCode)
@@ -1039,7 +1042,7 @@ namespace Uniware_PandoIntegration.APIs
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
 
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Allocate Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},shippingPackageCode:- {data.shippingPackageCode} ,Allocate Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //if (response.IsSuccessStatusCode)
                 //{
                 //    serviceResponse.Errcode = ((int)response.StatusCode);
@@ -1191,11 +1194,13 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> TrackingStatus(string Details, string Token, string Facility, string ServerType, string Instance)
+        public async Task<ServiceResponse<string>> TrackingStatus(TrackingStatus AllData, string Token, string Facility, string ServerType, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
+                var Details = JsonConvert.SerializeObject(AllData);
+
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Post Data:-  {Details} , FacilityCode:- {Facility}");
 
                 var client = new HttpClient();
@@ -1241,7 +1246,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Status Response:-  {serviceResponse.ObjectParam}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Number:- {AllData.trackingNumber}, Tracking Status Response:-  {serviceResponse.ObjectParam}");
                 //if (response.IsSuccessStatusCode)
                 //{
                 //    serviceResponse.Errcode = ((int)response.StatusCode);
@@ -1263,6 +1268,7 @@ namespace Uniware_PandoIntegration.APIs
                         {
                             serviceResponse.Errcode = ((int)response.StatusCode);
                             serviceResponse.IsSuccess = true;
+                            //serviceResponse.Errdesc = datas.errors[0].message;
                             return serviceResponse;
                         }
                         else

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Web.WebPages;
-using Uniware_PandoIntegration.APIs;
 using System.Diagnostics;
 using Uniware_PandoIntegration.BusinessLayer;
 using Uniware_PandoIntegration.Entities;
