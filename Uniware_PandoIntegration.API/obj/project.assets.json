@@ -13210,24 +13210,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ajay\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Pradeep\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\New Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+      "projectUniqueName": "D:\\github\\Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
       "projectName": "Uniware_PandoIntegration.API",
-      "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
-      "packagesPath": "C:\\Users\\Ajay\\.nuget\\packages\\",
-      "outputPath": "D:\\New Pando\\Uniware_PandoIntegration.API\\obj\\",
+      "projectPath": "D:\\github\\Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+      "packagesPath": "C:\\Users\\Pradeep\\.nuget\\packages\\",
+      "outputPath": "D:\\github\\Pando\\Uniware_PandoIntegration.API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Pradeep\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13242,14 +13237,14 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\New Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj": {
-              "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj"
+            "D:\\github\\Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj": {
+              "projectPath": "D:\\github\\Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj"
             },
-            "D:\\New Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
-              "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj"
+            "D:\\github\\Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
+              "projectPath": "D:\\github\\Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj"
             },
-            "D:\\New Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj": {
-              "projectPath": "D:\\New Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj"
+            "D:\\github\\Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj": {
+              "projectPath": "D:\\github\\Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj"
             }
           }
         }
@@ -13258,6 +13253,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -13316,24 +13316,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[7.0.16, 7.0.16]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[7.0.16, 7.0.16]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[7.0.16, 7.0.16]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[7.0.16, 7.0.16]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -13342,7 +13324,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300-preview.24203.14\\RuntimeIdentifierGraph.json"
       }
     }
   },
