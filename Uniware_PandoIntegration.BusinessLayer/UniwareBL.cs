@@ -3130,12 +3130,28 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
+
+        //public ServiceResponse<DashboardsLists> GetDashboardDetailsByName(string Enviornment, string Name)
+        //{
+        //    ServiceResponse<DashboardsLists> List = new ServiceResponse<DashboardsLists>();
+        //    try
+        //    {
+        //        return List = Mapper.GetDashBoardDetailsByName(SPWrapper.GetDashboardDetails(Enviornment));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //}
+
+
         public List<TDashboardDetails> GetTrackingDetailsByName(string Enviornment,string Name)
         {
             List<TDashboardDetails> List = new List<TDashboardDetails> ();
             try
             {
-                return List = Mapper.GetTrackingDetailsByName(SPWrapper.GetTrackingDetailsByName(Enviornment,Name));
+                return List = Mapper.GetDashBoardDetailsByName(SPWrapper.GetTrackingDetailsByName(Enviornment,Name));
             }
             catch (Exception ex)
             {

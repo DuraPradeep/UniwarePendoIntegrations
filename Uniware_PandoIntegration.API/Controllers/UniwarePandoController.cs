@@ -3588,7 +3588,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             return returndata;
         }
         [HttpGet]
-        public List<TDashboardDetails> GetTrackingDetailsByName(string Enviornment, string Name)
+        public List<TDashboardDetails> GetDashboardDetailsByName(string Enviornment, string Name)
         {
             string Servertype = Enviornment;
 
