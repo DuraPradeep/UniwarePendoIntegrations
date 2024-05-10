@@ -1134,34 +1134,34 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             List<TrackingDetails> trackingDetails = new List<TrackingDetails>();
             try
             {
-                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
-                {
-                    TrackingDetails details = new TrackingDetails();
-                    details.StatusName = pds.Tables[0].Rows[i]["Name"].ToString();
-                    details.Count = pds.Tables[0].Rows[i]["Total"].ToString();
-                    trackingDetails.Add(details);
-                }
                 for (int i = 0; i < pds.Tables[1].Rows.Count; i++)
                 {
+                    TrackingDetails details = new TrackingDetails();
+                    details.StatusName = pds.Tables[1].Rows[i]["Name"].ToString();
+                    details.Count = pds.Tables[1].Rows[i]["Total"].ToString();
+                    trackingDetails.Add(details);
+                }
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
                     TDashboardDetails details = new TDashboardDetails();
-                    details.TrackingNumber = pds.Tables[1].Rows[i]["TrackingNumber"].ToString();
-                    details.DisplayOrder = pds.Tables[1].Rows[i]["DisplayOrderCode"].ToString();
-                    details.ShipmentID = pds.Tables[1].Rows[i]["ShipmentId"].ToString();
-                    details.LatestStatus = pds.Tables[1].Rows[i]["Status"].ToString();
-                    details.CourierName = pds.Tables[1].Rows[i]["CourierName"].ToString();
-                    details.trackingLink = pds.Tables[1].Rows[i]["TrackingLink"].ToString();
-                    details.CustomerName = pds.Tables[1].Rows[i]["CustomerName"].ToString();
-                    details.CustomerPhone = pds.Tables[1].Rows[i]["CustomerPhone"].ToString();
-                    details.FacilityCode = pds.Tables[1].Rows[i]["FacilityCode"].ToString();
-                    details.CustomerCity = pds.Tables[1].Rows[i]["CustomerCity"].ToString();
-                    details.InvoiceDate = pds.Tables[1].Rows[i]["InvoiceDate"].ToString();
-                    details.MaterialCode = pds.Tables[1].Rows[i]["MaterialCode"].ToString();
-                    details.Quantity = pds.Tables[1].Rows[i]["Quantity"].ToString();
-                    details.UOM = pds.Tables[1].Rows[i]["UOM"].ToString();
-                    details.IndentID = pds.Tables[1].Rows[i]["IndentID"].ToString();
-                    details.Pincode = pds.Tables[1].Rows[i]["Pincode"].ToString();
-                    details.state = pds.Tables[1].Rows[i]["state"].ToString();
-                    details.Region = pds.Tables[1].Rows[i]["Region"].ToString();
+                    details.TrackingNumber = pds.Tables[0].Rows[i]["TrackingNumber"].ToString();
+                    details.DisplayOrder = pds.Tables[0].Rows[i]["DisplayOrderCode"].ToString();
+                    details.ShipmentID = pds.Tables[0].Rows[i]["ShipmentId"].ToString();
+                    details.LatestStatus = pds.Tables[0].Rows[i]["Status"].ToString();
+                    details.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    details.trackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();
+                    details.CustomerName = pds.Tables[0].Rows[i]["CustomerName"].ToString();
+                    details.CustomerPhone = pds.Tables[0].Rows[i]["CustomerPhone"].ToString();
+                    details.FacilityCode = pds.Tables[0].Rows[i]["FacilityCode"].ToString();
+                    details.CustomerCity = pds.Tables[0].Rows[i]["CustomerCity"].ToString();
+                    details.InvoiceDate = pds.Tables[0].Rows[i]["InvoiceDate"].ToString();
+                    details.MaterialCode = pds.Tables[0].Rows[i]["MaterialCode"].ToString();
+                    details.Quantity = pds.Tables[0].Rows[i]["Quantity"].ToString();
+                    details.UOM = pds.Tables[0].Rows[i]["UOM"].ToString();
+                    details.IndentID = pds.Tables[0].Rows[i]["IndentID"].ToString();
+                    details.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
+                    details.state = pds.Tables[0].Rows[i]["state"].ToString();
+                    details.Region = pds.Tables[0].Rows[i]["Region"].ToString();
 
                     //skucodes.Add(sKucode);
                     userProfile.Add(details);//new CodesErrorDetails();// Add(sKucode);
@@ -1169,6 +1169,46 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 dashboardsLists.dashboardDetails = userProfile;
                 dashboardsLists.trackingDetails = trackingDetails;
                 DashboardDetails.ObjectParam = dashboardsLists;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return DashboardDetails;
+        }
+        public static List<TDashboardDetails> GetDashBoardDetailsByName(DataSet pds)
+        {
+           List<TDashboardDetails> DashboardDetails = new List<TDashboardDetails>();
+            try
+            {               
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TDashboardDetails details = new TDashboardDetails();
+                    details.TrackingNumber = pds.Tables[0].Rows[i]["TrackingNumber"].ToString();
+                    details.DisplayOrder = pds.Tables[0].Rows[i]["DisplayOrderCode"].ToString();
+                    details.ShipmentID = pds.Tables[0].Rows[i]["ShipmentId"].ToString();
+                    details.LatestStatus = pds.Tables[0].Rows[i]["Status"].ToString();
+                    details.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    details.trackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();
+                    details.CustomerName = pds.Tables[0].Rows[i]["CustomerName"].ToString();
+                    details.CustomerPhone = pds.Tables[0].Rows[i]["CustomerPhone"].ToString();
+                    details.FacilityCode = pds.Tables[0].Rows[i]["FacilityCode"].ToString();
+                    details.CustomerCity = pds.Tables[0].Rows[i]["CustomerCity"].ToString();
+                    details.InvoiceDate = pds.Tables[0].Rows[i]["InvoiceDate"].ToString();
+                    details.MaterialCode = pds.Tables[0].Rows[i]["MaterialCode"].ToString();
+                    details.Quantity = pds.Tables[0].Rows[i]["Quantity"].ToString();
+                    details.UOM = pds.Tables[0].Rows[i]["UOM"].ToString();
+                    details.IndentID = pds.Tables[0].Rows[i]["IndentID"].ToString();
+                    details.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
+                    details.state = pds.Tables[0].Rows[i]["state"].ToString();
+                    details.Region = pds.Tables[0].Rows[i]["Region"].ToString();
+
+                    //skucodes.Add(sKucode);
+                    DashboardDetails.Add(details);//new CodesErrorDetails();// Add(sKucode);
+                    //DashboardDetails.Add(details);
+                }
+                //dashboardsLists. = userProfile;
             }
             catch (Exception ex)
             {

@@ -45,7 +45,7 @@ namespace UniWare_PandoIntegration.Controllers
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
             List<TDashboardDetails> dashboardDetail = new List<TDashboardDetails>();
             trackingDetails = new List<TrackingDetails>();
-            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string>(Enviornment, Name, "Enviornment", "Name", "api/UniwarePando/GetTrackingDetailsByName");
+            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string>(Enviornment, Name, "Enviornment", "Name", "api/UniwarePando/GetDashboardDetailsByName");
             return Json(DashboardDetails);
 
         }
