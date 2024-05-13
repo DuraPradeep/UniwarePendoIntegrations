@@ -48,6 +48,11 @@
         padding-top: 0px;
         text-align: center;
     }
+
+    .active {
+        background-color: gray;
+        color: #fff;
+    }
 </style>
 <div class="container-fluid">
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
@@ -211,6 +216,7 @@
                 Name: name
             }).done(function (data) {
                 debugger;
+                $(this).addClass("active");
                 if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
                     table = $('#TrackingDetails').DataTable();
                     table.clear();
@@ -254,7 +260,9 @@
                                 data: "trackingLink",
                                 title: "Tracking Link",
                                 render: function (data, type, row) {
-                                    return '<a href="' + data + '" target="_blanck">' + data + '</a>'
+                                    // return '<a href="' + data + '" target="_blanck">' + data + '</a>'
+                                    return '<a href="' + data + '" target="_blank">track</a>'
+
                                 }
 
                             },
