@@ -3175,6 +3175,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     {
                         tokenEntity.username = dr["username"].ToString();
                         tokenEntity.password = dr["password"].ToString();
+                        tokenEntity.Environment = dr["Environment"].ToString();
                     }
                     con.Close();
                 };
@@ -5651,7 +5652,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             catch (Exception ex)
             {
-                //CreateLog($"Error: {ex.Message}");
+                CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
             //finally { con.Close(); }

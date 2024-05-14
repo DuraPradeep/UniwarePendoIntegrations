@@ -1238,30 +1238,29 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype, string Instance)
+        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string FacilityCode, string Servertype, string Instance)
         {
-            int Lcheckcount = checkcount;
+             int Lcheckcount = checkcount;
             //var jsonre = JsonConvert.SerializeObject(AllData);
             //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
             try
             {
-                var ResStatus = _Token.TrackingStatus(AllData, Token, FacilityCode, Servertype, Instance);
+                var ResStatus = _Token.TrackingStatus(AllData,  FacilityCode, Servertype, Instance);
 
                 if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
                 {
-                    if (Lcheckcount != 3)
-                    {
-                        Thread.Sleep(3000);
-                        Lcheckcount += 1;
-                        TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
+                    //if (Lcheckcount != 3)
+                    //{
+                    //    Thread.Sleep(3000);
+                    //    Lcheckcount += 1;
+                    //    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
+                    //    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
 
-                        serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Error get Tracking No. {AllData.trackingNumber}, Tracking Details Error. {ResStatus.Result.Errdesc}");
 
                         ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData.trackingNumber, Servertype);
@@ -1269,14 +1268,12 @@ namespace Uniware_PandoIntegration.API
                         serviceResponse.IsSuccess = false;
                         //return serviceResponse;
 
-                    }
+                    //}
                 }
                 else
                 {
                     CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Success tracking No., Tracking No. {AllData.trackingNumber}, Tracking Details Success. {ResStatus.Result.Errdesc}");
-
                     ObjBusinessLayer.TrackingStatusError(false, ResStatus.Result.ObjectParam, AllData.trackingNumber, Servertype);
-
                     serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                     serviceResponse.IsSuccess = true;
                     //return serviceResponse;

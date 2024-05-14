@@ -41,7 +41,9 @@ namespace Uniware_PandoIntegration.API
                         new Claim(JwtRegisteredClaimNames.Sid, TokenEntity.password),
                        new Claim(JwtRegisteredClaimNames.UniqueName, "Pando".ToString()),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
+                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+                        new Claim("Environment",TokenEntity.Environment),
+                        
                   }),
 
                     Expires = DateTime.Now.AddHours(24),

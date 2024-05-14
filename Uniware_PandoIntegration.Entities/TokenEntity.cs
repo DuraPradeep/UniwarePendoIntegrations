@@ -13,6 +13,8 @@ namespace Uniware_PandoIntegration.Entities
         public string username { get; set; }
         [Required]
         public string password { get; set; }
+        public string Environment { get; set; }
+
     }
     //public class Root
     //{
