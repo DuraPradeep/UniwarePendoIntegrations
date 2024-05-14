@@ -1251,16 +1251,16 @@ namespace Uniware_PandoIntegration.API
 
                 if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
                 {
-                    if (Lcheckcount != 3)
-                    {
-                        Thread.Sleep(3000);
-                        Lcheckcount += 1;
-                        TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
-                        serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    //if (Lcheckcount != 3)
+                    //{
+                    //    Thread.Sleep(3000);
+                    //    Lcheckcount += 1;
+                    //    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
+                    //    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
 
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Error get Tracking No. {AllData.trackingNumber}, Tracking Details Error. {ResStatus.Result.Errdesc}");
 
                         ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData.trackingNumber, Servertype);
@@ -1268,7 +1268,7 @@ namespace Uniware_PandoIntegration.API
                         serviceResponse.IsSuccess = false;
                         //return serviceResponse;
 
-                    }
+                    //}
                 }
                 else
                 {

@@ -27,10 +27,12 @@ namespace Uniware_PandoIntegration.API.ActionFilter
                 var jwthandler = new JwtSecurityTokenHandler();
                 var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
                 var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
-                {
-                    sw.WriteLine(Username);
-                }
+                await ProcessWrite.WriteTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), Username);
+            }
+                //using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //{
+                //    sw.WriteLine(Username);
+                //}
 
                 //FileStream stream = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Write);
                 //// Create a StreamWriter from FileStream
@@ -53,8 +55,7 @@ namespace Uniware_PandoIntegration.API.ActionFilter
                 //    sw.Write(writes, 0, writes.Length);
                 //}
 
-               await ProcessWrite.WriteTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), Username);
-                
+
                 //using (FileStream sw = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 //{
                 //    //sw.WriteLine(Username);
@@ -66,7 +67,7 @@ namespace Uniware_PandoIntegration.API.ActionFilter
                 //ObjBusinessLayer.InsertUsername(Username);
 
                 //value = jwttoken.ToString();
-            }
+            
 
         }
         public void OnActionExecuted(ActionExecutedContext context)
