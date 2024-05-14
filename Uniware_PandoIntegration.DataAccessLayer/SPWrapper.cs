@@ -5651,7 +5651,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             catch (Exception ex)
             {
-                //CreateLog($"Error: {ex.Message}");
+                CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
             //finally { con.Close(); }

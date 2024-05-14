@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Uniware_PandoIntegration.API.ActionFilter
 {
-   
+
     public class ActionFilterExample : IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)
@@ -26,16 +26,31 @@ namespace Uniware_PandoIntegration.API.ActionFilter
                 var jwthandler = new JwtSecurityTokenHandler();
                 var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
                 var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                //using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
-                //{
-                //    sw.WriteLine(Username);
-                //}
-                using (FileStream sw = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Write))
+                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 {
-                    //sw.WriteLine(Username);
-                    byte[] writes = Encoding.UTF8.GetBytes(Username);
-                    sw.Write(writes, 0, writes.Length);
+                    sw.WriteLine(Username);
                 }
+
+                //FileStream stream = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Write);
+                //// Create a StreamWriter from FileStream
+                //using (StreamWriter writer = new StreamWriter(stream))
+                //{
+                //    writer.WriteLine(Username);
+
+                //}
+
+
+                //using (var fs = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open))
+                //using (var sw = new StreamWriter(fs))
+                //{
+                //    sw.WriteLine("This is the appended line.");
+                //}
+                //using (FileStream sw = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Write))
+                //{
+                //    //sw.WriteLine(Username);
+                //    byte[] writes = Encoding.UTF8.GetBytes(Username);
+                //    sw.Write(writes, 0, writes.Length);
+                //}
 
 
                 //ObjBusinessLayer.InsertUsername(Username);
@@ -91,7 +106,7 @@ namespace Uniware_PandoIntegration.API.ActionFilter
     //        }
     //    }
     //}
-      
+
 
     internal sealed class ICollectionDebugView<T>
     {

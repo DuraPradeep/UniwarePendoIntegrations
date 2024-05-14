@@ -3088,6 +3088,8 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
                 }
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Username}");
+
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 string Getinstance = string.Empty;
                 string Instance = string.Empty;

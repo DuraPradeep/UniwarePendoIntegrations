@@ -2764,7 +2764,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
         }
         public void InsertTrackingStatusPostdata(List<TrackingStatusDb>updateShippingpackage,string Enviornment)
         {
-            var id = GenerateNumeric();
+            //var id = GenerateNumeric();
             DataTable dtinstcode = new DataTable();
             //dtinstcode.Columns.Add("Id");
             dtinstcode.Columns.Add("providerCode");
