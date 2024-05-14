@@ -53,7 +53,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             catch (Exception ex) { _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Token Error {JsonConvert.SerializeObject(ex)}"); }
             return Ok(result);
         }
- 
+
         [Authorize]
         [HttpPost]
         public IActionResult waybill(OmsToPandoRoot Records)
@@ -62,24 +62,17 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
             ErrorResponse errorResponse = new ErrorResponse();
-
             try
             {
-
                 HttpContext httpContext = HttpContext;
-                var jwthandler = new JwtSecurityTokenHandler();
-
                 var token = httpContext.Request.Headers["Authorization"].ToString();
-                var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
-                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
+                string Username = JwtSecurity.Claims.First(m => m.Type == "name").Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
-
-
                 Task.Run(() =>
                 {
                     obj.CallingWaybill(Records, Username);
                 });
-
                 if (Records != null)
                 {
                     errorResponse.status = "FAILED";
@@ -99,7 +92,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             catch (Exception ex)
             {
-                 errorResponse.status = "FAILED";
+                errorResponse.status = "FAILED";
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Resource requires authentication. Please check your authorization token.";
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
@@ -108,8 +101,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             return new JsonResult(errorResponse);
 
         }
-
-
+      
         [HttpPost]
         [Authorize]
         public IActionResult UpdateShippingPackage(List<UpdateShippingpackage> shippingPackages)
@@ -121,15 +113,10 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 HttpContext httpContext = HttpContext;
-                var jwthandler = new JwtSecurityTokenHandler();
-
-                var tokens = httpContext.Request.Headers["Authorization"].ToString();
-                var jwttoken = jwthandler.ReadToken(tokens.Split(" ")[1].ToString());
-                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},UpdateShipping Instance Name. {Username}");
-
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
-                //string Servertype = iconfiguration["ServerType:type"];
+                var token = httpContext.Request.Headers["Authorization"].ToString();
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},UpdateShipping Instance Name. {Servertype}");
 
                 for (int i = 0; i < shippingPackages.Count; i++)
                 {
@@ -155,7 +142,6 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var lists = ObjBusinessLayer.UpdateShipingPck(Servertype);
                 var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
 
-                //var facilitycode = "";
                 if (lists.Count > 0)
                 {
                     for (int i = 0; i < lists.Count; i++)
@@ -303,10 +289,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             {
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
                 HttpContext httpContext = HttpContext;
-                var jwthandler = new JwtSecurityTokenHandler();
                 var token = httpContext.Request.Headers["Authorization"].ToString();
-                var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
-                var JwtSecurity = jwttoken as JwtSecurityToken;
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
                 string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");
                 var details = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
