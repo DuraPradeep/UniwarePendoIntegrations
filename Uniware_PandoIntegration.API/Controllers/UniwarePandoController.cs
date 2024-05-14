@@ -1510,7 +1510,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, UpdateShippingPackage Request {JsonConvert.SerializeObject(shippingPackages)}");
             try
             {
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
 
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
                 //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
@@ -1817,28 +1817,13 @@ namespace Uniware_PandoIntegration.API.Controllers
             SuccessResponse successResponse = new SuccessResponse();
             try
             {
-                //Thread.Sleep(5000);                
-                //string Username = string.Empty;
-
-                //using (var stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                //{
-                //    //StreamReader streamReader = new StreamReader(stream);
-                //    //Username = streamReader.ReadLine();
-                //    //stream.Close();
-
-                //    byte[] buffer = new byte[stream.Length];
-                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
-                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
-                //    stream.Close();
-                //}
-
                 HttpContext httpContext = HttpContext;
                 var jwthandler = new JwtSecurityTokenHandler();
 
                 var token = httpContext.Request.Headers["Authorization"].ToString();
                 var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
                 var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Instance Name. {Username}");
 
 
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
@@ -3098,69 +3083,17 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
-                //Thread.Sleep(5000);
-                //string Username = string.Empty;
                 HttpContext httpContext = HttpContext;
                 var jwthandler = new JwtSecurityTokenHandler();
-
                 var token = httpContext.Request.Headers["Authorization"].ToString();
                 var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
-                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                //Username = ProcessRead.ReadTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt")).Result.Trim();
-                //string usernamess = Regex.Replace(Username, @"[^\w\.@-]", "");
-
-                //using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                //{
-                //    //StreamReader streamReader = new StreamReader(stream);
-                //    //Username = streamReader.ReadLine();
-                //    //stream.Close();
-                //    byte[] buffer = new byte[stream.Length];
-                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
-                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
-                //    //Username = Username.Substring(Username.Length - 2);
-                //    stream.Close();
-
-
-                //}
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Username}");
-
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
-                string Getinstance = string.Empty;
-                string Instance = string.Empty;
-                string Nameinstance = string.Empty;
-                List<TrackingStatusDb> trackingStatusDbs = new List<TrackingStatusDb>();
-                for (int i = 0; i < TrackingDetails.Count; i++)
-                {
-                    TrackingStatusDb trackingStatus = new TrackingStatusDb();
-                    var randonid = ObjBusinessLayer.GenerateNumeric();
-                    trackingStatus.Id = randonid;
-                    trackingStatus.providerCode = TrackingDetails[i].providerCode;
-                    trackingStatus.trackingNumber = TrackingDetails[i].trackingNumber;
-                    trackingStatus.trackingStatus = TrackingDetails[i].trackingStatus;
-                    trackingStatus.statusDate = TrackingDetails[i].statusDate;
-                    trackingStatus.shipmentTrackingStatusName = TrackingDetails[i].shipmentTrackingStatusName;
-                    trackingStatus.facilitycode = TrackingDetails[i].facilitycode;
-                    trackingStatus.Instance = TrackingDetails[i].Instance;
-                    trackingStatusDbs.Add(trackingStatus);
-                }
-                //if (Getinstance.IsNullOrEmpty())
-                //{
-                //   Nameinstance = ObjBusinessLayer.GetInstanceName(trackingStatusDbs[0].trackingNumber, Servertype);
-                //    if (Nameinstance == "INDENTID_SH")
-                //        Instance = "SH";
-                //    else
-                //        Instance = "DFX";
-                //}
-                //else
-                //{
-                //    Instance = Getinstance;
-                //}
-                var details = ObjBusinessLayer.BLinsertTrackingDetails(trackingStatusDbs, Servertype);
-
-
+                var JwtSecurity = jwttoken as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");                                   
+                var details = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
                 Task.Run(() =>
                 {
-                    obj.CallingTrackingStatus(Servertype, trackingStatusDbs);
+                    obj.CallingTrackingStatus(Servertype, TrackingDetails);
                 });
                 if (details)
                 {
@@ -3257,6 +3190,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+                _logger.LogError($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
                 return Problem(ex.Message, null, 204, "Not received", null);
                 //return new JsonResult(reversePickupResponse);
                 throw;
