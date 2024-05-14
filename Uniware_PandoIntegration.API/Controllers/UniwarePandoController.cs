@@ -131,7 +131,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},UpdateShipping Instance Name. {Username}");
 
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
+                //string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 //string Servertype = iconfiguration["ServerType:type"];
 
                 for (int i = 0; i < shippingPackages.Count; i++)
@@ -150,13 +150,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                         customFields.Add(customFieldValue);
                     }
                 }
-                ObjBusinessLayer.InsertUpdateShippingpackage(updatelist, Servertype);
-                ObjBusinessLayer.InsertCustomFields(customFields, Servertype);
+                ObjBusinessLayer.InsertUpdateShippingpackage(updatelist, Username);
+                ObjBusinessLayer.InsertCustomFields(customFields, Username);
 
                 SuccessResponse successResponse = new SuccessResponse();
                 List<string> ErrorList = new List<string>();
-                var lists = ObjBusinessLayer.UpdateShipingPck(Servertype);
-                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
+                var lists = ObjBusinessLayer.UpdateShipingPck(Username);
+                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Username);
 
                 //var facilitycode = "";
                 if (lists.Count > 0)
@@ -185,12 +185,12 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                         }
 
-                        var resu = _Token.GetTokens(Servertype, Instance).Result;
+                        var resu = _Token.GetTokens(Username, Instance).Result;
                         var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                         string token = accesstoken.access_token;
                         if (token != null)
                         {
-                            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Servertype, Instance);
+                            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Username, Instance);
                             if (response.IsSuccess)
                             {
                                 successResponse.status = "Success";
