@@ -53,9 +53,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             catch (Exception ex) { _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Token Error {JsonConvert.SerializeObject(ex)}"); }
             return Ok(result);
         }
-        //[CustomAuthorizationFilter]
-
-        //[ServiceFilter(typeof(ActionFilterExample))]
+ 
         [Authorize]
         [HttpPost]
         public IActionResult waybill(OmsToPandoRoot Records)
@@ -101,8 +99,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             catch (Exception ex)
             {
-                //ErrorResponse errorResponse = new ErrorResponse();
-                errorResponse.status = "FAILED";
+                 errorResponse.status = "FAILED";
                 errorResponse.reason = ex.Message;
                 errorResponse.message = "Resource requires authentication. Please check your authorization token.";
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
