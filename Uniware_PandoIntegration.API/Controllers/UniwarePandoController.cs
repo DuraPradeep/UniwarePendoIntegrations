@@ -113,8 +113,8 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 HttpContext httpContext = HttpContext;
-                var token = httpContext.Request.Headers["Authorization"].ToString();
-                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
+                var tokens = httpContext.Request.Headers["Authorization"].ToString();
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(tokens.Split(" ")[1].ToString()) as JwtSecurityToken;
                 string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},UpdateShipping Instance Name. {Servertype}");
 
@@ -134,13 +134,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                         customFields.Add(customFieldValue);
                     }
                 }
-                ObjBusinessLayer.InsertUpdateShippingpackage(updatelist, Username);
-                ObjBusinessLayer.InsertCustomFields(customFields, Username);
+                ObjBusinessLayer.InsertUpdateShippingpackage(updatelist, Servertype);
+                ObjBusinessLayer.InsertCustomFields(customFields, Servertype);
 
                 SuccessResponse successResponse = new SuccessResponse();
                 List<string> ErrorList = new List<string>();
-                var lists = ObjBusinessLayer.UpdateShipingPck(Username);
-                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Username);
+                var lists = ObjBusinessLayer.UpdateShipingPck(Servertype);
+                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
 
                 if (lists.Count > 0)
                 {
@@ -168,12 +168,12 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                         }
 
-                        var resu = _Token.GetTokens(Username, Instance).Result;
+                        var resu = _Token.GetTokens(Servertype, Instance).Result;
                         var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                         string token = accesstoken.access_token;
                         if (token != null)
                         {
-                            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Username, Instance);
+                            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Servertype, Instance);
                             if (response.IsSuccess)
                             {
                                 successResponse.status = "Success";
@@ -346,17 +346,23 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Cancel Waybill: {JsonConvert.SerializeObject(waybill.waybill)}");
                 Thread.Sleep(5000);
 
-                string Username = string.Empty;
-                using (var stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                {
+                //string Username = string.Empty;
+                //using (var stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                //{
 
 
-                    byte[] buffer = new byte[stream.Length];
-                    int bytesread = stream.Read(buffer, 0, buffer.Length);
-                    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
-                    stream.Close();
-                }
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
+                //    byte[] buffer = new byte[stream.Length];
+                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
+                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
+                //    stream.Close();
+                //}
+
+                HttpContext httpContext = HttpContext;
+                var tokens = httpContext.Request.Headers["Authorization"].ToString();
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(tokens.Split(" ")[1].ToString()) as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},UpdateShipping Instance Name. {Servertype}");
+                //string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 ObjBusinessLayer.WaybillCancel(waybill.waybill, Servertype);
                 var canceldata = ObjBusinessLayer.GetWaybillCancelData(Servertype);
                 CancelResponse response = new CancelResponse();
