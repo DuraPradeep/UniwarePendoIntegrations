@@ -10,13 +10,14 @@ using System.Diagnostics;
 using Uniware_PandoIntegration.BusinessLayer;
 using Uniware_PandoIntegration.Entities;
 using System.Text;
+using Uniware_PandoIntegration.API.Model;
 
 namespace Uniware_PandoIntegration.API.ActionFilter
 {
    
     public class ActionFilterExample : IActionFilter
     {
-        public void OnActionExecuting(ActionExecutingContext context)
+        public async void OnActionExecuting(ActionExecutingContext context)
         {
             var token = context.HttpContext.Request.Headers["Authorization"].ToString();
 
@@ -30,12 +31,15 @@ namespace Uniware_PandoIntegration.API.ActionFilter
                 //{
                 //    sw.WriteLine(Username);
                 //}
-                using (FileStream sw = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Write))
-                {
-                    //sw.WriteLine(Username);
-                    byte[] writes = Encoding.UTF8.GetBytes(Username);
-                    sw.Write(writes, 0, writes.Length);
-                }
+
+               await ProcessWrite.WriteTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), Username);
+                
+                //using (FileStream sw = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                //{
+                //    //sw.WriteLine(Username);
+                //    byte[] writes = Encoding.UTF8.GetBytes(Username);
+                //    sw.Write(writes, 0, writes.Length);
+                //}
 
 
                 //ObjBusinessLayer.InsertUsername(Username);
