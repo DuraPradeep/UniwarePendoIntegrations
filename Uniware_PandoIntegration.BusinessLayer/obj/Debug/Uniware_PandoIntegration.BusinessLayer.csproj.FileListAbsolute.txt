@@ -421,3 +421,44 @@ D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.Map.
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Superpower.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Umbraco.Core.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Semver.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\LightInject.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\NPoco.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\MiniProfiler.Shared.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\System.Data.SqlServerCe.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Owin.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.File.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Formatting.Compact.Reader.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\LightInject.Web.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Enrichers.Process.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Enrichers.Thread.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.Async.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Formatting.Compact.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Settings.AppSettings.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Filters.Expressions.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.Map.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Owin.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Web.Infrastructure.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Superpower.dll
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Umbraco.Core.pdb
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Umbraco.Core.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Semver.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\LightInject.pdb
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\LightInject.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\MiniProfiler.Shared.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Owin.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.File.pdb
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.File.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Formatting.Compact.Reader.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\LightInject.Web.pdb
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\LightInject.Web.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Enrichers.Process.pdb
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Enrichers.Thread.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.Async.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Formatting.Compact.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Filters.Expressions.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Serilog.Sinks.Map.xml
+E:\Duroflex\NewAjayPando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Superpower.xml
