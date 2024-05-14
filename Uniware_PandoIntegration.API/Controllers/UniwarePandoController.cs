@@ -101,7 +101,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             return new JsonResult(errorResponse);
 
         }
-      
+
         [HttpPost]
         [Authorize]
         public IActionResult UpdateShippingPackage(List<UpdateShippingpackage> shippingPackages)
@@ -283,7 +283,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult TrackingStatus(List<TrackingStatusDb> TrackingDetails)
+        public async Task<IActionResult> TrackingStatus(List<TrackingStatusDb> TrackingDetails)
         {
             try
             {
@@ -293,32 +293,12 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
                 string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");
-                var details = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
-                Task.Run(() =>
-                {
-                    obj.CallingTrackingStatus(Servertype, TrackingDetails);
-                });
-                if (details)
-                {
-                    TrackingResponse reversePickupResponse = new TrackingResponse();
-                    reversePickupResponse.successful = true;
-                    reversePickupResponse.message = "Data Received from Pando";
-                    reversePickupResponse.errors = "";
-                    reversePickupResponse.warnings = "";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
-                    return Ok(reversePickupResponse);
-                }
-                else
-                {
-                    TrackingResponse reversePickupResponse = new TrackingResponse();
-                    reversePickupResponse.successful = true;
-                    reversePickupResponse.message = "No Data Received";
-                    reversePickupResponse.errors = "";
-                    reversePickupResponse.warnings = "";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
-                    return Problem("No Data Received", null, 204, "Not received", null);
-                }
-
+                Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
+                Task<bool> Call2 = obj.CallingTrackingStatus(Servertype, TrackingDetails);
+                TrackingResponse result1 = await Call1;
+                bool result2 = await Call2;
+                await Task.WhenAll(Call1, Call2);
+                return Ok(new { Result1 = result1, Result2 = result2 });
 
             }
             catch (Exception ex)

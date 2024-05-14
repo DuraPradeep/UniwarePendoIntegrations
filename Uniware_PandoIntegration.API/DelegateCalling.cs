@@ -14,8 +14,9 @@ namespace Uniware_PandoIntegration.API
         MethodWrapper _MethodWrapper = new MethodWrapper();
 
         // public delegate void DelegateTrackingStatus(string Servertype, String Instance, List<TrackingStatusDb> trackingStatusDbs);
-        public void CallingTrackingStatus(string Servertype, List<TrackingStatusDb> trackingStatusDbs)
+        public async Task<bool> CallingTrackingStatus(string Servertype, List<TrackingStatusDb> trackingStatusDbs)
         {
+            bool Result=false;
             CreateLog("Execution start");
             try
             {
@@ -43,10 +44,13 @@ namespace Uniware_PandoIntegration.API
                         CreateLog("Execution end");
                         if (res.IsSuccess)
                         {
+                            Result = true;
                             responsmessage = res.ObjectParam.ToString();
                         }
                         else
                         {
+                            Result = false;
+
                             responsmessage = res.ObjectParam.ToString();
                         }
 
@@ -62,6 +66,8 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
+                    Result = false;
+
                     TrackingResponse reversePickupResponse = new TrackingResponse();
                     reversePickupResponse.successful = false;
                     reversePickupResponse.message = responsmessage;
@@ -87,6 +93,8 @@ namespace Uniware_PandoIntegration.API
             }
             catch (Exception ex)
             {
+                Result = false;
+
                 TrackingResponse reversePickupResponse = new TrackingResponse();
                 reversePickupResponse.successful = false;
                 reversePickupResponse.message = ex.Message;
@@ -98,7 +106,7 @@ namespace Uniware_PandoIntegration.API
 
                 throw;
             }
-
+            return Result;
         }
 
         public void CallingAllocateShipping(string Servertype, List<AllocateshippingPando> allocateshippings)
