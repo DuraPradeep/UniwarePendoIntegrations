@@ -2254,14 +2254,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                 if (res)
                 {
-                    successResponse.status = true;
+                    successResponse.status = "true";
                     successResponse.waybill = "";
                     successResponse.shippingLabel = "";
           
                 }
                 else
                 {
-                    successResponse.status = false;
+                    successResponse.status = "false";
                     successResponse.waybill = "No Data Received";
                     successResponse.shippingLabel = "";
               
@@ -2272,8 +2272,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             catch (Exception ex)
             {
-                successResponse.status = false;
-                successResponse.waybill = "No Data Received";
+                successResponse.status = "false"; 
+                successResponse.waybill = $"No Data Received with Error {ex.Message}";
                 successResponse.shippingLabel = "";
                 return successResponse;
             }
