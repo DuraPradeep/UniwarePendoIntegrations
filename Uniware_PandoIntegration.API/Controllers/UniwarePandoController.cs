@@ -258,10 +258,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //{
                 //    obj.CallingAllocateShipping(Servertype, allocateshippings);
                 //});
-                SuccessResponse result1 = await Call1;
-                //bool result2 = await Call2;
-                await Task.WhenAll(Call1);
-                return Ok(result1);
+              
 
                 //if (insertstatus)
                 //{
