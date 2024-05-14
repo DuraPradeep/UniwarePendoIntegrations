@@ -39,6 +39,7 @@ using NuGet.Protocol;
 using DocumentFormat.OpenXml.Bibliography;
 using RepoDb.Extensions.QueryFields;
 using static Uniware_PandoIntegration.API.DelegateCalling;
+using Uniware_PandoIntegration.API.Model;
 //using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
 
 namespace Uniware_PandoIntegration.API.Controllers
@@ -3067,7 +3068,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         [ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
         [HttpPost]
-        public IActionResult TrackingStatus(List<TrackingStatusDb> TrackingDetails)
+        public   IActionResult TrackingStatus(List<TrackingStatusDb> TrackingDetails)
         {
             try
             {
@@ -3075,16 +3076,20 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //Thread.Sleep(5000);
                 string Username = string.Empty;
 
-                using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                {
-                    //StreamReader streamReader = new StreamReader(stream);
-                    //Username = streamReader.ReadLine();
-                    //stream.Close();
-                    byte[] buffer = new byte[stream.Length];
-                    int bytesread = stream.Read(buffer, 0, buffer.Length);
-                    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
-                    //Username = Username.Substring(Username.Length - 2);
-                    stream.Close();
+
+                Username=  ProcessRead.ReadTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt")).Result;
+
+
+                //using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                //{
+                //    //StreamReader streamReader = new StreamReader(stream);
+                //    //Username = streamReader.ReadLine();
+                //    //stream.Close();
+                //    byte[] buffer = new byte[stream.Length];
+                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
+                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
+                //    //Username = Username.Substring(Username.Length - 2);
+                //    stream.Close();
 
 
                 }
@@ -3124,7 +3129,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var details = ObjBusinessLayer.BLinsertTrackingDetails(trackingStatusDbs, Servertype);
 
 
-                Task.Run(() =>
+                Task.Run(()=>
                 {
                     obj.CallingTrackingStatus(Servertype, trackingStatusDbs);
                 });
