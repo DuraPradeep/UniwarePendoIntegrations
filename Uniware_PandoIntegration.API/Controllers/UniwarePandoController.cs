@@ -243,14 +243,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var JwtSecurity = jwttoken as JwtSecurityToken;
                 string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Instance Name. {Servertype}");
-
-
                 Task<SuccessResponse> Call1 = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
-
                 Task<bool> Call2 = obj.CallingAllocateShipping(Servertype, allocateshippings);
                 SuccessResponse result1 = await Call1;
                 bool result2 = await Call2;
-                await Task.WhenAll(Call1, Call2);
+                await Task.WhenAll(Call1);
                 return Ok(result1);
                 //Task.Run(() =>
                 //{

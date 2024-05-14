@@ -2273,7 +2273,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             catch (Exception ex)
             {
                 successResponse.status = false;
-                successResponse.waybill = "No Data Received";
+                successResponse.waybill = $"No Data Received with Error {ex.Message}";
                 successResponse.shippingLabel = "";
                 return successResponse;
             }
