@@ -6,7 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ErrorReport>none</ErrorReport>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <Deterministic>True</Deterministic>
@@ -38,6 +40,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Properties\PublishProfiles\UniwarePandoIntegrationAPI - Web Deploy.pubxml">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="Template\Retrigger.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
