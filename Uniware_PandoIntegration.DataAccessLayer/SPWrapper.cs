@@ -3411,7 +3411,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
                     };
 
-                    com.Parameters.AddWithValue("@ShippingpackageCode", dt);
+                    com.Parameters.AddWithValue("@Records", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
