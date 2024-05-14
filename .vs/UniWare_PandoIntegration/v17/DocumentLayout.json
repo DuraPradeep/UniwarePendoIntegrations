@@ -3,7 +3,11 @@
   "WorkspaceRootPath": "D:\\github\\Pando\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{01CDEAFB-B48C-4599-AAE1-16157CCE8D0A}|Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj|d:\\github\\pando\\uniware_pandointegration.businesslayer\\uniwarebl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{53F447EC-6927-4F26-BF42-35C2F00C08D7}|TrackingStatusDashboard\\TrackingStatusDashboard.csproj|d:\\github\\pando\\trackingstatusdashboard\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{53F447EC-6927-4F26-BF42-35C2F00C08D7}|TrackingStatusDashboard\\TrackingStatusDashboard.csproj|solutionrelative:trackingstatusdashboard\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{01CDEAFB-B48C-4599-AAE1-16157CCE8D0A}|Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj|D:\\github\\Pando\\uniware_pandointegration.businesslayer\\uniwarebl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{01CDEAFB-B48C-4599-AAE1-16157CCE8D0A}|Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj|solutionrelative:uniware_pandointegration.businesslayer\\uniwarebl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -46,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 13,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,11 +98,28 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\github\\Pando\\TrackingStatusDashboard\\appsettings.json",
+              "RelativeDocumentMoniker": "TrackingStatusDashboard\\appsettings.json",
+              "ToolTip": "D:\\github\\Pando\\TrackingStatusDashboard\\appsettings.json",
+              "RelativeToolTip": "TrackingStatusDashboard\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-10T14:47:21.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "UniwareBL.cs",
               "DocumentMoniker": "D:\\github\\Pando\\Uniware_PandoIntegration.BusinessLayer\\UniwareBL.cs",
               "RelativeDocumentMoniker": "Uniware_PandoIntegration.BusinessLayer\\UniwareBL.cs",
@@ -106,12 +127,11 @@
               "RelativeToolTip": "Uniware_PandoIntegration.BusinessLayer\\UniwareBL.cs",
               "ViewState": "AQIAAD8MAAAAAAAAAAAmwEUMAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T14:19:00.176Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-10T14:19:00.176Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "HomeController.cs",
               "DocumentMoniker": "D:\\github\\Pando\\UniWare_PandoIntegration\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "UniWare_PandoIntegration\\Controllers\\HomeController.cs",
@@ -123,7 +143,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "SPWrapper.cs",
               "DocumentMoniker": "D:\\github\\Pando\\Uniware_PandoIntegration.DataAccessLayer\\SPWrapper.cs",
               "RelativeDocumentMoniker": "Uniware_PandoIntegration.DataAccessLayer\\SPWrapper.cs",
@@ -131,12 +151,11 @@
               "RelativeToolTip": "Uniware_PandoIntegration.DataAccessLayer\\SPWrapper.cs",
               "ViewState": "AQIAAGwRAAAAAAAAAAAAAGYRAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T09:44:55.924Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-29T09:44:55.924Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "TrackingStatus.cshtml",
               "DocumentMoniker": "D:\\github\\Pando\\UniWare_PandoIntegration\\Views\\TrackingDashboard\\TrackingStatus.cshtml",
               "RelativeDocumentMoniker": "UniWare_PandoIntegration\\Views\\TrackingDashboard\\TrackingStatus.cshtml",
@@ -148,7 +167,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MethodWrapper.cs",
               "DocumentMoniker": "D:\\github\\Pando\\Uniware_PandoIntegration.API\\MethodWrapper.cs",
               "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\MethodWrapper.cs",
@@ -156,12 +175,11 @@
               "RelativeToolTip": "Uniware_PandoIntegration.API\\MethodWrapper.cs",
               "ViewState": "AQIAAC0CAAAAAAAAAAAEwDQCAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T07:34:21.51Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-18T07:34:21.51Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "UniwarePandoController.cs",
               "DocumentMoniker": "D:\\github\\Pando\\Uniware_PandoIntegration.API\\Controllers\\UniwarePandoController.cs",
               "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\Controllers\\UniwarePandoController.cs",
@@ -169,12 +187,11 @@
               "RelativeToolTip": "Uniware_PandoIntegration.API\\Controllers\\UniwarePandoController.cs",
               "ViewState": "AQIAACwAAAAAAAAAAAAowD8AAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-18T06:37:57.431Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-18T06:37:57.431Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "CallingController.cs",
               "DocumentMoniker": "D:\\github\\Pando\\Uniware_PandoIntegration.API\\Controllers\\CallingController.cs",
               "RelativeDocumentMoniker": "Uniware_PandoIntegration.API\\Controllers\\CallingController.cs",
@@ -182,12 +199,11 @@
               "RelativeToolTip": "Uniware_PandoIntegration.API\\Controllers\\CallingController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T11:52:23.026Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-08T11:52:23.026Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "TrackingDashboard.cs",
               "DocumentMoniker": "D:\\github\\Pando\\UniWare_PandoIntegration\\Controllers\\TrackingDashboard.cs",
               "RelativeDocumentMoniker": "UniWare_PandoIntegration\\Controllers\\TrackingDashboard.cs",
@@ -195,12 +211,11 @@
               "RelativeToolTip": "UniWare_PandoIntegration\\Controllers\\TrackingDashboard.cs",
               "ViewState": "AQIAABUAAAAAAAAAAAAwwCIAAACdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-29T09:44:10.214Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-29T09:44:10.214Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "libman.json",
               "DocumentMoniker": "D:\\github\\Pando\\UniWare_PandoIntegration\\libman.json",
               "RelativeDocumentMoniker": "UniWare_PandoIntegration\\libman.json",
