@@ -245,7 +245,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Instance Name. {Servertype}");
                 Task<SuccessResponse> Call1 = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
 
-                 YourMethod(Servertype, allocateshippings);
+                  YourMethod(Servertype, allocateshippings);
 
 
 
