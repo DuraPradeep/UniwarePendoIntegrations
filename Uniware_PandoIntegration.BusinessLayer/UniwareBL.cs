@@ -2240,39 +2240,42 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public bool InsertAllocate_Shipping(List<AllocateshippingPando> itemDatun, string Enviornment)
+        public async Task<SuccessResponse> InsertAllocate_Shipping(List<AllocateshippingPando> itemDatun, string Enviornment)
         {
-            string res;
+            //string res;
+            bool res;
+            SuccessResponse successResponse = new SuccessResponse();
+
             try
             {
-                //DataTable dtsku = new DataTable();
-                //dtsku.Columns.Add("shippingPackageCode");
-                //dtsku.Columns.Add("shippingLabelMandatory");
-                //dtsku.Columns.Add("shippingProviderCode");
-                //dtsku.Columns.Add("shippingCourier");
-                //dtsku.Columns.Add("trackingNumber");
-                //dtsku.Columns.Add("TrackingURL");
-                ////dtsku.Columns.Add("generateUniwareShippingLabel");
-                //for (int i = 0; i < itemDatun.Count; i++)
-                //{
-                //    DataRow drsku = dtsku.NewRow();
-                //    drsku["shippingPackageCode"] = itemDatun[i].shippingPackageCode;
-                //    drsku["shippingLabelMandatory"] = itemDatun[i].shippingLabelMandatory;
-                //    drsku["shippingProviderCode"] = itemDatun[i].shippingProviderCode;
-                //    drsku["shippingCourier"] = itemDatun[i].shippingCourier;
-                //    drsku["trackingNumber"] = itemDatun[i].trackingNumber;
-                //    drsku["TrackingURL"] = itemDatun[i].tracking_link_url;
-                //    //drsku["generateUniwareShippingLabel"] = itemDatun[i].generateUniwareShippingLabel;
-                //    dtsku.Rows.Add(drsku);
-                //}
                 var dataTable = ConvertDataTable.ToDataTable(itemDatun);
-                return SPWrapper.IsertAllocate_Shipping(dataTable, Enviornment);
+                res= SPWrapper.IsertAllocate_Shipping(dataTable, Enviornment);
+                //CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                if (res)
+                {
+                    successResponse.status = true;
+                    successResponse.waybill = "";
+                    successResponse.shippingLabel = "";
+          
+                }
+                else
+                {
+                    successResponse.status = false;
+                    successResponse.waybill = "No Data Received";
+                    successResponse.shippingLabel = "";
+              
+                }
+
+                return successResponse;
 
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                successResponse.status = false;
+                successResponse.waybill = "No Data Received";
+                successResponse.shippingLabel = "";
+                return successResponse;
             }
 
 
@@ -2746,7 +2749,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 }
                 else
                 {
-                    reversePickupResponse.successful = true;
+                    reversePickupResponse.successful = false;
                     reversePickupResponse.message = "No Data Received";
                     reversePickupResponse.errors = "";
                     reversePickupResponse.warnings = "";

@@ -123,9 +123,9 @@ namespace Uniware_PandoIntegration.Entities
     }
     public class SuccessResponse
     {
-        public string status { get; set; }
-        public string waybill { get; set; }
-        public string shippingLabel { get; set; }
-        public string courierName { get; set; }
+        public bool status { get; set; }
+        public object waybill { get; set; }
+        public object shippingLabel { get; set; }
+        public object courierName { get; set; }
     }
 }

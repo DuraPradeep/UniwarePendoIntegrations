@@ -109,10 +109,11 @@ namespace Uniware_PandoIntegration.API
             return Result;
         }
 
-        public void CallingAllocateShipping(string Servertype, List<AllocateshippingPando> allocateshippings)
+        public async Task<bool> CallingAllocateShipping(string Servertype, List<AllocateshippingPando> allocateshippings)
         {
             string Instance = string.Empty;
             SuccessResponse successResponse = new SuccessResponse();
+            bool res = false;
 
             List<string> ErrorList = new List<string>();
             List<string> AllocateError = new List<string>();
@@ -209,7 +210,8 @@ namespace Uniware_PandoIntegration.API
                             //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                             if (response.IsSuccess)
                             {
-                                successResponse.status = "Success";
+                                res = true;
+                                successResponse.status = true;
                                 successResponse.waybill = "";
                                 successResponse.shippingLabel = "";
                                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
@@ -217,8 +219,9 @@ namespace Uniware_PandoIntegration.API
                             }
                             else
                             {
+                                res = false;
                                 AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
-                                successResponse.status = "False";
+                                successResponse.status = false;
                                 successResponse.waybill = response.ObjectParam;
                                 successResponse.shippingLabel = "";
                                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
@@ -229,8 +232,9 @@ namespace Uniware_PandoIntegration.API
 
                         //Thread.Sleep(5000);
                         var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                        if (responses.IsSuccess == false)
+                        if (responses.IsSuccess)
                         {
+                            res = true;
                             ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
                         }
                     }
@@ -255,6 +259,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
+                    res = false;
                     ErrorResponse errorResponse = new ErrorResponse();
                     errorResponse.status = "Error";
                     errorResponse.reason = "No Data For Transaction";
@@ -272,8 +277,9 @@ namespace Uniware_PandoIntegration.API
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()} ,Allocate Shipping Error: {JsonConvert.SerializeObject(errorResponse)}");
                 //return new JsonResult(errorResponse);
 
-                throw;
+                
             }
+            return res;
 
         }
 

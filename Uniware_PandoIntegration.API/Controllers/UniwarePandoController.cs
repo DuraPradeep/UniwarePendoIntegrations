@@ -176,7 +176,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Servertype, Instance);
                             if (response.IsSuccess)
                             {
-                                successResponse.status = "Success";
+                                successResponse.status = true;
                                 successResponse.waybill = "";
                                 successResponse.shippingLabel = "";
                                 _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
@@ -184,7 +184,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                             else
                             {
                                 ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason" + response.ObjectParam);
-                                successResponse.status = "False";
+                                successResponse.status = false;
                                 successResponse.waybill = response.ObjectParam;
                                 successResponse.shippingLabel = "";
 
@@ -230,7 +230,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult AllocateShipping(List<AllocateshippingPando> allocateshippings)
+        public async Task<IActionResult> AllocateShipping(List<AllocateshippingPando> allocateshippings)
         {
             _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Request Allocate Shipping {JsonConvert.SerializeObject(allocateshippings)}");
             SuccessResponse successResponse = new SuccessResponse();
@@ -245,28 +245,34 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Instance Name. {Servertype}");
 
 
-                bool insertstatus = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
-                Task.Run(() =>
-                {
-                    obj.CallingAllocateShipping(Servertype, allocateshippings);
-                });
-                if (insertstatus)
-                {
-                    successResponse.status = "Success";
-                    successResponse.waybill = "";
-                    successResponse.shippingLabel = "";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping Data Received From Pando {JsonConvert.SerializeObject(successResponse)}");
-                    return Ok(successResponse);
-                }
-                else
-                {
-                    ErrorResponse errorResponse = new ErrorResponse();
-                    errorResponse.status = "Error";
-                    errorResponse.reason = "No Data For Transaction";
-                    errorResponse.message = "Please Retrigger";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error from Pando{JsonConvert.SerializeObject(errorResponse)}");
-                    return Problem("No Data Received", null, 204, "Not received", null);
-                }
+                Task<SuccessResponse> Call1 = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
+
+                Task<bool> Call2 = obj.CallingAllocateShipping(Servertype, allocateshippings);
+                SuccessResponse result1 = await Call1;
+                bool result2 = await Call2;
+                await Task.WhenAll(Call1, Call2);
+                return Ok(result1);
+                //Task.Run(() =>
+                //{
+                //    obj.CallingAllocateShipping(Servertype, allocateshippings);
+                //});
+                //if (insertstatus)
+                //{
+                //    successResponse.status = "Success";
+                //    successResponse.waybill = "";
+                //    successResponse.shippingLabel = "";
+                //    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping Data Received From Pando {JsonConvert.SerializeObject(successResponse)}");
+                //    return Ok(successResponse);
+                //}
+                //else
+                //{
+                //    ErrorResponse errorResponse = new ErrorResponse();
+                //    errorResponse.status = "Error";
+                //    errorResponse.reason = "No Data For Transaction";
+                //    errorResponse.message = "Please Retrigger";
+                //    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error from Pando{JsonConvert.SerializeObject(errorResponse)}");
+                //    return Problem("No Data Received", null, 204, "Not received", null);
+                //}
             }
             catch (Exception ex)
             {
@@ -298,7 +304,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 TrackingResponse result1 = await Call1;
                 bool result2 = await Call2;
                 await Task.WhenAll(Call1, Call2);
-                return Ok(new { Result1 = result1, Result2 = result2 });
+                return Ok(  result1 );
 
             }
             catch (Exception ex)
