@@ -245,7 +245,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Instance Name. {Servertype}");
                 Task<SuccessResponse> Call1 = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
 
-                await YourMethod(Servertype, allocateshippings);
+                 YourMethod(Servertype, allocateshippings);
 
 
 
@@ -291,8 +291,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
         async Task YourMethod(string Servertype, List<AllocateshippingPando> allocateshippings)
-        {
-             
+        {           
 
             await Task.Run(() =>
             {
@@ -316,8 +315,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
                 Task<bool> Call2 = obj.CallingTrackingStatus(Servertype, TrackingDetails);
                 TrackingResponse result1 = await Call1;
-                bool result2 = await Call2;
-                await Task.WhenAll(Call1, Call2);
+                //bool result2 = await Call2;
+                await Task.WhenAll(Call1);
                 return Ok(result1);
 
             }
