@@ -47,12 +47,12 @@ namespace Uniware_PandoIntegration.API.Controllers
     [ApiController]
     public class CallingController : ControllerBase
     {
-        private readonly ILogger<UniwarePandoController> _logger;
+        private readonly ILogger<CallingController> _logger;
         private readonly IUniwarePando _jWTManager;
         private readonly string Configuration;
         private readonly IConfiguration iconfiguration;
 
-        public CallingController(ILogger<UniwarePandoController> logger, IUniwarePando uniwarePando, IConfiguration configuration)
+        public CallingController(ILogger<CallingController> logger, IUniwarePando uniwarePando, IConfiguration configuration)
         {
             _logger = logger;
             _jWTManager = uniwarePando;
