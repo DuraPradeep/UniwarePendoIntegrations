@@ -1819,14 +1819,14 @@ namespace Uniware_PandoIntegration.API.Controllers
             {
                 HttpContext httpContext = HttpContext;
                 var jwthandler = new JwtSecurityTokenHandler();
-
                 var token = httpContext.Request.Headers["Authorization"].ToString();
                 var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
-                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Instance Name. {Username}");
+                var JwtSecurity = jwttoken as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Instance Name. {Servertype}");
 
 
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
+                //string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 bool insertstatus = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
                 Task.Run(() =>
                 {
@@ -2007,69 +2007,69 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
 
-        [HttpPost]
-        public IActionResult PostAllocateShipping()
-        {
-            string Servertype = iconfiguration["ServerType:type"];
-            SuccessResponse successResponse = new SuccessResponse();
-            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Post Data Allocate Shipping");
-            //string token = HttpContext.Session.GetString("STOToken");
-            //var Token = _Token.GetTokens(Servertype).Result;
-            string Instance = string.Empty;
-            //var Token = _Token.GetTokens(Servertype, Instance).Result;
-            //var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+        //[HttpPost]
+        //public IActionResult PostAllocateShipping()
+        //{
+        //    string Servertype = iconfiguration["ServerType:type"];
+        //    SuccessResponse successResponse = new SuccessResponse();
+        //    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Post Data Allocate Shipping");
+        //    //string token = HttpContext.Session.GetString("STOToken");
+        //    //var Token = _Token.GetTokens(Servertype).Result;
+        //    string Instance = string.Empty;
+        //    //var Token = _Token.GetTokens(Servertype, Instance).Result;
+        //    //var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
 
-            var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
-            if (results.Count > 0)
-            {
-                for (int i = 0; i < results.Count; i++)
-                {
-                    Allocateshipping allocateshipping = new Allocateshipping();
-                    allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
-                    allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
-                    allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
-                    allocateshipping.shippingCourier = results[i].shippingCourier;
-                    allocateshipping.trackingNumber = results[i].trackingNumber;
-                    allocateshipping.trackingLink = results[i].trackingLink;
-                    //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
-                    var reference = results[i].generateUniwareShippingLabel;
-                    if (reference == "INDENTID_DFX")
-                    {
-                        Instance = "DFX";
-                    }
-                    else
-                    {
-                        Instance = "SH";
-                    }
-                    var facility = results[i].FacilityCode;
-                    var Token = _Token.GetTokens(Servertype, Instance).Result;
-                    var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
-                    var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-                    var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                    //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
-                    if (response.IsSuccess)
-                    {
-                        successResponse.status = "Success";
-                        successResponse.waybill = "";
-                        successResponse.shippingLabel = "";
-                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
-                        //return new JsonResult(successResponse);
-                    }
-                    else
-                    {
-                        successResponse.status = "False";
-                        successResponse.waybill = response.ObjectParam;
-                        successResponse.shippingLabel = "";
-                        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
-                    }
-                    return Ok(successResponse);
-                }
-                return Accepted("All Records Pushed Successfully");
-            }
-            else { return BadRequest("There is no record for Post"); }
+        //    var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
+        //    if (results.Count > 0)
+        //    {
+        //        for (int i = 0; i < results.Count; i++)
+        //        {
+        //            Allocateshipping allocateshipping = new Allocateshipping();
+        //            allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+        //            allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+        //            allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+        //            allocateshipping.shippingCourier = results[i].shippingCourier;
+        //            allocateshipping.trackingNumber = results[i].trackingNumber;
+        //            allocateshipping.trackingLink = results[i].trackingLink;
+        //            //allocateshipping.generateUniwareShippingLabel = results[i].generateUniwareShippingLabel;
+        //            var reference = results[i].generateUniwareShippingLabel;
+        //            if (reference == "INDENTID_DFX")
+        //            {
+        //                Instance = "DFX";
+        //            }
+        //            else
+        //            {
+        //                Instance = "SH";
+        //            }
+        //            var facility = results[i].FacilityCode;
+        //            var Token = _Token.GetTokens(Servertype, Instance).Result;
+        //            var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+        //            var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+        //            var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+        //            //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
+        //            if (response.IsSuccess)
+        //            {
+        //                successResponse.status = "Success";
+        //                successResponse.waybill = "";
+        //                successResponse.shippingLabel = "";
+        //                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+        //                //return new JsonResult(successResponse);
+        //            }
+        //            else
+        //            {
+        //                successResponse.status = "False";
+        //                successResponse.waybill = response.ObjectParam;
+        //                successResponse.shippingLabel = "";
+        //                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+        //            }
+        //            return Ok(successResponse);
+        //        }
+        //        return Accepted("All Records Pushed Successfully");
+        //    }
+        //    else { return BadRequest("There is no record for Post"); }
 
 
-        }
+        //}
         [HttpGet]
         public ServiceResponse<List<EndpointErrorDetails>> AloateShippingErrorDetails(string Enviornment)
         {
