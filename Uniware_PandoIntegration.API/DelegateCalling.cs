@@ -120,34 +120,7 @@ namespace Uniware_PandoIntegration.API
             try
             {
                 var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype, allocateshippings);
-                List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
-                //List<Allocateshipping> allocatelist = new List<Allocateshipping>();
-                //for (int i = 0; i < results.Count; i++)
-                //{
-                //    UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
-                //    updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
-                //    CustomFieldValue customFieldValue1 = new CustomFieldValue();
-                //    updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
-                //    customFieldValue1.name = "TrackingLink2";
-                //    customFieldValue1.value = results[i].trackingLink;
-                //    updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
-                //    updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
-                //    updateShippingpackagedbs.Add(updateShippingpackagedb);
-
-                //    //#region Allocate looping
-                //    //Allocateshipping allocateshipping = new Allocateshipping();
-                //    //allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
-                //    //allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
-                //    //allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
-                //    //allocateshipping.shippingCourier = results[i].shippingCourier;
-                //    //allocateshipping.trackingNumber = results[i].trackingNumber;
-                //    //allocateshipping.trackingLink = results[i].trackingLink;
-                //    //allocatelist.Add(allocateshipping);
-                //    //#endregion
-                //}
-                //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
-                //var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-
+                List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();               
                 if (results.Count > 0)
                 {
                     for (int i = 0; i < results.Count; i++)

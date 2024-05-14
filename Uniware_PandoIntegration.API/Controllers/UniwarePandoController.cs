@@ -247,7 +247,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 Task<bool> Call2 = obj.CallingAllocateShipping(Servertype, allocateshippings);
                 SuccessResponse result1 = await Call1;
                 bool result2 = await Call2;
-                await Task.WhenAll(Call1, Call2);
+                await Task.WhenAll(Call1);
                 return Ok(result1);
                 //Task.Run(() =>
                 //{
