@@ -232,9 +232,9 @@ namespace Uniware_PandoIntegration.API
 
                         //Thread.Sleep(5000);
                         var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                        if (responses.IsSuccess)
+                        if (responses.IsSuccess==false)
                         {
-                            res = true;
+                            res = false;
                             ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
                         }
                     }
