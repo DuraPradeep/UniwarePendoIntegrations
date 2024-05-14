@@ -27,7 +27,7 @@ namespace TrackingStatusDashboard.Controllers
             ApiControl = new ApiOperation(Apibase);
             //var Enviornment = HttpContext.Session.GetString("Environment").ToString();
             var Enviornment = "Prod";
-            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string, string>(Enviornment, SearchBy, trackingNo, "Enviornment", "SearchBy", "trackingNo", "api/UniwarePando/GetTrackingLink");
+            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string, string>(Enviornment, SearchBy, trackingNo, "Enviornment", "SearchBy", "trackingNo", "api/Calling/GetTrackingLink");
             return Json(DashboardDetails);
 
         }

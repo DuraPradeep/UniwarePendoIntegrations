@@ -1109,27 +1109,27 @@ namespace Uniware_PandoIntegration.API
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
+                //if (Lcheckcount != 3)
+                //{
+                //    Thread.Sleep(3000);
+                //    Lcheckcount += 1;
                     ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid, Servertype);
-                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
-                }
-                {
-                    List<string> ErrorList = new List<string>();
-                    //ErrorList.Add(ResStatus.Result.ObjectParam);
-                    //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
-                    //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-                    //serviceResponse.ObjectParam = ErrorList.ToString();
-                    serviceResponse.IsSuccess = false;
-                    return serviceResponse;
-                }
+                //    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
+                //}
+                //{
+                //    List<string> ErrorList = new List<string>();
+                //    //ErrorList.Add(ResStatus.Result.ObjectParam);
+                //    //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
+                //    //return ResStatus = null;
+                serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                //serviceResponse.ObjectParam = ErrorList.ToString();
+                serviceResponse.IsSuccess = false;
+                return serviceResponse;
+                //}
             }
             else
             {
-                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode, Servertype);
+                //ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode, Servertype);
                 //return ResStatus;
                 serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                 serviceResponse.IsSuccess = true;
@@ -1144,21 +1144,21 @@ namespace Uniware_PandoIntegration.API
             var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
+                //if (Lcheckcount != 3)
+                //{
+                //    Thread.Sleep(3000);
+                //    Lcheckcount += 1;
                     ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
-                    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
-                }
-                {
+                //    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
+                //}
+                //{
                     //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
                     //return ResStatus = null;
                     serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
                     serviceResponse.IsSuccess = false;
                     return serviceResponse;
 
-                }
+                //}
             }
             else
             {
