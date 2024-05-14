@@ -304,7 +304,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 TrackingResponse result1 = await Call1;
                 bool result2 = await Call2;
                 await Task.WhenAll(Call1, Call2);
-                return Ok(  result1 );
+                return Ok(result1);
 
             }
             catch (Exception ex)
