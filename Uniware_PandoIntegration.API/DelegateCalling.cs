@@ -110,39 +110,49 @@ namespace Uniware_PandoIntegration.API
             List<string> AllocateError = new List<string>();
             try
             {
-                var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
+                var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype, allocateshippings);
                 List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
-                List<Allocateshipping> allocatelist = new List<Allocateshipping>();
-                for (int i = 0; i < results.Count; i++)
-                {
-                    UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
-                    updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
-                    CustomFieldValue customFieldValue1 = new CustomFieldValue();
-                    updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
-                    customFieldValue1.name = "TrackingLink2";
-                    customFieldValue1.value = results[i].trackingLink;
-                    updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
-                    updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
-                    updateShippingpackagedbs.Add(updateShippingpackagedb);
+                //List<Allocateshipping> allocatelist = new List<Allocateshipping>();
+                //for (int i = 0; i < results.Count; i++)
+                //{
+                //    UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
+                //    updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
+                //    CustomFieldValue customFieldValue1 = new CustomFieldValue();
+                //    updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
+                //    customFieldValue1.name = "TrackingLink2";
+                //    customFieldValue1.value = results[i].trackingLink;
+                //    updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
+                //    updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
+                //    updateShippingpackagedbs.Add(updateShippingpackagedb);
 
-                    #region Allocate looping
-                    Allocateshipping allocateshipping = new Allocateshipping();
-                    allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
-                    allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
-                    allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
-                    allocateshipping.shippingCourier = results[i].shippingCourier;
-                    allocateshipping.trackingNumber = results[i].trackingNumber;
-                    allocateshipping.trackingLink = results[i].trackingLink;
-                    allocatelist.Add(allocateshipping);
-                    #endregion
-                }
-                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
+                //    //#region Allocate looping
+                //    //Allocateshipping allocateshipping = new Allocateshipping();
+                //    //allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+                //    //allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+                //    //allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                //    //allocateshipping.shippingCourier = results[i].shippingCourier;
+                //    //allocateshipping.trackingNumber = results[i].trackingNumber;
+                //    //allocateshipping.trackingLink = results[i].trackingLink;
+                //    //allocatelist.Add(allocateshipping);
+                //    //#endregion
+                //}
+                //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
                 //var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
 
                 if (results.Count > 0)
                 {
                     for (int i = 0; i < results.Count; i++)
                     {
+                        UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
+                        updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
+                        CustomFieldValue customFieldValue1 = new CustomFieldValue();
+                        updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
+                        customFieldValue1.name = "TrackingLink2";
+                        customFieldValue1.value = results[i].trackingLink;
+                        updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
+                        updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
+                        updateShippingpackagedbs.Add(updateShippingpackagedb);
+
                         Allocateshipping allocateshipping = new Allocateshipping();
                         allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
                         allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
@@ -216,6 +226,7 @@ namespace Uniware_PandoIntegration.API
                             ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
                         }
                     }
+                    var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
                     if (ErrorList.Count > 0)
                     {
                         var serilizelist = JsonConvert.SerializeObject(ErrorList);

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Uniware_PandoIntegration.Entities;
@@ -1012,7 +1013,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true; 
+                    res = true;
                     con.Close();
                 }
 
@@ -3169,7 +3170,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sqlCommand.Parameters.AddWithValue("@password", Password);
                     con.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
-             
+
                     //da.Fill(ds);
                     while (dr.Read())
                     {
@@ -3370,7 +3371,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery(); con.Close();
-                    result = true ;
+                    result = true;
                 }
 
             }
@@ -3382,7 +3383,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return result;
 
         }
-        public static DataSet GetAllocateShippingData(string Enviornment)
+        public static DataSet GetAllocateShippingData(string Enviornment,DataTable dt)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -3406,8 +3407,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     {
                         Connection = con,
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_getAllocate_Shipping"
+                        CommandText = "sp_getAllocate_Shipping",
+
                     };
+
+                    com.Parameters.AddWithValue("@ShippingpackageCode", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
