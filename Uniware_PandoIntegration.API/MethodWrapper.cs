@@ -1238,16 +1238,16 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype, string Instance)
+        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string FacilityCode, string Servertype, string Instance)
         {
-            int Lcheckcount = checkcount;
+             int Lcheckcount = checkcount;
             //var jsonre = JsonConvert.SerializeObject(AllData);
             //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
             try
             {
-                var ResStatus = _Token.TrackingStatus(AllData, Token, FacilityCode, Servertype, Instance);
+                var ResStatus = _Token.TrackingStatus(AllData,  FacilityCode, Servertype, Instance);
 
                 if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
                 {

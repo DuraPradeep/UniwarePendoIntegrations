@@ -3175,6 +3175,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     {
                         tokenEntity.username = dr["username"].ToString();
                         tokenEntity.password = dr["password"].ToString();
+                        tokenEntity.Environment = dr["Environment"].ToString();
                     }
                     con.Close();
                 };

@@ -19,31 +19,12 @@ namespace Uniware_PandoIntegration.API
             CreateLog("Execution start");
             try
             {
-                string Getinstance = string.Empty;
-                string Instance = string.Empty;
+                //string Getinstance = string.Empty;
+                //string Instance = string.Empty;
                 string Nameinstance = string.Empty;
-                //for (int i = 0; i < trackingStatusDbs.Count; i++)
-                //{
-                //    if (trackingStatusDbs[i].Instance.IsNullOrEmpty())
-                //    {
-                //        Nameinstance = ObjBusinessLayer.GetInstanceName(trackingStatusDbs[].trackingNumber, Servertype);
-                //        if (Nameinstance == "INDENTID_SH")
-                //            Instance = "SH";
-                //        else
-                //            Instance = "DFX";
-                //    }
-                //    else
-                //    {
-                //        Instance = Getinstance;
-                //    }
-                //}
-                //var resu = _Token.GetTokens(Servertype, Instance).Result;
-                //var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-                //string token = accesstoken.access_token;
                 string responsmessage = string.Empty;
-
                 var TrackingList = ObjBusinessLayer.GetTrackingDetails(Servertype, trackingStatusDbs);
-                ObjBusinessLayer.InsertTrackingStatusPostdata(TrackingList, Servertype);
+                //ObjBusinessLayer.InsertTrackingStatusPostdata(TrackingList, Servertype);
 
                 if (TrackingList.Count > 0)
                 {
@@ -56,40 +37,19 @@ namespace Uniware_PandoIntegration.API
                         trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
                         trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
                         trackingStatus.statusDate = TrackingList[i].statusDate;
-                        Nameinstance = TrackingList[i].Instance;
-                        if (Nameinstance == "INDENTID_SH")
-                            Instance = "SH";
-                        else
-                            Instance = "DFX";
-                    
-                    var resu = _Token.GetTokens(Servertype, Instance).Result;
-                        var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-                        string token = accesstoken.access_token;
-                        if (!string.IsNullOrEmpty(token))
-                        {
-                            //ObjBusinessLayer.InsertTrackingStatusPostdata(trackingStatus, TrackingList[i].facilitycode, Servertype);
-                            var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, token, TrackingList[i].facilitycode, Servertype, Instance);
-                            CreateLog("Execution end");
-                            if (res.IsSuccess)
-                            {
-                                responsmessage = res.ObjectParam.ToString();
-                            }
-                            else
-                            {
-                                responsmessage = res.ObjectParam.ToString();
-                            }
-                        }
-                        else
-                        {
-                            TrackingResponse reversePickupResponses = new TrackingResponse();
-                            reversePickupResponses.successful = false;
-                            reversePickupResponses.message = "Token Not Generated";
-                            reversePickupResponses.errors = "";
-                            reversePickupResponses.warnings = "";
-                            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error Response {JsonConvert.SerializeObject(reversePickupResponses)}");
+                        Nameinstance = TrackingList[i].Instance == "INDENTID_SH" ? "SH" : "DFX";
 
-                            ////    return new JsonResult(reversePickupResponse);
+                        var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, TrackingList[i].facilitycode, Servertype, Nameinstance);
+                        CreateLog("Execution end");
+                        if (res.IsSuccess)
+                        {
+                            responsmessage = res.ObjectParam.ToString();
                         }
+                        else
+                        {
+                            responsmessage = res.ObjectParam.ToString();
+                        }
+
                     }
                     TrackingResponse reversePickupResponse = new TrackingResponse();
                     reversePickupResponse.successful = true;
