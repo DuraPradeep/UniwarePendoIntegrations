@@ -45,7 +45,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class UniwarePandoController : Controller
+    public class UniwarePandoController : ControllerBase
     {
         private readonly ILogger<UniwarePandoController> _logger;
         private readonly IUniwarePando _jWTManager;
