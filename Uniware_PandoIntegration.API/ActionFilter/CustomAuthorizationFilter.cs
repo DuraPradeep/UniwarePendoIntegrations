@@ -9,13 +9,15 @@ using System.Web.WebPages;
 using System.Diagnostics;
 using Uniware_PandoIntegration.BusinessLayer;
 using Uniware_PandoIntegration.Entities;
+using System.Text;
+using Uniware_PandoIntegration.API.Model;
 
 namespace Uniware_PandoIntegration.API.ActionFilter
 {
-   
+
     public class ActionFilterExample : IActionFilter
     {
-        public void OnActionExecuting(ActionExecutingContext context)
+        public async void OnActionExecuting(ActionExecutingContext context)
         {
             var token = context.HttpContext.Request.Headers["Authorization"].ToString();
 
@@ -25,16 +27,47 @@ namespace Uniware_PandoIntegration.API.ActionFilter
                 var jwthandler = new JwtSecurityTokenHandler();
                 var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
                 var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
-                {
-                    sw.WriteLine(Username);
-                }
+                await ProcessWrite.WriteTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), Username);
+            }
+                //using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //{
+                //    sw.WriteLine(Username);
+                //}
+
+                //FileStream stream = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Write);
+                //// Create a StreamWriter from FileStream
+                //using (StreamWriter writer = new StreamWriter(stream))
+                //{
+                //    writer.WriteLine(Username);
+
+                //}
+
+
+                //using (var fs = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open))
+                //using (var sw = new StreamWriter(fs))
+                //{
+                //    sw.WriteLine("This is the appended line.");
+                //}
+                //using (FileStream sw = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Write))
+                //{
+                //    //sw.WriteLine(Username);
+                //    byte[] writes = Encoding.UTF8.GetBytes(Username);
+                //    sw.Write(writes, 0, writes.Length);
+                //}
+
+
+                //using (FileStream sw = new FileStream(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                //{
+                //    //sw.WriteLine(Username);
+                //    byte[] writes = Encoding.UTF8.GetBytes(Username);
+                //    sw.Write(writes, 0, writes.Length);
+                //}
 
 
                 //ObjBusinessLayer.InsertUsername(Username);
 
                 //value = jwttoken.ToString();
-            }
+            
 
         }
         public void OnActionExecuted(ActionExecutedContext context)
@@ -84,7 +117,7 @@ namespace Uniware_PandoIntegration.API.ActionFilter
     //        }
     //    }
     //}
-      
+
 
     internal sealed class ICollectionDebugView<T>
     {

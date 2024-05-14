@@ -5622,6 +5622,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
             try
             {
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error Table Execute Tracking No. {TrackingNumber}, reason {reason}");
+
                 SqlCommand com;
                 SqlConnection con;
                 if (Enviornment == "Prod")
@@ -5649,7 +5651,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             catch (Exception ex)
             {
-                //CreateLog($"Error: {ex.Message}");
+                CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
             //finally { con.Close(); }

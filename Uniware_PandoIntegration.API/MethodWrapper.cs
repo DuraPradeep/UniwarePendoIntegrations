@@ -1245,42 +1245,55 @@ namespace Uniware_PandoIntegration.API
             //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-
-            var ResStatus = _Token.TrackingStatus(AllData, Token, FacilityCode, Servertype, Instance);
-
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            try
             {
-                if (Lcheckcount != 3)
+                var ResStatus = _Token.TrackingStatus(AllData, Token, FacilityCode, Servertype, Instance);
+
+                if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
                 {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
-                    ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData.trackingNumber, Servertype);
+                    //if (Lcheckcount != 3)
+                    //{
+                    //    Thread.Sleep(3000);
+                    //    Lcheckcount += 1;
+                    //    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
+                    //    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
 
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    //}
+                    //else
+                    //{
+                        CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Error get Tracking No. {AllData.trackingNumber}, Tracking Details Error. {ResStatus.Result.Errdesc}");
 
+                        ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData.trackingNumber, Servertype);
+                        serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                        serviceResponse.IsSuccess = false;
+                        //return serviceResponse;
+
+                    //}
                 }
                 else
                 {
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-                    serviceResponse.IsSuccess = false;
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Success tracking No., Tracking No. {AllData.trackingNumber}, Tracking Details Success. {ResStatus.Result.Errdesc}");
+                    ObjBusinessLayer.TrackingStatusError(false, ResStatus.Result.ObjectParam, AllData.trackingNumber, Servertype);
+                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.IsSuccess = true;
                     //return serviceResponse;
 
                 }
+                return serviceResponse;
             }
-            else
+            catch (Exception ex)
             {
-                ObjBusinessLayer.TrackingStatusError(false, ResStatus.Result.ObjectParam, AllData.trackingNumber, Servertype);
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking No. {AllData.trackingNumber}, Tracking Details Error. {JsonConvert.SerializeObject(ex)}");
 
-                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
-                serviceResponse.IsSuccess = true;
-                //return serviceResponse;
-
+                throw;
             }
-            return serviceResponse;
+            
 
         }
-
+        public static void CreateLog(string message)
+        {
+            Log.Information(message);
+        }
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

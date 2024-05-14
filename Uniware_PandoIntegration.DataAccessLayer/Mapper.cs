@@ -917,6 +917,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     returncode.statusDate = pds.Tables[0].Rows[i]["statusDate"].ToString();
                     returncode.shipmentTrackingStatusName = pds.Tables[0].Rows[i]["shipmentTrackingStatusName"].ToString();
                     returncode.facilitycode = pds.Tables[0].Rows[i]["facilitycode"].ToString();
+                    returncode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
                     FacilityList.Add(returncode);
                 }
             }

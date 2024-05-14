@@ -2,14 +2,14 @@
   "dependencies": {
     "apis1": {
       "restored": true,
-      "restoreTime": "2023-11-08T10:33:20.8353655Z"
+      "restoreTime": "2024-05-13T17:49:27.6706663Z"
     }
   },
   "parameters": {
     "apis1.resourceGroupName": {
       "Name": "apis1.resourceGroupName",
       "Type": "resourceGroup",
-      "Value": "rg-duroconnect"
+      "Value": "rg-ci-duroconnect-prod"
     },
     "apis1.subscriptionId": {
       "Name": "apis1.subscriptionId",

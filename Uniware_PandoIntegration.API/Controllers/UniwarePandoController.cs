@@ -39,6 +39,7 @@ using NuGet.Protocol;
 using DocumentFormat.OpenXml.Bibliography;
 using RepoDb.Extensions.QueryFields;
 using static Uniware_PandoIntegration.API.DelegateCalling;
+using Uniware_PandoIntegration.API.Model;
 //using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
 
 namespace Uniware_PandoIntegration.API.Controllers
@@ -511,7 +512,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         }
         //[CustomAuthorizationFilter]
 
-        [ServiceFilter(typeof(ActionFilterExample))]
+        //[ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
         [HttpPost]
         public IActionResult waybill(OmsToPandoRoot Records)
@@ -524,26 +525,39 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 //Thread.Sleep(5000);
-                string Username = string.Empty;
+                //string Username = string.Empty;
                 //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 //{
                 //    Username = sr.ReadLine();
                 //    sr.Close();
                 //}
 
-                using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    StreamReader streamReader = new StreamReader(stream);
-                    Username = streamReader.ReadLine();
-                    stream.Close();
-                }
+                //using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+                //{
+                //    //StreamReader streamReader = new StreamReader(stream);
+                //    //Username = streamReader.ReadLine();
+                //    //stream.Close();
+
+                //    byte[] buffer = new byte[stream.Length];
+                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
+                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
+                //    stream.Close();
+                //}
+                HttpContext httpContext = HttpContext;
+                var jwthandler = new JwtSecurityTokenHandler();
+
+                var token = httpContext.Request.Headers["Authorization"].ToString();
+                var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
+                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
+
 
                 Task.Run(() =>
                 {
-                    obj.CallingWaybill(Records,Username);
+                    obj.CallingWaybill(Records, Username);
                 });
 
-                if (Records!=null)
+                if (Records != null)
                 {
                     errorResponse.status = "FAILED";
                     errorResponse.reason = "AWB not generated";
@@ -1485,7 +1499,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             var returndata = ObjBusinessLayer.BLReturnOrderStatus(Servertype);
             return returndata;
         }
-        [ServiceFilter(typeof(ActionFilterExample))]
+        //[ServiceFilter(typeof(ActionFilterExample))]
         [HttpPost]
         [Authorize]
         public IActionResult UpdateShippingPackage(List<UpdateShippingpackage> shippingPackages)
@@ -1500,13 +1514,21 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
                 //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
-                string Username = string.Empty;
-                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
-                {
-                    //var line = sr.ReadLine();
-                    Username = sr.ReadLine();
-                    sr.Close();
-                }
+                //string Username = string.Empty;
+                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //{
+                //    //var line = sr.ReadLine();
+                //    Username = sr.ReadLine();
+                //    sr.Close();
+                //}
+                HttpContext httpContext = HttpContext;
+                var jwthandler = new JwtSecurityTokenHandler();
+
+                var tokens = httpContext.Request.Headers["Authorization"].ToString();
+                var jwttoken = jwthandler.ReadToken(tokens.Split(" ")[1].ToString());
+                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
+
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 //string Servertype = iconfiguration["ServerType:type"];
 
@@ -1786,7 +1808,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
 
         }
-        [ServiceFilter(typeof(ActionFilterExample))]
+        //[ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
         [HttpPost]
         public IActionResult AllocateShipping(List<AllocateshippingPando> allocateshippings)
@@ -1795,35 +1817,37 @@ namespace Uniware_PandoIntegration.API.Controllers
             SuccessResponse successResponse = new SuccessResponse();
             try
             {
-                //Thread.Sleep(5000);
-                //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
-                // string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
+                //Thread.Sleep(5000);                
+                //string Username = string.Empty;
 
-                string Username = string.Empty;
-                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //using (var stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 //{
-                //    //var name = sr.ReadLine();                   
-                //    Username = sr.ReadLine();
-                //    sr.Close();
+                //    //StreamReader streamReader = new StreamReader(stream);
+                //    //Username = streamReader.ReadLine();
+                //    //stream.Close();
+
+                //    byte[] buffer = new byte[stream.Length];
+                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
+                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
+                //    stream.Close();
                 //}
 
-                using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    StreamReader streamReader = new StreamReader(stream);
-                    Username = streamReader.ReadLine();
-                    stream.Close();
-                }
+                HttpContext httpContext = HttpContext;
+                var jwthandler = new JwtSecurityTokenHandler();
 
+                var token = httpContext.Request.Headers["Authorization"].ToString();
+                var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
+                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
 
 
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
-
-                bool insertstatus=ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
+                bool insertstatus = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
                 Task.Run(() =>
                 {
                     obj.CallingAllocateShipping(Servertype, allocateshippings);
                 });
-                if(insertstatus)
+                if (insertstatus)
                 {
                     successResponse.status = "Success";
                     successResponse.waybill = "";
@@ -1838,10 +1862,11 @@ namespace Uniware_PandoIntegration.API.Controllers
                     errorResponse.reason = "No Data For Transaction";
                     errorResponse.message = "Please Retrigger";
                     _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error from Pando{JsonConvert.SerializeObject(errorResponse)}");
-                   // return new JsonResult(errorResponse);
+                    // return new JsonResult(errorResponse);
                     //_logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
                     return Problem("No Data Received", null, 204, "Not received", null);
                 }
+                #region begin Code Moved to Delegate Folder
                 //string Instance = string.Empty;
 
                 //List<string> ErrorList = new List<string>();
@@ -1979,6 +2004,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error{JsonConvert.SerializeObject(errorResponse)}");
                 //    return new JsonResult(errorResponse);
                 //}
+                #endregion
             }
             catch (Exception ex)
             {
@@ -2139,11 +2165,16 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
                 string Username = string.Empty;
                 //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
-                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                using (var stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 {
-                    //var name = sr.ReadLine();
-                    Username = sr.ReadLine();
-                    sr.Close();
+                    //StreamReader streamReader = new StreamReader(stream);
+                    //Username = streamReader.ReadLine();
+                    //stream.Close();
+
+                    byte[] buffer = new byte[stream.Length];
+                    int bytesread = stream.Read(buffer, 0, buffer.Length);
+                    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
+                    stream.Close();
                 }
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 ObjBusinessLayer.WaybillCancel(waybill.waybill, Servertype);
@@ -3059,7 +3090,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             ExecResult = ObjBusinessLayer.UploadFacilityMaster(lists, Servertype);
             return new JsonResult(ExecResult.Trim());
         }
-        [ServiceFilter(typeof(ActionFilterExample))]
+        //[ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
         [HttpPost]
         public IActionResult TrackingStatus(List<TrackingStatusDb> TrackingDetails)
@@ -3068,21 +3099,31 @@ namespace Uniware_PandoIntegration.API.Controllers
             {
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
                 //Thread.Sleep(5000);
-                string Username = string.Empty;
-                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //string Username = string.Empty;
+                HttpContext httpContext = HttpContext;
+                var jwthandler = new JwtSecurityTokenHandler();
+
+                var token = httpContext.Request.Headers["Authorization"].ToString();
+                var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
+                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
+                //Username = ProcessRead.ReadTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt")).Result.Trim();
+                //string usernamess = Regex.Replace(Username, @"[^\w\.@-]", "");
+
+                //using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
                 //{
-                //    //var line = sr.ReadLine();
-                //    Username = sr.ReadLine();
-                //    sr.Close();
+                //    //StreamReader streamReader = new StreamReader(stream);
+                //    //Username = streamReader.ReadLine();
+                //    //stream.Close();
+                //    byte[] buffer = new byte[stream.Length];
+                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
+                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
+                //    //Username = Username.Substring(Username.Length - 2);
+                //    stream.Close();
 
 
                 //}
-                using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    StreamReader streamReader = new StreamReader(stream);
-                    Username = streamReader.ReadLine();
-                    stream.Close();
-                }
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Username}");
+
                 string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 string Getinstance = string.Empty;
                 string Instance = string.Empty;
@@ -3099,27 +3140,27 @@ namespace Uniware_PandoIntegration.API.Controllers
                     trackingStatus.statusDate = TrackingDetails[i].statusDate;
                     trackingStatus.shipmentTrackingStatusName = TrackingDetails[i].shipmentTrackingStatusName;
                     trackingStatus.facilitycode = TrackingDetails[i].facilitycode;
-                    Getinstance = TrackingDetails[i].Instance;
+                    trackingStatus.Instance = TrackingDetails[i].Instance;
                     trackingStatusDbs.Add(trackingStatus);
                 }
-                if (Getinstance.IsNullOrEmpty())
-                {
-                    Nameinstance = ObjBusinessLayer.GetInstanceName(trackingStatusDbs[0].trackingNumber, Servertype);
-                    if (Nameinstance == "INDENTID_SH")
-                        Instance = "SH";
-                    else
-                        Instance = "DFX";
-                }
-                else
-                {
-                    Instance = Getinstance;
-                }
+                //if (Getinstance.IsNullOrEmpty())
+                //{
+                //   Nameinstance = ObjBusinessLayer.GetInstanceName(trackingStatusDbs[0].trackingNumber, Servertype);
+                //    if (Nameinstance == "INDENTID_SH")
+                //        Instance = "SH";
+                //    else
+                //        Instance = "DFX";
+                //}
+                //else
+                //{
+                //    Instance = Getinstance;
+                //}
                 var details = ObjBusinessLayer.BLinsertTrackingDetails(trackingStatusDbs, Servertype);
 
 
                 Task.Run(() =>
                 {
-                   obj.CallingTrackingStatus(Servertype, Instance, trackingStatusDbs);
+                    obj.CallingTrackingStatus(Servertype, trackingStatusDbs);
                 });
                 if (details)
                 {
@@ -3139,7 +3180,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     reversePickupResponse.errors = "";
                     reversePickupResponse.warnings = "";
                     _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
-                    return Problem("No Data Received",null,204,"Not received",null);
+                    return Problem("No Data Received", null, 204, "Not received", null);
                 }
                 //var resu = _Token.GetTokens(Servertype).Result;
 
@@ -3216,7 +3257,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
-                return Problem(ex.Message, null,204,"Not received",null);
+                return Problem(ex.Message, null, 204, "Not received", null);
                 //return new JsonResult(reversePickupResponse);
                 throw;
             }
