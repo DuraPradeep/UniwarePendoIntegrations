@@ -1113,7 +1113,7 @@ namespace Uniware_PandoIntegration.API
                 //{
                 //    Thread.Sleep(3000);
                 //    Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid, Servertype);
+                ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid, Servertype);
                 //    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
                 //}
                 //{
@@ -1148,15 +1148,15 @@ namespace Uniware_PandoIntegration.API
                 //{
                 //    Thread.Sleep(3000);
                 //    Lcheckcount += 1;
-                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
+                ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
                 //    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
                 //}
                 //{
-                    //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
-                    //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-                    serviceResponse.IsSuccess = false;
-                    return serviceResponse;
+                //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
+                //return ResStatus = null;
+                serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                serviceResponse.IsSuccess = false;
+                return serviceResponse;
 
                 //}
             }
@@ -1240,54 +1240,35 @@ namespace Uniware_PandoIntegration.API
         }
         public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string FacilityCode, string Servertype, string Instance)
         {
-             int Lcheckcount = checkcount;
-            //var jsonre = JsonConvert.SerializeObject(AllData);
-            //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
+            int Lcheckcount = checkcount;
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
             try
             {
-                var ResStatus = _Token.TrackingStatus(AllData,  FacilityCode, Servertype, Instance);
-
+                var ResStatus = _Token.TrackingStatus(AllData, FacilityCode, Servertype, Instance);
                 if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
                 {
-                    //if (Lcheckcount != 3)
-                    //{
-                    //    Thread.Sleep(3000);
-                    //    Lcheckcount += 1;
-                    //    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
-                    //    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
 
-                    //}
-                    //else
-                    //{
-                        CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Error get Tracking No. {AllData.trackingNumber}, Tracking Details Error. {ResStatus.Result.Errdesc}");
-
-                        ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData.trackingNumber, Servertype);
-                        serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-                        serviceResponse.IsSuccess = false;
-                        //return serviceResponse;
-
-                    //}
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Error get Tracking No. {AllData.trackingNumber}, Tracking Details Error. {ResStatus.Result.Errdesc}");
+                    ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData, Servertype,FacilityCode);
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    serviceResponse.IsSuccess = false;
                 }
                 else
                 {
                     CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Success tracking No., Tracking No. {AllData.trackingNumber}, Tracking Details Success. {ResStatus.Result.Errdesc}");
-                    ObjBusinessLayer.TrackingStatusError(false, ResStatus.Result.ObjectParam, AllData.trackingNumber, Servertype);
+                    ObjBusinessLayer.TrackingStatusError(false, ResStatus.Result.ObjectParam, AllData, Servertype,FacilityCode);
                     serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                     serviceResponse.IsSuccess = true;
-                    //return serviceResponse;
-
                 }
                 return serviceResponse;
             }
             catch (Exception ex)
             {
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking No. {AllData.trackingNumber}, Tracking Details Error. {JsonConvert.SerializeObject(ex)}");
-
                 throw;
             }
-            
+
 
         }
         public static void CreateLog(string message)

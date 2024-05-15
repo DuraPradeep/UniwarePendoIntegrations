@@ -192,12 +192,13 @@ namespace Uniware_PandoIntegration.API
                             }
                             else
                             {
-                                res = false;
-                                AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
+                                AllocateError.Add("AllocateShippingpackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
                                 successResponse.status = false;
                                 successResponse.waybill = response.ObjectParam;
                                 successResponse.shippingLabel = "";
                                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                                res = false;
+
                             }
                         }
 
@@ -207,7 +208,7 @@ namespace Uniware_PandoIntegration.API
                         var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
                         if (responses.IsSuccess==false)
                         {
-                            res = false;
+                            //res = false;
                             ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
                         }
                     }

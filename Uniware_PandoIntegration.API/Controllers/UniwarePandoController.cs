@@ -335,7 +335,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
         }
 
-        [ServiceFilter(typeof(ActionFilterExample))]
+        //[ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
         [HttpPost]
         public IActionResult cancel(calcelwaybill waybill)
@@ -343,18 +343,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Cancel Waybill: {JsonConvert.SerializeObject(waybill.waybill)}");
-                Thread.Sleep(5000);
-
-                //string Username = string.Empty;
-                //using (var stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                //{
-
-
-                //    byte[] buffer = new byte[stream.Length];
-                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
-                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
-                //    stream.Close();
-                //}
+                //Thread.Sleep(5000);
 
                 HttpContext httpContext = HttpContext;
                 var tokens = httpContext.Request.Headers["Authorization"].ToString();

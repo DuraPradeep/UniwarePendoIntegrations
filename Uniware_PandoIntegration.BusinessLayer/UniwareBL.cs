@@ -9,6 +9,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Uniware_PandoIntegration.APIs;
 using Uniware_PandoIntegration.DataAccessLayer;
 using Uniware_PandoIntegration.Entities;
@@ -3185,11 +3186,41 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void TrackingStatusError(bool status, string Reason, string Trackingnumber, string Enviornment)
+        public void TrackingStatusError(bool status, string Reason, TrackingStatus elements, string Enviornment,string FacilityCode)
         {
             try
             {
-                SPWrapper.TrackingStatusErrorUpdate(status, Reason, Trackingnumber, Enviornment);
+                DataTable dtinstcode = new DataTable();
+                dtinstcode.Columns.Add("Id");
+                dtinstcode.Columns.Add("providerCode");
+                dtinstcode.Columns.Add("trackingNumber");
+                dtinstcode.Columns.Add("trackingStatus");
+                dtinstcode.Columns.Add("statusDate");
+                dtinstcode.Columns.Add("shipmentTrackingStatusName");
+                dtinstcode.Columns.Add("facilitycode");
+                dtinstcode.Columns.Add("Instance");
+
+
+
+
+                //for (int i = 0; i < elements.Count; i++)
+                //{
+                    DataRow dr = dtinstcode.NewRow();
+                    dr["Id"] = 0;
+                    dr["providerCode"] = elements.providerCode;
+                    dr["trackingNumber"] = elements.trackingNumber;
+                    dr["trackingStatus"] = elements.trackingStatus;
+                    dr["statusDate"] = elements.statusDate;
+                    dr["shipmentTrackingStatusName"] = elements.shipmentTrackingStatusName;
+                    dr["facilitycode"] = null;
+                    dr["Instance"] = null;
+
+                    dtinstcode.Rows.Add(dr);
+                //}
+
+
+
+                SPWrapper.TrackingStatusErrorUpdate(status, Reason, dtinstcode, Enviornment,FacilityCode);
             }
             catch (Exception ex)
             {

@@ -5622,12 +5622,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return ds;
         }
-        public static void TrackingStatusErrorUpdate(bool status, string reason, string TrackingNumber, string Enviornment)
+        public static void TrackingStatusErrorUpdate(bool status, string reason, DataTable DTData, string Enviornment,string FacilityCode)
         {
 
             try
             {
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error Table Execute Tracking No. {TrackingNumber}, reason {reason}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error Table Execute Details. {DTData}, reason {reason}");
 
                 SqlCommand com;
                 SqlConnection con;
@@ -5645,9 +5645,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Connection = con;
                     com.CommandText = "Pro_InsertTrackingStatusError";
                     com.CommandType = CommandType.StoredProcedure;
-                    com.Parameters.AddWithValue("@trackingnumber", TrackingNumber);
+                    com.Parameters.AddWithValue("@Trackdetails", DTData);
                     com.Parameters.AddWithValue("@status", status);
                     com.Parameters.AddWithValue("@Reason", reason);
+                    com.Parameters.AddWithValue("@Facility", FacilityCode);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
