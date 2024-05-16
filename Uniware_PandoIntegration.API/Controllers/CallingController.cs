@@ -2726,10 +2726,6 @@ namespace Uniware_PandoIntegration.API.Controllers
             return new JsonResult(ExecResult.Trim());
         }
         //[ServiceFilter(typeof(ActionFilterExample))]
-        
-
-
-
         [HttpPost]
         public ActionResult TruckDetailsUpdate(TruckdetailsMap TruckDetails)
         {

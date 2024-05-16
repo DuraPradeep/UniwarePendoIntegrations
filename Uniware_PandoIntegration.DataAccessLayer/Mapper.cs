@@ -1163,7 +1163,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     details.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
                     details.state = pds.Tables[0].Rows[i]["state"].ToString();
                     details.Region = pds.Tables[0].Rows[i]["Region"].ToString();
-
+                    details.MileStone = pds.Tables[0].Rows[i]["MileStone"].ToString();
                     //skucodes.Add(sKucode);
                     userProfile.Add(details);//new CodesErrorDetails();// Add(sKucode);
                 }
@@ -1204,6 +1204,8 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     details.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
                     details.state = pds.Tables[0].Rows[i]["state"].ToString();
                     details.Region = pds.Tables[0].Rows[i]["Region"].ToString();
+                    details.MileStone = pds.Tables[0].Rows[i]["MileStone"].ToString();
+
 
                     //skucodes.Add(sKucode);
                     DashboardDetails.Add(details);//new CodesErrorDetails();// Add(sKucode);
