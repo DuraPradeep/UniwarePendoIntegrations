@@ -27,6 +27,7 @@ namespace Uniware_PandoIntegration.Entities
         public string state { get; set; }
         public string Region { get; set; }
         public string OrderStatus { get; set; }
+        public string MileStone { get; set; }
 
         //public List<TrackingDetails> trackingDetails { get; set; }
 

@@ -14,8 +14,9 @@ namespace Uniware_PandoIntegration.API
         MethodWrapper _MethodWrapper = new MethodWrapper();
 
         // public delegate void DelegateTrackingStatus(string Servertype, String Instance, List<TrackingStatusDb> trackingStatusDbs);
-        public void CallingTrackingStatus(string Servertype, List<TrackingStatusDb> trackingStatusDbs)
+        public async Task<bool> CallingTrackingStatus(string Servertype, List<TrackingStatusDb> trackingStatusDbs)
         {
+            bool Result=false;
             CreateLog("Execution start");
             try
             {
@@ -43,10 +44,13 @@ namespace Uniware_PandoIntegration.API
                         CreateLog("Execution end");
                         if (res.IsSuccess)
                         {
+                            Result = true;
                             responsmessage = res.ObjectParam.ToString();
                         }
                         else
                         {
+                            Result = false;
+
                             responsmessage = res.ObjectParam.ToString();
                         }
 
@@ -62,6 +66,8 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
+                    Result = false;
+
                     TrackingResponse reversePickupResponse = new TrackingResponse();
                     reversePickupResponse.successful = false;
                     reversePickupResponse.message = responsmessage;
@@ -87,6 +93,8 @@ namespace Uniware_PandoIntegration.API
             }
             catch (Exception ex)
             {
+                Result = false;
+
                 TrackingResponse reversePickupResponse = new TrackingResponse();
                 reversePickupResponse.successful = false;
                 reversePickupResponse.message = ex.Message;
@@ -98,51 +106,35 @@ namespace Uniware_PandoIntegration.API
 
                 throw;
             }
-
+            return Result;
         }
 
-        public void CallingAllocateShipping(string Servertype, List<AllocateshippingPando> allocateshippings)
+        public async Task<bool> CallingAllocateShipping(string Servertype, List<AllocateshippingPando> allocateshippings)
         {
             string Instance = string.Empty;
             SuccessResponse successResponse = new SuccessResponse();
+            bool res = false;
 
             List<string> ErrorList = new List<string>();
             List<string> AllocateError = new List<string>();
             try
             {
-                var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype);
-                List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
-                List<Allocateshipping> allocatelist = new List<Allocateshipping>();
-                for (int i = 0; i < results.Count; i++)
-                {
-                    UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
-                    updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
-                    CustomFieldValue customFieldValue1 = new CustomFieldValue();
-                    updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
-                    customFieldValue1.name = "TrackingLink2";
-                    customFieldValue1.value = results[i].trackingLink;
-                    updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
-                    updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
-                    updateShippingpackagedbs.Add(updateShippingpackagedb);
-
-                    #region Allocate looping
-                    Allocateshipping allocateshipping = new Allocateshipping();
-                    allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
-                    allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
-                    allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
-                    allocateshipping.shippingCourier = results[i].shippingCourier;
-                    allocateshipping.trackingNumber = results[i].trackingNumber;
-                    allocateshipping.trackingLink = results[i].trackingLink;
-                    allocatelist.Add(allocateshipping);
-                    #endregion
-                }
-                var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
-                //var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
-
+                var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype, allocateshippings);
+                List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();               
                 if (results.Count > 0)
                 {
                     for (int i = 0; i < results.Count; i++)
                     {
+                        UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
+                        updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
+                        CustomFieldValue customFieldValue1 = new CustomFieldValue();
+                        updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
+                        customFieldValue1.name = "TrackingLink2";
+                        customFieldValue1.value = results[i].trackingLink;
+                        updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
+                        updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
+                        updateShippingpackagedbs.Add(updateShippingpackagedb);
+
                         Allocateshipping allocateshipping = new Allocateshipping();
                         allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
                         allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
@@ -191,7 +183,8 @@ namespace Uniware_PandoIntegration.API
                             //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                             if (response.IsSuccess)
                             {
-                                successResponse.status = "Success";
+                                res = true;
+                                successResponse.status = true;
                                 successResponse.waybill = "";
                                 successResponse.shippingLabel = "";
                                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
@@ -199,11 +192,13 @@ namespace Uniware_PandoIntegration.API
                             }
                             else
                             {
-                                AllocateError.Add("ShippingPackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
-                                successResponse.status = "False";
+                                AllocateError.Add("AllocateShippingpackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
+                                successResponse.status = false;
                                 successResponse.waybill = response.ObjectParam;
                                 successResponse.shippingLabel = "";
                                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                                res = false;
+
                             }
                         }
 
@@ -211,11 +206,13 @@ namespace Uniware_PandoIntegration.API
 
                         //Thread.Sleep(5000);
                         var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                        if (responses.IsSuccess == false)
+                        if (responses.IsSuccess==false)
                         {
+                            //res = false;
                             ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
                         }
                     }
+                    var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
                     if (ErrorList.Count > 0)
                     {
                         var serilizelist = JsonConvert.SerializeObject(ErrorList);
@@ -236,6 +233,7 @@ namespace Uniware_PandoIntegration.API
                 }
                 else
                 {
+                    res = false;
                     ErrorResponse errorResponse = new ErrorResponse();
                     errorResponse.status = "Error";
                     errorResponse.reason = "No Data For Transaction";
@@ -253,8 +251,9 @@ namespace Uniware_PandoIntegration.API
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()} ,Allocate Shipping Error: {JsonConvert.SerializeObject(errorResponse)}");
                 //return new JsonResult(errorResponse);
 
-                throw;
+                
             }
+            return res;
 
         }
 

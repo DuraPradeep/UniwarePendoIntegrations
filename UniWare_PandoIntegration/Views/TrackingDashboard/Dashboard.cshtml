@@ -1,7 +1,9 @@
 ﻿@* @model Uniware_PandoIntegration.Entities.DashboardsLists *@
 @{
     ViewData["Title"] = "Dashboard";
-    Layout = null;
+    // Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 
@@ -31,12 +33,13 @@
     }
 
     thead {
-        background-color: #dc3545!important;
-        color:#fff;
+        background-color: #dc3545 !important;
+        color: #fff;
     }
-     .dataTables_length {
-            display: block !important;
-        }
+
+    .dataTables_length {
+        display: block !important;
+    }
 
     .cv-spinner {
         height: 100%;
@@ -44,17 +47,28 @@
         justify-content: center;
         align-items: center;
     }
-    div.dataTables_wrapper div.dataTables_length select{
+
+    div.dataTables_wrapper div.dataTables_length select {
         padding-top: 0px;
         text-align: center;
     }
 
     .active {
-        background-color: gray;
+        background-color: #a52a2a !important;
         color: #fff;
     }
 </style>
+@if (TempData["Success"] != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            iqwerty.toast.toast('@TempData["Success"]');
+        };
+    </script>
+
+}
 <div class="container-fluid">
+
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900">
         <!-- Desktop sidebar -->
         <!-- Mobile sidebar -->
@@ -64,32 +78,33 @@
 
 
             <div class="container-fluid px-6 mx-auto grid">
-                <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200" style="padding-bottom: 20px;margin-top:0px !important;font-weight:600;color:brown;">
+            @*     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200" style="padding-bottom: 20px;margin-top:0px !important;font-weight:600;color:brown;">
                     Tracking Dashboard
-                </h2>
+                </h2> *@
                 <div class="row" id="row">
                 </div>
                 <div class="w-full overflow-hidden rounded-lg shadow-xs" style="margin-top: 30px;">
                     <div class="w-full">
                         <table id="TrackingDetails" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                           
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function () {         
+
             fn_GetAllDetails();
 
         })
 
-        
+
         function fn_GetAllDetails() {
             debugger;
             $("#overlay").fadeIn();
+
             $.get("/TrackingDashboard/Getalldetails", {}).done(function (data) {
 
                 var da = $("#row");
@@ -127,6 +142,10 @@
                             {
                                 data: "shipmentID",
                                 title: "Shipment Id"
+                            },
+                            {
+                                data: "mileStone",
+                                title: "Mile Stone"
                             },
                             {
                                 data: "latestStatus",
@@ -196,12 +215,13 @@
                             }
                         ]
                     })
-                    $("#overlay").fadeOut();
 
                 }
                 else {
                     iqwerty.toast.toast("No Failed Records Found!!");
                 }
+                $("#overlay").fadeOut();
+
             });
 
 
@@ -212,11 +232,13 @@
         function fn_getStatusBasedOnName(select, name) {
             debugger;
             $("#overlay").fadeIn();
+            $('.active').removeClass("active");
+            $(select).addClass("active");
             $.get("/TrackingDashboard/GetStatusDetailsByName", {
                 Name: name
             }).done(function (data) {
                 debugger;
-                $(this).addClass("active");
+
                 if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
                     table = $('#TrackingDetails').DataTable();
                     table.clear();
@@ -247,6 +269,10 @@
                             {
                                 data: "shipmentID",
                                 title: "Shipment Id"
+                            },
+                            {
+                                data: "mileStone",
+                                title: "Mile Stone"
                             },
                             {
                                 data: "latestStatus",
@@ -316,15 +342,15 @@
                             }
                         ]
                     })
-                    $("#overlay").fadeOut();
 
                 }
                 else {
-                    $("#overlay").fadeOut();
 
                     iqwerty.toast.toast("No Failed Records Found!!");
                 }
+                $("#overlay").fadeOut();
             });
+
 
         }
 

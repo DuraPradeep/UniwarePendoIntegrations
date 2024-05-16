@@ -155,7 +155,7 @@ namespace UniWare_PandoIntegration.Controllers
                 mainClass.UploadExcels = empList;
                 mainClass.Enviornment = Environment;
                 mainClass.Userid = userid;
-                var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/UploadExcel");
+                var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "api/Calling/UploadExcel");
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
             }
@@ -276,7 +276,7 @@ namespace UniWare_PandoIntegration.Controllers
                 facilitylist.UserId = HttpContext.Session.GetString("LoginId").ToString();
 
 
-                var response = ApiControl.Post1<ServiceResponse<string>, FacilityList>(facilitylist, "Api/UniwarePando/FacilityMasterUploads").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, FacilityList>(facilitylist, "Api/Calling/FacilityMasterUploads").Trim();
 
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
 
@@ -290,10 +290,10 @@ namespace UniWare_PandoIntegration.Controllers
 
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            ListcustomerModels = ApiControl.Get<List<FacilityMaintain>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetFacilityMaster_Details");
+            ListcustomerModels = ApiControl.Get<List<FacilityMaintain>, string>(Enviornment, "Enviornment", "api/Calling/GetFacilityMaster_Details");
 
 
-            //ListcustomerModels = ApiControl.Get<List<FacilityMaintain>>("api/UniwarePando/GetFacilityMaster_Details");
+            //ListcustomerModels = ApiControl.Get<List<FacilityMaintain>>("api/Calling/GetFacilityMaster_Details");
 
             var listdata = ListcustomerModels;
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -414,8 +414,8 @@ namespace UniWare_PandoIntegration.Controllers
 
 
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var listdata = ApiControl.Get<List<TruckDetails>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetTruckMaster_Details");
-            //var listdata = ApiControl.Get<List<TruckDetails>>("api/UniwarePando/GetTruckMaster_Details");
+            var listdata = ApiControl.Get<List<TruckDetails>, string>(Enviornment, "Enviornment", "api/Calling/GetTruckMaster_Details");
+            //var listdata = ApiControl.Get<List<TruckDetails>>("api/Calling/GetTruckMaster_Details");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "Truck Detals Master.xlsx";
@@ -546,7 +546,7 @@ namespace UniWare_PandoIntegration.Controllers
 
 
 
-                var response = ApiControl.Post1<ServiceResponse<string>, TruckdetailsMap>(mainClass, "Api/UniwarePando/TruckDetailsUpdate").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, TruckdetailsMap>(mainClass, "Api/Calling/TruckDetailsUpdate").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             //return View("~/Views/Home/Dashboard.cshtml");
@@ -653,7 +653,7 @@ namespace UniWare_PandoIntegration.Controllers
                 mainClass.UploadExcels = empList;
                 mainClass.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
-                var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/UniwarePando/STOUpload").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "Api/Calling/STOUpload").Trim();
 
 
 
@@ -751,7 +751,7 @@ namespace UniWare_PandoIntegration.Controllers
                 regionMasterMap.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
 
-                var response = ApiControl.Post1<ServiceResponse<string>, RegionMasterMap>(regionMasterMap, "Api/UniwarePando/RegionMasterUpdate").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, RegionMasterMap>(regionMasterMap, "Api/Calling/RegionMasterUpdate").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             //return View("~/Views/Home/Dashboard.cshtml");
@@ -763,8 +763,8 @@ namespace UniWare_PandoIntegration.Controllers
 
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var listdata = ApiControl.Get<List<RegionMaster>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetReagonMaster_Details");
-            //var listdata = ApiControl.Get<List<RegionMaster>>("api/UniwarePando/GetReagonMaster_Details");
+            var listdata = ApiControl.Get<List<RegionMaster>, string>(Enviornment, "Enviornment", "api/Calling/GetReagonMaster_Details");
+            //var listdata = ApiControl.Get<List<RegionMaster>>("api/Calling/GetReagonMaster_Details");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "RegionMaster.xlsx";
@@ -820,8 +820,8 @@ namespace UniWare_PandoIntegration.Controllers
             ApiControl = new ApiOperation(Apibase);
 
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var listdata = ApiControl.Get<List<TrackingMaster>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetTrackingMasterDetails");
-            //var listdata = ApiControl.Get<List<TrackingMaster>>("api/UniwarePando/GetTrackingMasterDetails");
+            var listdata = ApiControl.Get<List<TrackingMaster>, string>(Enviornment, "Enviornment", "api/Calling/GetTrackingMasterDetails");
+            //var listdata = ApiControl.Get<List<TrackingMaster>>("api/Calling/GetTrackingMasterDetails");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "TrackingStatusMaster.xlsx";
@@ -960,7 +960,7 @@ namespace UniWare_PandoIntegration.Controllers
                 trackingMasterMapping.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/UniwarePando/TrackingStatusMasterUpload").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/Calling/TrackingStatusMasterUpload").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             //return View("~/Views/Home/Dashboard.cshtml");
@@ -976,9 +976,9 @@ namespace UniWare_PandoIntegration.Controllers
 
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var listdata = ApiControl.Get<List<TrackingMaster>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetCourierNameDetails");
+            var listdata = ApiControl.Get<List<TrackingMaster>, string>(Enviornment, "Enviornment", "api/Calling/GetCourierNameDetails");
 
-            //var listdata = ApiControl.Get<List<TrackingMaster>>("api/UniwarePando/GetCourierNameDetails");
+            //var listdata = ApiControl.Get<List<TrackingMaster>>("api/Calling/GetCourierNameDetails");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "Courier List.xlsx";
@@ -1094,7 +1094,7 @@ namespace UniWare_PandoIntegration.Controllers
                 trackingMasterMapping.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/UniwarePando/CourierListUpload").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, TrackingMasterMapping>(trackingMasterMapping, "Api/Calling/CourierListUpload").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             //return View("~/Views/Home/Dashboard.cshtml");
@@ -1110,9 +1110,9 @@ namespace UniWare_PandoIntegration.Controllers
 
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var listdata = ApiControl.Get<List<TrackingLinkMapping>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetTrackingLinkList");
+            var listdata = ApiControl.Get<List<TrackingLinkMapping>, string>(Enviornment, "Enviornment", "api/Calling/GetTrackingLinkList");
 
-            //var listdata = ApiControl.Get<List<TrackingLinkMapping>>("api/UniwarePando/GetTrackingLinkList");
+            //var listdata = ApiControl.Get<List<TrackingLinkMapping>>("api/Calling/GetTrackingLinkList");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "Tracking Mapping List.xlsx";
@@ -1229,7 +1229,7 @@ namespace UniWare_PandoIntegration.Controllers
                 trackingLinkMappingMap.Userid = HttpContext.Session.GetString("LoginId").ToString();
 
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, TrackingLinkMappingMap>(trackingLinkMappingMap, "Api/UniwarePando/BulkUploadtrackingMapping").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, TrackingLinkMappingMap>(trackingLinkMappingMap, "Api/Calling/BulkUploadtrackingMapping").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             //return View("~/Views/UploadExcel/TrackingLinkUpload.cshtml");
@@ -1244,7 +1244,7 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var listdata = ApiControl.Get<List<ShippingStatus>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetShippingStatus");
+            var listdata = ApiControl.Get<List<ShippingStatus>, string>(Enviornment, "Enviornment", "api/Calling/GetShippingStatus");
 
             string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             string fileName = "Shipping Status Master.xlsx";
@@ -1361,7 +1361,7 @@ namespace UniWare_PandoIntegration.Controllers
                 trackingLinkMappingMap.UserId = HttpContext.Session.GetString("LoginId").ToString();
 
                 ApiControl = new ApiOperation(Apibase);
-                var response = ApiControl.Post1<ServiceResponse<string>, ShippingStatusList>(trackingLinkMappingMap, "Api/UniwarePando/UpdateShippingStatus").Trim();
+                var response = ApiControl.Post1<ServiceResponse<string>, ShippingStatusList>(trackingLinkMappingMap, "Api/Calling/UpdateShippingStatus").Trim();
                 TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             }
             //return View("~/Views/UploadExcel/TrackingLinkUpload.cshtml");
@@ -1381,7 +1381,7 @@ namespace UniWare_PandoIntegration.Controllers
             string fileName = "Shipping Status Master.xlsx";
             try
             {
-                var listdata = ApiControl.Get<string, string>(Enviornment, "Enviornment", "api/UniwarePando/GetSpecialCharacters");
+                var listdata = ApiControl.Get<string, string>(Enviornment, "Enviornment", "api/Calling/GetSpecialCharacters");
 
                 byte[] bytes = Encoding.UTF8.GetBytes(listdata);
                 return File(bytes, "text/plain", "SpecialCharacter.txt");
@@ -1400,7 +1400,7 @@ namespace UniWare_PandoIntegration.Controllers
             specialCharacterEntity.Enviornment = HttpContext.Session.GetString("Environment").ToString();
             specialCharacterEntity.userid = HttpContext.Session.GetString("LoginId").ToString();
             specialCharacterEntity.Contents = new StreamReader(Upload.OpenReadStream()).ReadToEnd();
-            var response = ApiControl.Post1< ServiceResponse<string>, SpecialCharacterEntity>(specialCharacterEntity,  "api/UniwarePando/UpdateSpecialCharacters");
+            var response = ApiControl.Post1< ServiceResponse<string>, SpecialCharacterEntity>(specialCharacterEntity,  "api/Calling/UpdateSpecialCharacters");
             TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             return RedirectToAction("Dashboard", "Home");
 

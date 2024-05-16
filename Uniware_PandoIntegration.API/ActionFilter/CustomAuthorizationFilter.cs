@@ -10,8 +10,7 @@ using System.Diagnostics;
 using Uniware_PandoIntegration.BusinessLayer;
 using Uniware_PandoIntegration.Entities;
 using System.Text;
-using Uniware_PandoIntegration.API.Model;
-
+ 
 namespace Uniware_PandoIntegration.API.ActionFilter
 {
 
@@ -27,7 +26,7 @@ namespace Uniware_PandoIntegration.API.ActionFilter
                 var jwthandler = new JwtSecurityTokenHandler();
                 var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
                 var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                await ProcessWrite.WriteTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), Username);
+                //await ProcessWrite.WriteTextAsync(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), Username);
             }
                 //using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
                 //{
