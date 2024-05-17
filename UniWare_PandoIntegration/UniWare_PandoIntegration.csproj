@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+	<PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	</PropertyGroup>
   <ItemGroup>
     <Compile Remove="Jscript\**" />
     <Compile Remove="Style\**" />
@@ -22,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\DashBoard\" />
   </ItemGroup>
 
@@ -59,6 +60,12 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Home\ResetPassword.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Uniware_PandoIntegration.APIs">
+      <HintPath>..\Uniware_PandoIntegration.APIs\bin\Debug\Uniware_PandoIntegration.APIs.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

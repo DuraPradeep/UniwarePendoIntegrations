@@ -17,13 +17,15 @@ using System.Data;
 using System.Configuration;
 using System.IO;
 using Superpower.Parsers;
+using Superpower.Model;
+using static Umbraco.Core.Constants.Conventions;
 
 namespace Uniware_PandoIntegration.APIs
 {
     public class BearerToken
     {
         //private static readonly ILogger log = LogManager.GetLogger(typeof(SendEmail));
-        string ServerType = ConfigurationManager.AppSettings["ServerType"];//; AppSettings("ServerType");
+        //  string ServerType = ConfigurationManager.AppSettings["ServerType"];//; AppSettings("ServerType");
 
         public void CreateLog(string message)
         {
@@ -61,30 +63,32 @@ namespace Uniware_PandoIntegration.APIs
 
                     }
                 }
-                HttpClient _client = new HttpClient()
+                using (HttpClient _client = new HttpClient())
                 {
-                    BaseAddress = new Uri(URL)
-                };
-                
-                _client.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-                var response = _client.GetAsync(URL).Result;
-                //var responses = response.Content.ReadAsStringAsync().Result;
-                var responses = response.Content.ReadAsStreamAsync().Result;
-                serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{responses}");
-                if (response.IsSuccessStatusCode)
-                {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    _client.BaseAddress = new Uri(URL);
 
-                }
-                else
-                {
-                    serviceResponse.Errdesc = await response.Content.ReadAsStringAsync();
+
+                    _client.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                    var response = _client.GetAsync(URL).Result;
+                    //var responses = response.Content.ReadAsStringAsync().Result;
+                    var responses = response.Content.ReadAsStreamAsync().Result;
                     serviceResponse.Errcode = ((int)response.StatusCode);
-                    //GetCode(Details, Token);
+                    serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response:{responses}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        return serviceResponse;
+
+                    }
+                    else
+                    {
+                        serviceResponse.Errdesc = await response.Content.ReadAsStringAsync();
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        //GetCode(Details, Token);
+                    }
                 }
 
             }
@@ -200,7 +204,7 @@ namespace Uniware_PandoIntegration.APIs
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response: {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //return responses;
                 dynamic data = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     //var ErrorDesc = data.errors[0].description;
@@ -280,7 +284,7 @@ namespace Uniware_PandoIntegration.APIs
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var datas = (bool)data.successful;                  
+                    var datas = (bool)data.successful;
                     if (datas)
                     {
                         serviceResponse.Errcode = ((int)response.StatusCode);
@@ -362,7 +366,7 @@ namespace Uniware_PandoIntegration.APIs
 
         }
 
-        public async Task<ServiceResponse<string>> PostDataTomaterialinvoice(string data, string ServerType)
+        public async Task<ServiceResponse<string>> PostDataTomaterialinvoice(string data, string ServerType, string Deliveryno)
         {
 
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
@@ -370,6 +374,9 @@ namespace Uniware_PandoIntegration.APIs
 
             try
             {
+                //var data = JsonConvert.SerializeObject(new { data = AllData });
+                Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {data}");
+
                 var client = new HttpClient();
                 var credentials = new byte[100];
                 var request = new HttpRequestMessage();
@@ -396,7 +403,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
 
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill DeliveryNo:- {Deliveryno}, Response Material-invoice- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -944,7 +951,7 @@ namespace Uniware_PandoIntegration.APIs
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Update Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, shippingPackageCode {data.shippingPackageCode}, Update Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
 
                 if (response.IsSuccessStatusCode)
@@ -1039,7 +1046,7 @@ namespace Uniware_PandoIntegration.APIs
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
 
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Allocate Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},shippingPackageCode:- {data.shippingPackageCode} ,Allocate Shipping Response- : {JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 //if (response.IsSuccessStatusCode)
                 //{
                 //    serviceResponse.Errcode = ((int)response.StatusCode);
@@ -1134,7 +1141,7 @@ namespace Uniware_PandoIntegration.APIs
             {
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
-               
+
 
                 if (ServerType.ToLower() == "qa")
                 {
@@ -1191,103 +1198,67 @@ namespace Uniware_PandoIntegration.APIs
             }
             return serviceResponse;
         }
-        public async Task<ServiceResponse<string>> TrackingStatus(string Details, string Token, string Facility, string ServerType, string Instance)
+        public async Task<ServiceResponse<string>> TrackingStatus(TrackingStatus AllData, string Facility, string ServerType, string Instance)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Post Data:-  {Details} , FacilityCode:- {Facility}");
+                var Token = GetTokens(ServerType, Instance).Result;
+                var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam).access_token;
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Post Data:-  {JsonConvert.SerializeObject(AllData)} , FacilityCode:- {Facility}");
 
-                var client = new HttpClient();
-                var request = new HttpRequestMessage();
-                //if (ServerType.ToLower() == "qa")
-                //{
-                //    request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
-                //}
-                //else if (ServerType.ToLower() == "prod")
-                //{
-                //    request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
-                //}
-
-                if (ServerType.ToLower() == "qa")
+                using (HttpClient client = new HttpClient())
                 {
-                    if (Instance.ToLower() == "sh")
+                    using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetAPIURL(ServerType,Instance)))
                     {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
-                    }
-                    else if (Instance.ToLower() == "dfx")
-                    {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
-
-                    }
-                }
-                else if (ServerType.ToLower() == "prod")
-                {
-                    if (Instance.ToLower() == "sh")
-                    {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus");
-                    }
-                    else if (Instance.ToLower() == "dfx")
-                    {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/updateShipmentTrackingStatus");
-
-                    }
-                }
-
-                request.Headers.Add("Facility", Facility);
-                request.Headers.Add("Authorization", "Bearer" + Token);
-                var content = new StringContent(Details, null, "application/json");
-                request.Content = content;
-                var response = await client.SendAsync(request);
-                serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Status Response:-  {serviceResponse.ObjectParam}");
-                //if (response.IsSuccessStatusCode)
-                //{
-                //    serviceResponse.Errcode = ((int)response.StatusCode);
-                //    return serviceResponse;
-                //}
-                //else
-                //{
-                //    serviceResponse.Errcode = ((int)response.StatusCode);
-                //    //GetCode(Details, Token);
-                //}
-                if (((int)response.StatusCode) == 200)
-                {
-                    dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var datastatus = (bool)datas.successful;
-                        if (datastatus)
+                        request.Headers.Add("Facility", Facility);
+                        request.Headers.Add("Authorization", "Bearer" + accesstoken);
+                        request.Content = new StringContent(JsonConvert.SerializeObject(AllData), null, "application/json"); 
+                        var response = await client.SendAsync(request);
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                        CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Number:- {AllData.trackingNumber}, Tracking Status Response:-  {serviceResponse.ObjectParam}");              
+                        if (((int)response.StatusCode) == 200)
                         {
-                            serviceResponse.Errcode = ((int)response.StatusCode);
-                            serviceResponse.IsSuccess = true;
-                            return serviceResponse;
+                            dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var datastatus = (bool)datas.successful;
+                                if (datastatus)
+                                {
+                                    serviceResponse.Errcode = ((int)response.StatusCode);
+                                    serviceResponse.IsSuccess = true;
+                                    //serviceResponse.Errdesc = datas.errors[0].message;
+                                    return serviceResponse;
+                                }
+                                else
+                                {
+                                    serviceResponse.Errcode = ((int)response.StatusCode);
+                                    serviceResponse.IsSuccess = false;
+                                    serviceResponse.Errdesc = datas.errors[0].description;
+                                    return serviceResponse;
+                                }
+                            }
+                            else
+                            {
+                                serviceResponse.Errcode = ((int)response.StatusCode);
+                                serviceResponse.IsSuccess = false;
+                                serviceResponse.Errdesc = datas.errors[0].description;
+
+                            }
                         }
                         else
                         {
                             serviceResponse.Errcode = ((int)response.StatusCode);
                             serviceResponse.IsSuccess = false;
-                            serviceResponse.Errdesc = datas.errors[0].description;
-                            return serviceResponse;
+                            serviceResponse.Errdesc = serviceResponse.ObjectParam;
+
                         }
-                    }
-                    else
-                    {
-                        serviceResponse.Errcode = ((int)response.StatusCode);
-                        serviceResponse.IsSuccess = false;
-                        serviceResponse.Errdesc = datas.errors[0].description;
 
                     }
                 }
-                else {
 
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    serviceResponse.IsSuccess = false;
-                    serviceResponse.Errdesc = serviceResponse.ObjectParam;
-
-                }
             }
             catch (Exception ex)
             {
@@ -1295,6 +1266,39 @@ namespace Uniware_PandoIntegration.APIs
                 throw ex;
             }
             return serviceResponse;
+        }
+
+
+        public string GetAPIURL(string ServerType,string Instance) {
+
+            if (ServerType.ToLower() == "qa")
+            {
+                if (Instance.ToLower() == "sh")
+                {
+                    return "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus";
+                }
+                else if (Instance.ToLower() == "dfx")
+                {
+                    return "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus";
+
+                }
+                else { return ""; }
+            }
+            else if (ServerType.ToLower() == "prod")
+            {
+                if (Instance.ToLower() == "sh")
+                {
+                    return "https://sleepyhead.unicommerce.com/services/rest/v1/oms/updateShipmentTrackingStatus";
+                }
+                else if (Instance.ToLower() == "dfx")
+                {
+                    return "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/updateShipmentTrackingStatus";
+
+                }
+                else { return ""; }
+            }
+            else { return ""; }
+            
         }
     }
 }

@@ -32,7 +32,7 @@ namespace UniWare_PandoIntegration.Controllers
             List<TDashboardDetails> dashboardDetail = new List<TDashboardDetails>();
             trackingDetails = new List<TrackingDetails>();
 
-            var DashboardDetails = ApiControl.Get<ServiceResponse<DashboardsLists>, string>(Enviornment, "Enviornment", "api/UniwarePando/GetDashboardDetails");
+            var DashboardDetails = ApiControl.Get<ServiceResponse<DashboardsLists>, string>(Enviornment, "Enviornment", "api/Calling/GetDashboardDetails");
             DashboardsLists dashboardsLists = new DashboardsLists();
             dashboardsLists.dashboardDetails = DashboardDetails.ObjectParam.dashboardDetails;
             dashboardsLists.trackingDetails = DashboardDetails.ObjectParam.trackingDetails;
@@ -45,7 +45,7 @@ namespace UniWare_PandoIntegration.Controllers
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
             List<TDashboardDetails> dashboardDetail = new List<TDashboardDetails>();
             trackingDetails = new List<TrackingDetails>();
-            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string>(Enviornment, Name, "Enviornment", "Name", "api/UniwarePando/GetTrackingDetailsByName");
+            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string>(Enviornment, Name, "Enviornment", "Name", "api/Calling/GetDashboardDetailsByName");
             return Json(DashboardDetails);
 
         }
@@ -57,7 +57,7 @@ namespace UniWare_PandoIntegration.Controllers
         {
             ApiControl = new ApiOperation(Apibase);
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
-            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string,string>(Enviornment, SearchBy, trackingNo, "Enviornment", "SearchBy", "trackingNo", "api/UniwarePando/GetTrackingLink");
+            var DashboardDetails = ApiControl.Get<List<TDashboardDetails>, string, string,string>(Enviornment, SearchBy, trackingNo, "Enviornment", "SearchBy", "trackingNo", "api/Calling/GetTrackingLink");
             return Json(DashboardDetails);
 
         }

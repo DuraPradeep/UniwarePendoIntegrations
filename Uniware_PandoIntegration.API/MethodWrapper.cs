@@ -570,9 +570,9 @@ namespace Uniware_PandoIntegration.API
         {
             int Lcheckcount = checkcount;
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
-            Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {jsonre}");
+            //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Post Data : {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
+            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType, AllData[0].delivery_number);
             //var ResStatus = _Token.PostDataTomaterialinvoice(AllData);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
@@ -918,7 +918,7 @@ namespace Uniware_PandoIntegration.API
             var jsonre = JsonConvert.SerializeObject(new { data = AllData });
             //var ResStatus = _Token.WaybillSTOPostDataDeliverypackList(jsonre);
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO Waybill Post Data : {jsonre}");
-            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType);
+            var ResStatus = _Token.PostDataTomaterialinvoice(jsonre, ServerType, AllData[0].delivery_number);
 
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
@@ -1109,27 +1109,27 @@ namespace Uniware_PandoIntegration.API
             var ResStatus = _Token.PostUpdateShippingpckg(AllData, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid, Servertype);
-                    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
-                }
-                {
-                    List<string> ErrorList = new List<string>();
-                    //ErrorList.Add(ResStatus.Result.ObjectParam);
-                    //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
-                    //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-                    //serviceResponse.ObjectParam = ErrorList.ToString();
-                    serviceResponse.IsSuccess = false;
-                    return serviceResponse;
-                }
+                //if (Lcheckcount != 3)
+                //{
+                //    Thread.Sleep(3000);
+                //    Lcheckcount += 1;
+                ObjBusinessLayer.UpdateShippingErrordetails(true, ResStatus.Result.Errdesc, triggerid, Servertype);
+                //    UpdateShippingPackagePostData(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
+                //}
+                //{
+                //    List<string> ErrorList = new List<string>();
+                //    //ErrorList.Add(ResStatus.Result.ObjectParam);
+                //    //Emailtrigger.SendEmailToAdmin("Update Shipping Package",ResStatus.Result.ObjectParam);
+                //    //return ResStatus = null;
+                serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                //serviceResponse.ObjectParam = ErrorList.ToString();
+                serviceResponse.IsSuccess = false;
+                return serviceResponse;
+                //}
             }
             else
             {
-                ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode, Servertype);
+                //ObjBusinessLayer.UpdateShippingErrordetails(AllData.shippingPackageCode, Servertype);
                 //return ResStatus;
                 serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
                 serviceResponse.IsSuccess = true;
@@ -1144,21 +1144,21 @@ namespace Uniware_PandoIntegration.API
             var ResStatus = _Token.PostAllocateShipping(AllData, Token, FacilityCode, ServerType, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
-                    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
-                }
-                {
-                    //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
-                    //return ResStatus = null;
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-                    serviceResponse.IsSuccess = false;
-                    return serviceResponse;
+                //if (Lcheckcount != 3)
+                //{
+                //    Thread.Sleep(3000);
+                //    Lcheckcount += 1;
+                ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, shippingPackageCode, ServerType);
+                //    AllocatingShippingPostData(AllData, Lcheckcount, AllData.shippingPackageCode, Token, FacilityCode, ServerType, Instance);
+                //}
+                //{
+                //Emailtrigger.SendEmailToAdmin("Allocate Shipping", ResStatus.Result.ObjectParam);
+                //return ResStatus = null;
+                serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                serviceResponse.IsSuccess = false;
+                return serviceResponse;
 
-                }
+                //}
             }
             else
             {
@@ -1238,45 +1238,43 @@ namespace Uniware_PandoIntegration.API
             }
 
         }
-        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string Token, string FacilityCode, string Servertype, string Instance)
+        public ServiceResponse<string> TrackingStatus(TrackingStatus AllData, int checkcount, string FacilityCode, string Servertype, string Instance)
         {
             int Lcheckcount = checkcount;
-            var jsonre = JsonConvert.SerializeObject(AllData);
-            //Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status data:-  {jsonre}");
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
 
-
-            var ResStatus = _Token.TrackingStatus(jsonre, Token, FacilityCode, Servertype, Instance);
-            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
+            try
             {
-                if (Lcheckcount != 3)
+                var ResStatus = _Token.TrackingStatus(AllData, FacilityCode, Servertype, Instance);
+                if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
                 {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
-                    TrackingStatus(AllData, Lcheckcount, Token, FacilityCode, Servertype, Instance);
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
 
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Error get Tracking No. {AllData.trackingNumber}, Tracking Details Error. {ResStatus.Result.Errdesc}");
+                    ObjBusinessLayer.TrackingStatusError(true, ResStatus.Result.Errdesc, AllData, Servertype,FacilityCode);
+                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                    serviceResponse.IsSuccess = false;
                 }
                 else
                 {
-
-                    serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
-                    serviceResponse.IsSuccess = false;
-                    //return serviceResponse;
-
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Success tracking No., Tracking No. {AllData.trackingNumber}, Tracking Details Success. {ResStatus.Result.Errdesc}");
+                    ObjBusinessLayer.TrackingStatusError(false, ResStatus.Result.ObjectParam, AllData, Servertype,FacilityCode);
+                    serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                    serviceResponse.IsSuccess = true;
                 }
+                return serviceResponse;
             }
-            else
+            catch (Exception ex)
             {
-                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
-                serviceResponse.IsSuccess = true;
-                //return serviceResponse;
-
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking No. {AllData.trackingNumber}, Tracking Details Error. {JsonConvert.SerializeObject(ex)}");
+                throw;
             }
-            return serviceResponse;
+
 
         }
-
+        public static void CreateLog(string message)
+        {
+            Log.Information(message);
+        }
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

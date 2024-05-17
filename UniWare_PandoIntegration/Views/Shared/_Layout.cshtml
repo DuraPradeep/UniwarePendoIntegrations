@@ -27,7 +27,7 @@
 
         span.logo-text {
             text-decoration: none;
-            font-family: cursive;
+            /* font-family: cursive; */
             color: #dc3545;
             font-size: 28px;
             /* text-decoration: none; */
@@ -245,13 +245,16 @@
 
                     <ul class="navbar-nav float-start">
                         <li class="nav-item dropdown">
-                            <a class="dropdown-toggle text-muted waves-effect waves-dark pro-pic notification_bell_icon" href="#" id="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                <span class="badge">
-                                    @*<span id="Count_zero"></span>*@
-                                    <span id="Count"></span>
-                                </span>
-                            </a>
+                            @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") != "3")
+                            {
+                                <a class="dropdown-toggle text-muted waves-effect waves-dark pro-pic notification_bell_icon" href="#" id="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="badge">
+                                        @*<span id="Count_zero"></span>*@
+                                        <span id="Count"></span>
+                                    </span>
+                                </a>
+                            }
                             @*<ul class="dropdown-menu dropdown-menu-end user-dd animated" aria-labelledby="navbarDropdown" href=""  >*@
                             <div class="Menu_NOtification_Wrap dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown" id="NotificationDraftdata">
                                 <div class="notification_Header">
@@ -338,7 +341,7 @@
                                         </div>
                                         <div class="notify_content" href="javascript:void(0)">
                                             <p class="error_popup_list">
-                                               Allocate Shipping
+                                                Allocate Shipping
                                             </p>
                                         </div>
                                     </div>
@@ -365,26 +368,29 @@
                                     <i class="fa fa-lock me-1 ms-1"></i>
                                     Reset Password
                                 </a>
-                              @if(@HttpContextAccessor.HttpContext.Session.GetString("Role")=="1")
-                              {
+                                @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") == "1")
+                                {
                                     <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("AddUser", "Home")'; ">
                                         <i class="fa fa-user me-1 ms-1"></i>
                                         Add User
                                     </a>
-                              }
+                                }
                                 <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("Logout", "Home")'; ">
                                     <i class="fa fa-user me-1 ms-1"></i>
                                     Logout
                                 </a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("DashBoard", "TrackingDashboard")'; ">
-                                    <i class="fa fa-user me-1 ms-1"></i>
-                                    Tracking Dashboard
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("TrackingStatus", "TrackingDashboard")'; ">
-                                    <i class="fa fa-user me-1 ms-1"></i>
-                                    Tracking Status
-                                </a>
-                               
+                               @*  @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") != "3")
+                                {
+                                    <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("DashBoard", "TrackingDashboard")'; ">
+                                        <i class="fa fa-user me-1 ms-1"></i>
+                                        Tracking Dashboard
+                                    </a>
+                                    <a class="dropdown-item" href="javascript:void(0)" onclick="window.location.href = '@Url.Action("TrackingStatus", "TrackingDashboard")'; ">
+                                        <i class="fa fa-user me-1 ms-1"></i>
+                                        Tracking Status
+                                    </a>
+                                } *@
+
                             </ul>
                         </li>
 
@@ -394,7 +400,7 @@
                 </div>
             </nav>
         </header>
-       
+
         <div class="container-fluid content">
             <main role="main" class="pb-3">
                 <div class="row" id="errorList">
@@ -435,7 +441,7 @@
                 type: 'GET',
                 success: function (data, result) {
                     // debugger;
-                    
+
                     if (data.name.includes('Sale Order API')) {
                         $("#sale").css("display", "block");
                     }
@@ -483,7 +489,7 @@
             //debugger;
 
         }
-              
+
     </script>
 </body>
 </html>

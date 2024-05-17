@@ -327,6 +327,18 @@
         });
     }
 
+    function fn_SpecialCharacter() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/TrackingDashboard/DashBoard", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+            //fn_AllocateShippingDataObject();
+
+        });
+    }
+
 </script>
 
 
@@ -373,6 +385,8 @@
 
 }
 <div class="dashboard_tiles">
+    @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") != "3")
+    {
     <div class="row">
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0" onclick="fn_BindTable();">
             <div class="card text-white text-center mb-4 pointer">
@@ -458,6 +472,7 @@
             </div>
         
     </div>
+    }
     @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") == "1")
     {
         <div class="row">
@@ -536,6 +551,17 @@
                 </div>
 
             </div>
+        </div>
+    }
+    @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") == "3")
+    {
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_SpecialCharacter()">
+            <div class="card text-white mb-4 text-center pointer">
+                <div class="card-body tile_list">
+                    <p>Tracking Dashboard</p>
+                </div>
+            </div>
+
         </div>
     }
 

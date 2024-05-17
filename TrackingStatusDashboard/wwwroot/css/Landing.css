@@ -1,0 +1,266 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Varela);
+
+.login {
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: 'Varela', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #000;
+    min-height: 100%;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+label {
+    margin-bottom: 0;
+}
+
+a {
+    color: #d4cccc;
+}
+
+    a:focus,
+    a:hover {
+        color: #000;
+    }
+
+.checkbox-inline + .checkbox-inline,
+.radio-inline + .radio-inline {
+    margin-top: 6px;
+}
+
+body.login {
+    background: rgb(253 48 34);
+}
+
+
+
+
+.relative {
+    position: relative;
+}
+
+.switcher {
+    margin-bottom: 70px;
+}
+
+ul.switcher li {
+    list-style-type: none;
+    width: 50%;
+    position: absolute;
+    top: 0;
+}
+
+.first {
+    left: 0;
+}
+
+.second {
+    right: 0;
+}
+
+
+
+    .login-container-wrapper .logo,
+    .login-container-wrapper .welcome {
+        font-size: 16px;
+        letter-spacing: 1px;
+    }
+
+    .login-container-wrapper li {
+        text-align: center;
+        padding: 0 15px;
+        background-color: #283443;
+        height: 50px;
+        line-height: 50px;
+        box-shadow: inset 0 -2px 0 0 #ccc;
+        cursor: pointer;
+    }
+
+        .login-container-wrapper li a {
+            color: #fff;
+        }
+
+            .login-container-wrapper li a:hover {
+                color: #ccc;
+                text-decoration: none;
+            }
+
+            .login-container-wrapper li a:active,
+            .login-container-wrapper li a:focus {
+                color: #fff;
+                text-decoration: none;
+            }
+
+        .login-container-wrapper li.active {
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+            .login-container-wrapper li.active a {
+                border-bottom: 2px solid #fff;
+                padding-bottom: 5px;
+            }
+
+.login input:focus + .fa {
+    color: #25a08d;
+}
+
+.login-form .form-group {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 7px;
+}
+
+.login-form i {
+    position: absolute;
+    top: 0;
+    left: 19px;
+    line-height: 52px;
+    color: rgba(40, 52, 67, 1);
+    z-index: 100;
+    font-size: 16px;
+}
+
+.login-form .input-lg {
+    font-size: 16px;
+    height: 52px;
+    padding: 10px 25px;
+    border-radius: 0;
+}
+
+.login input[type="email"],
+.login input[type="text"],
+.login input[type="password"],
+.login input:focus {
+    background-color: rgb(215 215 215 / 75%);
+    border: 0px solid #4a525f;
+    color: #000;
+    border-left: 45px solid #93a5ab;
+    border-radius: 40px;
+}
+
+.login input:focus {
+    border-left: 45px solid #eee;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: rgba(40, 52, 67, 0.75) !important;
+    background-image: none;
+    color: rgb(0, 0, 0);
+    border-color: #FAFFBD;
+}
+
+.login .checkbox label,
+.login .checkbox a {
+    color: #000;
+    vertical-align: top;
+}
+
+input[type="checkbox"]:checked + label::before,
+.checkbox-success input[type="radio"]:checked + label::before {
+    background-color: #25a08d !important;
+}
+
+.btn-success {
+    background-color: #25a08d;
+    background-image: none;
+    padding: 8px 50px;
+    margin-top: 20px;
+    border-radius: 40px;
+    border: 1px solid #25a08d;
+    -webkit-transition: all ease 0.8s;
+    -moz-transition: all ease 0.8s;
+    transition: all ease 0.8s;
+}
+
+    .btn-success:focus,
+    .btn-success:hover,
+    .btn-success.active,
+    .btn-success.active:hover,
+    .btn-success:active:hover,
+    .btn-success:active:focus,
+    .btn-success:active {
+        background-color: #25a08d;
+        border-color: #25a08d;
+        box-shadow: 0px 5px 35px -5px #25a08d;
+        text-shadow: 0 0 8px #fff;
+        color: #FFF;
+        outline: none;
+    }
+
+/*.banner_video video {
+    position: absolute;
+    width: 100% !important;
+    height: auto !important;*/
+    /*background: url('//demosthenes.info/assets/images/polina.jpg') no-repeat;*/
+    /*background-size: cover;
+    transition: 1s opacity;
+    z-index: -1;
+}*/
+ 
+ 
+ 
+.tab1.active {
+    /*background: linear-gradient(0deg, rgb(253 5 6 / 49%), rgb(246 2 1 / 0%)) !important;*/
+    text-decoration: none !important;
+    box-shadow: inset 0 -2px 0 0 #dc3545 !important;
+    font-weight: 400;
+}
+
+li.tab1 a {
+    color: #dc3545 !important;
+    text-decoration: none;
+}
+
+li.tab1 {
+    background-color: transparent !important;
+    color: #dc3545 !important;
+    /*width: 33.33%;*/
+    width: 50%;
+}
+/* li.tab1.active {
+            box-shadow: inset 0 -1px 0 0 #dc3545;
+        }*/
+.login-container-wrapper li {
+    box-shadow: none !important;
+    /*height: 0px !important;*/
+    line-height: 21px !important;
+}
+
+ul.nav.nav-tabs {
+    margin-bottom: 25px;
+}
+
+.checkbox.checkbox-success {
+    padding-top: 15px;
+}
+
+li.tab1:hover {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+}
+
+li.tab1 a:hover {
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
+.login-container-wrapper li.tab1.active a {
+    text-decoration: none;
+    border-bottom: none !important
+}
+
+li.tab1:hover a {
+    color: #fff !important;
+}

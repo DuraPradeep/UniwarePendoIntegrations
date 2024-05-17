@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Uniware_PandoIntegration.Entities;
@@ -1012,7 +1013,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    res = true; 
+                    res = true;
                     con.Close();
                 }
 
@@ -3169,12 +3170,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sqlCommand.Parameters.AddWithValue("@password", Password);
                     con.Open();
                     SqlDataReader dr = sqlCommand.ExecuteReader();
-             
+
                     //da.Fill(ds);
                     while (dr.Read())
                     {
                         tokenEntity.username = dr["username"].ToString();
                         tokenEntity.password = dr["password"].ToString();
+                        tokenEntity.Environment = dr["Environment"].ToString();
                     }
                     con.Close();
                 };
@@ -3342,9 +3344,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static void IsertAllocate_Shipping(DataTable dt, string Enviornment)
+        public static bool IsertAllocate_Shipping(DataTable dt, string Enviornment)
         {
             string res;
+            bool result = false;
+
             try
             {
                 SqlCommand com;
@@ -3367,6 +3371,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery(); con.Close();
+                    result = true;
                 }
 
             }
@@ -3375,9 +3380,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             //finally { con.Close(); }
+            return result;
 
         }
-        public static DataSet GetAllocateShippingData(string Enviornment)
+        public static DataSet GetAllocateShippingData(string Enviornment,DataTable dt)
         {
             //con = GetConnection();
             //com = new SqlCommand();
@@ -3401,8 +3407,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     {
                         Connection = con,
                         CommandType = CommandType.StoredProcedure,
-                        CommandText = "sp_getAllocate_Shipping"
+                        CommandText = "sp_getAllocate_Shipping",
+
                     };
+
+                    com.Parameters.AddWithValue("@Records", dt);
                     com.CommandTimeout = 1000;
                     con.Open();
                     da = new SqlDataAdapter(com);
@@ -5612,6 +5621,47 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 throw ex;
             }
             return ds;
+        }
+        public static void TrackingStatusErrorUpdate(bool status, string reason, DataTable DTData, string Enviornment,string FacilityCode)
+        {
+
+            try
+            {
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error Table Execute Details. {DTData}, reason {reason}");
+
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_InsertTrackingStatusError";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Trackdetails", DTData);
+                    com.Parameters.AddWithValue("@status", status);
+                    com.Parameters.AddWithValue("@Reason", reason);
+                    com.Parameters.AddWithValue("@Facility", FacilityCode);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+            //finally { con.Close(); }
+
         }
     }
 
