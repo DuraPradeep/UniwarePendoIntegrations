@@ -512,163 +512,163 @@ namespace Uniware_PandoIntegration.API.Controllers
         //[CustomAuthorizationFilter]
 
         //[ServiceFilter(typeof(ActionFilterExample))]
-        [Authorize]
-        [HttpPost]
-        public IActionResult waybill(OmsToPandoRoot Records)
-        {
-            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
+        //[Authorize]
+        //[HttpPost]
+        //public IActionResult waybill(OmsToPandoRoot Records)
+        //{
+        //    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Waybill Get Data From Pando {JsonConvert.SerializeObject(Records)} ,{DateTime.Now.ToLongTimeString()}");
 
-            ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
-            ErrorResponse errorResponse = new ErrorResponse();
+        //    ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
+        //    ErrorResponse errorResponse = new ErrorResponse();
 
-            try
-            {
-                //Thread.Sleep(5000);
-                //string Username = string.Empty;
-                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
-                //{
-                //    Username = sr.ReadLine();
-                //    sr.Close();
-                //}
+        //    try
+        //    {
+        //        //Thread.Sleep(5000);
+        //        //string Username = string.Empty;
+        //        //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+        //        //{
+        //        //    Username = sr.ReadLine();
+        //        //    sr.Close();
+        //        //}
 
-                //using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
-                //{
-                //    //StreamReader streamReader = new StreamReader(stream);
-                //    //Username = streamReader.ReadLine();
-                //    //stream.Close();
+        //        //using (FileStream stream = System.IO.File.Open(Path.Combine(Path.GetTempPath(), "SaveFile.txt"), FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+        //        //{
+        //        //    //StreamReader streamReader = new StreamReader(stream);
+        //        //    //Username = streamReader.ReadLine();
+        //        //    //stream.Close();
 
-                //    byte[] buffer = new byte[stream.Length];
-                //    int bytesread = stream.Read(buffer, 0, buffer.Length);
-                //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
-                //    stream.Close();
-                //}
-                HttpContext httpContext = HttpContext;
-                var jwthandler = new JwtSecurityTokenHandler();
+        //        //    byte[] buffer = new byte[stream.Length];
+        //        //    int bytesread = stream.Read(buffer, 0, buffer.Length);
+        //        //    Username = Encoding.ASCII.GetString(buffer, 0, bytesread).Trim();
+        //        //    stream.Close();
+        //        //}
+        //        HttpContext httpContext = HttpContext;
+        //        var jwthandler = new JwtSecurityTokenHandler();
 
-                var token = httpContext.Request.Headers["Authorization"].ToString();
-                var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
-                var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
-
-
-                Task.Run(() =>
-                {
-                    obj.CallingWaybill(Records, Username);
-                });
-
-                if (Records != null)
-                {
-                    errorResponse.status = "FAILED";
-                    errorResponse.reason = "AWB not generated";
-                    errorResponse.message = "AWB generation is in queue, please check after a few mins";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
-                }
-                else
-                {
-                    errorResponse.status = "FAILED";
-                    errorResponse.reason = "Data Not came From Uniware";
-                    errorResponse.message = "Resource requires authentication. Please check your authorization token.";
-                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
-                }
-
-                //var jsoncodes = JsonConvert.SerializeObject(new { code = Records.Shipment.SaleOrderCode });
-                //string Instance = string.Empty;
-                //for (int x = 0; x < Records.Shipment.customField.Count; x++)
-                //{
-                //    if (Records.Shipment.customField[x].name == "INDENTID_DFX")
-                //        Instance = "DFX";
-                //    else if (Records.Shipment.customField[x].name == "INDENTID_SH")
-                //        Instance = "SH";
-                //}
-                //var resu = _Token.GetTokens(Servertype, Instance).Result;
-                //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-                //string token = deres.access_token.ToString();
-                //parentList = _MethodWrapper.PassCodeer(jsoncodes, token, "", 0, Servertype, Instance);
-                //string FacilityCode = string.Empty;
-                //for (int i = 0; i < parentList.ObjectParam.saleOrderItems.Count; i++)
-                //{
-                //    if (parentList.ObjectParam.saleOrderItems[i].shippingPackageCode == Records.Shipment.code)
-                //    {
-                //        FacilityCode = parentList.ObjectParam.saleOrderItems[i].facilityCode;
-                //    }
-                //}
+        //        var token = httpContext.Request.Headers["Authorization"].ToString();
+        //        var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
+        //        var Username = (new ICollectionDebugView<System.Security.Claims.Claim>(((JwtSecurityToken)jwttoken).Claims.ToList()).Items[0]).Value;
+        //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
 
 
-                //RootResponse rootResponse = new RootResponse();
-                //string primaryid = ObjBusinessLayer.insertWaybillMain(Records, Servertype);
-                //ObjBusinessLayer.insertWaybillshipment(Records, primaryid, FacilityCode, Servertype);
-                //List<Item> items = new List<Item>();
-                //List<CustomField> customfields = new List<CustomField>();
-                //for (int i = 0; i < Records.Shipment.items.Count; i++)
-                //{
-                //    Item item = new Item();
-                //    item.name = Records.Shipment.items[i].name;
-                //    item.description = Records.Shipment.items[i].description;
-                //    item.quantity = Records.Shipment.items[i].quantity;
-                //    item.skuCode = Records.Shipment.items[i].skuCode;
-                //    item.itemPrice = Records.Shipment.items[i].itemPrice;
-                //    item.imageURL = Records.Shipment.items[i].imageURL;
-                //    item.hsnCode = Records.Shipment.items[i].hsnCode;
-                //    item.tags = Records.Shipment.items[i].tags;
-                //    items.Add(item);
-                //}
-                //for (int i = 0; i < Records.Shipment.customField.Count; i++)
-                //{
-                //    CustomField customFieldValue = new CustomField();
-                //    customFieldValue.name = Records.Shipment.customField[i].name;
-                //    customFieldValue.value = Records.Shipment.customField[i].value;
-                //    customfields.Add(customFieldValue);
-                //}
-                //ObjBusinessLayer.insertWaybilldeliveryaddress(Records.deliveryAddressDetails, primaryid, Servertype);
-                //ObjBusinessLayer.insertWaybillpickupadres(Records.pickupAddressDetails, primaryid, Servertype);
-                //ObjBusinessLayer.insertWaybillReturnaddress(Records.returnAddressDetails, primaryid, Servertype);
-                //ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code, Servertype);
-                //ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code, Servertype);
+        //        Task.Run(() =>
+        //        {
+        //            obj.CallingWaybill(Records, Username);
+        //        });
 
-                //var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance, Servertype);
-                //_logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill Data Get From Database:- {JsonConvert.SerializeObject(sendwaybilldata)}");
-                //if (sendwaybilldata.Count > 0)
-                //{
-                //    var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
-                //    var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
-                //    if (postres.IsSuccess)
-                //    {
-                //        errorResponse.status = "FAILED";
-                //        errorResponse.reason = "AWB not generated";
-                //        errorResponse.message = "AWB generation is in queue, please check after a few mins";
-                //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
-                //    }
-                //    else
-                //    {
-                //        errorResponse.status = "FAILED";
-                //        errorResponse.reason = postres.ObjectParam;
-                //        errorResponse.message = "Resource requires authentication. Please check your authorization token.";
-                //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
-                //    }
-                //    //_logger.LogInformation($"Reason:-  {postres.ObjectParam},{DateTime.Now.ToLongTimeString()}");
-                //    //return Accepted(postres.Result.ObjectParam);
+        //        if (Records != null)
+        //        {
+        //            errorResponse.status = "FAILED";
+        //            errorResponse.reason = "AWB not generated";
+        //            errorResponse.message = "AWB generation is in queue, please check after a few mins";
+        //            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
+        //        }
+        //        else
+        //        {
+        //            errorResponse.status = "FAILED";
+        //            errorResponse.reason = "Data Not came From Uniware";
+        //            errorResponse.message = "Resource requires authentication. Please check your authorization token.";
+        //            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
+        //        }
+
+        //        //var jsoncodes = JsonConvert.SerializeObject(new { code = Records.Shipment.SaleOrderCode });
+        //        //string Instance = string.Empty;
+        //        //for (int x = 0; x < Records.Shipment.customField.Count; x++)
+        //        //{
+        //        //    if (Records.Shipment.customField[x].name == "INDENTID_DFX")
+        //        //        Instance = "DFX";
+        //        //    else if (Records.Shipment.customField[x].name == "INDENTID_SH")
+        //        //        Instance = "SH";
+        //        //}
+        //        //var resu = _Token.GetTokens(Servertype, Instance).Result;
+        //        //var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+        //        //string token = deres.access_token.ToString();
+        //        //parentList = _MethodWrapper.PassCodeer(jsoncodes, token, "", 0, Servertype, Instance);
+        //        //string FacilityCode = string.Empty;
+        //        //for (int i = 0; i < parentList.ObjectParam.saleOrderItems.Count; i++)
+        //        //{
+        //        //    if (parentList.ObjectParam.saleOrderItems[i].shippingPackageCode == Records.Shipment.code)
+        //        //    {
+        //        //        FacilityCode = parentList.ObjectParam.saleOrderItems[i].facilityCode;
+        //        //    }
+        //        //}
 
 
-                //    //return new JsonResult(errorResponse);
-                //}
-                //else
-                //{
+        //        //RootResponse rootResponse = new RootResponse();
+        //        //string primaryid = ObjBusinessLayer.insertWaybillMain(Records, Servertype);
+        //        //ObjBusinessLayer.insertWaybillshipment(Records, primaryid, FacilityCode, Servertype);
+        //        //List<Item> items = new List<Item>();
+        //        //List<CustomField> customfields = new List<CustomField>();
+        //        //for (int i = 0; i < Records.Shipment.items.Count; i++)
+        //        //{
+        //        //    Item item = new Item();
+        //        //    item.name = Records.Shipment.items[i].name;
+        //        //    item.description = Records.Shipment.items[i].description;
+        //        //    item.quantity = Records.Shipment.items[i].quantity;
+        //        //    item.skuCode = Records.Shipment.items[i].skuCode;
+        //        //    item.itemPrice = Records.Shipment.items[i].itemPrice;
+        //        //    item.imageURL = Records.Shipment.items[i].imageURL;
+        //        //    item.hsnCode = Records.Shipment.items[i].hsnCode;
+        //        //    item.tags = Records.Shipment.items[i].tags;
+        //        //    items.Add(item);
+        //        //}
+        //        //for (int i = 0; i < Records.Shipment.customField.Count; i++)
+        //        //{
+        //        //    CustomField customFieldValue = new CustomField();
+        //        //    customFieldValue.name = Records.Shipment.customField[i].name;
+        //        //    customFieldValue.value = Records.Shipment.customField[i].value;
+        //        //    customfields.Add(customFieldValue);
+        //        //}
+        //        //ObjBusinessLayer.insertWaybilldeliveryaddress(Records.deliveryAddressDetails, primaryid, Servertype);
+        //        //ObjBusinessLayer.insertWaybillpickupadres(Records.pickupAddressDetails, primaryid, Servertype);
+        //        //ObjBusinessLayer.insertWaybillReturnaddress(Records.returnAddressDetails, primaryid, Servertype);
+        //        //ObjBusinessLayer.InsertCustomfieldWaybill(customfields, primaryid, Records.Shipment.code, Servertype);
+        //        //ObjBusinessLayer.InsertitemWaybill(items, primaryid, Records.Shipment.code, Servertype);
 
-                //}
+        //        //var sendwaybilldata = ObjBusinessLayer.GetWaybillAllRecrdstosend(Instance, Servertype);
+        //        //_logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill Data Get From Database:- {JsonConvert.SerializeObject(sendwaybilldata)}");
+        //        //if (sendwaybilldata.Count > 0)
+        //        //{
+        //        //    var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendwaybilldata, Servertype, Instance);
+        //        //    var postres = _MethodWrapper.WaybillGenerationPostData(sendwaybilldata, 0, triggerid, Servertype);
+        //        //    if (postres.IsSuccess)
+        //        //    {
+        //        //        errorResponse.status = "FAILED";
+        //        //        errorResponse.reason = "AWB not generated";
+        //        //        errorResponse.message = "AWB generation is in queue, please check after a few mins";
+        //        //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, WayBill response {JsonConvert.SerializeObject(errorResponse)}");
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        errorResponse.status = "FAILED";
+        //        //        errorResponse.reason = postres.ObjectParam;
+        //        //        errorResponse.message = "Resource requires authentication. Please check your authorization token.";
+        //        //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
+        //        //    }
+        //        //    //_logger.LogInformation($"Reason:-  {postres.ObjectParam},{DateTime.Now.ToLongTimeString()}");
+        //        //    //return Accepted(postres.Result.ObjectParam);
 
-            }
-            catch (Exception ex)
-            {
-                //ErrorResponse errorResponse = new ErrorResponse();
-                errorResponse.status = "FAILED";
-                errorResponse.reason = ex.Message;
-                errorResponse.message = "Resource requires authentication. Please check your authorization token.";
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
-                throw;
-            }
-            return new JsonResult(errorResponse);
 
-        }
+        //        //    //return new JsonResult(errorResponse);
+        //        //}
+        //        //else
+        //        //{
+
+        //        //}
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //ErrorResponse errorResponse = new ErrorResponse();
+        //        errorResponse.status = "FAILED";
+        //        errorResponse.reason = ex.Message;
+        //        errorResponse.message = "Resource requires authentication. Please check your authorization token.";
+        //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(errorResponse)}");
+        //        throw;
+        //    }
+        //    return new JsonResult(errorResponse);
+
+        //}
 
         [HttpPost]
         public IActionResult ReturnOrderAPI(string returnType = "CIR", string statusCode = "COMPLETE", string createdTo = "2023-07-11T14:20:40", string createdFrom = "2023-07-05T14:20:40")

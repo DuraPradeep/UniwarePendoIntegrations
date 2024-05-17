@@ -17,7 +17,7 @@ namespace Uniware_PandoIntegration.API
         public async Task<bool> CallingTrackingStatus(string Servertype, List<TrackingStatusDb> trackingStatusDbs)
         {
             bool Result=false;
-            CreateLog("Execution start");
+            //CreateLog("Execution start");
             try
             {
                 //string Getinstance = string.Empty;
@@ -41,7 +41,7 @@ namespace Uniware_PandoIntegration.API
                         Nameinstance = TrackingList[i].Instance == "INDENTID_SH" ? "SH" : "DFX";
 
                         var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, TrackingList[i].facilitycode, Servertype, Nameinstance);
-                        CreateLog("Execution end");
+                        //CreateLog("Execution end");
                         if (res.IsSuccess)
                         {
                             Result = true;
@@ -258,13 +258,13 @@ namespace Uniware_PandoIntegration.API
         }
 
 
-        public void CallingWaybill(OmsToPandoRoot Records, string Username)
+        public void CallingWaybill(OmsToPandoRoot Records, string Servertype)
         {
             ServiceResponse<parentList> parentList = new ServiceResponse<parentList>();
             ErrorResponse errorResponse = new ErrorResponse();
             try
             {
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
+                //string Servertype = ObjBusinessLayer.GetEnviroment(Username);
 
                 var jsoncodes = JsonConvert.SerializeObject(new { code = Records.Shipment.SaleOrderCode });
                 string Instance = string.Empty;
