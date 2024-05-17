@@ -67,11 +67,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                 HttpContext httpContext = HttpContext;
                 var token = httpContext.Request.Headers["Authorization"].ToString();
                 var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
-                string Username = JwtSecurity.Claims.First(m => m.Type == "name").Value;
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Username}");
+                //string Username = JwtSecurity.Claims.First(m => m.Type == "name").Value;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Waybill Instance Name. {Servertype}");
                 Task.Run(() =>
                 {
-                    obj.CallingWaybill(Records, Username);
+                    obj.CallingWaybill(Records, Servertype);
                 });
                 if (Records != null)
                 {
