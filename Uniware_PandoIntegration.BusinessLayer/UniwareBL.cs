@@ -3227,7 +3227,19 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
         }
 
+        public List<TDashboardDetails> GetHistoryData(string Enviornment, string FromDate, string ToDate)
+        {
+            List<TDashboardDetails> codes = new List<TDashboardDetails>();
+            try
+            {
+                return codes = Mapper.GetHistoryData(SPWrapper.GetHistoryData(Enviornment,FromDate,ToDate));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
+        }
 
     }
 }

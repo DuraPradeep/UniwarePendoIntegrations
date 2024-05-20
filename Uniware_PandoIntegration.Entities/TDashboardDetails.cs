@@ -42,4 +42,9 @@ namespace Uniware_PandoIntegration.Entities
        public List<TDashboardDetails>dashboardDetails {  get; set; }
         public List<TrackingDetails>trackingDetails { get; set; }
     }
+    public class DashbordsDates
+    {
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
+    }
 }

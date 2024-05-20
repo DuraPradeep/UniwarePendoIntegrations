@@ -1285,5 +1285,43 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return res;
         }
 
+        public static List<TDashboardDetails> GetHistoryData(DataSet pds)
+        {
+            List<TDashboardDetails> HistoryData = new List<TDashboardDetails>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TDashboardDetails returncode = new TDashboardDetails();
+                    returncode.TrackingNumber= pds.Tables[0].Rows[i]["TrackingNumber"].ToString();
+                    returncode.DisplayOrder= pds.Tables[0].Rows[i]["DisplayOrderCode"].ToString();
+                    returncode.ShipmentID= pds.Tables[0].Rows[i]["ShipmentId"].ToString();
+                    returncode.LatestStatus= pds.Tables[0].Rows[i]["Status"].ToString();
+                    returncode.MileStone = pds.Tables[0].Rows[i]["MileStone"].ToString();
+                    returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
+                    returncode.trackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();
+                    returncode.CustomerName = pds.Tables[0].Rows[i]["CustomerName"].ToString();
+                    returncode.CustomerPhone = pds.Tables[0].Rows[i]["CustomerPhone"].ToString();
+                    returncode.FacilityCode = pds.Tables[0].Rows[i]["FacilityCode"].ToString();
+                    returncode.CustomerCity = pds.Tables[0].Rows[i]["CustomerCity"].ToString();
+                    returncode.InvoiceDate = pds.Tables[0].Rows[i]["InvoiceDate"].ToString();
+                    returncode.MaterialCode = pds.Tables[0].Rows[i]["MaterialCode"].ToString();
+                    returncode.Quantity = pds.Tables[0].Rows[i]["Quantity"].ToString();
+                    returncode.UOM = pds.Tables[0].Rows[i]["UOM"].ToString();
+                    returncode.IndentID = pds.Tables[0].Rows[i]["IndentID"].ToString();
+                    returncode.Pincode = pds.Tables[0].Rows[i]["Pincode"].ToString();
+                    returncode.state = pds.Tables[0].Rows[i]["state"].ToString();
+                    returncode.Region = pds.Tables[0].Rows[i]["Region"].ToString();
+                    HistoryData.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return HistoryData;
+        }
+
     }
 }
