@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/UniWare_PandoIntegration.styles.css" asp-append-version="true" />
     @*<link href="~/css/fontawesome4.7.0.min.css" rel="stylesheet" />*@
-    <link href="~/lib/bootstrap/dist/css/fontawesome4.7.0.min.css" rel="stylesheet" />
+    <link href="~/css/fontawesome4.7.0.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="~/css/font-awesome.min.css" rel="stylesheet" />
     <style>
@@ -208,6 +208,62 @@
         div#NotificationDraftdata {
             border-radius: 10px 10px 0 0;
         }
+
+        footer.footer.text-center {
+            height: 60px;
+            bottom: -7% !important;
+            /* padding: 14px; */
+        }
+
+        .navbar-brand{
+            padding: 15px 15px;
+        }
+        @@media only screen and (max-width: 600px) {
+            footer.footer.text-center {
+                position: absolute;
+                padding: 10px 10px 0px 10px;
+                bottom: -1%;
+                width: 100%;
+                height: 23px;
+                background: #8080801a;
+                font-size: 7px;
+                line-height: normal;
+                /* margin: 27px; */
+            }
+
+            a.logo .logo-text{
+                font-size:22px !important;
+            }
+
+            .topbar .top-navbar .navbar-nav .dropdown {
+                position: static;
+            }
+
+            .navbar {
+                /* position: relative; */
+                display: block !important;
+            }
+
+            .navbar-nav > li > a {
+                padding-top: 17px;
+            }
+           /*  .row {
+                --bs-gutter-x: 1px !important;
+                --bs-gutter-y: 0;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+                margin-top: calc(var(--bs-gutter-y)* -1);
+                margin-right: calc(var(--bs-gutter-x) / -2);
+                margin-left: calc(var(--bs-gutter-x) / -2);
+            } */
+        }
+
+        .navbar-header{
+            position:initial!important;
+        }
     </style>
 
 </head>
@@ -230,7 +286,7 @@
     <div class="" id="main-wrapper" data-navbarbg="skin6" data-theme="light" data-layout="vertical" data-sidebartype="full" data-boxed-layout="full">
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                <div class="col-md-11 navbar-header" data-logobg="skin5">
+                <div class="col-sm-9 navbar-header" data-logobg="skin5">
                     <div class="navbar-brand">
                         <a href="~/Home/Dashboard" class="logo">
                             <span class="logo-text">
@@ -241,9 +297,9 @@
                         </a>
                     </div>
                 </div>
-                <div class="navbar-collapse collapse col-md-1" id="navbarSupportedContent" data-navbarbg="skin6">
+                <div class="col-sm-3" id="navbarSupportedContent" data-navbarbg="skin6">
 
-                    <ul class="navbar-nav float-start">
+                    <ul class="navbar-nav float-end" style="margin:0 auto">
                         <li class="nav-item dropdown">
                             @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") != "3")
                             {
@@ -351,8 +407,8 @@
                             </div>
 
                         </li>
-                    </ul>
-                    <ul class="navbar-nav float-end">
+                    @* </ul> *@
+                    @* <ul class="navbar-nav float-end" style="margin: 0 auto; "> *@
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -410,8 +466,7 @@
             </main>
         </div>
         <footer class="footer text-center">
-            All Rights Reserved by Duroflex Pvt Ltd Designed and Developed by
-            <a href="#" target="_blank">&copy; @DateTime.Now.Year - UniWare_PandoIntegration</a>
+            All Rights Reserved by Duroflex Pvt Ltd Designed and Developed by &copy; @DateTime.Now.Year - UniWare_PandoIntegration
         </footer>
     </div>
 
@@ -427,6 +482,7 @@
     <script src="~/js/responsive.bootstrap.min.js"></script>
     <link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
+    @* <link href="~/css/style.min.css" rel="stylesheet" /> *@
     @await RenderSectionAsync("Scripts", required: false)
     <script>
         $(document).ready(function (ev) {
@@ -491,5 +547,6 @@
         }
 
     </script>
+  
 </body>
 </html>

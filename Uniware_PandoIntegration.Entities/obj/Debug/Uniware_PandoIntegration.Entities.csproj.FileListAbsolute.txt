@@ -223,6 +223,6 @@ D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
+D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_.0FBC89EC.Up2Date

@@ -393,6 +393,6 @@ D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Mic
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.Localization.xml
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.AssemblyReference.cache
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CoreCompileInputs.cache
-D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CopyComplete
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.dll
 D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.pdb
+D:\Duroflex\UniwarePendoIntegrations\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_.C3F25E0F.Up2Date
