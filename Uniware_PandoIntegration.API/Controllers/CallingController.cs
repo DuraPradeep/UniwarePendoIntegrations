@@ -3106,5 +3106,15 @@ namespace Uniware_PandoIntegration.API.Controllers
             var returndata = ObjBusinessLayer.GetTrackingLink(Servertype, SearchBy, trackingNo);
             return returndata;
         }
+
+        [HttpGet]
+        public IEnumerable<TDashboardDetails> DashboardHistoryDataDownload(string Enviornment, string FromDate, string ToDate)
+        {
+            string Servertype = Enviornment;
+            //string Servertype = iconfiguration["ServerType:type"];
+
+            List<TDashboardDetails> ResultList = ObjBusinessLayer.GetHistoryData(Servertype,FromDate,ToDate);
+            return ResultList;
+        }
     }
 }

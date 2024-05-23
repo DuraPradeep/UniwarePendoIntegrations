@@ -319,7 +319,7 @@
                   
                     </div>
                 </div>
-              
+
                 <div class="w-full overflow-hidden rounded-lg shadow-xs" style="margin-top: 30px;">
                     <div class="w-full">
                         <table id="TrackingDetails" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -343,16 +343,42 @@
 
         })
 
-        function fn_ExcelDownload()
-        {
-            //debugger;
+        function fn_ExcelDownload() {
+            // debugger;
             var fromdate = $("#fromdate").val();
             var todate = $("#todate").val();
-            //debugger;
-
-
-            var url = "/TrackingDashboard/HistoryExceldownload?fromdate=" + fromdate + "&todate=" + todate;
-            window.location.href = url;
+            if (fromdate == "") {
+                iqwerty.toast.toast('Please Select FromDate');
+                return false;
+            }
+            if (todate == "") {
+                iqwerty.toast.toast('Please Select ToDate');
+                return false;
+            }
+            // debugger;
+            if (Date.parse(fromdate) > Date.parse(todate)) {
+                iqwerty.toast.toast("Invalid Date Range!\nStart Date cannot be after End Date!");
+                return false;
+            }
+            // debugger;
+            $.ajax({
+                type: "POST",
+                url: "/TrackingDashboard/HistoryExceldownload",
+                cache: false,
+                data: { FromDate: fromdate, ToDate: todate },
+                success: function (data) {
+                    // debugger;
+                    if (data.data == "1") {
+                        window.location = '/TrackingDashboard/Downloaddata';
+                    }
+                    else {
+                        iqwerty.toast.toast('No Record Found Given Date Range');
+                    }
+                },
+                error: function (data) {
+                    qwerty.toast.toast("Something went wrong.");
+                }
+            });
         }
         function fn_GetAllDetails() {
             //debugger;
