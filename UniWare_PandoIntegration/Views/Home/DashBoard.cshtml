@@ -212,7 +212,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -234,7 +233,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -245,7 +243,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -256,7 +253,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -267,7 +263,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -278,7 +273,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -289,7 +283,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -300,7 +293,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -311,7 +303,6 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
@@ -322,58 +313,42 @@
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
 
-    function fn_SpecialCharacter() {
+    function TrackingDashboard() {
         debugger;
         $("#overlay").fadeIn(500);
         $.get("/TrackingDashboard/DashBoard", {}).done(function (data) {
             debugger;
             $("#overlay").fadeOut(500);
             $("#errorList").html(data);
-            //fn_AllocateShippingDataObject();
 
         });
     }
 
-</script>
-
-
-
-@*
-@if (TempData["Success"] != null)
-{
-
-    <script type="text/javascript">
-        window.onload = function () {
-            iqwerty.toast.toast('@TempData["Success"]');
-        };
-    </script>
-
-    @*<script>
-
-        $(document).ready(function () {
-            //debugger;
-            const options = {
-                style: {
-                    main: {
-                        background: "#dc3545",
-                        color: "#fff",
-                    },
-                },
-            };
-            iqwerty.toast.toast('@TempData["Success"]', options);
-            ////alert('@TempData["Success"]');
+    function fn_CityMaster() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/CityMaster", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
 
         });
+    }
+    function fn_DashboardMaster() {
+        debugger;
+        $("#overlay").fadeIn(500);
+        $.get("/UploadExcel/DashboardStatusMaster", {}).done(function (data) {
+            debugger;
+            $("#overlay").fadeOut(500);
+            $("#errorList").html(data);
+        });
+    }
 
-
-    </script>*@
-
-@*}*@
+</script>
 
 @if (TempData["Success"] != null)
 {
@@ -552,16 +527,33 @@
 
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_CityMaster()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>City Master</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_DashboardMaster()">
+                <div class="card text-white mb-4 text-center pointer">
+                    <div class="card-body tile_list">
+                        <p>Dashboard Status Master</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     }
     @if (@HttpContextAccessor.HttpContext.Session.GetString("Role") == "3")
     {
-        <div class="col-lg-4 mb-4 mb-lg-0" onclick="fn_SpecialCharacter()">
+        <div class="col-lg-4 mb-4 mb-lg-0" onclick="TrackingDashboard()">
             <div class="card text-white mb-4 text-center pointer">
                 <div class="card-body tile_list">
                     <p>Tracking Dashboard</p>
                 </div>
             </div>
-
         </div>
     }
 

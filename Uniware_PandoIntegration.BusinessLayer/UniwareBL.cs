@@ -3241,6 +3241,104 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
+        public List<AllocateshippingPando> GetAllcoaetData(string Enviornment)
+        {
+            List<AllocateshippingPando> codes = new List<AllocateshippingPando>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.getallocateshippingpost(SPWrapper.Getallocateshippingdemo(Enviornment));
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public List<CityMasterEntity> GetCityMaster(string Enviornment)
+        {
+            List<CityMasterEntity> codes = new List<CityMasterEntity>();
+            try
+            {
+                return codes = Mapper.GetCityList(SPWrapper.GetCityList(Enviornment));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public string UploadCityMaster(List<CityMasterEntity> cloned, string Enviornment)
+        {
+            string res;
+            try
+            {
+                DataTable TruckDetails = new DataTable();
+
+                TruckDetails.Columns.Add("ReferenceName");
+                TruckDetails.Columns.Add("ActualName");
+                for (var i = 0; i < cloned.Count; i++)
+                {
+                    DataRow SOrow = TruckDetails.NewRow();
+
+                    SOrow["ReferenceName"] = cloned[i].ReferenceName;
+                    SOrow["ActualName"] = cloned[i].ActualName;
+                    TruckDetails.Rows.Add(SOrow);
+                }
+                res = SPWrapper.UpdateCityMaster(TruckDetails, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+        public List<DashboardStatusMasterEntity> GetDashboardStatusMaster(string Enviornment)
+        {
+            List<DashboardStatusMasterEntity> codes = new List<DashboardStatusMasterEntity>();
+            try
+            {
+                return codes = Mapper.GetDashboardStatusList(SPWrapper.GetDashboardStatusList(Enviornment));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public string UploadDashboardMaster(List<DashboardStatusMasterEntity> cloned, string Enviornment)
+        {
+            string res;
+            try
+            {
+                DataTable TruckDetails = new DataTable();
+
+                TruckDetails.Columns.Add("Tracking_Status");
+                TruckDetails.Columns.Add("Dashboard_Status");
+                for (var i = 0; i < cloned.Count; i++)
+                {
+                    DataRow SOrow = TruckDetails.NewRow();
+
+                    SOrow["Tracking_Status"] = cloned[i].TrackingStatus;
+                    SOrow["Dashboard_Status"] = cloned[i].DashboardStatus;
+                    TruckDetails.Rows.Add(SOrow);
+                }
+                res = SPWrapper.UpdateDashboardStatus(TruckDetails, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw;
+            }
+            return res;
+        }
+
+
+
     }
 }
 

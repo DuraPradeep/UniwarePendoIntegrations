@@ -264,7 +264,9 @@
     <Compile Include="Allocateshipping.cs" />
     <Compile Include="ApiStatus.cs" />
     <Compile Include="CancelResponse.cs" />
+    <Compile Include="CityMasterEntity.cs" />
     <Compile Include="CodesErrorDetails.cs" />
+    <Compile Include="DashboardStatusMasterEntity.cs" />
     <Compile Include="ErrorDetails.cs" />
     <Compile Include="FacilityDetails.cs" />
     <Compile Include="FacilityMaintain.cs" />

@@ -1323,5 +1323,81 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return HistoryData;
         }
 
+        public static List<AllocateshippingPando> getallocateshippingpost(DataSet pds)
+        {
+            //List<UpdateShippingpackage> skucodes = new List<UpdateShippingpackage>();
+
+            List<AllocateshippingPando> userProfile = new List<AllocateshippingPando>();
+
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    AllocateshippingPando Updateship = new AllocateshippingPando();
+
+                    Updateship.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
+                    Updateship.shippingLabelMandatory = pds.Tables[0].Rows[i]["shippingLabelMandatory"].ToString();
+                    Updateship.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+                    Updateship.shippingCourier = pds.Tables[0].Rows[i]["shippingCourier"].ToString();
+                    Updateship.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    Updateship.tracking_link_url = pds.Tables[0].Rows[i]["trackingLink"].ToString();
+                    userProfile.Add(Updateship);
+                }
+                return userProfile;
+                //userProfile.AddRange(sKucode)
+            }
+            catch (Exception ex)
+            {
+
+                //throw ex;
+                return userProfile = null;
+            }
+
+
+        }
+        public static List<CityMasterEntity> GetCityList(DataSet pds)
+        {
+            List<CityMasterEntity> CityList = new List<CityMasterEntity>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    CityMasterEntity returncode = new CityMasterEntity();
+                    returncode.ReferenceName = pds.Tables[0].Rows[i]["ReferenceCityName"].ToString();
+                    returncode.ActualName = pds.Tables[0].Rows[i]["ActualName"].ToString();
+                    CityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return CityList;
+        }
+
+        public static List<DashboardStatusMasterEntity> GetDashboardStatusList(DataSet pds)
+        {
+            List<DashboardStatusMasterEntity> CityList = new List<DashboardStatusMasterEntity>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    DashboardStatusMasterEntity returncode = new DashboardStatusMasterEntity();
+                    returncode.TrackingStatus = pds.Tables[0].Rows[i]["Tracking_Status"].ToString();
+                    returncode.DashboardStatus = pds.Tables[0].Rows[i]["Dashboard_Status"].ToString();
+                    CityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return CityList;
+        }
+
+
+
     }
 }

@@ -176,8 +176,8 @@ namespace Uniware_PandoIntegration.API
 
 
                         //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
-                        if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
-                        {
+                        //if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
+                        //{
                             var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
                             var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
                             //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
@@ -200,7 +200,7 @@ namespace Uniware_PandoIntegration.API
                                 res = false;
 
                             }
-                        }
+                       // }
 
                         //Idle for 5sec
 
@@ -368,5 +368,161 @@ namespace Uniware_PandoIntegration.API
         {
             Log.Information(message);
         }
+
+
+        public bool CallingAllocateShippings(string Servertype, List<AllocateshippingPando> allocateshippings)
+        {
+            string Instance = string.Empty;
+            SuccessResponse successResponse = new SuccessResponse();
+            bool res = false;
+
+            List<string> ErrorList = new List<string>();
+            List<string> AllocateError = new List<string>();
+            try
+            {
+                var results = ObjBusinessLayer.PostGAllocateShippingData(Servertype, allocateshippings);
+                List<UpdateShippingpackagedb> updateShippingpackagedbs = new List<UpdateShippingpackagedb>();
+                if (results.Count > 0)
+                {
+                    for (int i = 0; i < results.Count; i++)
+                    {
+                        UpdateShippingpackagedb updateShippingpackagedb = new UpdateShippingpackagedb();
+                        updateShippingpackagedb.customFieldValues = new List<CustomFieldValue>();
+                        CustomFieldValue customFieldValue1 = new CustomFieldValue();
+                        updateShippingpackagedb.shippingPackageCode = results[i].shippingPackageCode;
+                        customFieldValue1.name = "TrackingLink2";
+                        customFieldValue1.value = results[i].trackingLink;
+                        updateShippingpackagedb.FacilityCode = results[i].FacilityCode;
+                        updateShippingpackagedb.customFieldValues.Add(customFieldValue1);
+                        updateShippingpackagedbs.Add(updateShippingpackagedb);
+
+                        Allocateshipping allocateshipping = new Allocateshipping();
+                        allocateshipping.shippingPackageCode = results[i].shippingPackageCode;
+                        allocateshipping.shippingLabelMandatory = results[i].shippingLabelMandatory;
+                        allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                        allocateshipping.shippingCourier = results[i].shippingCourier;
+                        allocateshipping.trackingNumber = results[i].trackingNumber;
+                        allocateshipping.trackingLink = results[i].trackingLink;
+
+                        var reference = results[i].Instance;
+                        if (reference == "Duroflex")
+                        {
+                            Instance = "DFX";
+                        }
+                        else
+                        {
+                            Instance = "SH";
+                        }
+                        var Token = _Token.GetTokens(Servertype, Instance).Result;
+                        var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+                        var facility = results[i].FacilityCode;
+
+                        //Start Update Shipping Package to Send Data
+                        #region Allocate Shipping post data
+                        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
+                        updateShippingpackage.shippingPackageCode = results[i].shippingPackageCode;
+                        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+                        CustomFieldValue customFieldValue = new CustomFieldValue();
+
+                        customFieldValue.name = "TrackingLink2";
+                        customFieldValue.value = results[i].trackingLink;
+                        updateShippingpackage.customFieldValues.Add(customFieldValue);
+                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
+                        #endregion
+
+
+
+                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
+
+
+
+                        //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
+                        //if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
+                        //{
+                        var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+                        var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                        //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
+                        if (response.IsSuccess)
+                        {
+                            res = true;
+                            successResponse.status = true;
+                            successResponse.waybill = "";
+                            successResponse.shippingLabel = "";
+                            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                            //return new JsonResult(successResponse);
+                        }
+                        else
+                        {
+                            AllocateError.Add("AllocateShippingpackageCode:- " + allocateshipping.shippingPackageCode + ", Reason " + response.ObjectParam);
+                            successResponse.status = false;
+                            successResponse.waybill = response.ObjectParam;
+                            successResponse.shippingLabel = "";
+                            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                            res = false;
+
+                        }
+                        // }
+
+                        //Idle for 5sec
+
+                        //Thread.Sleep(5000);
+                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                        if (responses.IsSuccess == false)
+                        {
+                            //res = false;
+                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
+                        }
+                    }
+                    var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
+                    if (ErrorList.Count > 0)
+                    {
+                        var serilizelist = JsonConvert.SerializeObject(ErrorList);
+                        Emailtrigger.SendEmailToAdmin("Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
+
+                    }
+                    if (AllocateError.Count > 0)
+                    {
+                        Emailtrigger.SendEmailToAdmin("Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
+
+                    }
+                    //SuccessResponse successResponse = new SuccessResponse();
+                    //successResponse.status = "Success";
+                    //successResponse.waybill = "";
+                    //successResponse.shippingLabel = "";
+                    //_logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                    //return new JsonResult(successResponse);
+                }
+                else
+                {
+                    res = false;
+                    ErrorResponse errorResponse = new ErrorResponse();
+                    errorResponse.status = "Error";
+                    errorResponse.reason = "No Data For Transaction";
+                    errorResponse.message = "Please Retrigger";
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Shipping response Error{JsonConvert.SerializeObject(errorResponse)}");
+                    //return new JsonResult(errorResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.status = "Error";
+                errorResponse.reason = ex.Message;
+                errorResponse.message = "Unable to Post Allocate Shipping";
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()} ,Allocate Shipping Error: {JsonConvert.SerializeObject(errorResponse)}");
+                //return new JsonResult(errorResponse);
+
+
+            }
+            return res;
+
+        }
+
     }
+    
+
+
+
 }
+
+

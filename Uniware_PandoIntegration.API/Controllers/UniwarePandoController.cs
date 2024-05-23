@@ -247,8 +247,24 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Allocate Instance Name. {Servertype}");
                 Task<SuccessResponse> Call1 = ObjBusinessLayer.InsertAllocate_Shipping(allocateshippings, Servertype);
 
-                  YourMethod(Servertype, allocateshippings);
+                //List<AllocateshippingPando> allocateshippingss = ObjBusinessLayer.GetAllcoaetData(Servertype);
+                //for (int i = 0; i < allocateshippingss.Count; i++)
+                //{
+                //    List<AllocateshippingPando> demos = new List<AllocateshippingPando>();
 
+                //    AllocateshippingPando allocateshippingPando = new AllocateshippingPando();
+                //    allocateshippingPando.shippingPackageCode = allocateshippingss[i].shippingPackageCode;
+                //    allocateshippingPando.shippingLabelMandatory = allocateshippingss[i].shippingLabelMandatory;
+                //    allocateshippingPando.shippingProviderCode = allocateshippingss[i].shippingProviderCode;
+                //    allocateshippingPando.trackingNumber = allocateshippingss[i].trackingNumber;
+                //    allocateshippingPando.shippingCourier = allocateshippingss[i].shippingCourier;
+                //    allocateshippingPando.tracking_link_url = allocateshippingss[i].tracking_link_url;
+                //    demos.Add(allocateshippingPando);
+
+                //obj.CallingAllocateShippings(Servertype, demos);
+                YourMethod(Servertype, allocateshippings);
+
+                //}
 
 
                 //Task<bool> Call2 = obj.CallingAllocateShipping(Servertype, allocateshippings);
@@ -260,7 +276,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //{
                 //    obj.CallingAllocateShipping(Servertype, allocateshippings);
                 //});
-              
+
 
                 //if (insertstatus)
                 //{

@@ -3116,5 +3116,56 @@ namespace Uniware_PandoIntegration.API.Controllers
             List<TDashboardDetails> ResultList = ObjBusinessLayer.GetHistoryData(Servertype,FromDate,ToDate);
             return ResultList;
         }
+
+        [HttpGet]
+        public IEnumerable<CityMasterEntity> GetCityMaster(string Enviornment)
+        {
+            //string Servertype = iconfiguration["ServerType:type"];
+            string Servertype = Enviornment;
+
+            List<CityMasterEntity> ResultList = ObjBusinessLayer.GetCityMaster(Servertype);
+            return ResultList;
+        }
+        [HttpPost]
+        public ActionResult CityMasterUpload(CityMasterEntitymap CityMasterList)
+        {
+            //string Servertype = iconfiguration["ServerType:type"];
+            string Servertype = CityMasterList.Enviornment;
+            ObjBusinessLayer.InsertTransaction(CityMasterList.Userid, "City Master Upload", Servertype);
+            List<CityMasterEntity> cityMaster = new List<CityMasterEntity>();
+            cityMaster = CityMasterList.cityMasterEntities;
+
+            string ExecResult = string.Empty;
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, City Master. {JsonConvert.SerializeObject(cityMaster)}");
+            ExecResult = ObjBusinessLayer.UploadCityMaster(cityMaster, Servertype);
+            return new JsonResult(ExecResult.Trim());
+        }
+
+        [HttpGet]
+        public IEnumerable<DashboardStatusMasterEntity> GetDashboardStatus(string Enviornment)
+        {
+            //string Servertype = iconfiguration["ServerType:type"];
+            string Servertype = Enviornment;
+
+            List<DashboardStatusMasterEntity> ResultList = ObjBusinessLayer.GetDashboardStatusMaster(Servertype);
+            return ResultList;
+        }
+        [HttpPost]
+        public ActionResult DashboardStatusUpload(DashboardStatusMasterEntityMap DashboardList)
+        {
+            //string Servertype = iconfiguration["ServerType:type"];
+            string Servertype = DashboardList.Enviornment;
+            ObjBusinessLayer.InsertTransaction(DashboardList.Userid, "Dashboard Master Upload", Servertype);
+            List<DashboardStatusMasterEntity> Dashboardmaster = new List<DashboardStatusMasterEntity>();
+            Dashboardmaster = DashboardList.dashboardStatusMasterEntities;
+
+            string ExecResult = string.Empty;
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, CDashboard Master. {JsonConvert.SerializeObject(DashboardList)}");
+            ExecResult = ObjBusinessLayer.UploadDashboardMaster(Dashboardmaster, Servertype);
+            return new JsonResult(ExecResult.Trim());
+        }
+
+
+
     }
 }
