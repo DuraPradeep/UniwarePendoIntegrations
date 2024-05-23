@@ -1,6 +1,21 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
+    "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj": {}
+  },
+  "projects": {
+    "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj",
+        "projectName": "Uniware_PandoIntegration.Common",
+        "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+=======
     "D:\\New Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj": {}
   },
   "projects": {
@@ -14,6 +29,7 @@
             "projectReferences": {
               "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
                 "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
               }
             }
           }
@@ -23,6 +39,16 @@
         "net48": {}
       }
     },
+<<<<<<< HEAD
+    "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+        "projectName": "Uniware_PandoIntegration.API",
+        "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+        "packagesPath": "C:\\Users\\Keerti\\.nuget\\packages\\",
+        "outputPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.API\\obj\\",
+=======
     "D:\\New Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -31,13 +57,18 @@
         "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
         "packagesPath": "C:\\Users\\Ajay\\.nuget\\packages\\",
         "outputPath": "D:\\New Pando\\Uniware_PandoIntegration.API\\obj\\",
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
+          "C:\\Users\\Keerti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
           "C:\\Users\\Ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -45,13 +76,22 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+<<<<<<< HEAD
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj"
+              },
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj"
+              },
+              "D:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj"
+=======
               "D:\\New Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj": {
                 "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj"
               },
@@ -60,6 +100,7 @@
               },
               "D:\\New Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj": {
                 "projectPath": "D:\\New Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj"
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
               }
             }
           }
@@ -134,6 +175,28 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj",
+        "projectName": "Uniware_PandoIntegration.BusinessLayer",
+        "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+              },
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj"
+              },
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
@@ -154,6 +217,7 @@
               },
               "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
                 "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
               }
             }
           }
@@ -163,6 +227,21 @@
         "net48": {}
       }
     },
+<<<<<<< HEAD
+    "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
+        "projectName": "Uniware_PandoIntegration.DataAccessLayer",
+        "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
+        "frameworks": {
+          "net48": {
+            "projectReferences": {
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+              },
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+=======
     "D:\\New Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj": {
       "restore": {
         "projectUniqueName": "D:\\New Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
@@ -176,6 +255,7 @@
               },
               "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
                 "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
               }
             }
           }
@@ -185,11 +265,19 @@
         "net48": {}
       }
     },
+<<<<<<< HEAD
+    "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+      "restore": {
+        "projectUniqueName": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
+        "projectName": "Uniware_PandoIntegration.Entities",
+        "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
+=======
     "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
       "restore": {
         "projectUniqueName": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
         "projectName": "Uniware_PandoIntegration.Entities",
         "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
         "frameworks": {
           "net48": {
             "projectReferences": {}
@@ -200,6 +288,16 @@
         "net48": {}
       }
     },
+<<<<<<< HEAD
+    "D:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+        "projectName": "UniWare_PandoIntegration",
+        "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+        "packagesPath": "C:\\Users\\Keerti\\.nuget\\packages\\",
+        "outputPath": "D:\\Duroflex\\UniwarePendoIntegrations\\UniWare_PandoIntegration\\obj\\",
+=======
     "D:\\New Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -208,13 +306,18 @@
         "projectPath": "D:\\New Pando\\UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
         "packagesPath": "C:\\Users\\Ajay\\.nuget\\packages\\",
         "outputPath": "D:\\New Pando\\UniWare_PandoIntegration\\obj\\",
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
+          "C:\\Users\\Keerti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
           "C:\\Users\\Ajay\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -222,18 +325,25 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
+<<<<<<< HEAD
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
+              },
+              "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
+                "projectPath": "D:\\Duroflex\\UniwarePendoIntegrations\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+=======
               "D:\\New Pando\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj": {
                 "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj"
               },
               "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj": {
                 "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj"
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
               }
             }
           }
@@ -296,7 +406,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+=======
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
+>>>>>>> d1d35218dc5555c0714ffe2f47366c1a0e481f7e
         }
       }
     }

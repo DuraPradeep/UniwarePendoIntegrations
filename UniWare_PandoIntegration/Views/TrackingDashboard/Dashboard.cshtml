@@ -13,15 +13,9 @@
 <link href="~/css/font_family.css" rel="stylesheet" />
 <link href="~/css/css_bootstrap.min.css" rel="stylesheet" />
 <link href="~/lib/bootstrap/dist/css/fontawesome4.7.0.min.css" rel="stylesheet" />
-<script src="~/js/jquery-3.7.0.min.js"></script>
-<script src="~/js/toast.min.js"></script>
-<script src="~/js/jquery.datatables.min.js"></script>
-<script src="~/js/datatables.bootstrap.min.js"></script>
-<script src="~/js/datatables.responsive.min.js"></script>
-<script src="~/js/responsive.bootstrap.min.js"></script>
+
 <link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
-@* <script src="~/js/jquery-ui.js"></script> *@
 @* <script src="~/js/bootstrap.min.js"></script> *@
 <style>
     .status_width {
@@ -65,7 +59,199 @@
         color: #fff;
         box-shadow: 0px 2px 7px 3px rgb(0 0 0 / 44%) !important;
     }
+    /*Bootstrap Calendar*/
+    .datepicker {
+        border-radius: 0;
+        padding: 0;
+    }
+
+    .datepicker-days table thead, .datepicker-days table tbody, .datepicker-days table tfoot {
+        padding: 10px;
+        display: list-item;
+    }
+
+    .datepicker-days table thead, .datepicker-months table thead, .datepicker-years table thead, .datepicker-decades table thead, .datepicker-centuries table thead {
+        background: #3546b3;
+        color: #ffffff;
+        border-radius: 0;
+    }
+
+        .datepicker-days table thead tr:nth-child(2n+0) td, .datepicker-days table thead tr:nth-child(2n+0) th {
+            border-radius: 3px;
+        }
+
+        .datepicker-days table thead tr:nth-child(3n+0) {
+            text-transform: uppercase;
+            font-weight: 300 !important;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+    .table-condensed > tbody > tr > td, .table-condensed > tbody > tr > th, .table-condensed > tfoot > tr > td, .table-condensed > tfoot > tr > th, .table-condensed > thead > tr > td, .table-condensed > thead > tr > th {
+        padding: 11px 13px;
+    }
+
+    .datepicker-months table thead td, .datepicker-months table thead th, .datepicker-years table thead td, .datepicker-years table thead th, .datepicker-decades table thead td, .datepicker-decades table thead th, .datepicker-centuries table thead td, .datepicker-centuries table thead th {
+        border-radius: 0;
+    }
+
+    .datepicker td, .datepicker th {
+        border-radius: 50%;
+        padding: 0 12px;
+    }
+
+    .datepicker-days table thead, .datepicker-months table thead, .datepicker-years table thead, .datepicker-decades table thead, .datepicker-centuries table thead {
+        background: #3546b3;
+        color: #ffffff;
+        border-radius: 0;
+    }
+
+    .datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover {
+        background-image: none;
+    }
+
+    .datepicker .prev, .datepicker .next {
+        color: rgba(255, 255, 255, 0.5);
+        transition: 0.3s;
+        width: 37px;
+        height: 37px;
+    }
+
+        .datepicker .prev:hover, .datepicker .next:hover {
+            background: transparent;
+            color: rgba(255, 255, 255, 0.99);
+            font-size: 21px;
+        }
+
+    .datepicker .datepicker-switch {
+        font-size: 24px;
+        font-weight: 400;
+        transition: 0.3s;
+    }
+
+        .datepicker .datepicker-switch:hover {
+            color: rgba(255, 255, 255, 0.7);
+            background: transparent;
+        }
+
+    .datepicker table tr td span {
+        border-radius: 2px;
+        margin: 3%;
+        width: 27%;
+    }
+
+        .datepicker table tr td span.active, .datepicker table tr td span.active:hover, .datepicker table tr td span.active.disabled, .datepicker table tr td span.active.disabled:hover {
+            background-color: #3546b3;
+            background-image: none;
+        }
+
+    .dropdown-menu {
+        border: 1px solid rgba(0,0,0,.1);
+        box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    }
+
+    .datepicker-dropdown.datepicker-orient-top:before {
+        border-top: 7px solid rgba(0,0,0,.1);
+    }
+
+    .overviewcard.tiles{
+        box-shadow: 4px 1px 8px 1px;
+        cursor: pointer;
+        /* #969696; */
+        margin: 0px 10px 10px 15px;
+        text-align: center;
+    }
+    @@media only screen and (max-width: 600px) {
+        .main-overview {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            padding: 10px;
+            justify-items: stretch;
+        }
+
+        .overviewcard.tiles {
+            margin: 6px;
+            /* background: linear-gradient(359deg, rgb(253 253 253 / 1%), rgb(171 169 169 / 86%)); */
+            cursor: pointer !important;
+            border-radius: 7px;
+            /* box-shadow: 4px 3px 8px 1px #2a2a2a; */
+            box-shadow: 0.5px 0px 4px 0px #2a2a2a;
+            width: 100px;
+            height: 100px;
+        }
+
+        .status_width {
+            width: auto!important;
+        }
+
+        #Historydownload {
+            margin: 10px 0 0 0;
+        }
+
+        ul.navbar-nav.float-end {
+            margin-top: -58px !important;
+        }
+
+        .navbar-brand{
+            white-space: normal;
+        }
+
+        span .logo-text{
+            font-size:22px;
+        }
+
+        .topbar .top-navbar .navbar-nav .dropdown {
+            position: static;
+        }
+
+        .topbar .top-navbar .dropdown-menu {
+            position: absolute;
+            width: 100%;
+        }
+
+        .topbar .dropdown-menu {
+            padding-top: 0px;
+            border: 0px;
+            -webkit-box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .topbar .top-navbar .navbar-nav .dropdown {
+            position: static;
+        }
+      /*   #row {
+            --bs-gutter-x: 1px !important;
+            --bs-gutter-y: 0;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-top: calc(var(--bs-gutter-y)* -1);
+            margin-right: calc(var(--bs-gutter-x) / -2);
+            margin-left: calc(var(--bs-gutter-x) / -2);
+        } */
+    }
+
+    .dropdown-menu-end {
+        --bs-position: end;
+        right: 0;
+        left: auto;
+    }
+
+    .navbar-nav .dropdown-menu {
+        position: static;
+    }
 </style>
+
+   @*  <script>
+    $('.picker').datepicker({
+        format: 'dd/mm/yyyy',
+        // startDate: '-3d'
+    });
+    </script> *@
+
+
 @if (TempData["Success"] != null)
 {
     <script type="text/javascript">
@@ -90,16 +276,46 @@
                 Tracking Dashboard
                 </h2> *@
                 <div class="row" id="row">
+                    <ul class="main-overview" id="main-overview">
+
+                    </ul>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
+                      <div class="col-md-4">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label>From Date:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input id="fromdate" type="date" class="form-control" />
+                                    </div>
+                                </div>
+                               
+                                
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label>To Date:</label>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <input id="todate" type="date" class="form-control" />
+                                    </div>
+                                </div>                             
 
-                        Excel Download From Date: <input id="fromdate" type="date" required /> To Date:- <input id="todate" type="date" required />
-                        <button class="btn btn-success " id="Historydownload" onclick="fn_ExcelDownload()"><i class="mdi mdi-download" style="color: #fff !important">Download </i></button>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <input class="btn btn-success " id="Historydownload" onclick="fn_ExcelDownload()" value="Download" />
 
-
+                            </div>
+                        </div>
+                        @* From Date: <input id="fromdate" type="date" /> To Date:- <input id="todate" type="Date" /> *@
+                    
+                  
                     </div>
                 </div>
 
@@ -113,15 +329,14 @@
         </div>
 
     </div>
-
-    
-    
-</div>
-<script>
-    // $(function () {
-    //     $("#fromdate").datepicker();
-    // });
-    $(document).ready(function () {
+    <script src="~/js/jquery-3.7.0.min.js"></script>
+    <script src="~/js/toast.min.js"></script>
+    <script src="~/js/jquery.datatables.min.js"></script>
+    <script src="~/js/datatables.bootstrap.min.js"></script>
+    <script src="~/js/datatables.responsive.min.js"></script>
+    <script src="~/js/responsive.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
 
         fn_GetAllDetails();
 
@@ -170,30 +385,70 @@
     function fn_GetAllDetails() {
         debugger;
         $("#overlay").fadeIn();
+        function fn_ExcelDownload() {
+            // debugger;
+            var fromdate = $("#fromdate").val();
+            var todate = $("#todate").val();
+            if (fromdate == "") {
+                iqwerty.toast.toast('Please Select FromDate');
+                return false;
+            }
+            if (todate == "") {
+                iqwerty.toast.toast('Please Select ToDate');
+                return false;
+            }
+            // debugger;
+            if (Date.parse(fromdate) > Date.parse(todate)) {
+                iqwerty.toast.toast("Invalid Date Range!\nStart Date cannot be after End Date!");
+                return false;
+            }
+            // debugger;
+            $.ajax({
+                type: "POST",
+                url: "/TrackingDashboard/HistoryExceldownload",
+                cache: false,
+                data: { FromDate: fromdate, ToDate: todate },
+                success: function (data) {
+                    // debugger;
+                    if (data.data == "1") {
+                        window.location = '/TrackingDashboard/Downloaddata';
+                    }
+                    else {
+                        iqwerty.toast.toast('No Record Found Given Date Range');
+                    }
+                },
+                error: function (data) {
+                    qwerty.toast.toast("Something went wrong.");
+                }
+            });
+        }
+        function fn_GetAllDetails() {
+            //debugger;
+            $("#overlay").fadeIn();
 
         $.get("/TrackingDashboard/Getalldetails", {}).done(function (data) {
 
-            var da = $("#row");
-            data.trackingDetails.forEach((element) =>
-                da.append('<div class="col-md-1 flex items-center p-4 bg-white status_width" style="box-shadow: 4px 1px 8px 1px; cursor: pointer; #969696;margin: 0px 10px 10px 15px;text-align:center;" onclick=fn_getStatusBasedOnName(this,`' + element.statusName + '`)><div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500 inner_icon_details"><img src="/Images/' + element.statusName + '.png" alt="user" class="icon_dashboard" width="31" ></div><div><p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style = "font-size: 15px; font-weight: 600; text-transform: capitalize;">' + element.statusName.replaceAll('_', ' ') + ' </p><p class= "text-lg font-semibold text-gray-700 dark:text-gray-200" style = "font-size: 15px; font-weight: 600;">' + element.count + ' </p></div></div>')
-            );
-            debugger;
+                var da = $("#main-overview");
+                data.trackingDetails.forEach((element) =>
+                    da.append('<div class="col-md-1 flex items-center p-4 bg-white status_width overviewcard tiles" style="" onclick=fn_getStatusBasedOnName(this,`' + element.statusName + '`)><div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500 inner_icon_details"><img src="/Images/' + element.statusName + '.png" alt="user" class="icon_dashboard" width="31" ></div><div><p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style = "font-size: 15px; font-weight: 600; text-transform: capitalize;">' + element.statusName.replaceAll('_', ' ') + ' </p><p class= "text-lg font-semibold text-gray-700 dark:text-gray-200" style = "font-size: 15px; font-weight: 600;">' + element.count + ' </p></div></div>')
+                );
+                //debugger;
 
-            if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
-                table = $('#TrackingDetails').DataTable();
-                table.clear();
-                table.destroy();
-            }
-            if (data.dashboardDetails.length != 0) {
-                debugger;
-                $('#TrackingDetails').DataTable({
-                    "info": true,
-                    "responsive": false,
-                    "paging": true,
-                    "scrollX": true,
-                    "searching": true,
-                    "ordering": true,
-                    data: data.dashboardDetails,
+                if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
+                    table = $('#TrackingDetails').DataTable();
+                    table.clear();
+                    table.destroy();
+                }
+                if (data.dashboardDetails.length != 0) {
+                    //debugger;
+                    $('#TrackingDetails').DataTable({
+                        "info": true,
+                        "responsive": false,
+                        "paging": true,
+                        "scrollX": true,
+                        "searching": true,
+                        "ordering": true,
+                        data: data.dashboardDetails,
 
                     "columns": [
 
@@ -292,33 +547,35 @@
 
 
 
-    }
-    function fn_getStatusBasedOnName(select, name) {
-        debugger;
-        $("#overlay").fadeIn();
-        $('.active').removeClass("active");
-        $(select).addClass("active");
-        $.get("/TrackingDashboard/GetStatusDetailsByName", {
-            Name: name
-        }).done(function (data) {
-            debugger;
+        }
 
-            if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
-                table = $('#TrackingDetails').DataTable();
-                table.clear();
-                table.destroy();
-            }
-            if (data.length != 0) {
-                debugger;
-                $('#TrackingDetails').DataTable({
-                    "info": true,
-                    "stateSave": true,
-                    "dom": 'Bfrltip',
-                    "scrollX": true,
-                    "orderCellsTop": true,
-                    "searchDelay": 500,
-                    "responsive": false,
-                    data: data,
+
+        function fn_getStatusBasedOnName(select, name) {
+            //debugger;
+            $("#overlay").fadeIn();
+            $('.active').removeClass("active");
+            $(select).addClass("active");
+            $.get("/TrackingDashboard/GetStatusDetailsByName", {
+                Name: name
+            }).done(function (data) {
+                //debugger;
+
+                if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
+                    table = $('#TrackingDetails').DataTable();
+                    table.clear();
+                    table.destroy();
+                }
+                if (data.length != 0) {
+                    //debugger;
+                    $('#TrackingDetails').DataTable({
+                        "info": true,
+                        "stateSave": true,
+                        "dom": 'Bfrltip',
+                        "scrollX": true,
+                        "orderCellsTop": true,
+                        "searchDelay": 500,
+                        "responsive": false,
+                        data: data,
 
                     "columns": [
 
@@ -419,4 +676,6 @@
     }
 
 
-</script>
+    </script>
+</div>
+
