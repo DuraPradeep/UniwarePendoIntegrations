@@ -3336,8 +3336,113 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
             return res;
         }
+        public bool InsertFTLShipmentMain(FTLShipment itemDatun, string Enviornment)
+        {
+            //string res;
+            bool res;
+
+            try
+            {
+               
+                res = SPWrapper.IsertFTLShipmentsMain(itemDatun, Enviornment);
+              
+
+            }
+            catch (Exception ex)
+            {                
+                res = false;
+            }
+            return res;
+
+        }
+
+        public bool InsertFTLShipment(List<Shipment> itemDatun, string ShipmentId,string Enviornment)
+        {
+            //string res;
+            bool res;
+
+            try
+            {
+                //var dataTable = ConvertDataTable.ToDataTable(itemDatun);
+                DataTable FTLShipment = new DataTable();
+
+                FTLShipment.Columns.Add("Shipment_Id");
+                FTLShipment.Columns.Add("DeliveryNumbers");
+                FTLShipment.Columns.Add("BusinessDivisions");
+                FTLShipment.Columns.Add("ship_to_ref_id");
+                FTLShipment.Columns.Add("ship_to_type");
+                FTLShipment.Columns.Add("sold_to_ref_id");
+                FTLShipment.Columns.Add("sold_to_type");
+                FTLShipment.Columns.Add("pick_up_ref_id");
+                FTLShipment.Columns.Add("Pick_up_Type");
+                FTLShipment.Columns.Add("Pod_Available");
+                FTLShipment.Columns.Add("Pod_Attachments");
+
+                FTLShipment.Columns.Add("LR_Number");
+                FTLShipment.Columns.Add("Consignment_Number");
+                FTLShipment.Columns.Add("Tracking_Link");
+                for (var i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow SOrow = FTLShipment.NewRow();
+
+                    SOrow["Shipment_Id"] = ShipmentId;
+                    StringBuilder deliveryno=new StringBuilder();
+                    for (int j = 0; j < itemDatun[i].delivery_numbers.Count; j++)
+                    {
+                        if(itemDatun[i].delivery_numbers.Count>1)
+                        {
+                            deliveryno.Append(",");
+                        }
+                        deliveryno.Append( itemDatun[i].delivery_numbers[j]);
+                    }
+                    SOrow["DeliveryNumbers"] = deliveryno;
+                    StringBuilder businessdivision = new StringBuilder();
+                    for (int j = 0; j < itemDatun[i].business_divisions.Count; j++)
+                    {
+                        if (itemDatun[i].business_divisions.Count > 1)
+                        {
+                            businessdivision.Append(",");
+                        }
+                        businessdivision.Append(itemDatun[i].business_divisions[j]);
+                    }
+                    SOrow["BusinessDivisions"] = businessdivision;
+                    SOrow["ship_to_ref_id"] = itemDatun[i].ship_to_ref_id;
+                    SOrow["ship_to_type"] = itemDatun[i].ship_to_type;
+                    SOrow["sold_to_ref_id"] = itemDatun[i].sold_to_ref_id;
+                    SOrow["sold_to_type"] = itemDatun[i].sold_to_type;
+                    SOrow["pick_up_ref_id"] = itemDatun[i].pick_up_ref_id;
+                    SOrow["Pick_up_Type"] = itemDatun[i].pick_up_type;
+                    SOrow["Pod_Available"] = itemDatun[i].pod_available;
+                    StringBuilder podattachment = new StringBuilder();
+                    for (int j = 0; j < itemDatun[i].pod_attachments.Count; j++)
+                    {
+                        if (itemDatun[i].pod_attachments.Count > 1)
+                        {
+                            podattachment.Append(",");
+                        }
+                        podattachment.Append(itemDatun[i].pod_attachments[j]);
+                    }
+                    SOrow["Pod_Attachments"] = podattachment;
+                    SOrow["LR_Number"] = itemDatun[i].lr_number;
+                    SOrow["Consignment_Number"] = itemDatun[i].consignment_number;
+                    SOrow["Tracking_Link"] = itemDatun[i].tracking_link;
+                    FTLShipment.Rows.Add(SOrow);
+                }          
+                 res = SPWrapper.IsertFTLShipments(FTLShipment, Enviornment);
+                //CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
 
 
+            }
+            catch (Exception ex)
+            {
+                //successResponse.status = false;
+                //successResponse.waybill = $"No Data Received with Error {ex.Message}";
+                //successResponse.shippingLabel = "";
+                res=false;
+            }
+            return res;
+
+        }
 
     }
 }

@@ -308,14 +308,14 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
         async Task YourMethod(string Servertype, List<AllocateshippingPando> allocateshippings)
-        {           
+        {
 
             await Task.Run(() =>
             {
-                  obj.CallingAllocateShipping(Servertype, allocateshippings);
+                obj.CallingAllocateShipping(Servertype, allocateshippings);
             });
 
-            
+
         }
         [Authorize]
         [HttpPost]
@@ -418,6 +418,60 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
 
         }
+
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult FTLShipmentStatus(FTLShipment FTLRecordsa)
+        {
+            try
+            {
+                _logger.LogInformation($"FTL ShipmentStaus Data From Pando. {JsonConvert.SerializeObject(FTLRecordsa)}");
+
+                FTLShipmentResponse fTLShipmentResponse = new FTLShipmentResponse();
+
+                HttpContext httpContext = HttpContext;
+                var token = httpContext.Request.Headers["Authorization"].ToString();
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"Instance Name. {Servertype}");
+
+                var FTLMain = ObjBusinessLayer.InsertFTLShipmentMain(FTLRecordsa, Servertype);
+                var FTMshipment = ObjBusinessLayer.InsertFTLShipment(FTLRecordsa.shipments, FTLRecordsa.shipment_id, Servertype);
+                if(FTMshipment)
+                {
+                    fTLShipmentResponse.Status = true;
+                    fTLShipmentResponse.Message = "Data Received From Pando";
+                    fTLShipmentResponse.Reason = "";
+                    _logger.LogInformation($"FTL ShipmentStaus Success. {JsonConvert.SerializeObject(fTLShipmentResponse)}");
+                    return Ok(fTLShipmentResponse);
+
+                }
+                else
+                {
+                    fTLShipmentResponse.Status = false;
+                    fTLShipmentResponse.Message = "There Is some error In Data Structure";
+                    fTLShipmentResponse.Reason = "";
+                    _logger.LogInformation($"FTL ShipmentStaus Error. {JsonConvert.SerializeObject(fTLShipmentResponse)}");
+                    return Problem("There Is some error In Data Structure", null, 204, "Not received", null);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                FTLShipmentResponse fTLShipmentResponse = new FTLShipmentResponse();
+                fTLShipmentResponse.Status = false;
+                fTLShipmentResponse.Message = "There Is some error Is Data Structure";
+                fTLShipmentResponse.Reason = "";
+                _logger.LogInformation($"FTL ShipmentStaus Error. {JsonConvert.SerializeObject(fTLShipmentResponse)}");
+
+                return Problem(ex.Message, null, 204, "Not received", null);
+            }            
+
+        }
+
+       
 
     }
 }

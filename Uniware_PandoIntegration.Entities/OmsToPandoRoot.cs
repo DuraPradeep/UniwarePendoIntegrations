@@ -91,7 +91,7 @@ namespace Uniware_PandoIntegration.Entities
         public string country { get; set; }
     }
 
-    public class Shipment
+    public partial class Shipment
     {
         public string code { get; set; }
         public string SaleOrderCode { get; set; }

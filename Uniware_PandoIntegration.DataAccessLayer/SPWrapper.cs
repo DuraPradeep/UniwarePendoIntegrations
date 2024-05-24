@@ -5915,6 +5915,91 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return status;
         }
 
+
+        public static bool IsertFTLShipmentsMain(FTLShipment fTLShipment, string Enviornment)
+        {
+            //string res;
+            bool result = false;
+
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_InsertFTLShipmentMain";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Shipment_Id", fTLShipment.shipment_id);
+                    com.Parameters.AddWithValue("@Transporter_ref_id", fTLShipment.transporter_ref_id);
+                    com.Parameters.AddWithValue("@Transporter_Name", fTLShipment.transporter_name);
+                    com.Parameters.AddWithValue("@Delivery_Type", fTLShipment.delivery_type);
+                    com.Parameters.AddWithValue("@Shipment_Status", fTLShipment.shipment_status);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery(); con.Close();
+                    result = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return result;
+
+        }
+
+        public static bool IsertFTLShipments(DataTable dt, string Enviornment)
+        {
+            string res;
+            bool result = false;
+
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand();
+                    com.Connection = con;
+                    com.CommandText = "Pro_FTLShipments";
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@FTLShipments", dt);
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    com.ExecuteNonQuery(); con.Close();
+                    result = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return result;
+
+        }
+
     }
 
 

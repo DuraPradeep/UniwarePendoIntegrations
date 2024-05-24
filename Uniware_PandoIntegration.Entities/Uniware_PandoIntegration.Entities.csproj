@@ -270,6 +270,7 @@
     <Compile Include="ErrorDetails.cs" />
     <Compile Include="FacilityDetails.cs" />
     <Compile Include="FacilityMaintain.cs" />
+    <Compile Include="FTLShipment.cs" />
     <Compile Include="ItemTypes.cs" />
     <Compile Include="Menus.cs" />
     <Compile Include="MenusAccess.cs" />
