@@ -8,13 +8,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - UniWare_PandoIntegration</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/UniWare_PandoIntegration.styles.css" asp-append-version="true" />
-    @*<link href="~/css/fontawesome4.7.0.min.css" rel="stylesheet" />*@
+
+
+    <link href="~/css/font_family.css" rel="stylesheet" />
+    <link href="~/css/css_bootstrap.min.css" rel="stylesheet" />
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @* <link href="~/css/fontawesome4.7.0.min.css" rel="stylesheet" /> *@
+    @* <link href="~/css/font-awesome.min.css" rel="stylesheet" /> *@
+    <link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
+   @*  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/UniWare_PandoIntegration.styles.css" asp-append-version="true" />
+
     <link href="~/css/fontawesome4.7.0.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" /> *@
     <style>
         i.fa.fa-bell {
             font-size: 20px;
@@ -469,8 +484,21 @@
             All Rights Reserved by Duroflex Pvt Ltd Designed and Developed by &copy; @DateTime.Now.Year - UniWare_PandoIntegration
         </footer>
     </div>
+ 
+    <script src="~/js/jquery-3.7.0.min.js"></script>
+    <script src="~/js/jquery-ui.js"></script>
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* <script src="~/js/bootstrap.min.js"></script> *@
+    <script src="~/js/toast.min.js"></script>
+    <script src="~/js/jquery.datatables.min.js"></script>
+    <script src="~/js/datatables.bootstrap.min.js"></script>
+    <script src="~/js/datatables.responsive.min.js"></script>
+    <script src="~/js/responsive.bootstrap.min.js"></script>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/jquery-3.7.0.min.js"></script>
@@ -481,10 +509,14 @@
     <script src="~/js/datatables.responsive.min.js"></script>
     <script src="~/js/responsive.bootstrap.min.js"></script>
     <link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
-    <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" /> *@
     @* <link href="~/css/style.min.css" rel="stylesheet" /> *@
     @await RenderSectionAsync("Scripts", required: false)
+
     <script>
+        $(function () {
+            $(".datepicker").datepicker();
+        });
         $(document).ready(function (ev) {
             Notificationerrorcode();
         });

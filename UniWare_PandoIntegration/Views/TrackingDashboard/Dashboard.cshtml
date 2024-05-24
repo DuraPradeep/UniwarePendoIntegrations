@@ -9,13 +9,7 @@
 
 
 
-@* <script src="~/js/jquery-ui.js"></script> *@
-<link href="~/css/font_family.css" rel="stylesheet" />
-<link href="~/css/css_bootstrap.min.css" rel="stylesheet" />
-<link href="~/lib/bootstrap/dist/css/fontawesome4.7.0.min.css" rel="stylesheet" />
 
-<link href="~/css/css_datatables.bootstrap.min.css" rel="stylesheet" />
-<link href="~/css/css_responsive.bootstrap.min.css" rel="stylesheet" />
 @* <script src="~/js/bootstrap.min.js"></script> *@
 <style>
     .status_width {
@@ -62,7 +56,7 @@
     /*Bootstrap Calendar*/
     .datepicker {
         border-radius: 0;
-        padding: 0;
+        /* padding: 0; */
     }
 
     .datepicker-days table thead, .datepicker-days table tbody, .datepicker-days table tfoot {
@@ -154,13 +148,14 @@
         border-top: 7px solid rgba(0,0,0,.1);
     }
 
-    .overviewcard.tiles{
+    .overviewcard.tiles {
         box-shadow: 4px 1px 8px 1px;
         cursor: pointer;
         /* #969696; */
         margin: 0px 10px 10px 15px;
         text-align: center;
     }
+
     @@media only screen and (max-width: 600px) {
         .main-overview {
             display: grid;
@@ -181,7 +176,7 @@
         }
 
         .status_width {
-            width: auto!important;
+            width: auto !important;
         }
 
         #Historydownload {
@@ -192,12 +187,12 @@
             margin-top: -58px !important;
         }
 
-        .navbar-brand{
+        .navbar-brand {
             white-space: normal;
         }
 
-        span .logo-text{
-            font-size:22px;
+        span .logo-text {
+            font-size: 22px;
         }
 
         .topbar .top-navbar .navbar-nav .dropdown {
@@ -219,18 +214,18 @@
         .topbar .top-navbar .navbar-nav .dropdown {
             position: static;
         }
-      /*   #row {
-            --bs-gutter-x: 1px !important;
-            --bs-gutter-y: 0;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            margin-top: calc(var(--bs-gutter-y)* -1);
-            margin-right: calc(var(--bs-gutter-x) / -2);
-            margin-left: calc(var(--bs-gutter-x) / -2);
-        } */
+        /*   #row {
+                --bs-gutter-x: 1px !important;
+                --bs-gutter-y: 0;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+                margin-top: calc(var(--bs-gutter-y)* -1);
+                margin-right: calc(var(--bs-gutter-x) / -2);
+                margin-left: calc(var(--bs-gutter-x) / -2);
+            } */
     }
 
     .dropdown-menu-end {
@@ -244,12 +239,7 @@
     }
 </style>
 
-   @*  <script>
-    $('.picker').datepicker({
-        format: 'dd/mm/yyyy',
-        // startDate: '-3d'
-    });
-    </script> *@
+
 
 
 @if (TempData["Success"] != null)
@@ -277,45 +267,50 @@
                 </h2> *@
                 <div class="row" id="row">
                     <ul class="main-overview" id="main-overview">
-
                     </ul>
                 </div>
                 <div class="row">
-                      <div class="col-md-4">
+                    <div class="col-md-4">
                     </div>
                     <div class="col-md-8">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-5">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <label>From Date:</label>
+                                        @* <label>From Date:</label> *@
                                     </div>
                                     <div class="col-md-7">
-                                        <input id="fromdate" type="date" class="form-control" />
+                                        @* <input id="fromdate" type="text" class="datepicker form-control" placeholder="From Date"/> *@
                                     </div>
                                 </div>
-                               
-                                
+
+
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-7">
                                 <div class="row">
-                                    <div class="col-md-5">
-                                        <label>To Date:</label>
+                                    <div class="col-md-4">
+                                        @* <label>To Date:</label> *@
+                                        <input id="fromdate" type="text" class="datepicker form-control" placeholder="  From Date" /> 
+
                                     </div>
-                                    <div class="col-md-7">
-                                        <input id="todate" type="date" class="form-control" />
+                                    <div class="col-md-4">
+                                        <input id="todate" type="text" class=" datepicker form-control" placeholder="  To Date" />
                                     </div>
-                                </div>                             
+                                    <div class="col-md-4 text-center">
+                                        <input class="btn btn-success " id="Historydownload" onclick="fn_ExcelDownload()" value="Download" type="button" />
+
+                                    </div>
+                                </div>
 
                             </div>
-                            <div class="col-md-4 text-center">
-                                <input class="btn btn-success " id="Historydownload" onclick="fn_ExcelDownload()" value="Download" />
+                           @*  <div class="col-md-4 text-center">
+                                <input class="btn btn-success " id="Historydownload" onclick="fn_ExcelDownload()" value="Download" type="button" />
 
-                            </div>
+                            </div> *@
                         </div>
                         @* From Date: <input id="fromdate" type="date" /> To Date:- <input id="todate" type="Date" /> *@
-                    
-                  
+
+
                     </div>
                 </div>
 
@@ -329,14 +324,19 @@
         </div>
 
     </div>
-    <script src="~/js/jquery-3.7.0.min.js"></script>
-    <script src="~/js/toast.min.js"></script>
-    <script src="~/js/jquery.datatables.min.js"></script>
-    <script src="~/js/datatables.bootstrap.min.js"></script>
-    <script src="~/js/datatables.responsive.min.js"></script>
-    <script src="~/js/responsive.bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
+
+</div>
+
+<script src="~/js/jquery-3.7.0.min.js"></script>
+
+<script src="~/js/toast.min.js"></script>
+<script src="~/js/jquery.datatables.min.js"></script>
+<script src="~/js/datatables.bootstrap.min.js"></script>
+<script src="~/js/datatables.responsive.min.js"></script>
+<script src="~/js/responsive.bootstrap.min.js"></script>
+<script>
+
+    $(document).ready(function () {
 
         fn_GetAllDetails();
 
@@ -382,73 +382,33 @@
             }
         });
     }
+
+
     function fn_GetAllDetails() {
-        debugger;
+        //debugger;
         $("#overlay").fadeIn();
-        function fn_ExcelDownload() {
-            // debugger;
-            var fromdate = $("#fromdate").val();
-            var todate = $("#todate").val();
-            if (fromdate == "") {
-                iqwerty.toast.toast('Please Select FromDate');
-                return false;
-            }
-            if (todate == "") {
-                iqwerty.toast.toast('Please Select ToDate');
-                return false;
-            }
-            // debugger;
-            if (Date.parse(fromdate) > Date.parse(todate)) {
-                iqwerty.toast.toast("Invalid Date Range!\nStart Date cannot be after End Date!");
-                return false;
-            }
-            // debugger;
-            $.ajax({
-                type: "POST",
-                url: "/TrackingDashboard/HistoryExceldownload",
-                cache: false,
-                data: { FromDate: fromdate, ToDate: todate },
-                success: function (data) {
-                    // debugger;
-                    if (data.data == "1") {
-                        window.location = '/TrackingDashboard/Downloaddata';
-                    }
-                    else {
-                        iqwerty.toast.toast('No Record Found Given Date Range');
-                    }
-                },
-                error: function (data) {
-                    qwerty.toast.toast("Something went wrong.");
-                }
-            });
-        }
-        function fn_GetAllDetails() {
-            //debugger;
-            $("#overlay").fadeIn();
-
         $.get("/TrackingDashboard/Getalldetails", {}).done(function (data) {
+            var da = $("#main-overview");
+            data.trackingDetails.forEach((element) =>
+                da.append('<div class="col-md-1 flex items-center p-4 bg-white status_width overviewcard tiles" style="" onclick=fn_getStatusBasedOnName(this,`' + element.statusName + '`)><div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500 inner_icon_details"><img src="/Images/' + element.statusName + '.png" alt="user" class="icon_dashboard" width="31" ></div><div><p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style = "font-size: 15px; font-weight: 600; text-transform: capitalize;">' + element.statusName.replaceAll('_', ' ') + ' </p><p class= "text-lg font-semibold text-gray-700 dark:text-gray-200" style = "font-size: 15px; font-weight: 600;">' + element.count + ' </p></div></div>')
+            );
+            //debugger;
 
-                var da = $("#main-overview");
-                data.trackingDetails.forEach((element) =>
-                    da.append('<div class="col-md-1 flex items-center p-4 bg-white status_width overviewcard tiles" style="" onclick=fn_getStatusBasedOnName(this,`' + element.statusName + '`)><div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500 inner_icon_details"><img src="/Images/' + element.statusName + '.png" alt="user" class="icon_dashboard" width="31" ></div><div><p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style = "font-size: 15px; font-weight: 600; text-transform: capitalize;">' + element.statusName.replaceAll('_', ' ') + ' </p><p class= "text-lg font-semibold text-gray-700 dark:text-gray-200" style = "font-size: 15px; font-weight: 600;">' + element.count + ' </p></div></div>')
-                );
+            if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
+                table = $('#TrackingDetails').DataTable();
+                table.clear();
+                table.destroy();
+            }
+            if (data.dashboardDetails.length != 0) {
                 //debugger;
-
-                if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
-                    table = $('#TrackingDetails').DataTable();
-                    table.clear();
-                    table.destroy();
-                }
-                if (data.dashboardDetails.length != 0) {
-                    //debugger;
-                    $('#TrackingDetails').DataTable({
-                        "info": true,
-                        "responsive": false,
-                        "paging": true,
-                        "scrollX": true,
-                        "searching": true,
-                        "ordering": true,
-                        data: data.dashboardDetails,
+                $('#TrackingDetails').DataTable({
+                    "info": true,
+                    "responsive": false,
+                    "paging": true,
+                    "scrollX": true,
+                    "searching": true,
+                    "ordering": true,
+                    data: data.dashboardDetails,
 
                     "columns": [
 
@@ -466,7 +426,7 @@
                         },
                         {
                             data: "mileStone",
-                            title: "Mile Stone"
+                            title: "Milestone"
                         },
                         {
                             data: "latestStatus",
@@ -481,7 +441,11 @@
                             title: "Tracking Link",
                             render: function (data, type, row) {
                                 // return '<a href="' + data + '" target="_blank">' + data + '</a>'
-                                return '<a href="' + data + '" target="_blank">track</a>'
+                                if (data != "" || data != "https:") {
+                                    return '<a href="' + data + '" target="_blank">track</a>'
+                                } else {
+                                    return '';
+                                }
 
                             }
 
@@ -547,35 +511,35 @@
 
 
 
-        }
+    }
 
 
-        function fn_getStatusBasedOnName(select, name) {
-            //debugger;
-            $("#overlay").fadeIn();
-            $('.active').removeClass("active");
-            $(select).addClass("active");
-            $.get("/TrackingDashboard/GetStatusDetailsByName", {
-                Name: name
-            }).done(function (data) {
+    function fn_getStatusBasedOnName(select, name) {
+        //debugger;
+        $("#overlay").fadeIn();
+        $('.active').removeClass("active");
+        $(select).addClass("active");
+        $.get("/TrackingDashboard/GetStatusDetailsByName", {
+            Name: name
+        }).done(function (data) {
+           // debugger;
+
+            if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
+                table = $('#TrackingDetails').DataTable();
+                table.clear();
+                table.destroy();
+            }
+            if (data.length != 0) {
                 //debugger;
-
-                if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
-                    table = $('#TrackingDetails').DataTable();
-                    table.clear();
-                    table.destroy();
-                }
-                if (data.length != 0) {
-                    //debugger;
-                    $('#TrackingDetails').DataTable({
-                        "info": true,
-                        "stateSave": true,
-                        "dom": 'Bfrltip',
-                        "scrollX": true,
-                        "orderCellsTop": true,
-                        "searchDelay": 500,
-                        "responsive": false,
-                        data: data,
+                $('#TrackingDetails').DataTable({
+                    "info": true,
+                    "stateSave": true,
+                    "dom": 'Bfrltip',
+                    "scrollX": true,
+                    "orderCellsTop": true,
+                    "searchDelay": 500,
+                    "responsive": false,
+                    data: data,
 
                     "columns": [
 
@@ -593,7 +557,7 @@
                         },
                         {
                             data: "mileStone",
-                            title: "Mile Stone"
+                            title: "Milestone"
                         },
                         {
                             data: "latestStatus",
@@ -608,7 +572,11 @@
                             title: "Tracking Link",
                             render: function (data, type, row) {
                                 // return '<a href="' + data + '" target="_blanck">' + data + '</a>'
-                                return '<a href="' + data + '" target="_blank">track</a>'
+                                if (data != "" || data != "https:") {
+                                    return '<a href="' + data + '" target="_blank">track</a>'
+                                } else {
+                                    return '';
+                                }
 
                             }
 
@@ -676,6 +644,4 @@
     }
 
 
-    </script>
-</div>
-
+</script>

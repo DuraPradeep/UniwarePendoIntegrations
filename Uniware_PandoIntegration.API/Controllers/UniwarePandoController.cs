@@ -229,7 +229,6 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
 
-
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> AllocateShipping(List<AllocateshippingPando> allocateshippings)
