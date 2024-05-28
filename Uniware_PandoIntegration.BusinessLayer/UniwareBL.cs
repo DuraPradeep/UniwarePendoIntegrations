@@ -3389,7 +3389,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     StringBuilder deliveryno=new StringBuilder();
                     for (int j = 0; j < itemDatun[i].delivery_numbers.Count; j++)
                     {
-                        if(itemDatun[i].delivery_numbers.Count>1)
+                        if(j>0)
                         {
                             deliveryno.Append(",");
                         }
@@ -3399,7 +3399,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     StringBuilder businessdivision = new StringBuilder();
                     for (int j = 0; j < itemDatun[i].business_divisions.Count; j++)
                     {
-                        if (itemDatun[i].business_divisions.Count > 1)
+                        if (j > 0)
                         {
                             businessdivision.Append(",");
                         }
@@ -3416,7 +3416,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     StringBuilder podattachment = new StringBuilder();
                     for (int j = 0; j < itemDatun[i].pod_attachments.Count; j++)
                     {
-                        if (itemDatun[i].pod_attachments.Count > 1)
+                        if (j > 0)
                         {
                             podattachment.Append(",");
                         }
