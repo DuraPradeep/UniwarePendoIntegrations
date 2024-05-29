@@ -18,7 +18,7 @@ namespace TrackingStatusDashboard.Controllers
         {
             return View();
         }
-        public Microsoft.AspNetCore.Mvc.ActionResult TrackingStatus()
+        public ActionResult TrackingStatus()
         {
             return View("TrackingLinkStatus");
         }
