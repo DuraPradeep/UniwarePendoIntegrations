@@ -29,12 +29,12 @@
                 $("#table_tracking_id").css("display", "block");
                 debugger;
                 $('#TrackingDetails').DataTable({
-                    "info": true,
-                    "responsive": false,
-                    "paging": true,
+                    "info": false,
+                    //"responsive": true,
+                    "paging": false,
                     "scrollX": true,
-                    "searching": true,
-                    "ordering": true,
+                    "searching": false,
+                    "ordering": false,
                     "stateSave": true,
                     "dom": 'Bfrltip',
                     "orderCellsTop": true,

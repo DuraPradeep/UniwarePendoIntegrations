@@ -1,4 +1,101 @@
-﻿@media only screen and (min-width: 1223px) and (max-width: 1800px) {
+﻿body {
+}
+
+
+/*@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {*/
+@media only screen and (max-width: 600px) {
+    .dt_ticketdetails tbody tr td {
+        /*font-size: 30px;*/
+        padding: 30px;
+    }
+    #table_tracking_id {
+        margin-top: 130px !important;
+    }
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+        thead tr {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+    tr {
+        border: 1px solid #ccc;
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid #eee;
+        position: relative;
+        padding-left: 50%;
+    }
+
+        td:before {
+            /*position: absolute;*/
+            top: 6px;
+            left: 6px;
+            width: 45%;
+            padding-right: 10px;
+            white-space: nowrap;
+        }
+
+
+
+    #TrackingDetails td:nth-of-type(1):before {
+        content: "Tracking Number";
+    }
+
+    #TrackingDetails td:nth-of-type(2):before {
+        content: "Order No.";
+    }
+
+    #TrackingDetails td:nth-of-type(3):before {
+        content: "Order Status";
+    }
+
+    #TrackingDetails td:nth-of-type(4):before {
+        content: "Courier Name";
+    }
+
+    #TrackingDetails td:nth-of-type(5):before {
+        content: "Tracking Link";
+    }
+
+    #TrackingDetails td:nth-of-type(6):before {
+        content: "Customer Name";
+    }
+
+    #TrackingDetails td:nth-of-type(7):before {
+        content: "Phone";
+    }
+
+    #TrackingDetails td:nth-of-type(8):before {
+        content: "City";
+    }
+
+    #TrackingDetails td:nth-of-type(9):before {
+        content: "Pincode";
+    }
+
+
+
+
+    /*//////////////////////////////////*/
+
+
+
+
+
+
+
+    
+
+    .row.col-gutter-200 {
+        padding-left: 18% !important;
+        padding-right: 18% !important;
+    }
 
     input#trackingno:focus {
         background-color: #fff !important;
@@ -18,6 +115,7 @@
         margin: 0;
         background-color: transparent;
         float: left;
+        /*font-size: 18px;*/
     }
 
         .inputGroup.inline-radio .pre-text {
@@ -177,8 +275,8 @@
         display: table-cell;
         font-size: 100%;
         padding: 5px;
-        height: 40px;
-        line-height: 125%;
+        /*height: 40px;*/
+        /*line-height: 125%;*/
         z-index: 1;
     }
 
@@ -188,10 +286,14 @@
         border-collapse: separate;
         width: 100%;
         margin-top: 10px;
+        /*font-size: 34px;*/
+        padding: 20px 10px;
+        line-height: 2;
     }
 
     .mrg-top-10 {
-        margin-top: 10px !important;
+        /*font-size: 30px;*/
+        /*margin-top: 28px !important;*/
     }
 
     .inputGroup input[type=radio] {
@@ -209,29 +311,12 @@
         visibility: hidden;
     }
 
-    .search.d-flex.align-items-center.justify-content-center.text-align-center {
-        background-color: #fff;
-        border-radius: 4px;
-        text-align: left;
-        padding: 20px;
-        /* -webkit-box-shadow: 0 0 7px 2px rgba(0,0,0,.05);
-                box-shadow: 0 0 7px 2px rgba(0,0,0,.05); */
-        box-shadow: 0px 2px 12px 0px gray;
-    }
-
     .inputGroup.inline-radio .label {
         font-size: 100%;
         font-weight: 500;
         float: left;
-        line-height: 34px;
+        line-height: 25px;
         color: #474747;
-    }
-
-    .col-gutter-200 {
-        padding-left: 25%;
-        padding-right: 25%;
-        padding-top: 20px;
-        padding-bottom: 20px;
     }
 
     thead {
@@ -260,18 +345,24 @@
         justify-content: center;
         align-items: center;
     }
-}
-
-@media only screen and (max-width: 600px) {
     .search.d-flex.align-items-center.justify-content-center.text-align-center {
-        position: fixed !important;
+        /*position: fixed !important;
         top: 50% !important;
         left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-    }
-
-    .row.col-gutter-200 {
-        padding-left: 18% !important;
-        padding-right: 18% !important;
+        transform: translate(-50%, -50%) !important;*/
+        box-shadow: 0px 2px 12px 0px gray;
+        /* padding: 20px;
+        margin-bottom:20px;*/
+        /*padding: 90px 56px;*/
+        padding: 50px 50px;
+        margin-bottom: 20px;
+        margin: 0 auto !important;
+        top: 50% !important;
+        transform: translateY(23%) !important;
+        background: #eee8e8;
     }
 }
+
+
+
+

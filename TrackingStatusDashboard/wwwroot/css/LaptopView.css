@@ -1,5 +1,9 @@
-﻿@media only screen and (min-width: 1223px) and (max-width: 1800px) {
-
+﻿body {
+}
+@media only screen and (min-width: 1223px) and (max-width: 1800px) {
+    #table_tracking_id{
+        margin-top:70px !important;
+    }
     input#trackingno:focus {
         background-color: #fff !important;
         outline-color: #fff !important;
@@ -217,6 +221,9 @@
         /* -webkit-box-shadow: 0 0 7px 2px rgba(0,0,0,.05);
                 box-shadow: 0 0 7px 2px rgba(0,0,0,.05); */
         box-shadow: 0px 2px 12px 0px gray;
+        margin: 0 auto !important;
+        top: 50% !important;
+        transform: translateY(23%) !important;
     }
 
     .inputGroup.inline-radio .label {
@@ -225,6 +232,10 @@
         float: left;
         line-height: 34px;
         color: #474747;
+    }
+    #tracking_form {
+        padding-left: 18% !important;
+        padding-right: 18% !important;
     }
 
     .col-gutter-200 {
@@ -260,18 +271,9 @@
         justify-content: center;
         align-items: center;
     }
-}
-
-@media only screen and (max-width: 600px) {
-    .search.d-flex.align-items-center.justify-content-center.text-align-center {
-        position: fixed !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-    }
-
-    .row.col-gutter-200 {
-        padding-left: 18% !important;
-        padding-right: 18% !important;
+    /*table.table.table-striped.table-bordered.nowrap.dataTable.no-footer {*/
+    .dt_ticketdetails {
+        margin-bottom: 0px !important;
     }
 }
+
