@@ -166,19 +166,17 @@ namespace Uniware_PandoIntegration.API
                         customFieldValue.name = "TrackingLink2";
                         customFieldValue.value = results[i].trackingLink;
                         updateShippingpackage.customFieldValues.Add(customFieldValue);
-                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackage, facility, Servertype);
                         #endregion
 
+                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                        if (responses.IsSuccess == false)
+                        {
+                            //res = false;
+                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
+                        }
 
 
-                        //var triggerid = ObjBusinessLayer.UpdateShippingDataPost(lists, Servertype);
-
-
-
-                        //var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, triggerid, _Tokens.access_token, facility, Servertype, Instance);
-                        //if (allocateshippings[0].tracking_link_url == null || allocateshippings[0].tracking_link_url == "https:")
-                        //{
-                            var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+                        var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
                             var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
                             //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                             if (response.IsSuccess)
@@ -205,12 +203,7 @@ namespace Uniware_PandoIntegration.API
                         //Idle for 5sec
 
                         //Thread.Sleep(5000);
-                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                        if (responses.IsSuccess==false)
-                        {
-                            //res = false;
-                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
-                        }
+                        
                     }
                     var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
                     if (ErrorList.Count > 0)

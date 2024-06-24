@@ -42,39 +42,48 @@
 
 
     #TrackingDetails td:nth-of-type(1):before {
-        content: "Tracking Number";
+        content: "Tracking Number: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(2):before {
-        content: "Order No.";
+        content: "Order No.: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(3):before {
-        content: "Order Status";
+        content: "Order Status: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(4):before {
-        content: "Courier Name";
+        content: "Courier Name: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(5):before {
-        content: "Tracking Link";
+        content: "Tracking Link: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(6):before {
-        content: "Customer Name";
+        content: "Customer Name: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(7):before {
-        content: "Phone";
+        content: "Phone: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(8):before {
-        content: "City";
+        content: "City: ";
+        font-weight: bold;
     }
 
     #TrackingDetails td:nth-of-type(9):before {
-        content: "Pincode";
+        content: "Pincode: ";
+        font-weight: bold;
     }
 
 
@@ -316,7 +325,8 @@
         font-size: 100%;
         font-weight: 500;
         float: left;
-        line-height: 25px;
+        /*line-height: 25px;*/
+        line-height: 42px;
         color: #474747;
     }
     thead {
@@ -389,39 +399,39 @@
 
 
     #TrackingDetails td:nth-of-type(1):before {
-        content: "Tracking Number";
+        content: "Tracking Number: ";
     }
 
     #TrackingDetails td:nth-of-type(2):before {
-        content: "Order No.";
+        content: "Order No.: ";
     }
 
     #TrackingDetails td:nth-of-type(3):before {
-        content: "Order Status";
+        content: "Order Status: ";
     }
 
     #TrackingDetails td:nth-of-type(4):before {
-        content: "Courier Name";
+        content: "Courier Name: ";
     }
 
     #TrackingDetails td:nth-of-type(5):before {
-        content: "Tracking Link";
+        content: "Tracking Link: ";
     }
 
     #TrackingDetails td:nth-of-type(6):before {
-        content: "Customer Name";
+        content: "Customer Name: ";
     }
 
     #TrackingDetails td:nth-of-type(7):before {
-        content: "Phone";
+        content: "Phone: ";
     }
 
     #TrackingDetails td:nth-of-type(8):before {
-        content: "City";
+        content: "City: ";
     }
 
     #TrackingDetails td:nth-of-type(9):before {
-        content: "Pincode";
+        content: "Pincode: ";
     }
 
 
@@ -665,7 +675,8 @@
         font-size: 100%;
         font-weight: 500;
         float: left;
-        line-height: 25px;
+        /*line-height: 25px;*/
+        line-height: 26px;
         color: #474747;
     }
 

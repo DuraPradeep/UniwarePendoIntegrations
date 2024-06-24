@@ -6000,6 +6000,49 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
         }
 
+        public static DataSet GeLast30DaysStatus(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Sp_getlast30daysTrackingStatus"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
     }
 
 

@@ -1396,6 +1396,49 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return CityList;
         }
+        //public static List<TruckDetails> GetLast30daysStatus(DataSet pds)
+        //{
+        //    List<TruckDetails> FacilityList = new List<TruckDetails>();
+        //    try
+        //    {
+        //        for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+        //        {
+        //            TruckDetails returncode = new TruckDetails();
+        //            returncode.Details = pds.Tables[0].Rows[i]["Details"].ToString();
+        //            returncode.Instance = pds.Tables[0].Rows[i]["Instance"].ToString();
+        //            FacilityList.Add(returncode);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    return FacilityList;
+        //}
+        public static List<TrackingStatusDb> GetLast30daysStatus(DataSet pds)
+        {
+            List<TrackingStatusDb> FacilityList = new List<TrackingStatusDb>();
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingStatusDb returncode = new TrackingStatusDb();
+                    returncode.providerCode = pds.Tables[0].Rows[i]["providerCode"].ToString();
+                    returncode.trackingStatus = pds.Tables[0].Rows[i]["trackingStatus"].ToString();
+                    returncode.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    returncode.statusDate = pds.Tables[0].Rows[i]["statusDate"].ToString();
+                    returncode.shipmentTrackingStatusName = pds.Tables[0].Rows[i]["shipmentTrackingStatusName"].ToString();
+                    FacilityList.Add(returncode);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return FacilityList;
+        }
 
 
 

@@ -2103,41 +2103,41 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void InsertUpdateShippingpackageBox(List<ShippingBoxdb> itemDatun, string Enviornment)
-        {
-            string res;
-            try
-            {
+        //public void InsertUpdateShippingpackageBox(List<ShippingBoxdb> itemDatun, string Enviornment)
+        //{
+        //    string res;
+        //    try
+        //    {
 
-                DataTable dtsku = new DataTable();
-                dtsku.Columns.Add("Id");
-                dtsku.Columns.Add("length");
-                dtsku.Columns.Add("width");
-                dtsku.Columns.Add("height");
-
-
-
-                for (int i = 0; i < itemDatun.Count; i++)
-                {
-                    DataRow drsku = dtsku.NewRow();
-                    drsku["Id"] = itemDatun[i].Id;
-                    drsku["length"] = itemDatun[i].length;
-                    drsku["width"] = itemDatun[i].height;
-                    drsku["height"] = itemDatun[i].width;
+        //        DataTable dtsku = new DataTable();
+        //        dtsku.Columns.Add("Id");
+        //        dtsku.Columns.Add("length");
+        //        dtsku.Columns.Add("width");
+        //        dtsku.Columns.Add("height");
 
 
-                    dtsku.Rows.Add(drsku);
-                }
-                SPWrapper.IsertShippingBox(dtsku, Enviornment);
-                //CreateLog($"itemsending data DB Status:-{res}");
-            }
-            catch (Exception ex)
-            {
-                //CreateLog($"Error: {ex.Message}");
-                throw;
-            }
 
-        }
+        //        for (int i = 0; i < itemDatun.Count; i++)
+        //        {
+        //            DataRow drsku = dtsku.NewRow();
+        //            drsku["Id"] = itemDatun[i].Id;
+        //            drsku["length"] = itemDatun[i].length;
+        //            drsku["width"] = itemDatun[i].height;
+        //            drsku["height"] = itemDatun[i].width;
+
+
+        //            dtsku.Rows.Add(drsku);
+        //        }
+        //        SPWrapper.IsertShippingBox(dtsku, Enviornment);
+        //        //CreateLog($"itemsending data DB Status:-{res}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //CreateLog($"Error: {ex.Message}");
+        //        throw;
+        //    }
+
+        //}
         public void InsertUpdateShippingpackage(List<UpdateShippingpackagedb> itemDatun, string Enviornment)
         {
             string res;
@@ -3441,6 +3441,20 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 res=false;
             }
             return res;
+
+        }
+        public List<TrackingStatusDb> GetLast30daysStatus(string Enviornment)
+        {
+            List<TrackingStatusDb> codes = new List<TrackingStatusDb>();
+
+            try
+            {
+                return codes = Mapper.GetLast30daysStatus(SPWrapper.GeLast30DaysStatus(Enviornment));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 

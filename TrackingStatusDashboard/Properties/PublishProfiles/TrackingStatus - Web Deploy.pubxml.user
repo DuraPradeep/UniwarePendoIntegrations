@@ -7,8 +7,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAWyG/TLq7tUm2C/pAncCNUwAAAAACAAAAAAAQZgAAAAEAACAAAACJU0D3ywTdXyNpwQYuIaKbrS7x+FDJEJkEG5c7a1yALgAAAAAOgAAAAAIAACAAAABbFYyERPXgHI2V2cpZON0hz1jLhkSZen7QOYIw7Vw/24AAAAB4pvuV/1rEGbMv+19zy5vXPQMoThjHledSLMC/WfVRQ/GK5MZ5zRV88Xp/UY0Fu7Jt67iYraMukb+fvbHPqgZDGHX4Z8G8O0AZ3vIppzzeiswHOexZESgoynepm5/W538+N6WHwIvXyPL4P5rYc0cHU8u/GurIBKMmxGBI3PvCbkAAAAD6V69WA5DYzNuJjUFQjgfE5jo/D507KyBSq0i7NWgi8qszDz/4YiBGHXjE8XFVupeTkRuvnxQAdYphzLKzkV1n</EncryptedPassword>
-    <History>True|2024-05-10T14:45:56.1934574Z||;</History>
+    <History>True|2024-05-29T11:20:05.7519121Z;True|2024-05-29T16:09:17.7987042+05:30;False|2024-05-29T16:06:07.6493504+05:30;False|2024-05-29T16:04:51.5399461+05:30;True|2024-05-29T12:39:10.2649557+05:30;True|2024-05-10T20:15:56.1934574+05:30;</History>
     <LastFailureDetails />
-    <IsBasicAuthAllowed>True</IsBasicAuthAllowed>
   </PropertyGroup>
 </Project>

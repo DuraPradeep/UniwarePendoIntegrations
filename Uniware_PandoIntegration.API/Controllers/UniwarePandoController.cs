@@ -124,13 +124,13 @@ namespace Uniware_PandoIntegration.API.Controllers
                 {
                     UpdateShippingpackagedb updateShippingpackage = new UpdateShippingpackagedb();
                     var randomid = ObjBusinessLayer.GenerateNumeric();
-                    updateShippingpackage.id = randomid;
+                    updateShippingpackage.id = shippingPackages[i].shippingPackageCode.ToString();
                     updateShippingpackage.shippingPackageCode = shippingPackages[i].shippingPackageCode.ToString();
                     updatelist.Add(updateShippingpackage);
                     for (int k = 0; k < shippingPackages[i].customFieldValues.Count; k++)
                     {
                         addCustomFieldValue customFieldValue = new addCustomFieldValue();
-                        customFieldValue.Id = randomid;
+                        customFieldValue.Id = shippingPackages[i].shippingPackageCode.ToString();
                         customFieldValue.name = shippingPackages[i].customFieldValues[k].name;
                         customFieldValue.value = shippingPackages[i].customFieldValues[k].value;
                         customFields.Add(customFieldValue);
@@ -366,7 +366,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 var tokens = httpContext.Request.Headers["Authorization"].ToString();
                 var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(tokens.Split(" ")[1].ToString()) as JwtSecurityToken;
                 string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},UpdateShipping Instance Name. {Servertype}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},CancelWaybill Instance Name. {Servertype}");
                 //string Servertype = ObjBusinessLayer.GetEnviroment(Username);
                 ObjBusinessLayer.WaybillCancel(waybill.waybill, Servertype);
                 var canceldata = ObjBusinessLayer.GetWaybillCancelData(Servertype);
@@ -471,7 +471,42 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
 
-       
+        //[HttpGet]
+        //public async Task<IActionResult> TrackingStatusDemo()
+        //{
+        //    try
+        //    {
+        //        //_logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
+        //        //HttpContext httpContext = HttpContext;
+        //        //var token = httpContext.Request.Headers["Authorization"].ToString();
+        //        //var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
+        //        //string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+        //        //_logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");
+        //        string Servertype = "Prod";
+
+        //        var list = ObjBusinessLayer.GetLast30daysStatus(Servertype);
+        //        //Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(list, Servertype);
+        //        Task<bool> Call2 = obj.CallingTrackingStatus(Servertype, list);
+        //        //TrackingResponse result1 = await Call1;
+        //        ////bool result2 = await Call2;
+        //        //await Task.WhenAll(Call1);
+        //        return Ok();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TrackingResponse reversePickupResponse = new TrackingResponse();
+        //        reversePickupResponse.successful = false;
+        //        reversePickupResponse.message = ex.Message;
+        //        reversePickupResponse.errors = "";
+        //        reversePickupResponse.warnings = "";
+        //        _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+        //        _logger.LogError($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+        //        return Problem(ex.Message, null, 204, "Not received", null);
+        //        //return new JsonResult(reversePickupResponse);
+        //        throw;
+        //    }
+        //}
 
     }
 }

@@ -1,5 +1,6 @@
 D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll.config
 D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.dll
+D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
 D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Antiforgery.dll
 D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Abstractions.dll
 D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Microsoft.AspNetCore.Authentication.Core.dll
@@ -111,4 +112,3 @@ D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegratio
 D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
 D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
 D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
-D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\Uniware_PandoIntegration.Entities.pdb
