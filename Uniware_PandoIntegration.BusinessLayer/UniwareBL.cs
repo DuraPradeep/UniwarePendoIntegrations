@@ -2256,7 +2256,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 if (res)
                 {
                     successResponse.status = true;
-                    successResponse.waybill = "";
+                    successResponse.waybill = "Data Received from Pando";
                     successResponse.shippingLabel = "";
           
                 }

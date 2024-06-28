@@ -5733,7 +5733,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com = new SqlCommand()
                     {
                         Connection = con,
-                        CommandText = "select shippingPackageCode,shippingLabelMandatory,shippingProviderCode,shippingCourier,trackingNumber,trackingLink from Allocate_Shipping   where createdDate >='2024-05-21 09:19:43.693'"
+                        CommandText = "select shippingPackageCode,shippingLabelMandatory,shippingProviderCode,shippingCourier,trackingNumber,trackingLink from Allocate_Shipping  where shippingPackageCode='00311' "
                     };
                     com.CommandTimeout = 1000;
                     con.Open();

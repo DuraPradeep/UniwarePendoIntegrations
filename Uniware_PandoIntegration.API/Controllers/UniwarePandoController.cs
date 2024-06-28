@@ -330,7 +330,9 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");
                 Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
-                Task<bool> Call2 = obj.CallingTrackingStatus(Servertype, TrackingDetails);
+
+                Task.Run(() => obj.CallingTrackingStatus(Servertype, TrackingDetails));
+                //Task<bool> Call2 = 
                 TrackingResponse result1 = await Call1;
                 //bool result2 = await Call2;
                 await Task.WhenAll(Call1);

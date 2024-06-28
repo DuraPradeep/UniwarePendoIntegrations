@@ -385,14 +385,14 @@
 
 
     function fn_GetAllDetails() {
-        //debugger;
+        debugger;
         $("#overlay").fadeIn();
         $.get("/TrackingDashboard/Getalldetails", {}).done(function (data) {
             var da = $("#main-overview");
             data.trackingDetails.forEach((element) =>
                 da.append('<div class="col-md-1 flex items-center p-4 bg-white status_width overviewcard tiles" style="" onclick=fn_getStatusBasedOnName(this,`' + element.statusName + '`)><div class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500 inner_icon_details"><img src="/Images/' + element.statusName + '.png" alt="user" class="icon_dashboard" width="31" ></div><div><p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400" style = "font-size: 15px; font-weight: 600; text-transform: capitalize;">' + element.statusName.replaceAll('_', ' ') + ' </p><p class= "text-lg font-semibold text-gray-700 dark:text-gray-200" style = "font-size: 15px; font-weight: 600;">' + element.count + ' </p></div></div>')
             );
-            //debugger;
+            debugger;
 
             if ($.fn.dataTable.isDataTable('#TrackingDetails')) {
                 table = $('#TrackingDetails').DataTable();
