@@ -511,6 +511,102 @@ namespace Uniware_PandoIntegration.API
 
         }
 
+
+        public bool failedtrackingstatus(string Servertype, List<TrackingStatusDb> trackingStatusDbs)
+        {
+            bool Result = false;
+            //CreateLog("Execution start");
+            try
+            {
+                //string Getinstance = string.Empty;
+                //string Instance = string.Empty;
+                string Nameinstance = string.Empty;
+                string responsmessage = string.Empty;
+                var TrackingList = ObjBusinessLayer.GetTrackingDetails(Servertype, trackingStatusDbs);
+                //ObjBusinessLayer.InsertTrackingStatusPostdata(TrackingList, Servertype);
+
+                if (TrackingList.Count > 0)
+                {
+                    for (int i = 0; i < TrackingList.Count; i++)
+                    {
+
+                        TrackingStatus trackingStatus = new TrackingStatus();
+                        trackingStatus.providerCode = TrackingList[i].providerCode;
+                        trackingStatus.trackingStatus = TrackingList[i].trackingStatus;
+                        trackingStatus.trackingNumber = TrackingList[i].trackingNumber;
+                        trackingStatus.shipmentTrackingStatusName = TrackingList[i].shipmentTrackingStatusName;
+                        trackingStatus.statusDate = TrackingList[i].statusDate;
+                        Nameinstance = TrackingList[i].Instance == "INDENTID_SH" ? "SH" : "DFX";
+
+                        var res = _MethodWrapper.TrackingStatus(trackingStatus, 0, TrackingList[i].facilitycode, Servertype, Nameinstance);
+                        //CreateLog("Execution end");
+                        if (res.IsSuccess)
+                        {
+                            Result = true;
+                            responsmessage = res.ObjectParam.ToString();
+                        }
+                        else
+                        {
+                            Result = false;
+
+                            responsmessage = res.ObjectParam.ToString();
+                        }
+
+                    }
+                    TrackingResponse reversePickupResponse = new TrackingResponse();
+                    reversePickupResponse.successful = true;
+                    reversePickupResponse.message = responsmessage;
+                    reversePickupResponse.errors = "";
+                    reversePickupResponse.warnings = "";
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                    //return new JsonResult(reversePickupResponse);
+                }
+                else
+                {
+                    Result = false;
+
+                    TrackingResponse reversePickupResponse = new TrackingResponse();
+                    reversePickupResponse.successful = false;
+                    reversePickupResponse.message = responsmessage;
+                    reversePickupResponse.errors = "There Is not Data For Tacking";
+                    reversePickupResponse.warnings = "";
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                    //return new JsonResult(reversePickupResponse);
+                }
+
+                //}
+                //else
+                //{
+                //    TrackingResponse reversePickupResponse = new TrackingResponse();
+                //    reversePickupResponse.successful = false;
+                //    reversePickupResponse.message = "Token Not Generated";
+                //    reversePickupResponse.errors = "";
+                //    reversePickupResponse.warnings = "";
+                //    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Error {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                //    //return new JsonResult(reversePickupResponse);
+                //}
+            }
+            catch (Exception ex)
+            {
+                Result = false;
+
+                TrackingResponse reversePickupResponse = new TrackingResponse();
+                reversePickupResponse.successful = false;
+                reversePickupResponse.message = ex.Message;
+                reversePickupResponse.errors = "";
+                reversePickupResponse.warnings = "";
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking error Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+
+
+                throw;
+            }
+            return Result;
+        }
+
     }
     
 

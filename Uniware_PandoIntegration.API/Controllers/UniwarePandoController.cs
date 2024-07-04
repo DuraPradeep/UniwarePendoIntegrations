@@ -323,6 +323,8 @@ namespace Uniware_PandoIntegration.API.Controllers
         {
             try
             {
+
+               
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
                 HttpContext httpContext = HttpContext;
                 var token = httpContext.Request.Headers["Authorization"].ToString();
@@ -509,6 +511,56 @@ namespace Uniware_PandoIntegration.API.Controllers
         //        throw;
         //    }
         //}
+
+
+        [HttpPost]
+        public async Task<IActionResult> TestTrackingStatus(List<TrackingStatusDb> TrackingDetails)
+        {
+            try
+            {
+               // _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
+                HttpContext httpContext = HttpContext;
+                var token = httpContext.Request.Headers["Authorization"].ToString();
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");
+                //Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
+
+                List<TrackingStatusDb> allocateshippingss = ObjBusinessLayer.GetTrackingstatusFailedData(Servertype);
+                for (int i = 0; i < allocateshippingss.Count; i++)
+                {
+                    List<TrackingStatusDb> demos = new List<TrackingStatusDb>();
+
+                    TrackingStatusDb allocateshippingPando = new TrackingStatusDb();
+                    allocateshippingPando.providerCode = allocateshippingss[i].providerCode;
+                    allocateshippingPando.trackingStatus = allocateshippingss[i].trackingStatus;
+                    allocateshippingPando.trackingNumber = allocateshippingss[i].trackingNumber;
+                    allocateshippingPando.shipmentTrackingStatusName = allocateshippingss[i].shipmentTrackingStatusName;
+                    allocateshippingPando.statusDate = allocateshippingss[i].statusDate;
+                    allocateshippingPando.facilitycode = allocateshippingss[i].facilitycode;
+                    demos.Add(allocateshippingPando);
+
+                    obj.failedtrackingstatus(Servertype, demos);
+
+                }
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                TrackingResponse reversePickupResponse = new TrackingResponse();
+                reversePickupResponse.successful = false;
+                reversePickupResponse.message = ex.Message;
+                reversePickupResponse.errors = "";
+                reversePickupResponse.warnings = "";
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+                _logger.LogError($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. {JsonConvert.SerializeObject(reversePickupResponse)}");
+                return Problem(ex.Message, null, 204, "Not received", null);
+                //return new JsonResult(reversePickupResponse);
+                throw;
+            }
+        }
+
 
     }
 }

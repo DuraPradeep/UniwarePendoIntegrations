@@ -1355,6 +1355,38 @@ namespace Uniware_PandoIntegration.DataAccessLayer
 
 
         }
+        public static List<TrackingStatusDb> getTrackingstatuspost(DataSet pds)
+        {
+            //List<UpdateShippingpackage> skucodes = new List<UpdateShippingpackage>();
+
+            List<TrackingStatusDb> userProfile = new List<TrackingStatusDb>();
+
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    TrackingStatusDb Updateship = new TrackingStatusDb();
+
+                    Updateship.providerCode = pds.Tables[0].Rows[i]["providerCode"].ToString();
+                    Updateship.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    Updateship.trackingStatus = pds.Tables[0].Rows[i]["trackingStatus"].ToString();
+                    Updateship.statusDate = pds.Tables[0].Rows[i]["statusDate"].ToString();
+                    Updateship.shipmentTrackingStatusName = pds.Tables[0].Rows[i]["shipmentTrackingStatusName"].ToString();
+                    Updateship.facilitycode = pds.Tables[0].Rows[i]["facilitycode"].ToString();
+                    userProfile.Add(Updateship);
+                }
+                return userProfile;
+                //userProfile.AddRange(sKucode)
+            }
+            catch (Exception ex)
+            {
+
+                //throw ex;
+                return userProfile = null;
+            }
+
+
+        }
         public static List<CityMasterEntity> GetCityList(DataSet pds)
         {
             List<CityMasterEntity> CityList = new List<CityMasterEntity>();

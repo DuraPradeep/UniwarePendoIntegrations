@@ -5751,6 +5751,50 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             return ds;
         }
 
+        public static DataSet GetTrackingstatusdemo(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "SP_failedstatus"
+                        //CommandText = "select shippingPackageCode,shippingLabelMandatory,shippingProviderCode,shippingCourier,trackingNumber,trackingLink from Allocate_Shipping  where shippingPackageCode='00311' "
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+
+
         public static DataSet GetCityList(string Enviornment)
         {
             //con = GetConnection();

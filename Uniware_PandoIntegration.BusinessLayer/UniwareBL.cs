@@ -3258,6 +3258,23 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
+        public List<TrackingStatusDb> GetTrackingstatusFailedData(string Enviornment)
+        {
+            List<TrackingStatusDb> codes = new List<TrackingStatusDb>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.getTrackingstatuspost(SPWrapper.GetTrackingstatusdemo(Enviornment));
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
         public List<CityMasterEntity> GetCityMaster(string Enviornment)
         {
             List<CityMasterEntity> codes = new List<CityMasterEntity>();
