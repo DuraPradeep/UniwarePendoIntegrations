@@ -513,20 +513,14 @@ namespace Uniware_PandoIntegration.API.Controllers
         //}
 
 
-        [HttpPost]
-        public async Task<IActionResult> TestTrackingStatus(List<TrackingStatusDb> TrackingDetails)
+        [HttpGet]
+        public async Task<IActionResult> TestTrackingStatus()
         {
             try
             {
-               // _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
-                HttpContext httpContext = HttpContext;
-                var token = httpContext.Request.Headers["Authorization"].ToString();
-                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(token.Split(" ")[1].ToString()) as JwtSecurityToken;
-                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");
-                //Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
-
+                string Servertype = "Prod";
                 List<TrackingStatusDb> allocateshippingss = ObjBusinessLayer.GetTrackingstatusFailedData(Servertype);
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. get from DB {JsonConvert.SerializeObject(allocateshippingss)}");
                 for (int i = 0; i < allocateshippingss.Count; i++)
                 {
                     List<TrackingStatusDb> demos = new List<TrackingStatusDb>();
