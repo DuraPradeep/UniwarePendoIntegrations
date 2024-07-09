@@ -3153,10 +3153,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             // con = GetConnection();
             // con = new SqlConnection(connectionString);
             //com = new SqlCommand();
+            SqlConnection con=new SqlConnection();
+
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 using (con = GetConnectionProd())
                 {
                     //con.Open();
@@ -3165,7 +3166,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     //CommandType = CommandType.StoredProcedure,
                     sqlCommand.CommandText = "sp_tokenvalidate";
-
+                    sqlCommand.CommandTimeout = 1000;
                     sqlCommand.Parameters.AddWithValue("@username", UserName);
                     sqlCommand.Parameters.AddWithValue("@password", Password);
                     con.Open();
@@ -3185,6 +3186,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
 
                 throw ex;
+            }
+            finally
+            {
+                con.Close();
             }
             return tokenEntity;
         }
@@ -4464,10 +4469,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static bool InsertTrackingDetails(DataTable dt, string Enviornment)
         {
             bool res;
+            SqlConnection con=new SqlConnection();
+
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4494,7 +4500,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return res;
         }
         public static DataSet GetTrackingDetails(string Enviornment, DataTable dt)
@@ -5964,11 +5970,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             //string res;
             bool result = false;
+            SqlConnection con=new SqlConnection();
 
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -5999,7 +6005,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return result;
 
         }
@@ -6008,11 +6014,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             string res;
             bool result = false;
+            SqlConnection con=new SqlConnection();
 
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -6039,7 +6045,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return result;
 
         }

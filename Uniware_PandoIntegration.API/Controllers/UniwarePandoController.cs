@@ -322,9 +322,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public async Task<IActionResult> TrackingStatus(List<TrackingStatusDb> TrackingDetails)
         {
             try
-            {
-
-               
+            {               
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
                 HttpContext httpContext = HttpContext;
                 var token = httpContext.Request.Headers["Authorization"].ToString();
@@ -520,7 +518,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             {
                 string Servertype = "Prod";
                 List<TrackingStatusDb> allocateshippingss = ObjBusinessLayer.GetTrackingstatusFailedData(Servertype);
-                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Details. get from DB {JsonConvert.SerializeObject(allocateshippingss)}");
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Schedular Tracking Details. get from DB {JsonConvert.SerializeObject(allocateshippingss)}");
                 for (int i = 0; i < allocateshippingss.Count; i++)
                 {
                     List<TrackingStatusDb> demos = new List<TrackingStatusDb>();
@@ -537,6 +535,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                     obj.failedtrackingstatus(Servertype, demos);
 
                 }
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Schedular Tracking Details. Executed");
+
                 return Ok();
 
             }
