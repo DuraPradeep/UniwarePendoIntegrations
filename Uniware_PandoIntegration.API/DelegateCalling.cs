@@ -167,6 +167,7 @@ namespace Uniware_PandoIntegration.API
                         customFieldValue.value = results[i].trackingLink;
                         updateShippingpackage.customFieldValues.Add(customFieldValue);
                         #endregion
+                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
 
                         var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
                         if (responses.IsSuccess == false)
@@ -205,7 +206,6 @@ namespace Uniware_PandoIntegration.API
                         //Thread.Sleep(5000);
                         
                     }
-                    var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
                     if (ErrorList.Count > 0)
                     {
                         var serilizelist = JsonConvert.SerializeObject(ErrorList);

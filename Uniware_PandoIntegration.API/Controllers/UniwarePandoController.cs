@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Uniware_PandoIntegration.API.Folder;
 using Uniware_PandoIntegration.API.ActionFilter;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -330,8 +331,10 @@ namespace Uniware_PandoIntegration.API.Controllers
                 string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Instance Name. {Servertype}");
                 Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
-
-                Task.Run(() => obj.CallingTrackingStatus(Servertype, TrackingDetails));
+                //if (TrackingDetails[0].trackingStatus==" " || TrackingDetails[0].trackingStatus.IsNullOrEmpty())
+                //{
+                    //Task.Run(() => obj.CallingTrackingStatus(Servertype, TrackingDetails));
+                //}
                 //Task<bool> Call2 = 
                 TrackingResponse result1 = await Call1;
                 //bool result2 = await Call2;
@@ -537,7 +540,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 }
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Schedular Tracking Details. Executed");
 
-                return Ok();
+                return Ok("Executed Successfully!");
 
             }
             catch (Exception ex)

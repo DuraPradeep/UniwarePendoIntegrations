@@ -3353,11 +3353,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             string res;
             bool result = false;
+            SqlConnection con = new SqlConnection();
 
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3384,7 +3384,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return result;
 
         }
@@ -3394,10 +3394,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da;
+            SqlConnection con = new SqlConnection();
+
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3425,10 +3426,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             catch (Exception ex)
             {
-                CreateLog("Allocate Shipping DB Insert " + ex.Message);
+                CreateLog("Allocate Shipping DB Insert Error:-" + ex.Message);
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return ds;
         }
         public static DataSet GetAllocateShippingDataForRetrigger(string Enviornment)
@@ -3515,10 +3516,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static bool IsertUpdateShippingrecords(DataTable dt, string Enviornment)
         {
             bool res;
+            SqlConnection con=new SqlConnection();
+
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3545,16 +3547,15 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return res;
         }
         public static void UpdateShippingError(bool status, string reason, string Triggerid, string Enviornment)
         {
-
+            SqlConnection con = new SqlConnection();
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3583,7 +3584,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 //CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
         }
         public static DataSet GetUpdateShippingStatus(string Enviornment)
         {
@@ -3714,10 +3715,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         public static string IsertAllocateShippingrecords(Allocateshipping dt, string triggerid, string Enviornment)
         {
             string res;
+            SqlConnection con = new SqlConnection();
+
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3754,16 +3756,16 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return res;
         }
         public static void AllocateShippingError(bool status, string reason, string shippingPackageCode, string Enviornment)
         {
+            SqlConnection con = new SqlConnection();
 
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3792,7 +3794,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 //CreateLog($"Error: {ex.Message}");
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
 
         }
         public static DataSet GetAlocateShippingStatus(string Enviornment)
@@ -3801,10 +3803,11 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //com = new SqlCommand();
             DataSet ds = new DataSet();
             SqlDataAdapter da;
+            SqlConnection con = new SqlConnection();
+
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -3833,7 +3836,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 //CreateLog(ex.Message);
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return ds;
         }
         public static void UpdateShippingErrorDetais(string Shippingpck, string Enviornment)
@@ -4492,7 +4495,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
-                    con.Close();
+                    //con.Close();
                     res = true;
                 }
             }
@@ -4508,11 +4511,12 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //con = GetConnection();
             //com = new SqlCommand();
             DataSet ds = new DataSet();
+            SqlConnection con=new SqlConnection();
+
             SqlDataAdapter da;
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4535,7 +4539,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
-                    con.Close();
+                    //con.Close();
                 }
             }
             catch (Exception ex)
@@ -4543,17 +4547,18 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 //CreateLog(ex.Message);
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return ds;
         }
         //public static void InsertTrackingDetailsPostData(TrackingStatus dt, string triggerid, string Facility, string Enviornment)
         public static void InsertTrackingDetailsPostData(DataTable dt, string Enviornment)
         {
             string res;
+            SqlConnection con=new SqlConnection();
+
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -4587,7 +4592,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             ////return res;
         }
         public static string GetInstanceName(string TrackingNo, string Enviornment)
@@ -5513,7 +5518,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             //con = GetConnection();
             SqlCommand comds;
-            SqlConnection conss;
+            SqlConnection conss=new SqlConnection();
             DataSet ds = new DataSet();
             SqlDataAdapter Gda;
             try
@@ -5546,6 +5551,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
+            finally { conss.Close(); }
             return ds;
         }
 
@@ -5553,7 +5559,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             //con = GetConnection();
             SqlCommand comds;
-            SqlConnection conss;
+            SqlConnection conss=new SqlConnection();
             DataSet ds = new DataSet();
             SqlDataAdapter Gda;
             try
@@ -5586,6 +5592,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             {
                 throw ex;
             }
+            finally { conss.Close(); }
             return ds;
         }
         public static DataSet GetTrackingLink(string Enviornment, string SearchBy, string trackingNo)
@@ -5674,12 +5681,13 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             //con = GetConnection();
             //com = new SqlCommand();
+            SqlConnection con=new SqlConnection();
+
             DataSet ds = new DataSet();
             SqlDataAdapter da;
             try
             {
                 SqlCommand com;
-                SqlConnection con;
                 if (Enviornment == "Prod")
                 {
                     con = new SqlConnection(ConnectionStringProd);
@@ -5702,7 +5710,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     con.Open();
                     da = new SqlDataAdapter(com);
                     da.Fill(ds);
-                    con.Close();
+                    //con.Close();
                 }
 
             }
@@ -5711,7 +5719,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 //CreateLog(ex.Message);
                 throw ex;
             }
-            //finally { con.Close(); }
+            finally { con.Close(); }
             return ds;
         }
 
