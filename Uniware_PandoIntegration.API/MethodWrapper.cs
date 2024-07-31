@@ -23,7 +23,7 @@ namespace Uniware_PandoIntegration.API
         private UniwareBL ObjBusinessLayer = new();
         BearerToken _Token = new BearerToken();
         private bool disposedValue;
-        Emailtrigger Emailtrigger = new Emailtrigger();
+        //Emailtrigger Emailtrigger = new Emailtrigger();
         public List<Element> getCode(string json, string token, int checkcount, string servertype, string instance)
         {
             int Lcheckcount = checkcount;

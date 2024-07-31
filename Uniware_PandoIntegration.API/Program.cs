@@ -28,6 +28,7 @@ IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettin
 builder.Services.Add(new ServiceDescriptor(typeof(UniwareDB), new UniwareDB(configuration.GetConnectionString("DBConnection"), configuration)));
 builder.Services.Add(new ServiceDescriptor(typeof(SPWrapper), new SPWrapper(configuration.GetConnectionString("DBConnection"), configuration)));
 builder.Services.Add(new ServiceDescriptor(typeof(BasicAuthenticationFilterAttribute), new BasicAuthenticationFilterAttribute(configuration)));
+builder.Services.Add(new ServiceDescriptor(typeof(Emailtrigger), new Emailtrigger(configuration)));
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 var Key = Encoding.UTF8.GetBytes(configuration["JWT:Key"]);

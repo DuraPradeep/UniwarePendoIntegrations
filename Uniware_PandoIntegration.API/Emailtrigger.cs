@@ -8,10 +8,18 @@ namespace Uniware_PandoIntegration.API
 {
     public class Emailtrigger
     {
+        private static IConfiguration _configuration;
+        public Emailtrigger(IConfiguration configuration) { 
+             _configuration = configuration;
+
+        }
         public static void SendEmailToAdmin(string apiname,string Reason/*, string content*/)
         {
             try
             {
+               var username= _configuration.GetSection("SendmailCredentilas:UserName").Value;
+               var Password= _configuration.GetSection("SendmailCredentilas:Password").Value;
+               var Emails= _configuration.GetSection("EmailIds:Id").Value;
                 string currentDirectory = Directory.GetCurrentDirectory();
                 string folderName = "Template";
                 var fullPath = Path.Combine(currentDirectory, folderName, "Retrigger.txt");
@@ -26,11 +34,11 @@ namespace Uniware_PandoIntegration.API
                 content = content.Replace("{Address}", "Duroflex Private Limited. #30/6, NR Trident Tec Park, Hosur Main Road, HSR Layout, Sector 6,Bengaluru, Karnataka, India 560068");
                 content = content.Replace("{Country}", "India");
 
-                string emailId = "cw.ajay@duroflexworld.com,mukul.bansal@duroflexworld.com";
+                string emailId = Emails;
                  //emailId = "Asad.khan@duroflexworld.com,vivek.acharya@duroflexworld.com,mukul.bansal@duroflexworld.com";               
                 using (MailMessage mail = new MailMessage())
                 {
-                    mail.From = new MailAddress("itsupport@duroflexworld.com");
+                    mail.From = new MailAddress(username);
                     mail.To.Add(emailId);
                    // mail.Bcc.Add(emailIds);
                     mail.Subject = "!Failed Records";
@@ -40,7 +48,7 @@ namespace Uniware_PandoIntegration.API
 
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                     {
-                        smtp.Credentials = new NetworkCredential("itsupport@duroflexworld.com", "duro@123");
+                        smtp.Credentials = new NetworkCredential(username, Password);
                         smtp.EnableSsl = true;
                         smtp.Send(mail);
                     }
