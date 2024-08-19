@@ -894,7 +894,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertReturnOrdercoder(List<ReturnorderCode> elements, string FacilityCode, string Enviornment)
+        public bool insertReturnOrdercoder(List<ReturnorderCode> elements, string FacilityCode, string Enviornment,string Instance)
         {
             bool res;
             try
@@ -908,7 +908,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     DataRow dr = dtinstcode.NewRow();
                     dr["Code"] = elements[i].code;
                     dr["FacilityCode"] = FacilityCode;
-                    dr["Instance"] = FacilityCode;
+                    dr["Instance"] = Instance;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertReturnOrderCode(dtinstcode, Enviornment);

@@ -59,6 +59,8 @@ namespace Uniware_PandoIntegration.APIs
                 BaseAddress = new Uri(t_BaseURL),
 
             };
+            client.Timeout = TimeSpan.FromMinutes(10);
+
             //client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage response = client.GetAsync(uri + "?" + Key + "=" + id).Result;
@@ -84,12 +86,15 @@ namespace Uniware_PandoIntegration.APIs
 			{
 				BaseAddress = new Uri(t_BaseURL)
 			};
-			HttpResponseMessage response = client.GetAsync(uri).Result;
-			client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			response = client.GetAsync(uri + "?" + Key + "=" + id + "&&" + Key1 + "=" + id1).Result;
-			client.Dispose();
-			return response.Content.ReadAsAsync<T>().Result;
-		}
+            //HttpResponseMessage response = client.GetAsync(uri).Result;
+            //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //response = client.GetAsync(uri + "?" + Key + "=" + id + "&&" + Key1 + "=" + id1).Result;
+            //client.Dispose();
+            //return response.Content.ReadAsAsync<T>().Result;
+            HttpResponseMessage response = client.GetAsync(uri + "?" + Key + "=" + id + "&&" + Key1 + "=" + id1).Result;
+            client.Dispose();
+            return response.Content.ReadAsAsync<T>().Result;
+        }
         public string Post1<T, U>(U Posted, string uri)
         {
             HttpClient client = new HttpClient

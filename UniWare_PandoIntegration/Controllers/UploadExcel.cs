@@ -90,54 +90,7 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     cloned.ImportRow(row);
                 }
-                //DataTable SO = new DataTable();
-                //DataTable RO = new DataTable();
-                //DataTable STO = new DataTable();
-                //SO.Columns.Add("Code");
-                //SO.Columns.Add("Type");
-                //SO.Columns.Add("Instance");
-                //RO.Columns.Add("Code");
-                //RO.Columns.Add("Type");
-                //RO.Columns.Add("Instance");
-                //STO.Columns.Add("Code");
-                //STO.Columns.Add("Type");
-                //STO.Columns.Add("Instance");
-
-                //for (var i = 0; i < cloned.Rows.Count; i++)
-                //{
-                //    if (cloned.Rows[i]["FilterType"].Equals("SO"))
-                //    {
-                //        DataRow SOrow = SO.NewRow();
-                //        SOrow["Code"] = cloned.Rows[i]["Code"];
-                //        SOrow["Type"] = cloned.Rows[i]["FilterType"];
-                //        SOrow["Instance"] = cloned.Rows[i]["Instance"];
-
-                //        SO.Rows.Add(SOrow);
-                //    }
-                //    else if (cloned.Rows[i]["FilterType"].Equals("RO"))
-                //    {
-                //        DataRow ROrow = RO.NewRow();
-                //        ROrow["Code"] = cloned.Rows[i]["Code"];
-                //        ROrow["Type"] = cloned.Rows[i]["FilterType"];
-                //        ROrow["Instance"] = cloned.Rows[i]["Instance"];
-                //        RO.Rows.Add(ROrow);
-                //    }
-                //    else if (cloned.Rows[i]["FilterType"].Equals("STO"))
-                //    {
-                //        DataRow STOrow = STO.NewRow();
-                //        STOrow["Code"] = cloned.Rows[i]["Code"];
-                //        STOrow["Type"] = cloned.Rows[i]["FilterType"];
-                //        STOrow["Instance"] = cloned.Rows[i]["Instance"];
-                //        STO.Rows.Add(STOrow);
-                //    }
-                //}
-                //DataSet dataSet = new DataSet();
-                //dataSet.Tables.Add(STO);
-                //dataSet.Tables.Add(SO);
-                //dataSet.Tables.Add(RO);
-
-                //DataSet ds = new DataSet();
-                //UploadExcels objEmp = new UploadExcels();
+                
                 List<UploadExcels> empList = new List<UploadExcels>();
                 //int table = Convert.ToInt32(dataSet.Tables.Count);
                 //for (int i = 0; i < table; i++)

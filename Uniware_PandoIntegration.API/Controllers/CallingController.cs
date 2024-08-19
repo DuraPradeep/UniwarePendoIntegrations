@@ -690,7 +690,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0, Servertype, FacilityCode.facilityCode, Instance);
                     if (resuordercode.Count > 0)
                     {
-                        ObjBusinessLayer.insertReturnOrdercoder(resuordercode, FacilityCode.facilityCode, Servertype);
+                        ObjBusinessLayer.insertReturnOrdercoder(resuordercode, FacilityCode.facilityCode, Servertype, Instance);
                         var codes = ObjBusinessLayer.GetReturnOrderCodes(Instance, Servertype);
                         List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
                         List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
@@ -775,7 +775,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                     var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0, Servertype, FacilityCode.facilityCode, Instance);
                     if (resuordercode.Count > 0)
                     {
-                        ObjBusinessLayer.insertReturnOrdercoder(resuordercode, FacilityCode.facilityCode, Servertype);
+                        ObjBusinessLayer.insertReturnOrdercoder(resuordercode, FacilityCode.facilityCode, Servertype,Instance);
                         var codes = ObjBusinessLayer.GetReturnOrderCodes(Instance, Servertype);
                         List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
                         List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
@@ -2107,7 +2107,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             #region Return Order Process
             if (DROlist.Count > 0)
             {
-                string Instance = "SH";
+                string Instance = "DFX";
                 var resu = _Token.GetTokens(Servertype, Instance).Result;
                 var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                 //string token = HttpContext.Session.GetString("Token");
@@ -2129,15 +2129,15 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                     foreach (var FacilityCode in Facilities)
                     {
-                        ObjBusinessLayer.insertReturnOrdercoder(List2, FacilityCode.facilityCode, Servertype);
+                        ObjBusinessLayer.insertReturnOrdercoder(List2, FacilityCode.facilityCode, Servertype,Instance);
                         var codes = ObjBusinessLayer.GetReturnOrderCodes(Instance, Servertype);
                         List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
                         List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
                         List<ReturnAddressDetailsList> returnAddressDetailsLists = new List<ReturnAddressDetailsList>();
                         for (int j = 0; j < codes.ObjectParam.Count; j++)
                         {
-                            ReturnOrderGet returnOrderGet = new ReturnOrderGet();
-                            returnOrderGet.reversePickupCode = codes.ObjectParam[j].code;
+                            //ReturnOrderGet returnOrderGet = new ReturnOrderGet();
+                            //returnOrderGet.reversePickupCode = codes.ObjectParam[j].code;
 
                             var jdetail = JsonConvert.SerializeObject(new { reversePickupCode = codes.ObjectParam[j].code });
                             var Code = codes.ObjectParam[j].code;
@@ -2205,7 +2205,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
             if (SHROlist.Count > 0)
             {
-                string Instance = "DFX";
+                string Instance = "SH";
                 var resu = _Token.GetTokens(Servertype, Instance).Result;
                 var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
                 //string token = HttpContext.Session.GetString("Token");
@@ -2227,7 +2227,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                     foreach (var FacilityCode in Facilities)
                     {
-                        ObjBusinessLayer.insertReturnOrdercoder(List2, FacilityCode.facilityCode, Servertype);
+                        ObjBusinessLayer.insertReturnOrdercoder(List2, FacilityCode.facilityCode, Servertype,Instance);
                         var codes = ObjBusinessLayer.GetReturnOrderCodes(Instance, Servertype);
                         List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
                         List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
