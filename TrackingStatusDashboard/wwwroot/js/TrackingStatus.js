@@ -63,7 +63,11 @@
                             data: "trackingLink",
                             title: "Tracking Link",
                             render: function (data, type, row) {
-                                return '<a href="' + data + '" target="_blank">track</a>'
+                                /* return '<a href="' + data + '" target="_blank">track</a>'*/
+                                if (data == null || data == "") { return "" }
+                                else {
+                                    return '<a href="' + data + '" target="_blank">track</a>'
+                                }
                             }
 
                         },

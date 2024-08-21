@@ -3102,6 +3102,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public List<TDashboardDetails> GetTrackingLink(string Enviornment, string SearchBy, string trackingNo)
         {
             string Servertype = Enviornment;
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, GetTrackingLink, SearchBy{SearchBy}, TrackingNumber   {trackingNo}");
 
             var returndata = ObjBusinessLayer.GetTrackingLink(Servertype, SearchBy, trackingNo);
             return returndata;
