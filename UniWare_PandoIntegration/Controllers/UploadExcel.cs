@@ -42,75 +42,85 @@ namespace UniWare_PandoIntegration.Controllers
         {
             if (upload != null)
             {
-                Stream stream = upload.OpenReadStream();
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                IExcelDataReader reader = null;
-                if (upload.FileName.EndsWith(".xls"))
+                try
                 {
-                    reader = ExcelReaderFactory.CreateReader(stream);
-                }
-                else if (upload.FileName.EndsWith(".xlsx"))
-                {
-                    reader = ExcelReaderFactory.CreateReader(stream);
-                }
-                else
-                {
-                    ModelState.AddModelError("File", "This file format is not supported");
-                    return View("~/Views/UploadExcel/Uploads.cshtml");
-                }
 
-                DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
-                {
-                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+
+                    Stream stream = upload.OpenReadStream();
+                    System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                    IExcelDataReader reader = null;
+                    if (upload.FileName.EndsWith(".xls"))
                     {
-                        UseHeaderRow = true,
-                        FilterRow = rowReader =>
-                        {
-                            var hasData = false;
-                            for (var i = 0; i < rowReader.FieldCount; i++)
-                            {
-                                if (rowReader[i] == null || string.IsNullOrEmpty(rowReader[i].ToString()))
-                                {
-                                    continue;
-                                }
-                                hasData = true;
-                                break;
-                            }
-                            return hasData;
-                        },
+                        reader = ExcelReaderFactory.CreateReader(stream);
                     }
-                });
-                reader.Close();
-                DataTable cloned = result.Tables[0].Clone();
-                for (var i = 0; i < cloned.Columns.Count; i++)
-                {
-                    cloned.Columns[i].DataType = typeof(string);
-                }
-                foreach (DataRow row in result.Tables[0].Rows)
-                {
-                    cloned.ImportRow(row);
-                }
-                
-                List<UploadExcels> empList = new List<UploadExcels>();
-                //int table = Convert.ToInt32(dataSet.Tables.Count);
-                //for (int i = 0; i < table; i++)
-                //{
-                foreach (DataRow dr in cloned.Rows)
-                {
-                    empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]), Type = Convert.ToString(dr["FilterType"]), Instance = Convert.ToString(dr["Instance"]) });
-                }
-                //}
-                string Environment = HttpContext.Session.GetString("Environment").ToString();
-                string userid = HttpContext.Session.GetString("LoginId").ToString();
+                    else if (upload.FileName.EndsWith(".xlsx"))
+                    {
+                        reader = ExcelReaderFactory.CreateReader(stream);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("File", "This file format is not supported");
+                        return View("~/Views/UploadExcel/Uploads.cshtml");
+                    }
 
-                ApiControl = new ApiOperation(Apibase);
-                MainClass mainClass = new MainClass();
-                mainClass.UploadExcels = empList;
-                mainClass.Enviornment = Environment;
-                mainClass.Userid = userid;
-                var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "api/Calling/UploadExcel");
-                TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                    DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    {
+                        ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                        {
+                            UseHeaderRow = true,
+                            FilterRow = rowReader =>
+                            {
+                                var hasData = false;
+                                for (var i = 0; i < rowReader.FieldCount; i++)
+                                {
+                                    if (rowReader[i] == null || string.IsNullOrEmpty(rowReader[i].ToString()))
+                                    {
+                                        continue;
+                                    }
+                                    hasData = true;
+                                    break;
+                                }
+                                return hasData;
+                            },
+                        }
+                    });
+                    reader.Close();
+                    DataTable cloned = result.Tables[0].Clone();
+                    for (var i = 0; i < cloned.Columns.Count; i++)
+                    {
+                        cloned.Columns[i].DataType = typeof(string);
+                    }
+                    foreach (DataRow row in result.Tables[0].Rows)
+                    {
+                        cloned.ImportRow(row);
+                    }
 
+                    List<UploadExcels> empList = new List<UploadExcels>();
+                    //int table = Convert.ToInt32(dataSet.Tables.Count);
+                    //for (int i = 0; i < table; i++)
+                    //{
+                    foreach (DataRow dr in cloned.Rows)
+                    {
+                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]).Trim(), Type = Convert.ToString(dr["FilterType"]).Trim(), Instance = Convert.ToString(dr["Instance"]).Trim(), Facility = Convert.ToString(dr["Facility"]).Trim() });
+                    }
+                    //}
+                    string Environment = HttpContext.Session.GetString("Environment").ToString();
+                    string userid = HttpContext.Session.GetString("LoginId").ToString();
+
+                    ApiControl = new ApiOperation(Apibase);
+                    MainClass mainClass = new MainClass();
+                    mainClass.UploadExcels = empList;
+                    mainClass.Enviornment = Environment;
+                    mainClass.Userid = userid;
+                    var response = ApiControl.Post1<ServiceResponse<string>, MainClass>(mainClass, "api/Calling/UploadExcel");
+                    TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
+                }
+                catch (Exception ex)
+                {
+
+                    TempData["Success"] = ex.Message.Replace("'"," ");
+                    return RedirectToAction("Dashboard", "Home");
+                }
             }
             //return PartialView("~/Views/Home/Dashboard.cshtml");
             return RedirectToAction("Dashboard", "Home");
@@ -118,6 +128,54 @@ namespace UniWare_PandoIntegration.Controllers
         public ActionResult Uploads()
         {
             return View();
+        }
+        public ActionResult DispatchUploadTemplate()
+        {
+            try
+            {
+                string contentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                string fileName = "Dispatch Upload.xlsx";
+                using (var workbook = new XLWorkbook())
+                {
+                    IXLWorksheet worksheet =
+                    workbook.Worksheets.Add("Code");
+                    worksheet.Cell(1, 1).Value = "Code";
+                    worksheet.Cell(1, 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 1).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 1).Style.Font.Bold = true;
+                    worksheet.Cell(1, 1).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 2).Value = "FilterType";
+                    worksheet.Cell(1, 2).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 2).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 2).Style.Font.Bold = true;
+                    worksheet.Cell(1, 2).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 3).Value = "Instance";
+                    worksheet.Cell(1, 3).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 3).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 3).Style.Font.Bold = true;
+                    worksheet.Cell(1, 3).Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    worksheet.Cell(1, 4).Value = "Facility";
+                    worksheet.Cell(1, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    worksheet.Cell(1, 4).Style.Font.FontColor = XLColor.Black;
+                    worksheet.Cell(1, 4).Style.Fill.BackgroundColor = XLColor.LightBlue;
+                    worksheet.Cell(1, 4).Style.Font.Bold = true;
+                    worksheet.ShowGridLines = true;
+                   
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, contentType, fileName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json("Failed", System.Web.Mvc.JsonRequestBehavior.AllowGet);
+            }
         }
         public ActionResult UploadMaster()
         {
@@ -1353,7 +1411,7 @@ namespace UniWare_PandoIntegration.Controllers
             specialCharacterEntity.Enviornment = HttpContext.Session.GetString("Environment").ToString();
             specialCharacterEntity.userid = HttpContext.Session.GetString("LoginId").ToString();
             specialCharacterEntity.Contents = new StreamReader(Upload.OpenReadStream()).ReadToEnd();
-            var response = ApiControl.Post1< ServiceResponse<string>, SpecialCharacterEntity>(specialCharacterEntity,  "api/Calling/UpdateSpecialCharacters");
+            var response = ApiControl.Post1<ServiceResponse<string>, SpecialCharacterEntity>(specialCharacterEntity, "api/Calling/UpdateSpecialCharacters");
             TempData["Success"] = response.Remove(0, 1).Remove(response.Length - 2, 1);
             return RedirectToAction("Dashboard", "Home");
 
@@ -1395,7 +1453,7 @@ namespace UniWare_PandoIntegration.Controllers
                     {
                         worksheet.Cell(index + 1, 1).Value = listdata[index - 1].ReferenceName;
                         worksheet.Cell(index + 1, 2).Value = listdata[index - 1].ActualName;
-                        worksheet.Cell(index + 1,index).Style.Font.FontColor = XLColor.Black;
+                        worksheet.Cell(index + 1, index).Style.Font.FontColor = XLColor.Black;
                         //worksheet.Cell(index + 1, 2).Style.Font.FontColor = XLColor.Black;
 
                     }
@@ -1464,7 +1522,7 @@ namespace UniWare_PandoIntegration.Controllers
                 {
                     cloned.ImportRow(row);
                 }
-                List<CityMasterEntity>  cityList = new List<CityMasterEntity>();
+                List<CityMasterEntity> cityList = new List<CityMasterEntity>();
 
                 foreach (DataRow dr in cloned.Rows)
                 {

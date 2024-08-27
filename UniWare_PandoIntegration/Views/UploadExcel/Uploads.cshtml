@@ -24,6 +24,12 @@
         }
         return true;
     }
+
+
+    $("#DispatchTemplate").click(function () {
+        var url = "/UploadExcel/DispatchUploadTemplate/";
+        window.location.href = url;
+    });
 </script>
 <style>
     .page-title {
@@ -33,11 +39,21 @@
         margin-left: 25px;
         font-weight: 500;
     }
+
+    #DispatchTemplate {
+        position: absolute;
+        top: 9%;
+        right: 0;
+        width: 141px;
+        transform: translateY(-50%);
+    }
 </style>
 
 
 <div class="container">
     <div class="col-md-12">
+        <button class="btn btn-success " id="DispatchTemplate"><i class="mdi mdi-download" style="color: #fff !important">Download Template</i></button>
+
         <div class="col-md-3" style="padding:39px;margin-left: 210px;" ">
             <div class="left-side-content" style="margin-top:60px;">
                 <div style="width: 497px;height: 140px;">

@@ -92,4 +92,15 @@ namespace Uniware_PandoIntegration.Entities
         public string expected_delivery_date { get; set; }
         public List<string> exclude_vehicle_type { get; set; }
     }
+
+    public class UploadReturnOrder
+    {
+        public string code { get; set; }
+        public string source { get; set; }
+        public string facility { get; set; }
+    }
+    public class GetDateReturnorder
+    {
+
+    }
 }

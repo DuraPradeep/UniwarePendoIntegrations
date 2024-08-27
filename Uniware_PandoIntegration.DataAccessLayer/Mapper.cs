@@ -343,16 +343,17 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return Finaldata;
         }
-        public static ServiceResponse<List<ReturnorderCode>> GetReturnOrderCode(DataSet pds)
+        public static ServiceResponse<List<UploadReturnOrder>> GetReturnOrderCode(DataSet pds)
         {
-            ServiceResponse<List<ReturnorderCode>> skucodes = new ServiceResponse<List<ReturnorderCode>>();
-            List<ReturnorderCode> userProfile = new List<ReturnorderCode>();
+            ServiceResponse<List<UploadReturnOrder>> skucodes = new ServiceResponse<List<UploadReturnOrder>>();
+            List<UploadReturnOrder> userProfile = new List<UploadReturnOrder>();
             try
             {
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
-                    ReturnorderCode returncode = new ReturnorderCode();
+                    UploadReturnOrder returncode = new UploadReturnOrder();
                     returncode.code = pds.Tables[0].Rows[i]["code"].ToString();
+                    returncode.facility = pds.Tables[0].Rows[i]["FacilityCode"].ToString();
                     userProfile.Add(returncode);
                 }
                 skucodes.ObjectParam = userProfile;

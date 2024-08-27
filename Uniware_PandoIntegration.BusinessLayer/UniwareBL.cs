@@ -20,7 +20,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
     public class UniwareBL
     {
-        public bool InsertCode(List<Element> elements, string Enviornment)
+        public bool InsertCode(List<UploadElements> elements, string Enviornment)
         {
             bool res;
             try
@@ -894,7 +894,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertReturnOrdercoder(List<ReturnorderCode> elements, string FacilityCode, string Enviornment,string Instance)
+        public bool insertReturnOrdercoder(List<UploadReturnOrder> elements, string Enviornment,string Instance)
         {
             bool res;
             try
@@ -907,8 +907,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 {
                     DataRow dr = dtinstcode.NewRow();
                     dr["Code"] = elements[i].code;
-                    dr["FacilityCode"] = FacilityCode;
-                    dr["Instance"] = Instance;
+                    dr["FacilityCode"] = elements[i].facility;
+                    dr["Instance"] = elements[i].source;
                     dtinstcode.Rows.Add(dr);
                 }
                 res = SPWrapper.InsertReturnOrderCode(dtinstcode, Enviornment);
@@ -921,9 +921,9 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodes(string Instacne, string Enviornment)
+        public ServiceResponse<List<UploadReturnOrder>> GetReturnOrderCodes(string Instacne, string Enviornment)
         {
-            ServiceResponse<List<ReturnorderCode>> codes = new ServiceResponse<List<ReturnorderCode>>();
+            ServiceResponse<List<UploadReturnOrder>> codes = new ServiceResponse<List<UploadReturnOrder>>();
 
             try
             {
@@ -1213,6 +1213,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dtsku.Columns.Add("invoice_date");
                 dtsku.Columns.Add("line_item_no");
                 dtsku.Columns.Add("pickup_reference_number");
+                dtsku.Columns.Add("cust_refid");
+                dtsku.Columns.Add("expected_delivery_date");
                 dtsku.Columns.Add("TriggerID");
                 //dtsku.Columns.Add("Instance");
 
@@ -1279,7 +1281,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 throw ex;
             }
         }
-        public bool insertGatePassCode(List<Element> elements, string FacilityCode, string instance, string Enviornment)
+        public bool insertGatePassCode(List<UploadElements> elements, string FacilityCode, string instance, string Enviornment)
         {
             bool res;
             try
@@ -1551,7 +1553,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertSTOAPIGatePassCode(List<Element> elements, string FacilityCode, string Enviornment)
+        public bool insertSTOAPIGatePassCode(List<UploadElements> elements, string FacilityCode, string Enviornment)
         {
             bool res;
             try
@@ -2085,9 +2087,9 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
-        public ServiceResponse<List<ReturnorderCode>> GetReturnOrderCodesForRetrigger(string Enviornment)
+        public ServiceResponse<List<UploadReturnOrder>> GetReturnOrderCodesForRetrigger(string Enviornment)
         {
-            ServiceResponse<List<ReturnorderCode>> codes = new ServiceResponse<List<ReturnorderCode>>();
+            ServiceResponse<List<UploadReturnOrder>> codes = new ServiceResponse<List<UploadReturnOrder>>();
 
             try
             {

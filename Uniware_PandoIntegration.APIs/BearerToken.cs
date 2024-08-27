@@ -548,7 +548,7 @@ namespace Uniware_PandoIntegration.APIs
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Order Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {

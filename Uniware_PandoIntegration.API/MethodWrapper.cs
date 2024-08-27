@@ -24,11 +24,11 @@ namespace Uniware_PandoIntegration.API
         BearerToken _Token = new BearerToken();
         private bool disposedValue;
         //Emailtrigger Emailtrigger = new Emailtrigger();
-        public List<Element> getCode(string json, string token, int checkcount, string servertype, string instance)
+        public List<UploadElements> getCode(string json, string token, int checkcount, string servertype, string instance)
         {
             int Lcheckcount = checkcount;
             var result = _Token.GetCode(json, token, servertype, instance);
-            List<Element> elmt = new List<Element>();
+            List<UploadElements> elmt = new List<UploadElements>();
 
             List<ErrorDetails> errorDetails = new List<ErrorDetails>();
             List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
@@ -50,7 +50,7 @@ namespace Uniware_PandoIntegration.API
                 var code = JsonConvert.DeserializeObject<Root>(result.Result.ObjectParam);
                 for (int i = 0; i < code.elements.Count; i++)
                 {
-                    Element elmts = new Element();
+                    UploadElements elmts = new UploadElements();
                     elmts.code = code.elements[i].code;
                     elmts.source = instance;
                     elmt.Add(elmts);
@@ -596,10 +596,10 @@ namespace Uniware_PandoIntegration.API
             }
             return serviceResponse;
         }
-        public List<ReturnorderCode> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
+        public List<UploadReturnOrder> GetReturnorderCode(string json, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
-            List<ReturnorderCode> returnorderCode = new List<ReturnorderCode>();
+            List<UploadReturnOrder> returnorderCode = new List<UploadReturnOrder>();
             var results = _Token.ReturnOrderGetCode(json, token, ServerType, FacilityCode.Trim(), Instance);
             if (results.Result.Errcode < 200 || results.Result.Errcode > 299)
             {
@@ -620,9 +620,9 @@ namespace Uniware_PandoIntegration.API
                 var Dresult = JsonConvert.DeserializeObject<RootReturnOrder>(results.Result.ObjectParam);
                 for (int i = 0; i < Dresult.returnOrders.Count; i++)
                 {
-                    ReturnorderCode elmts = new ReturnorderCode();
+                    UploadReturnOrder elmts = new UploadReturnOrder();
                     elmts.code = Dresult.returnOrders[i].code;
-                    elmts.Source = Instance;
+                    elmts.source = Instance;
                     returnorderCode.Add(elmts);
                 }
             }
@@ -762,12 +762,12 @@ namespace Uniware_PandoIntegration.API
             return ResStatus;
         }
 
-        public List<Element> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
+        public List<UploadElements> GatePass(string jdetail, string token, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
             int Lcheckcount = checkcount;
             var list = _Token.FetchingGetPassCode(jdetail, token, ServerType, FacilityCode, Instance);
-            Element rootReturnorderAPI = new Element();
-            List<Element> listcode = new List<Element>();
+            UploadElements rootReturnorderAPI = new UploadElements();
+            List<UploadElements> listcode = new List<UploadElements>();
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, STO WayBill response: " + list.Result.ObjectParam);
             List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
 
@@ -790,7 +790,7 @@ namespace Uniware_PandoIntegration.API
                 var Dlist = JsonConvert.DeserializeObject<STOGatePass>(list.Result.ObjectParam);
                 for (int i = 0; i < Dlist.elements.Count; i++)
                 {
-                    Element code = new Element();
+                    UploadElements code = new UploadElements();
                     code.code = Dlist.elements[i].code;
                     code.source = Instance;
                     listcode.Add(code);
