@@ -101,7 +101,7 @@ namespace UniWare_PandoIntegration.Controllers
                     //{
                     foreach (DataRow dr in cloned.Rows)
                     {
-                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]).Trim(), Type = Convert.ToString(dr["FilterType"]).Trim(), Instance = Convert.ToString(dr["Instance"]).Trim(), Facility = Convert.ToString(dr["Facility"]).Trim() });
+                        empList.Add(new UploadExcels { Code = Convert.ToString(dr["Code"]).Trim(), Type = Convert.ToString(dr["FilterType"]).Trim(), Instance = Convert.ToString(dr["Instance"]).Trim(), Facility = Convert.ToString(dr["FacilityCode"]).Trim() });
                     }
                     //}
                     string Environment = HttpContext.Session.GetString("Environment").ToString();
@@ -157,7 +157,7 @@ namespace UniWare_PandoIntegration.Controllers
                     worksheet.Cell(1, 3).Style.Font.Bold = true;
                     worksheet.Cell(1, 3).Style.Fill.BackgroundColor = XLColor.LightBlue;
 
-                    worksheet.Cell(1, 4).Value = "Facility";
+                    worksheet.Cell(1, 4).Value = "FacilityCode";
                     worksheet.Cell(1, 4).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                     worksheet.Cell(1, 4).Style.Font.FontColor = XLColor.Black;
                     worksheet.Cell(1, 4).Style.Fill.BackgroundColor = XLColor.LightBlue;
