@@ -920,6 +920,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                     com.Parameters.AddWithValue("@totalAmount", Mainres.totalAmount);
                     com.Parameters.AddWithValue("@collectableAmount", Mainres.collectableAmount);
                     com.Parameters.AddWithValue("@courierName", Mainres.courierName);
+                    com.Parameters.AddWithValue("@Delivery_Code", Mainres.Shipment.code);
                     com.CommandTimeout = 1000;
                     con.Open();
                     com.ExecuteNonQuery();
