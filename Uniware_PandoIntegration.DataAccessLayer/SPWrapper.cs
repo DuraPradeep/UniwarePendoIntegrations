@@ -5791,7 +5791,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                         Connection = con,
                         CommandType = CommandType.StoredProcedure,
                         CommandText = "SP_failedstatus"
-                        //CommandText = "select shippingPackageCode,shippingLabelMandatory,shippingProviderCode,shippingCourier,trackingNumber,trackingLink from Allocate_Shipping  where shippingPackageCode='00311' "
+                        //CommandText = "select distinct providerCode,trackingNumber,trackingStatus,statusDate,shipmentTrackingStatusName,facilitycode from tbl_TrackingStatus  where shipmentTrackingStatusName='delivered' and cast(CreatedDate as date)=cast(GETDATE() as date) and facilitycode not in('W003','D034','D036','P001','D003','D009','D008','P006','D043','P003','P014','P055','P056','D001','D041','P004','D027','T002','T003','D035','D012','D042','T001','P009','D038','P002','P050','D025','D007')"
                     };
                     com.CommandTimeout = 1000;
                     con.Open();
