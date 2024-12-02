@@ -610,6 +610,23 @@ namespace Uniware_PandoIntegration.BusinessLayer
             }
 
         }
+        public ServiceResponse<ErrorCountEntitys> GetErrorCounts(string Enviornment)
+        {
+            ServiceResponse<ErrorCountEntitys> codes = new ServiceResponse<ErrorCountEntitys>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return codes = Mapper.GetErrorCount(SPWrapper.GetFailedCounte(Enviornment));
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
 
         public string GenerateNumeric()
         {

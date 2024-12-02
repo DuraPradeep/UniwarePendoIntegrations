@@ -267,6 +267,7 @@
     <Compile Include="CityMasterEntity.cs" />
     <Compile Include="CodesErrorDetails.cs" />
     <Compile Include="DashboardStatusMasterEntity.cs" />
+    <Compile Include="ErrorCountEntitys.cs" />
     <Compile Include="ErrorDetails.cs" />
     <Compile Include="FacilityDetails.cs" />
     <Compile Include="FacilityMaintain.cs" />

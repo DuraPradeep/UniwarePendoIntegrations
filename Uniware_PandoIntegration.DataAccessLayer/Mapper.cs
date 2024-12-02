@@ -267,6 +267,82 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return skucodes;
         }
+        public static ServiceResponse<ErrorCountEntitys> GetErrorCount(DataSet pds)
+        {
+            ServiceResponse<ErrorCountEntitys> ServiceError = new ServiceResponse<ErrorCountEntitys>();
+            ErrorCountEntitys ErrorDetails = new ErrorCountEntitys();
+            ErrorDetails.SaleorderDetails = new List<CodesErrorDetails>();
+            ErrorDetails.WaybillError = new List<EndpointErrorDetails>();
+            ErrorDetails.STOWaybill = new List<CodesErrorDetails>();
+            ErrorDetails.STOAPI = new List<CodesErrorDetails>();
+            ErrorDetails.UpdateShippingError = new List<EndpointErrorDetails>();
+            ErrorDetails.AllocateShippingError = new List<EndpointErrorDetails>();
+            try
+            {
+                //Saleorder details
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    CodesErrorDetails sKucode = new CodesErrorDetails();
+
+                    sKucode.CODE = pds.Tables[0].Rows[i]["CODE"].ToString();
+                    sKucode.itemSku = pds.Tables[0].Rows[i]["itemSku"].ToString();
+                    sKucode.Triggerid = pds.Tables[0].Rows[i]["triggerid"].ToString();
+                    sKucode.Reason = pds.Tables[0].Rows[i]["Reason"].ToString();
+                    ErrorDetails.SaleorderDetails.Add(sKucode);
+                }
+                //Waybill Details
+                for (int i = 0; i < pds.Tables[1].Rows.Count; i++)
+                {
+                    EndpointErrorDetails sKucode = new EndpointErrorDetails();
+                    sKucode.Reason = pds.Tables[1].Rows[i]["reason"].ToString();
+                    ErrorDetails.WaybillError.Add(sKucode);
+                }
+                //STOWaybill
+                for (int i = 0; i < pds.Tables[2].Rows.Count; i++)
+                {
+                    CodesErrorDetails sKucode = new CodesErrorDetails();
+
+                    sKucode.CODE = pds.Tables[2].Rows[i]["CODE"].ToString();
+                    sKucode.itemSku = pds.Tables[2].Rows[i]["itemSku"].ToString();
+                    sKucode.Triggerid = pds.Tables[2].Rows[i]["triggerid"].ToString();
+                    sKucode.Reason = pds.Tables[2].Rows[i]["Reason"].ToString();
+                    ErrorDetails.STOWaybill.Add(sKucode);
+                }
+                //STOAPI
+                for (int i = 0; i < pds.Tables[3].Rows.Count; i++)
+                {
+                    CodesErrorDetails sKucode = new CodesErrorDetails();
+
+                    sKucode.CODE = pds.Tables[3].Rows[i]["CODE"].ToString();
+                    sKucode.itemSku = pds.Tables[3].Rows[i]["itemSku"].ToString();
+                    sKucode.Triggerid = pds.Tables[3].Rows[i]["triggerid"].ToString();
+                    sKucode.Reason = pds.Tables[3].Rows[i]["Reason"].ToString();
+                    ErrorDetails.STOAPI.Add(sKucode);
+                }
+                //Update Shipping
+                for (int i = 0; i < pds.Tables[4].Rows.Count; i++)
+                {
+                    EndpointErrorDetails sKucode = new EndpointErrorDetails();
+                    sKucode.Reason = pds.Tables[4].Rows[i]["reason"].ToString();
+                    ErrorDetails.UpdateShippingError.Add(sKucode);
+                }
+                //Allocate Shipping
+                for (int i = 0; i < pds.Tables[5].Rows.Count; i++)
+                {
+                    EndpointErrorDetails sKucode = new EndpointErrorDetails();
+                    sKucode.Reason = pds.Tables[5].Rows[i]["reason"].ToString();
+                    ErrorDetails.AllocateShippingError.Add(sKucode);
+                }
+
+                ServiceError.ObjectParam = ErrorDetails;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return ServiceError;
+        }
         public static ServiceResponse<List<PostErrorDetails>> PostErrorDetails(DataSet pds)
         {
             ServiceResponse<List<PostErrorDetails>> serviceResponse = new ServiceResponse<List<PostErrorDetails>>();
@@ -1181,9 +1257,9 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         }
         public static List<TDashboardDetails> GetDashBoardDetailsByName(DataSet pds)
         {
-           List<TDashboardDetails> DashboardDetails = new List<TDashboardDetails>();
+            List<TDashboardDetails> DashboardDetails = new List<TDashboardDetails>();
             try
-            {               
+            {
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
                     TDashboardDetails details = new TDashboardDetails();
@@ -1251,7 +1327,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         {
             bool res;
             try
-            { 
+            {
                 DataTable dtinstcode = new DataTable();
                 dtinstcode.Columns.Add("Id");
                 dtinstcode.Columns.Add("providerCode");
@@ -1294,10 +1370,10 @@ namespace Uniware_PandoIntegration.DataAccessLayer
                 for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
                 {
                     TDashboardDetails returncode = new TDashboardDetails();
-                    returncode.TrackingNumber= pds.Tables[0].Rows[i]["TrackingNumber"].ToString();
-                    returncode.DisplayOrder= pds.Tables[0].Rows[i]["DisplayOrderCode"].ToString();
-                    returncode.ShipmentID= pds.Tables[0].Rows[i]["ShipmentId"].ToString();
-                    returncode.LatestStatus= pds.Tables[0].Rows[i]["Status"].ToString();
+                    returncode.TrackingNumber = pds.Tables[0].Rows[i]["TrackingNumber"].ToString();
+                    returncode.DisplayOrder = pds.Tables[0].Rows[i]["DisplayOrderCode"].ToString();
+                    returncode.ShipmentID = pds.Tables[0].Rows[i]["ShipmentId"].ToString();
+                    returncode.LatestStatus = pds.Tables[0].Rows[i]["Status"].ToString();
                     returncode.MileStone = pds.Tables[0].Rows[i]["MileStone"].ToString();
                     returncode.CourierName = pds.Tables[0].Rows[i]["CourierName"].ToString();
                     returncode.trackingLink = pds.Tables[0].Rows[i]["TrackingLink"].ToString();

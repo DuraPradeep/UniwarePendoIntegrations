@@ -407,83 +407,127 @@ namespace UniWare_PandoIntegration.Controllers
         public ActionResult NotificationErrorListCount()
         {
             //sale order
-            ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
+            //ServiceResponse<List<CodesErrorDetails>> response = new ServiceResponse<List<CodesErrorDetails>>();
             ApiControl = new ApiOperation(Apibase);
 
             var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            var countDetailsresponse = ApiControl.Get<ServiceResponse<ErrorCountEntitys>, string>(Enviornment, "Enviornment", "api/Calling/GetErrorCountDetails");
 
-            response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/GetSaleOrderErrorCodes");
+            //response = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/GetSaleOrderErrorCodes");
             int count = 0;
             List<string> strings = new List<string>();
             string name;
-            if (response.ObjectParam.Count > 0)
+            if (countDetailsresponse.ObjectParam.SaleorderDetails.Count> 0)
             {
                 name = "Sale Order API";
                 count += 1;
                 strings.Add(name);
             }
-            //waybill
-            ServiceResponse<List<EndpointErrorDetails>> waybill = new ServiceResponse<List<EndpointErrorDetails>>();
-            //ApiControl = new ApiOperation();
-            waybill = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/waybillErrorDetails");
-            if (waybill.ObjectParam.Count > 0)
+            if (countDetailsresponse.ObjectParam.WaybillError.Count > 0)
             {
                 name = "Waybill generation";
                 count += 1;
-                ViewData["FailedStatus"]  = 1;
+                ViewData["FailedStatus"] = 1;
                 strings.Add(name);
             }
-            //return Order
-            //ServiceResponse<List<CodesErrorDetails>> resturnorer = new ServiceResponse<List<CodesErrorDetails>>();
-            ////ApiControl = new ApiOperation();
-            //resturnorer = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/ReturnOrderDetails");
-            //if (resturnorer.ObjectParam.Count > 0)
+
+            if (countDetailsresponse.ObjectParam.STOWaybill.Count > 0)
+            {
+                name = "STO Waybill";
+                count += 1;
+                ViewData["FailedStatus"] = 1;
+                strings.Add(name);
+            }
+            if (countDetailsresponse.ObjectParam.STOAPI.Count > 0)
+            {
+                name = "STO API";
+                count += 1;
+                ViewData["FailedStatus"] = 1;
+                strings.Add(name);
+            }
+            if (countDetailsresponse.ObjectParam.UpdateShippingError.Count > 0)
+            {
+                name = "Update Shipping";
+                count += 1;
+                ViewData["FailedStatus"] = 1;
+                strings.Add(name);
+            }
+            if (countDetailsresponse.ObjectParam.AllocateShippingError.Count > 0)
+            {
+                name = "Allocate Shipping";
+                count += 1;
+                ViewData["FailedStatus"] = 1;
+                strings.Add(name);
+            }
+
+            //if (response.ObjectParam.Count > 0)
             //{
-            //    name = "return Order";
+            //    name = "Sale Order API";
+            //    count += 1;
+            //    strings.Add(name);
+            //}
+            ////waybill
+            //ServiceResponse<List<EndpointErrorDetails>> waybill = new ServiceResponse<List<EndpointErrorDetails>>();
+            ////ApiControl = new ApiOperation();
+            //waybill = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/waybillErrorDetails");
+            //if (waybill.ObjectParam.Count > 0)
+            //{
+            //    name = "Waybill generation";
             //    count += 1;
             //    ViewData["FailedStatus"]  = 1;
             //    strings.Add(name);
             //}
-            //STO Waybill
-            ServiceResponse<List<CodesErrorDetails>> STOwaybill = new ServiceResponse<List<CodesErrorDetails>>();
-            //ApiControl = new ApiOperation();
-            STOwaybill = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/STOWaybillErrorDetails");
-            if (STOwaybill.ObjectParam.Count > 0)
-            {
-                name = "STO Waybill";
-                count += 1;
-                ViewData["FailedStatus"]  = 1;
-                strings.Add(name);
-            }
-            //STO API
-            ServiceResponse<List<CodesErrorDetails>> STOAPI = new ServiceResponse<List<CodesErrorDetails>>();
-            //ApiControl = new ApiOperation();
-            STOAPI = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/STOApiErrorDetails");
-            if (STOAPI.ObjectParam.Count > 0)
-            {
-                name = "STO API";
-                count += 1;
-                ViewData["FailedStatus"]  = 1;
-                strings.Add(name);
-            }
-            ServiceResponse<List<EndpointErrorDetails>> UpdateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
-            UpdateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/UpdateShippingErrorDetails");
-            if (UpdateShiping.ObjectParam.Count > 0)
-            {
-                name = "Update Shipping";
-                count += 1;
-                ViewData["FailedStatus"]  = 1;
-                strings.Add(name);
-            }
-            ServiceResponse<List<EndpointErrorDetails>> AlocateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
-            AlocateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/AloateShippingErrorDetails");
-            if (AlocateShiping.ObjectParam.Count > 0)
-            {
-                name = "Allocate Shipping";
-                count += 1;
-                ViewData["FailedStatus"]  = 1;
-                strings.Add(name);
-            }
+            ////return Order
+            ////ServiceResponse<List<CodesErrorDetails>> resturnorer = new ServiceResponse<List<CodesErrorDetails>>();
+            //////ApiControl = new ApiOperation();
+            ////resturnorer = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/ReturnOrderDetails");
+            ////if (resturnorer.ObjectParam.Count > 0)
+            ////{
+            ////    name = "return Order";
+            ////    count += 1;
+            ////    ViewData["FailedStatus"]  = 1;
+            ////    strings.Add(name);
+            ////}
+            ////STO Waybill
+            //ServiceResponse<List<CodesErrorDetails>> STOwaybill = new ServiceResponse<List<CodesErrorDetails>>();
+            ////ApiControl = new ApiOperation();
+            //STOwaybill = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/STOWaybillErrorDetails");
+            //if (STOwaybill.ObjectParam.Count > 0)
+            //{
+            //    name = "STO Waybill";
+            //    count += 1;
+            //    ViewData["FailedStatus"]  = 1;
+            //    strings.Add(name);
+            //}
+            ////STO API
+            //ServiceResponse<List<CodesErrorDetails>> STOAPI = new ServiceResponse<List<CodesErrorDetails>>();
+            ////ApiControl = new ApiOperation();
+            //STOAPI = ApiControl.Get<ServiceResponse<List<CodesErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/STOApiErrorDetails");
+            //if (STOAPI.ObjectParam.Count > 0)
+            //{
+            //    name = "STO API";
+            //    count += 1;
+            //    ViewData["FailedStatus"]  = 1;
+            //    strings.Add(name);
+            //}
+            //ServiceResponse<List<EndpointErrorDetails>> UpdateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
+            //UpdateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/UpdateShippingErrorDetails");
+            //if (UpdateShiping.ObjectParam.Count > 0)
+            //{
+            //    name = "Update Shipping";
+            //    count += 1;
+            //    ViewData["FailedStatus"]  = 1;
+            //    strings.Add(name);
+            //}
+            //ServiceResponse<List<EndpointErrorDetails>> AlocateShiping = new ServiceResponse<List<EndpointErrorDetails>>();
+            //AlocateShiping = ApiControl.Get<ServiceResponse<List<EndpointErrorDetails>>, string>(Enviornment, "Enviornment", "api/Calling/AloateShippingErrorDetails");
+            //if (AlocateShiping.ObjectParam.Count > 0)
+            //{
+            //    name = "Allocate Shipping";
+            //    count += 1;
+            //    ViewData["FailedStatus"]  = 1;
+            //    strings.Add(name);
+            //}
 
             var result = new { name = strings, ID = count };
             //return Json(count,strings);

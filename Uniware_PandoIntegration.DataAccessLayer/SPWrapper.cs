@@ -881,6 +881,49 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+        public static DataSet GetFailedCounte(string Enviornment)
+        {
+
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da = new SqlDataAdapter();
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "Pro_GetErrorCount",
+                        CommandTimeout = 1000
+                    };
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds);
+                    con.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
         public static void CreateLog(string message)
         {
             Log.Information(message);

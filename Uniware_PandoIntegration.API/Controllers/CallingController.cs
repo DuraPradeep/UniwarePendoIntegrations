@@ -485,6 +485,16 @@ namespace Uniware_PandoIntegration.API.Controllers
 
             return returndata;
         }
+        [HttpGet]
+        public ServiceResponse<ErrorCountEntitys> GetErrorCountDetails(string Enviornment)
+        {
+            string Servertype = Enviornment;
+            //string Servertype = iconfiguration["ServerType:type"];
+
+            var returndata = ObjBusinessLayer.GetErrorCounts(Servertype);
+
+            return returndata;
+        }
 
         [HttpPost]
         public IActionResult authToken(TokenEntity tokenEntity)
