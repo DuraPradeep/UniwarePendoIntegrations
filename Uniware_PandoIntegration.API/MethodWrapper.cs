@@ -119,8 +119,12 @@ namespace Uniware_PandoIntegration.API
                         var jso = JsonConvert.SerializeObject(hello);
                         salesorderRoot items = JsonConvert.DeserializeObject<salesorderRoot>(jso);
                         details = items;
+                        //List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
+                        //shippingPackages = details.saleOrderDTO.shippingPackages;
+
                         List<ShippingPackage> shippingPackages = new List<ShippingPackage>();
-                        shippingPackages = details.saleOrderDTO.shippingPackages;
+                        // Added condition to skip shipping packages with status == "CANCELLED" & having items empty
+                        shippingPackages = details.saleOrderDTO.shippingPackages.Where(a => a.status != "CANCELLED").ToList();
 
                         foreach (JProperty item in abc.Children())
                         {
@@ -131,9 +135,26 @@ namespace Uniware_PandoIntegration.API
                                     var mi = 0;
                                     foreach (var item3 in item2.Children()["items"])
                                     {
+                                        // Added condition to skip shipping packages with status == "CANCELLED" & having items empty
+                                        if (!item3.HasValues)
+                                            continue;
+
                                         ShippingPackage shippingPackage = new ShippingPackage();
                                         for (mi = 0; mi < shippingPackages.Count(); mi++)
                                         {
+
+                                            //foreach (JProperty item in abc.Children())
+                                            //{
+                                            //    if (item.Path == "saleOrderDTO.shippingPackages")
+                                            //    {
+                                            //        foreach (var item2 in item.Children())
+                                            //        {
+                                            //            var mi = 0;
+                                            //            foreach (var item3 in item2.Children()["items"])
+                                            //            {
+                                            //                ShippingPackage shippingPackage = new ShippingPackage();
+                                            //                for (mi = 0; mi < shippingPackages.Count(); mi++)
+                                            //                {
                                             shippingPackage = shippingPackages[mi];
                                             var adc = item3.Values();
                                             var helloq = JToken.FromObject(adc);
