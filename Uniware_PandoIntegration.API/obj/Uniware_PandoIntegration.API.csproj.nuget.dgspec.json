@@ -9,6 +9,7 @@
         "projectUniqueName": "D:\\New Pando\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj",
         "projectName": "Uniware_PandoIntegration.Common",
         "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.APIs\\Uniware_PandoIntegration.Common.csproj",
+        "UsingMicrosoftNETSdk": false,
         "frameworks": {
           "net48": {
             "projectReferences": {
@@ -68,7 +69,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -134,7 +141,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.111/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -143,6 +150,7 @@
         "projectUniqueName": "D:\\New Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj",
         "projectName": "Uniware_PandoIntegration.BusinessLayer",
         "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.BusinessLayer\\Uniware_PandoIntegration.BusinessLayer.csproj",
+        "UsingMicrosoftNETSdk": false,
         "frameworks": {
           "net48": {
             "projectReferences": {
@@ -168,6 +176,7 @@
         "projectUniqueName": "D:\\New Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
         "projectName": "Uniware_PandoIntegration.DataAccessLayer",
         "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.DataAccessLayer\\Uniware_PandoIntegration.DataAccessLayer.csproj",
+        "UsingMicrosoftNETSdk": false,
         "frameworks": {
           "net48": {
             "projectReferences": {
@@ -190,6 +199,7 @@
         "projectUniqueName": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
         "projectName": "Uniware_PandoIntegration.Entities",
         "projectPath": "D:\\New Pando\\Uniware_PandoIntegration.Entities\\Uniware_PandoIntegration.Entities.csproj",
+        "UsingMicrosoftNETSdk": false,
         "frameworks": {
           "net48": {
             "projectReferences": {}
@@ -242,7 +252,13 @@
           "warnAsError": [
             "NU1605"
           ]
-        }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -296,7 +312,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.111/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

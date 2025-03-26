@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UniWare_PandoIntegration", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackingStatusDashboard", "TrackingStatusDashboard\TrackingStatusDashboard.csproj", "{53F447EC-6927-4F26-BF42-35C2F00C08D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows Services", "Windows Services", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandoTrackingStatusService", "..\Demo\PandoService\PandoTrackingStatusService\PandoTrackingStatusService\PandoTrackingStatusService.csproj", "{878BEC82-C92D-442F-96E3-88B2062F7CF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,9 +55,16 @@ Global
 		{53F447EC-6927-4F26-BF42-35C2F00C08D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53F447EC-6927-4F26-BF42-35C2F00C08D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53F447EC-6927-4F26-BF42-35C2F00C08D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{878BEC82-C92D-442F-96E3-88B2062F7CF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{878BEC82-C92D-442F-96E3-88B2062F7CF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{878BEC82-C92D-442F-96E3-88B2062F7CF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{878BEC82-C92D-442F-96E3-88B2062F7CF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{878BEC82-C92D-442F-96E3-88B2062F7CF2} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BB4C6175-0687-44F1-9233-C567EB10F2EF}

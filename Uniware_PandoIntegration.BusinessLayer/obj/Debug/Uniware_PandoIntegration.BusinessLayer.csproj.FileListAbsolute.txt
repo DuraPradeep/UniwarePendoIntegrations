@@ -143,7 +143,6 @@ D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCo
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.Http.Features.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.WebUtilities.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Newtonsoft.Json.Bson.xml
-D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Net.Http.Headers.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Superpower.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.Http.Extensions.xml
@@ -160,10 +159,10 @@ D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCo
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.JsonPatch.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.ObjectPool.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.Localization.xml
-D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.AspNetCore.Hosting.Server.Abstractions.xml
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.AssemblyReference.cache
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.CoreCompileInputs.cache
-D:\New Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.csproj.CopyComplete
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.dll
 D:\New Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_PandoIntegration.BusinessLayer.pdb
+D:\New Pando\Uniware_PandoIntegration.BusinessLayer\bin\Debug\Microsoft.Extensions.Options.dll
+D:\New Pando\Uniware_PandoIntegration.BusinessLayer\obj\Debug\Uniware_.C60AFF33.Up2Date

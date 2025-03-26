@@ -109,6 +109,6 @@ D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.Threading.Tasks.
 D:\New Pando\Uniware_PandoIntegration.Entities\bin\Debug\System.ValueTuple.xml
 D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.AssemblyReference.cache
 D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CoreCompileInputs.cache
-D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.csproj.CopyComplete
 D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.dll
 D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_PandoIntegration.Entities.pdb
+D:\New Pando\Uniware_PandoIntegration.Entities\obj\Debug\Uniware_.0FBC89EC.Up2Date

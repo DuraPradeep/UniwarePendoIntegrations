@@ -194,6 +194,6 @@ D:\New Pando\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.AspNetCore.JsonPa
 D:\New Pando\Uniware_PandoIntegration.APIs\bin\Debug\Microsoft.Extensions.Localization.xml
 D:\New Pando\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.AssemblyReference.cache
 D:\New Pando\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CoreCompileInputs.cache
-D:\New Pando\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.Common.csproj.CopyComplete
 D:\New Pando\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.dll
 D:\New Pando\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_PandoIntegration.APIs.pdb
+D:\New Pando\Uniware_PandoIntegration.APIs\obj\Debug\Uniware_.C3F25E0F.Up2Date

@@ -3,11 +3,15 @@
     "Name": "New Profile",
     "Projects": [
       {
-        "Name": "Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
+        "Path": "Uniware_PandoIntegration.API\\Uniware_PandoIntegration.API.csproj",
         "Action": "Start"
       },
       {
-        "Name": "UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+        "Path": "UniWare_PandoIntegration\\UniWare_PandoIntegration.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "TrackingStatusDashboard\\TrackingStatusDashboard.csproj",
         "Action": "Start"
       }
     ]
