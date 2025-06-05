@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -3237,7 +3238,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return tokenEntity;
         }
-        public static void IsertshippingUpdate(DataTable dt, string Enviornment)
+        public static void InsertshippingUpdate(DataTable dt, string Enviornment)
         {
             string res;
             try
@@ -3318,7 +3319,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
 
         }
-        public static void IsertCustomFields(DataTable dt, string Enviornment)
+        public static void InsertCustomFields(DataTable dt, string Enviornment)
         {
             string res;
             try
@@ -3393,7 +3394,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
-        public static bool IsertAllocate_Shipping(DataTable dt, string Enviornment)
+        public static bool InsertAllocate_Shipping(DataTable dt, string Enviornment)
         {
             string res;
             bool result = false;
@@ -3557,7 +3558,7 @@ namespace Uniware_PandoIntegration.DataAccessLayer
         //    return res;
         //}
 
-        public static bool IsertUpdateShippingrecords(DataTable dt, string Enviornment)
+        public static bool InsertUpdateShippingrecords(DataTable dt, string Enviornment)
         {
             bool res;
             SqlConnection con=new SqlConnection();
@@ -6144,6 +6145,243 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             //finally { con.Close(); }
             return ds;
         }
+
+        public static bool InsertReturn_Allocate_Shipping(DataTable dt, string Enviornment)
+        {
+            bool result = false;
+            string connectionString = Enviornment == "Prod" ? ConnectionStringProd : ConnectionString;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand com = new SqlCommand("Sp_InsertReturnAllocateShipping", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@Details", dt);
+                    com.CommandTimeout = 1000;
+
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("Return Allocate Shipping Data Insert Error: " + ex.Message);
+
+            }
+
+            return result;
+
+
+        }
+
+        public static DataSet GetReturnAllocateShippingData(string Enviornment, DataTable dt)
+        {
+            var ds = new DataSet();
+            string connectionString = Enviornment == "Prod" ? ConnectionStringProd : ConnectionString;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand com = new SqlCommand("sp_GetReturnAllocate_Shipping", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.CommandTimeout = 1000;
+                    com.Parameters.AddWithValue("@Records", dt);
+
+                    using (SqlDataAdapter da = new SqlDataAdapter(com))
+                    {
+                        con.Open();
+                        da.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("Return Allocate Shipping Get Data Error: " + ex.Message);
+            }
+
+            return ds;
+        }
+        public static void ReturnAllocateShippingError(bool status, string reason, string shippingPackageCode, string environment)
+        {
+            string connectionString = environment == "Prod" ? ConnectionStringProd : ConnectionString;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand("Sp_ReturnAllocateShippingErrorStatus", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 1000;
+
+                    cmd.Parameters.AddWithValue("@Status", status);
+                    cmd.Parameters.AddWithValue("@Reason", reason);
+                    cmd.Parameters.AddWithValue("@ShippingPackageCode", shippingPackageCode); // Use the correct SP param name
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("Return Allocate Shipping Error update Error" + ex.Message);
+
+            }
+        }
+        public static void InsertReturnshippingUpdate(DataTable dt, string Enviornment)
+        {
+            string connectionString = Enviornment == "Prod" ? ConnectionStringProd : ConnectionString;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_insertReturnUpdateShippingPackage", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 1000;
+
+                    cmd.Parameters.AddWithValue("@records", dt);                   
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("Return Update Shipping Error " + ex.Message);
+
+            }
+
+
+        }
+        public static void InsertReturnCustomFields(DataTable dt, string Enviornment)
+        {
+            string connectionString = Enviornment == "Prod" ? ConnectionStringProd : ConnectionString;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand cmd = new SqlCommand("sp_InsertReturnCustomFields", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 1000;
+
+                    cmd.Parameters.AddWithValue("@Records", dt);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("Return Custom Fields Error " + ex.Message);
+
+            }
+        }
+        public static DataSet GetReturnUpdateShippingData(string Enviornment)
+        {
+            //con = GetConnection();
+            //com = new SqlCommand();
+            DataSet ds = new DataSet();
+            SqlDataAdapter da;
+            try
+            {
+                SqlCommand com;
+                SqlConnection con;
+                if (Enviornment == "Prod")
+                {
+                    con = new SqlConnection(ConnectionStringProd);
+                }
+                else
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                using (con)
+                {
+                    com = new SqlCommand()
+                    {
+                        Connection = con,
+                        CommandType = CommandType.StoredProcedure,
+                        CommandText = "sp_GetReturnUpdateshipping"
+                    };
+                    com.CommandTimeout = 1000;
+                    con.Open();
+                    da = new SqlDataAdapter(com);
+                    da.Fill(ds); con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                //CreateLog(ex.Message);
+                throw ex;
+            }
+            //finally { con.Close(); }
+            return ds;
+        }
+        public static bool InsertReturnUpdateShippingRecords(DataTable dt, string Enviornment)
+        {
+
+            bool result = false;
+            string connectionString = Enviornment == "Prod" ? ConnectionStringProd : ConnectionString;
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                using (SqlCommand com = new SqlCommand("sp_insertReturnUpdateshippingFullData", con))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.AddWithValue("@UpdateList", dt);
+                    com.CommandTimeout = 1000;
+
+                    con.Open();
+                    com.ExecuteNonQuery();
+                    result = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("Return Update Shipping Post Data Error: " + ex.Message);
+
+            }
+
+            return result;
+
+        }
+
+        public static DataSet GetTrackOrderDetails(string mobileNo, string brand, string environment)
+        {
+            var ds = new DataSet();
+
+            string connectionString = environment == "Prod" ? ConnectionStringProd : ConnectionString;
+
+            try
+            {
+                using (var con = new SqlConnection(connectionString))
+                using (var cmd = new SqlCommand("SP_GetTrackOrder", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 1000;
+
+                    cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar, 20).Value = mobileNo;
+                    cmd.Parameters.Add("@Brand", SqlDbType.VarChar, 50).Value = brand;
+
+                    using (var adapter = new SqlDataAdapter(cmd))
+                    {
+                        adapter.Fill(ds);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                CreateLog("Get Track Order Details Error: " + ex.Message);
+            }
+
+            return ds;
+        }
+
+
 
     }
 

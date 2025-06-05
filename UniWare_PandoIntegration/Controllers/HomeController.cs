@@ -135,9 +135,14 @@ namespace UniWare_PandoIntegration.Controllers
 
             int LoginId = Convert.ToInt32(HttpContext.Session.GetString("LoginId"));
             ApiControl = new ApiOperation(Apibase);
-           var roleid= HttpContext.Session.GetString("Role").ToString();
+            var roleid = HttpContext.Session.GetString("Role");
+            if (string.IsNullOrEmpty(roleid))
+            {
+                // Handle missing Role, e.g. redirect to login page
+                return RedirectToAction("Login");
+            }
 
-            var Enviornment = HttpContext.Session.GetString("Environment").ToString();
+            //var Enviornment = HttpContext.Session.GetString("Environment").ToString();
             if (TempData["Success"] == null)
             {
                 TempData["Success"] = "Welcome " + HttpContext.Session.GetString("UserName") + " to the Dashboard!!";

@@ -159,25 +159,25 @@ namespace Uniware_PandoIntegration.API
                         //Start Update Shipping Package to Send Data
                         #region Allocate Shipping post data
                         UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
-                        updateShippingpackage.shippingPackageCode = results[i].shippingPackageCode;
-                        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
-                        CustomFieldValue customFieldValue = new CustomFieldValue();
+                            updateShippingpackage.shippingPackageCode = results[i].shippingPackageCode;
+                            updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+                            CustomFieldValue customFieldValue = new CustomFieldValue();
 
-                        customFieldValue.name = "TrackingLink2";
-                        customFieldValue.value = results[i].trackingLink;
-                        updateShippingpackage.customFieldValues.Add(customFieldValue);
-                        #endregion
-                        var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
+                            customFieldValue.name = "TrackingLink2";
+                            customFieldValue.value = results[i].trackingLink;
+                            updateShippingpackage.customFieldValues.Add(customFieldValue);
+                            #endregion
+                            var triggerid = ObjBusinessLayer.UpdateShippingDataPost(updateShippingpackagedbs, Servertype);
 
-                        var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
-                        if (responses.IsSuccess == false)
-                        {
-                            //res = false;
-                            ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
-                        }
+                            var responses = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
+                            if (responses.IsSuccess == false)
+                            {
+                                //res = false;
+                                ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason " + responses.ObjectParam);
+                            }
 
 
-                        var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+                            var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
                             var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, allocateshipping.shippingPackageCode, _Tokens.access_token, facility, Servertype, Instance);
                             //var response = _MethodWrapper.AllocatingShippingPostData(allocateshipping, 0, Triggerid, _Tokens.access_token, facility, Servertype, Instance);
                             if (response.IsSuccess)
@@ -199,6 +199,8 @@ namespace Uniware_PandoIntegration.API
                                 res = false;
 
                             }
+                        
+                        
                        // }
 
                         //Idle for 5sec
@@ -217,12 +219,6 @@ namespace Uniware_PandoIntegration.API
                         Emailtrigger.SendEmailToAdmin("Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
 
                     }
-                    //SuccessResponse successResponse = new SuccessResponse();
-                    //successResponse.status = "Success";
-                    //successResponse.waybill = "";
-                    //successResponse.shippingLabel = "";
-                    //_logger.LogInformation($" Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
-                    //return new JsonResult(successResponse);
                 }
                 else
                 {
@@ -356,10 +352,6 @@ namespace Uniware_PandoIntegration.API
                 throw;
             }
 
-        }
-        public void CreateLog(string message)
-        {
-            Log.Information(message);
         }
 
 
@@ -606,9 +598,211 @@ namespace Uniware_PandoIntegration.API
             }
             return Result;
         }
+        public void CallReversePickup(List<ReversePickupDb> reversePickup,string ServerType)
+        {
+            var resu = _Token.GetTokens(ServerType, "DFX").Result;
+            List<ReversePickupDb> reverseitems = new List<ReversePickupDb>();
+            List<PickUpAddressDb> pickaddressitems = new List<PickUpAddressDb>();
+            List<DimensionDb> dimitems = new List<DimensionDb>();
+            List<CustomFieldDb> customfields = new List<CustomFieldDb>();
+            for (int i = 0; i < reversePickup.Count; i++)
+            {
+                //var randonid = ObjBusinessLayer.GenerateNumeric();
+                var randonid = reversePickup[i].reversePickupCode;
+                ReversePickupDb reverse = new ReversePickupDb();
+                reverse.CId = randonid;
+                reverse.reversePickupCode = reversePickup[i].reversePickupCode;
+                reverse.pickupInstruction = reversePickup[i].pickupInstruction;
+                reverse.trackingLink = reversePickup[i].trackingLink;
+                reverse.shippingCourier = reversePickup[i].shippingCourier;
+                reverse.trackingNumber = reversePickup[i].trackingNumber;
+                reverse.shippingProviderCode = reversePickup[i].shippingProviderCode;
+                reverseitems.Add(reverse);
+                PickUpAddressDb pickUpAddress = new PickUpAddressDb();
+                pickUpAddress.CId = randonid;
+                pickUpAddress.id = reversePickup[i].pickUpAddress.id;
+                pickUpAddress.name = reversePickup[i].pickUpAddress.name;
+                pickUpAddress.addressLine1 = reversePickup[i].pickUpAddress.addressLine1;
+                pickUpAddress.addressLine2 = reversePickup[i].pickUpAddress.addressLine2;
+                pickUpAddress.city = reversePickup[i].pickUpAddress.city;
+                pickUpAddress.state = reversePickup[i].pickUpAddress.state;
+                pickUpAddress.phone = reversePickup[i].pickUpAddress.phone;
+                pickUpAddress.pincode = reversePickup[i].pickUpAddress.pincode;
+                pickaddressitems.Add(pickUpAddress);
+                DimensionDb dimension = new DimensionDb();
+                dimension.CId = randonid;
+                dimension.boxLength = reversePickup[i].dimension.boxLength;
+                dimension.boxWidth = reversePickup[i].dimension.boxWidth;
+                dimension.boxHeight = reversePickup[i].dimension.boxHeight;
+                dimension.boxWeight = reversePickup[i].dimension.boxWeight;
+                dimitems.Add(dimension);
+                for (int j = 0; j < reversePickup[i].customFields.Count; j++)
+                {
+                    CustomFieldDb customField = new CustomFieldDb();
+                    customField.CId = randonid;
+                    customField.name = reversePickup[i].customFields[j].name;
+                    customField.value = reversePickup[i].customFields[j].value;
+                    customfields.Add(customField);
+                }
+            }
+            var revermain = ObjBusinessLayer.BLReversePickupMain(reverseitems, ServerType);
+            var reveraddress = ObjBusinessLayer.BLReversePickUpAddress(pickaddressitems, ServerType);
+            var reverdimension = ObjBusinessLayer.BLReverseDimension(dimitems, ServerType);
+            var revercustom = ObjBusinessLayer.BLReverseCustomField(customfields, ServerType);
+            //var resu = _Token.GetTokens(Servertype).Result;
+            var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+            string token = accesstoken.access_token;
+            if (token != null)
+            {
+                var lists = ObjBusinessLayer.GetReverseAllData(ServerType);
+                if (lists.Count > 0)
+                {
+                    for (int i = 0; i < lists.Count; i++)
+                    {
+                        ReversePickup updateShippingpackage = new ReversePickup();
+                        updateShippingpackage.pickUpAddress = new PickUpAddress();
+                        updateShippingpackage.dimension = new Dimension();
+                        updateShippingpackage.customFields = new List<CustomField>();
+                        updateShippingpackage.reversePickupCode = lists[i].reversePickupCode;
+                        updateShippingpackage.pickupInstruction = lists[i].pickupInstruction;
+                        updateShippingpackage.trackingLink = lists[i].trackingLink;
+                        updateShippingpackage.shippingCourier = lists[i].shippingCourier;
+                        updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                        updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+
+                        updateShippingpackage.pickUpAddress.id = lists[i].pickUpAddress.id;
+                        updateShippingpackage.pickUpAddress.name = lists[i].pickUpAddress.name;
+                        updateShippingpackage.pickUpAddress.addressLine1 = lists[i].pickUpAddress.addressLine1;
+                        updateShippingpackage.pickUpAddress.addressLine2 = lists[i].pickUpAddress.addressLine2;
+                        updateShippingpackage.pickUpAddress.city = lists[i].pickUpAddress.city;
+                        updateShippingpackage.pickUpAddress.state = lists[i].pickUpAddress.state;
+                        updateShippingpackage.pickUpAddress.phone = lists[i].pickUpAddress.phone;
+                        updateShippingpackage.pickUpAddress.pincode = lists[i].pickUpAddress.pincode;
+
+                        updateShippingpackage.dimension.boxLength = lists[i].dimension.boxLength;
+                        updateShippingpackage.dimension.boxWidth = lists[i].dimension.boxWidth;
+                        updateShippingpackage.dimension.boxHeight = lists[i].dimension.boxHeight;
+                        updateShippingpackage.dimension.boxWeight = lists[i].dimension.boxWeight;
+                        for (int j = 0; j < lists[i].customFields.Count; j++)
+                        {
+                            CustomField customField = new CustomField();
+                            customField.name = lists[i].customFields[j].name;
+                            customField.value = lists[i].customFields[j].value;
+                            updateShippingpackage.customFields.Add(customField);
+                        }
+                        var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage, lists[i].FaciityCode, ServerType);
+
+                        var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, ServerType, "DFX");
+                        //}
+                    }
+                }
+                else
+                {
+                    ErrorResponse errorResponse = new ErrorResponse();
+                    errorResponse.status = "Error";
+                    errorResponse.reason = "No Data For Transaction";
+                    errorResponse.message = "No Data For Transaction";
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Reverse Pickup response Error{JsonConvert.SerializeObject(errorResponse)}");
+                    //return new JsonResult(errorResponse);
+                }
+            }
+            else
+            {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.status = "Error";
+                errorResponse.reason = "Token Not Generated";
+                errorResponse.message = "Please check your authorization token.";
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Reverse Pickup Error: {JsonConvert.SerializeObject(errorResponse)}");
+                //return new JsonResult(errorResponse);
+            }
+        }
+        public bool ReturnAllocateShippings(string Servertype, List<AllocateShippingReturn> allocateshippings)
+        {
+            SuccessResponse successResponse = new SuccessResponse();
+            bool res = false;
+
+            List<string> ErrorList = new List<string>();
+            List<string> AllocateError = new List<string>();
+            try
+            {
+                var results = ObjBusinessLayer.GetReturnAllocateShippingData(Servertype, allocateshippings);
+                if (results.Count > 0)
+                {
+                    for (int i = 0; i < results.Count; i++)
+                    {
+                        UniwarePostDto allocateshipping = new UniwarePostDto();
+                        allocateshipping.ReversePickupCode = results[i].shippingPackageCode;
+                        allocateshipping.ShippingProviderCode = results[i].shippingProviderCode;
+                        allocateshipping.ShippingCourier = results[i].shippingCourier;
+                        allocateshipping.TrackingNumber = results[i].trackingNumber;
+                        allocateshipping.TrackingLink = results[i].trackingLink;
+
+                        
+                        var Token = _Token.GetTokens(Servertype, "DFX").Result;
+                        var _Tokens = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(Token.ObjectParam);
+                        var facility = results[i].FacilityCode;                       
+                        
+                        //var Triggerid = ObjBusinessLayer.AllocateShippingDataPost(allocateshipping, Servertype);
+                        var response = _MethodWrapper.ReturnAllocatingShippingPostData(allocateshipping,  _Tokens.access_token, facility, Servertype);
+                        if (response.IsSuccess)
+                        {
+                            res = true;
+                            successResponse.status = true;
+                            successResponse.waybill = "";
+                            successResponse.shippingLabel = "";
+                            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Allocate Shipping response {JsonConvert.SerializeObject(successResponse)}");
+                            //return new JsonResult(successResponse);
+                        }
+                        else
+                        {
+                            AllocateError.Add("Return Allocate ShippingPackage Code:- " + allocateshipping.ReversePickupCode + ", Reason " + response.ObjectParam);
+                            successResponse.status = false;
+                            successResponse.waybill = response.ObjectParam;
+                            successResponse.shippingLabel = "";
+                            CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Allocate Shipping response Error {JsonConvert.SerializeObject(successResponse)}");
+                            res = false;
+
+                        }
+
+                    }
+                  
+                    if (AllocateError.Count > 0)
+                    {
+                        Emailtrigger.SendEmailToAdmin("Return Allocate Shipping", JsonConvert.SerializeObject(AllocateError));
+
+                    }
+                }
+                else
+                {
+                    res = false;
+                    ErrorResponse errorResponse = new ErrorResponse();
+                    errorResponse.status = "Error";
+                    errorResponse.reason = "No Data For Transaction";
+                    errorResponse.message = "Please Retrigger";
+                    CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Allocate Shipping  response Error{JsonConvert.SerializeObject(errorResponse)}");
+                    //return new JsonResult(errorResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                res = false;
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.status = "Error";
+                errorResponse.reason = ex.Message;
+                errorResponse.message = "Please Retrigger";
+                CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Allocate Shipping  response Error{JsonConvert.SerializeObject(errorResponse)}");
+                //return new JsonResult(errorResponse);
+            }
+            return res;
+        }
+        public void CreateLog(string message)
+        {
+            Log.Information(message);
+        }
 
     }
-    
+
 
 
 

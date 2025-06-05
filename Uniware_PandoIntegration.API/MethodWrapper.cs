@@ -1238,18 +1238,18 @@ namespace Uniware_PandoIntegration.API
             var ResStatus = _Token.ReversePickUp(jsonre, Token, FacilityCode, Servertype, Instance);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299)
             {
-                if (Lcheckcount != 3)
-                {
-                    Thread.Sleep(3000);
-                    Lcheckcount += 1;
+                //if (Lcheckcount != 3)
+                //{
+                //    Thread.Sleep(3000);
+                //    Lcheckcount += 1;
                     ObjBusinessLayer.ReversePickUpErrorDetails(true, ResStatus.Result.ObjectParam, triggerid, Servertype);
                     ReversePickUpdetails(AllData, Lcheckcount, triggerid, Token, FacilityCode, Servertype, Instance);
-                }
-                {
-                    Emailtrigger.SendEmailToAdmin("Reverse PickUp", ResStatus.Result.ObjectParam);
+                //}
+                //{
+                //    Emailtrigger.SendEmailToAdmin("Reverse PickUp", ResStatus.Result.ObjectParam);
                     return ResStatus = null;
 
-                }
+                //}
             }
             else
             {
@@ -1291,6 +1291,51 @@ namespace Uniware_PandoIntegration.API
             }
 
 
+        }
+
+        public ServiceResponse<string> RevesrPickupPostData(ReversePickupDto AllData, int checkcount,  string Token, string FacilityCode, string ServerType)
+        {
+            int Lcheckcount = checkcount;
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            var jsonre = JsonConvert.SerializeObject(AllData);
+            var ResStatus = _Token.PostReversePickUp(jsonre, Token, FacilityCode, ServerType);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
+            {
+                ObjBusinessLayer.AllocateErrorDetails(true, ResStatus.Result.Errdesc, AllData.ReversePickupCode, ServerType);
+                
+                serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                serviceResponse.IsSuccess = false;
+                return serviceResponse;
+            }
+            else
+            {
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+                return serviceResponse;
+
+            }
+        }
+
+        public ServiceResponse<string> ReturnAllocatingShippingPostData(UniwarePostDto AllData,  string Token, string FacilityCode, string ServerType)
+        {            
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            var jsonre = JsonConvert.SerializeObject(AllData);
+            var ResStatus = _Token.PostReturnAllocateShipping(jsonre, Token, FacilityCode, ServerType);
+            if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
+            {
+                ObjBusinessLayer.ReturnAllocateErrorDetails(true, ResStatus.Result.Errdesc, AllData.ReversePickupCode, ServerType);
+                
+                serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
+                serviceResponse.IsSuccess = false;
+                return serviceResponse;
+            }
+            else
+            {
+                serviceResponse.ObjectParam = ResStatus.Result.ObjectParam;
+                serviceResponse.IsSuccess = true;
+                return serviceResponse;
+
+            }
         }
         public static void CreateLog(string message)
         {

@@ -25,6 +25,8 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\DashBoard\" />
+    <Folder Include="wwwroot\lib\bootstrap\dist\fonts\" />
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
 
   <ItemGroup>

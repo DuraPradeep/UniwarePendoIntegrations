@@ -1548,6 +1548,104 @@ namespace Uniware_PandoIntegration.DataAccessLayer
             }
             return FacilityList;
         }
+        public static List<ReturnAllocateShippingDb> GetReturnAllocateShipping(DataSet pds)
+        {
+
+            List<ReturnAllocateShippingDb> returnallocate = new List<ReturnAllocateShippingDb>();
+
+            try
+            {
+                for (int i = 0; i < pds.Tables[0].Rows.Count; i++)
+                {
+                    ReturnAllocateShippingDb allocate = new ReturnAllocateShippingDb();
+
+
+                    allocate.shippingPackageCode = pds.Tables[0].Rows[i]["shippingPackageCode"].ToString();
+                    allocate.shippingLabelMandatory = pds.Tables[0].Rows[i]["shippingLabelMandatory"].ToString();
+                    allocate.shippingProviderCode = pds.Tables[0].Rows[i]["shippingProviderCode"].ToString();
+                    allocate.shippingCourier = pds.Tables[0].Rows[i]["shippingCourier"].ToString();
+                    allocate.trackingNumber = pds.Tables[0].Rows[i]["trackingNumber"].ToString();
+                    allocate.FacilityCode = pds.Tables[0].Rows[i]["facilityCode"].ToString();
+                    allocate.trackingLink = pds.Tables[0].Rows[i]["trackingLink"].ToString();
+
+                    returnallocate.Add(allocate);
+
+                }
+                return returnallocate;
+            }
+            catch (Exception ex)
+            {
+
+                return returnallocate = null;
+            }
+        }
+
+        public static ServiceResponse<List<TrackOrderDto>> GetTrackOrder(DataSet pds)
+        {
+            ServiceResponse<List<TrackOrderDto>> response = new ServiceResponse<List<TrackOrderDto>>();
+            List<TrackOrderDto> orders = new List<TrackOrderDto>();
+
+            try
+            {
+
+                if (pds != null && pds.Tables.Count > 0 && pds.Tables[0].Rows.Count > 0)
+                {
+                    var groupedOrders = pds.Tables[0].AsEnumerable()
+                        .GroupBy(row => new
+                        {
+                            OrderID = row["OrderID"].ToString(),
+                            OrderDate = row["OrderDate"].ToString()
+                        });
+
+                    foreach (var group in groupedOrders)
+                    {
+                        TrackOrderDto orderDto = new TrackOrderDto
+                        {
+                            OrderID = group.Key.OrderID,
+                            OrderDate = group.Key.OrderDate,
+                            Items = new List<OrderItemDto>()
+                        };
+
+                        foreach (var row in group)
+                        {
+                            OrderItemDto item = new OrderItemDto
+                            {
+                                ProductName = row["ProductName"].ToString(),
+                                TrackingStatus = row["TrackingStatus"].ToString(),
+                                TrackingLink = row["TrackingLink"].ToString()
+                            };
+                            orderDto.Items.Add(item);
+                        }
+
+                        // Set item count per order
+                        orderDto.ItemCount = orderDto.Items.Count;
+
+                        orders.Add(orderDto);
+                    }
+
+                    // Set response values
+                    response.ObjectParam = orders;
+                    response.Id = orders.Count; // 👈 Total order count here
+                    response.IsSuccess = true;
+                    response.Errcode = 200;
+                    response.Message = "Success";
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    response.Message = "No data found";
+                    response.Id = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Error: " + ex.Message;
+                response.ObjectParam = null;
+            }
+
+            return response;
+        }
 
 
 

@@ -262,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Allocateshipping.cs" />
+    <Compile Include="AllocateShippingReturn.cs" />
     <Compile Include="ApiStatus.cs" />
     <Compile Include="CancelResponse.cs" />
     <Compile Include="CityMasterEntity.cs" />
@@ -283,7 +284,9 @@
     <Compile Include="ReqSalesOrderSearch.cs" />
     <Compile Include="RequestReturnOrder.cs" />
     <Compile Include="ReturnorderCode.cs" />
+    <Compile Include="ReturnUpdateShipping.cs" />
     <Compile Include="ReversePickup.cs" />
+    <Compile Include="ReversePickupDto.cs" />
     <Compile Include="RoleMenuAccess.cs" />
     <Compile Include="saleOrderDTO.cs" />
     <Compile Include="SaleOrderSearch.cs" />
@@ -297,6 +300,7 @@
     <Compile Include="TrackingLinkMapping.cs" />
     <Compile Include="TrackingMaster.cs" />
     <Compile Include="TrackingStatus.cs" />
+    <Compile Include="TrackorderDto.cs" />
     <Compile Include="TruckDetails.cs" />
     <Compile Include="UpdateShippingpackage.cs" />
     <Compile Include="UploadExcels.cs" />

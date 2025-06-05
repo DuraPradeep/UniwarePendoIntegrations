@@ -475,7 +475,7 @@ namespace Uniware_PandoIntegration.APIs
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
-                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync(); ;
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($"DateTime:-   {DateTime.Now.ToLongTimeString()} , Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -1145,11 +1145,7 @@ namespace Uniware_PandoIntegration.APIs
 
                 if (ServerType.ToLower() == "qa")
                 {
-                    if (Instance.ToLower() == "sh")
-                    {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://stgsleepyhead2.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
-                    }
-                    else if (Instance.ToLower() == "dfx")
+                    if (Instance.ToLower() == "dfx")
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
 
@@ -1157,11 +1153,7 @@ namespace Uniware_PandoIntegration.APIs
                 }
                 else if (ServerType.ToLower() == "prod")
                 {
-                    if (Instance.ToLower() == "sh")
-                    {
-                        request = new HttpRequestMessage(HttpMethod.Post, "https://sleepyhead.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
-                    }
-                    else if (Instance.ToLower() == "dfx")
+                    if (Instance.ToLower() == "dfx")
                     {
                         request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/reversePickup/edit");
 
@@ -1209,15 +1201,15 @@ namespace Uniware_PandoIntegration.APIs
 
                 using (HttpClient client = new HttpClient())
                 {
-                    using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetAPIURL(ServerType,Instance)))
+                    using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, GetAPIURL(ServerType, Instance)))
                     {
                         request.Headers.Add("Facility", Facility);
                         request.Headers.Add("Authorization", "Bearer" + accesstoken);
-                        request.Content = new StringContent(JsonConvert.SerializeObject(AllData), null, "application/json"); 
+                        request.Content = new StringContent(JsonConvert.SerializeObject(AllData), null, "application/json");
                         var response = await client.SendAsync(request);
                         serviceResponse.Errcode = ((int)response.StatusCode);
                         serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
-                        CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Number:- {AllData.trackingNumber}, Tracking Status Response:-  {serviceResponse.ObjectParam}");              
+                        CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Tracking Number:- {AllData.trackingNumber}, Tracking Status Response:-  {serviceResponse.ObjectParam}");
                         if (((int)response.StatusCode) == 200)
                         {
                             dynamic datas = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
@@ -1269,7 +1261,8 @@ namespace Uniware_PandoIntegration.APIs
         }
 
 
-        public string GetAPIURL(string ServerType,string Instance) {
+        public string GetAPIURL(string ServerType, string Instance)
+        {
 
             if (ServerType.ToLower() == "qa")
             {
@@ -1298,7 +1291,146 @@ namespace Uniware_PandoIntegration.APIs
                 else { return ""; }
             }
             else { return ""; }
-            
+
+        }
+        public async Task<ServiceResponse<string>> PostReversePickUp(string Details, string Token, string Facility, string ServerType)
+        {
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            try
+            {
+                var client = new HttpClient();
+                var request = new HttpRequestMessage();
+
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Reverse PickUp SendDate:-  {serviceResponse.ObjectParam}");
+
+                if (ServerType.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/reversePickup/edit");
+                }
+                request.Headers.Add("Facility", Facility);
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(Details, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                dynamic StatuaDta = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Reverse PickUp Response:-  {serviceResponse.ObjectParam}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var datastatus = (bool)StatuaDta.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = StatuaDta.errors[0].description;
+                        return serviceResponse;
+                    }
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = StatuaDta.errors[0].description;
+
+                }
+
+
+
+
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    return serviceResponse;
+                //}
+                //else
+                //{
+                //    serviceResponse.Errcode = ((int)response.StatusCode);
+                //    //GetCode(Details, Token);
+                //}
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Errdesc += ex.ToString();
+                serviceResponse.Errcode = 500;
+                serviceResponse.IsSuccess = false;
+                CreateLog($"Reverse PickUp  Error: {JsonConvert.SerializeObject(serviceResponse)}");
+
+            }
+            return serviceResponse;
+        }
+
+        public async Task<ServiceResponse<string>> PostReturnAllocateShipping(string Details, string Token, string Facility, string ServerType)
+        {
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+            try
+            {
+                var client = new HttpClient();
+                var request = new HttpRequestMessage();
+
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Allocate SendDate:-  {serviceResponse.ObjectParam}");
+
+                if (ServerType.ToLower() == "qa")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://stgmyduroflexworld.unicommerce.com/services/rest/v1/oms/reversePickup/edit");
+                }
+                else if (ServerType.ToLower() == "prod")
+                {
+                    request = new HttpRequestMessage(HttpMethod.Post, "https://myduroflexworld.unicommerce.co.in/services/rest/v1/oms/reversePickup/edit");
+                }
+                request.Headers.Add("Facility", Facility);
+                request.Headers.Add("Authorization", "Bearer" + Token);
+                var content = new StringContent(Details, null, "application/json");
+                request.Content = content;
+                var response = await client.SendAsync(request);
+                serviceResponse.Errcode = ((int)response.StatusCode);
+                serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
+                dynamic StatuaDta = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Allocate Response:-  {serviceResponse.ObjectParam}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var datastatus = (bool)StatuaDta.successful;
+                    if (datastatus)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = StatuaDta.errors[0].description;
+                        return serviceResponse;
+                    }
+                }
+                else
+                {
+                    serviceResponse.Errcode = ((int)response.StatusCode);
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = StatuaDta.errors[0].description;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Errdesc += ex.ToString();
+                serviceResponse.Errcode = 500;
+                serviceResponse.IsSuccess = false;
+                CreateLog($"Reverse PickUp  Error: {JsonConvert.SerializeObject(serviceResponse)}");
+
+            }
+            return serviceResponse;
         }
     }
 }

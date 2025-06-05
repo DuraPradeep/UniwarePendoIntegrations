@@ -911,7 +911,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             return res;
         }
 
-        public bool insertReturnOrdercoder(List<UploadReturnOrder> elements, string Enviornment,string Instance)
+        public bool insertReturnOrdercoder(List<UploadReturnOrder> elements, string Enviornment, string Instance)
         {
             bool res;
             try
@@ -2185,7 +2185,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                     dtsku.Rows.Add(drsku);
                 }
-                SPWrapper.IsertshippingUpdate(dtsku, Enviornment);
+                SPWrapper.InsertshippingUpdate(dtsku, Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -2215,7 +2215,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     drsku["value"] = itemDatun[i].value;
                     dtsku.Rows.Add(drsku);
                 }
-                SPWrapper.IsertCustomFields(dtsku, Enviornment);
+                SPWrapper.InsertCustomFields(dtsku, Enviornment);
                 //CreateLog($"itemsending data DB Status:-{res}");
             }
             catch (Exception ex)
@@ -2269,7 +2269,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             try
             {
                 var dataTable = ConvertDataTable.ToDataTable(itemDatun);
-                res= SPWrapper.IsertAllocate_Shipping(dataTable, Enviornment);
+                res = SPWrapper.InsertAllocate_Shipping(dataTable, Enviornment);
                 //CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
 
                 if (res)
@@ -2277,14 +2277,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     successResponse.status = true;
                     successResponse.waybill = "Data Received from Pando";
                     successResponse.shippingLabel = "";
-          
+
                 }
                 else
                 {
                     successResponse.status = false;
                     successResponse.waybill = "No Data Received";
                     successResponse.shippingLabel = "";
-              
+
                 }
 
                 return successResponse;
@@ -2371,7 +2371,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 dataTable.Rows.Add(drsku);
 
             }
-            return SPWrapper.IsertUpdateShippingrecords(dataTable, Enviornment);
+            return SPWrapper.InsertUpdateShippingrecords(dataTable, Enviornment);
         }
 
         public void UpdateShippingErrordetails(bool status, string Reason, string triggerid, string Enviornment)
@@ -2628,7 +2628,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
         }
         public string ReversePickUpData(ReversePickup updateShippingpackage, string FacilityCode, string Enviornment)
         {
-            var id = GenerateNumeric();
+            var id = "Rev_" + GenerateNumeric();
             return SPWrapper.IsertRevrserePickUprecords(updateShippingpackage, id, FacilityCode, Enviornment);
         }
         public void ReversePickUpErrorDetails(bool status, string Reason, string triggerid, string Enviornment)
@@ -2757,7 +2757,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             TrackingResponse reversePickupResponse = new TrackingResponse();
             try
             {
-                res =  Mapper.MapinsertTrackingDetails(elements, Enviornment);
+                res = Mapper.MapinsertTrackingDetails(elements, Enviornment);
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
 
                 if (res)
@@ -3204,7 +3204,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
-        public void TrackingStatusError(bool status, string Reason, TrackingStatus elements, string Enviornment,string FacilityCode)
+        public void TrackingStatusError(bool status, string Reason, TrackingStatus elements, string Enviornment, string FacilityCode)
         {
             try
             {
@@ -3223,22 +3223,22 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
                 //for (int i = 0; i < elements.Count; i++)
                 //{
-                    DataRow dr = dtinstcode.NewRow();
-                    dr["Id"] = 0;
-                    dr["providerCode"] = elements.providerCode;
-                    dr["trackingNumber"] = elements.trackingNumber;
-                    dr["trackingStatus"] = elements.trackingStatus;
-                    dr["statusDate"] = elements.statusDate;
-                    dr["shipmentTrackingStatusName"] = elements.shipmentTrackingStatusName;
-                    dr["facilitycode"] = null;
-                    dr["Instance"] = null;
+                DataRow dr = dtinstcode.NewRow();
+                dr["Id"] = 0;
+                dr["providerCode"] = elements.providerCode;
+                dr["trackingNumber"] = elements.trackingNumber;
+                dr["trackingStatus"] = elements.trackingStatus;
+                dr["statusDate"] = elements.statusDate;
+                dr["shipmentTrackingStatusName"] = elements.shipmentTrackingStatusName;
+                dr["facilitycode"] = null;
+                dr["Instance"] = null;
 
-                    dtinstcode.Rows.Add(dr);
+                dtinstcode.Rows.Add(dr);
                 //}
 
 
 
-                SPWrapper.TrackingStatusErrorUpdate(status, Reason, dtinstcode, Enviornment,FacilityCode);
+                SPWrapper.TrackingStatusErrorUpdate(status, Reason, dtinstcode, Enviornment, FacilityCode);
             }
             catch (Exception ex)
             {
@@ -3251,7 +3251,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
             List<TDashboardDetails> codes = new List<TDashboardDetails>();
             try
             {
-                return codes = Mapper.GetHistoryData(SPWrapper.GetHistoryData(Enviornment,FromDate,ToDate));
+                return codes = Mapper.GetHistoryData(SPWrapper.GetHistoryData(Enviornment, FromDate, ToDate));
             }
             catch (Exception ex)
             {
@@ -3379,20 +3379,20 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
             try
             {
-               
+
                 res = SPWrapper.IsertFTLShipmentsMain(itemDatun, Enviornment);
-              
+
 
             }
             catch (Exception ex)
-            {                
+            {
                 res = false;
             }
             return res;
 
         }
 
-        public bool InsertFTLShipment(List<Shipment> itemDatun, string ShipmentId,string Enviornment)
+        public bool InsertFTLShipment(List<Shipment> itemDatun, string ShipmentId, string Enviornment)
         {
             //string res;
             bool res;
@@ -3422,14 +3422,14 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     DataRow SOrow = FTLShipment.NewRow();
 
                     SOrow["Shipment_Id"] = ShipmentId;
-                    StringBuilder deliveryno=new StringBuilder();
+                    StringBuilder deliveryno = new StringBuilder();
                     for (int j = 0; j < itemDatun[i].delivery_numbers.Count; j++)
                     {
-                        if(j>0)
+                        if (j > 0)
                         {
                             deliveryno.Append(",");
                         }
-                        deliveryno.Append( itemDatun[i].delivery_numbers[j]);
+                        deliveryno.Append(itemDatun[i].delivery_numbers[j]);
                     }
                     SOrow["DeliveryNumbers"] = deliveryno;
                     StringBuilder businessdivision = new StringBuilder();
@@ -3463,8 +3463,8 @@ namespace Uniware_PandoIntegration.BusinessLayer
                     SOrow["Consignment_Number"] = itemDatun[i].consignment_number;
                     SOrow["Tracking_Link"] = itemDatun[i].tracking_link;
                     FTLShipment.Rows.Add(SOrow);
-                }          
-                 res = SPWrapper.IsertFTLShipments(FTLShipment, Enviornment);
+                }
+                res = SPWrapper.IsertFTLShipments(FTLShipment, Enviornment);
                 //CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Success to Pando {JsonConvert.SerializeObject(reversePickupResponse)}");
 
 
@@ -3474,7 +3474,7 @@ namespace Uniware_PandoIntegration.BusinessLayer
                 //successResponse.status = false;
                 //successResponse.waybill = $"No Data Received with Error {ex.Message}";
                 //successResponse.shippingLabel = "";
-                res=false;
+                res = false;
             }
             return res;
 
@@ -3494,6 +3494,198 @@ namespace Uniware_PandoIntegration.BusinessLayer
 
         }
 
+        #region Return Order Method
+        public async Task<SuccessResponse> InsertReturn_Allocate_Shipping(List<AllocateShippingReturn> itemDatun, string Enviornment)
+        {
+            //string res;
+            bool res;
+            SuccessResponse successResponse = new SuccessResponse();
+
+            try
+            {
+                var dataTable = ConvertDataTable.ToDataTable(itemDatun);
+                res = SPWrapper.InsertReturn_Allocate_Shipping(dataTable, Enviornment);
+
+
+                if (res)
+                {
+                    successResponse.status = true;
+                    successResponse.waybill = "Data Received from Pando";
+                    successResponse.shippingLabel = "";
+
+                }
+                else
+                {
+                    successResponse.status = false;
+                    successResponse.waybill = "No Data Received";
+                    successResponse.shippingLabel = "";
+
+                }
+
+                return successResponse;
+
+            }
+            catch (Exception ex)
+            {
+                successResponse.status = false;
+                successResponse.waybill = $"No Data Received with Error {ex.Message}";
+                successResponse.shippingLabel = "";
+                return successResponse;
+            }
+
+
+        }
+        public List<ReturnAllocateShippingDb> GetReturnAllocateShippingData(string Enviornment, List<AllocateShippingReturn> itemDatun)
+        {
+            List<ReturnAllocateShippingDb> codes = new List<ReturnAllocateShippingDb>();
+            try
+            {
+
+                var dataTable = ConvertDataTable.ToDataTable(itemDatun);
+
+                return Mapper.GetReturnAllocateShipping(SPWrapper.GetReturnAllocateShippingData(Enviornment, dataTable));
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+
+                //CreateLog($"Error: {ex.Message}");
+                return codes;
+            }
+
+        }
+        public void ReturnAllocateErrorDetails(bool status, string Reason, string shippingPackageCode, string Enviornment)
+        {
+            try
+            {
+                SPWrapper.ReturnAllocateShippingError(status, Reason, shippingPackageCode, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public void InsertReturnUpdateShippingpackage(List<ReturnUpdateShipping> itemDatun, string Enviornment)
+        {
+            string res;
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("shippingPackageCode");
+
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["shippingPackageCode"] = itemDatun[i].shippingPackageCode;
+
+                    dtsku.Rows.Add(drsku);
+                }
+                SPWrapper.InsertReturnshippingUpdate(dtsku, Enviornment);
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                // throw;
+            }
+
+        }
+        public void InsertReturnCustomFields(List<ReturndCustomFieldValue> itemDatun, string Enviornment)
+        {
+            try
+            {
+                DataTable dtsku = new DataTable();
+                dtsku.Columns.Add("Id");
+                dtsku.Columns.Add("name");
+                dtsku.Columns.Add("value");
+
+
+
+                for (int i = 0; i < itemDatun.Count; i++)
+                {
+                    DataRow drsku = dtsku.NewRow();
+                    drsku["Id"] = itemDatun[i].Id;
+                    drsku["name"] = itemDatun[i].name;
+                    drsku["value"] = itemDatun[i].value;
+                    dtsku.Rows.Add(drsku);
+                }
+                SPWrapper.InsertReturnCustomFields(dtsku, Enviornment);
+                //CreateLog($"itemsending data DB Status:-{res}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                //throw;
+            }
+
+        }
+
+        public List<UpdateShippingpackagedb> ReturnUpdateShipingPck(string Enviornment)
+        {
+            List<UpdateShippingpackagedb> codes = new List<UpdateShippingpackagedb>();
+
+            try
+            {
+                return codes = Mapper.GetUpdateShippingDetails(SPWrapper.GetReturnUpdateShippingData(Enviornment));
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+        public bool ReturnUpdateShippingDataPost(List<UpdateShippingpackagedb> updateShippingpackage, string Enviornment)
+        {
+            var id = GenerateNumeric();
+            //DataTable UpdateListData = ConvertDataTable.ToDataTable(updateShippingpackage);
+            DataTable dataTable = new DataTable();
+            dataTable.Columns.Add("shippingPackageCode");
+            dataTable.Columns.Add("name");
+            dataTable.Columns.Add("value");
+            dataTable.Columns.Add("FacilityCode");
+            for (int i = 0; i < updateShippingpackage.Count; i++)
+            {
+                DataRow drsku = dataTable.NewRow();
+
+                drsku["shippingPackageCode"] = updateShippingpackage[i].shippingPackageCode;
+                for (int j = 0; j < updateShippingpackage[i].customFieldValues.Count; j++)
+                {
+                    drsku["name"] = updateShippingpackage[i].customFieldValues[j].name;
+                    drsku["value"] = updateShippingpackage[i].customFieldValues[j].value;
+                }
+                drsku["FacilityCode"] = updateShippingpackage[i].FacilityCode;
+                dataTable.Rows.Add(drsku);
+
+            }
+            return SPWrapper.InsertReturnUpdateShippingRecords(dataTable, Enviornment);
+        }
+
+
+        #endregion
+
+
+        #region TrackorderDetrails
+        public ServiceResponse<List<TrackOrderDto>> GetTrackOrderDetails(string MobileNo,string Brand,string Enviornment)
+        {
+            ServiceResponse<List<TrackOrderDto>> response = new ServiceResponse<List<TrackOrderDto>>();
+
+            try
+            {
+                //CreateLog($"get SKU Code From DB DB");
+                return response = Mapper.GetTrackOrder(SPWrapper.GetTrackOrderDetails(MobileNo,Brand, Enviornment));
+                //CreateLog($"get SKU Code From DB DB{codes}");
+            }
+            catch (Exception ex)
+            {
+                //CreateLog($"Error: {ex.Message}");
+                throw ex;
+            }
+
+        }
+
+        #endregion
     }
 }
 

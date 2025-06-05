@@ -9,6 +9,7 @@ using Uniware_PandoIntegration.API.Folder;
 using Uniware_PandoIntegration.API.ActionFilter;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Azure;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -18,13 +19,13 @@ namespace Uniware_PandoIntegration.API.Controllers
     {
         private readonly ILogger<UniwarePandoController> _logger;
         private readonly IUniwarePando _jWTManager;
-        private readonly IConfiguration iconfiguration;
+        private readonly IConfiguration _iconfiguration;
 
         public UniwarePandoController(ILogger<UniwarePandoController> logger, IUniwarePando uniwarePando, IConfiguration configuration)
         {
             _logger = logger;
             _jWTManager = uniwarePando;
-            iconfiguration = configuration;
+            _iconfiguration = configuration;
         }
         BearerToken _Token = new BearerToken();
         private UniwareBL ObjBusinessLayer = new();
@@ -323,7 +324,7 @@ namespace Uniware_PandoIntegration.API.Controllers
         public async Task<IActionResult> TrackingStatus(List<TrackingStatusDb> TrackingDetails)
         {
             try
-            {               
+            {
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Tracking Status Details. {JsonConvert.SerializeObject(TrackingDetails)}");
                 HttpContext httpContext = HttpContext;
                 var token = httpContext.Request.Headers["Authorization"].ToString();
@@ -333,7 +334,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 Task<TrackingResponse> Call1 = ObjBusinessLayer.BLinsertTrackingDetails(TrackingDetails, Servertype);
                 //if (TrackingDetails[0].trackingStatus==" " || TrackingDetails[0].trackingStatus.IsNullOrEmpty())
                 //{
-                    //Task.Run(() => obj.CallingTrackingStatus(Servertype, TrackingDetails));
+                //Task.Run(() => obj.CallingTrackingStatus(Servertype, TrackingDetails));
                 //}
                 //Task<bool> Call2 = 
                 TrackingResponse result1 = await Call1;
@@ -443,7 +444,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                 var FTLMain = ObjBusinessLayer.InsertFTLShipmentMain(FTLRecordsa, Servertype);
                 var FTMshipment = ObjBusinessLayer.InsertFTLShipment(FTLRecordsa.shipments, FTLRecordsa.shipment_id, Servertype);
-                if(FTMshipment)
+                if (FTMshipment)
                 {
                     fTLShipmentResponse.Status = true;
                     fTLShipmentResponse.Message = "Data Received From Pando";
@@ -472,7 +473,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 _logger.LogInformation($"FTL ShipmentStaus Error. {JsonConvert.SerializeObject(fTLShipmentResponse)}");
 
                 return Problem(ex.Message, null, 204, "Not received", null);
-            }            
+            }
 
         }
 
@@ -513,7 +514,186 @@ namespace Uniware_PandoIntegration.API.Controllers
         //    }
         //}
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ReturnAllocateShipping(List<AllocateShippingReturn> allocateShippingReturns)
+        {
+            _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Request Return Allocate Shipping {JsonConvert.SerializeObject(allocateShippingReturns)}");
+            SuccessResponse successResponse = new SuccessResponse();
+            try
+            {
+                HttpContext httpContext = HttpContext;
+                var jwthandler = new JwtSecurityTokenHandler();
+                var token = httpContext.Request.Headers["Authorization"].ToString();
+                var jwttoken = jwthandler.ReadToken(token.Split(" ")[1].ToString());
+                var JwtSecurity = jwttoken as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Allocate Instance Name. {Servertype}");
+                Task<SuccessResponse> Call1 = ObjBusinessLayer.InsertReturn_Allocate_Shipping(allocateShippingReturns, Servertype);
 
+                //YourMethod(Servertype, allocateShippingReturns);
+
+                await Task.Run(() =>
+                {
+                    obj.ReturnAllocateShippings(Servertype, allocateShippingReturns);
+                });
+                SuccessResponse result1 = await Call1;
+                await Task.WhenAll(Call1);
+                return Ok(result1);
+
+            }
+            catch (Exception ex)
+            {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.status = "Error";
+                errorResponse.reason = ex.Message;
+                errorResponse.message = "Please Retrigger";
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()} ,Return Allocate Error: {JsonConvert.SerializeObject(errorResponse)}");
+                return Problem(ex.Message, null, 204, "Not received", null);
+
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult ReturnUpdateShippingPackage(List<ReturnUpdateShipping> shippingPackages)
+        {
+            List<ReturnUpdateShipping> updatelist = new List<ReturnUpdateShipping>();
+            List<ShippingBoxdb> shipbox = new List<ShippingBoxdb>();
+            List<ReturndCustomFieldValue> customFields = new List<ReturndCustomFieldValue>();
+            bool resp = false;
+
+            _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()},Return UpdateShippingPackage Request {JsonConvert.SerializeObject(shippingPackages)}");
+            try
+            {
+                HttpContext httpContext = HttpContext;
+                var tokens = httpContext.Request.Headers["Authorization"].ToString();
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(tokens.Split(" ")[1].ToString()) as JwtSecurityToken;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return UpdateShipping Instance Name. {Servertype}");
+
+                for (int i = 0; i < shippingPackages.Count; i++)
+                {
+                    ReturnUpdateShipping updateShippingpackage = new ReturnUpdateShipping();
+                    var randomid = ObjBusinessLayer.GenerateNumeric();
+                    updateShippingpackage.shippingPackageCode = shippingPackages[i].shippingPackageCode.ToString();
+                    updatelist.Add(updateShippingpackage);
+                    for (int k = 0; k < shippingPackages[i].customFieldValues.Count; k++)
+                    {
+                        ReturndCustomFieldValue customFieldValue = new ReturndCustomFieldValue();
+                        customFieldValue.Id = shippingPackages[i].shippingPackageCode.ToString();
+                        customFieldValue.name = shippingPackages[i].customFieldValues[k].name;
+                        customFieldValue.value = shippingPackages[i].customFieldValues[k].value;
+                        customFields.Add(customFieldValue);
+                    }
+                }
+                ObjBusinessLayer.InsertReturnUpdateShippingpackage(updatelist, Servertype);
+                ObjBusinessLayer.InsertReturnCustomFields(customFields, Servertype);
+
+                SuccessResponse successResponse = new SuccessResponse();
+                List<string> ErrorList = new List<string>();
+                var lists = ObjBusinessLayer.ReturnUpdateShipingPck(Servertype);
+                resp = ObjBusinessLayer.ReturnUpdateShippingDataPost(lists, Servertype);
+                if (resp)
+                {
+                    successResponse.status = true;
+                    successResponse.waybill = "";
+                    successResponse.shippingLabel = "";
+                    _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()},Return UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
+                }
+                else
+                {
+                    successResponse.status = false;
+                    successResponse.waybill = "";
+                    successResponse.shippingLabel = "";
+                    _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()},Return UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
+                }
+                return new JsonResult(successResponse);
+
+                //if (lists.Count > 0)
+                //{
+                //    for (int i = 0; i < lists.Count; i++)
+                //    {
+                //        string Instance = string.Empty;
+                //        UpdateShippingpackage updateShippingpackage = new UpdateShippingpackage();
+                //        updateShippingpackage.customFieldValues = new List<CustomFieldValue>();
+                //        updateShippingpackage.shippingPackageCode = lists[i].shippingPackageCode;
+                //        var facilitycode = lists[i].FacilityCode;
+                //        for (int k = 0; k < lists[i].customFieldValues.Count; k++)
+                //        {
+                //            CustomFieldValue customFieldValue = new CustomFieldValue();
+                //            customFieldValue.name = lists[i].customFieldValues[k].name;
+                //            customFieldValue.value = lists[i].customFieldValues[k].value;
+                //            updateShippingpackage.customFieldValues.Add(customFieldValue);
+                //            if (lists[i].customFieldValues[k].name == "INDENTID_SH")
+                //            {
+                //                Instance = "SH";
+                //            }
+                //            else if (lists[i].customFieldValues[k].name == "INDENTID_DFX")
+                //            {
+                //                Instance = "DFX";
+                //            }
+
+                //        }
+
+                //        var resu = _Token.GetTokens(Servertype, Instance).Result;
+                //        var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+                //        string token = accesstoken.access_token;
+                //        if (token != null)
+                //        {
+                //            var response = _MethodWrapper.UpdateShippingPackagePostData(updateShippingpackage, 0, updateShippingpackage.shippingPackageCode, token, facilitycode, Servertype, Instance);
+                //            if (response.IsSuccess)
+                //            {
+                //                successResponse.status = true;
+                //                successResponse.waybill = "";
+                //                successResponse.shippingLabel = "";
+                //                _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, Return UpdateShippingPackage response {JsonConvert.SerializeObject(successResponse)}");
+                //            }
+                //            else
+                //            {
+                //                ErrorList.Add("ShippingPackageCode:- " + updateShippingpackage.shippingPackageCode + ", Reason" + response.ObjectParam);
+                //                successResponse.status = false;
+                //                successResponse.waybill = response.ObjectParam;
+                //                successResponse.shippingLabel = "";
+
+
+                //                _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()},Return UpdateShippingPackage Error: {JsonConvert.SerializeObject(successResponse)}");
+                //            }
+                //        }
+
+                //    }
+                //    if (ErrorList.Count > 0)
+                //    {
+                //        var serilizelist = JsonConvert.SerializeObject(ErrorList);
+                //        Emailtrigger.SendEmailToAdmin("Return Update Shipping Package", JsonConvert.SerializeObject(ErrorList));
+
+                //    }
+                //    return new JsonResult(successResponse);
+
+                //}
+                //else
+                //{
+                //    ErrorResponse errorResponse = new ErrorResponse();
+                //    errorResponse.status = "Error";
+                //    errorResponse.reason = "There Is no Data For Trigger";
+                //    errorResponse.message = "Please Retrigger";
+                //    _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()}, Return UpdateShippingPackage Error: {JsonConvert.SerializeObject(errorResponse)}");
+                //    return new JsonResult(errorResponse);
+                //}
+
+            }
+            catch (Exception ex)
+            {
+                ErrorResponse errorResponse = new ErrorResponse();
+                errorResponse.status = "Error";
+                errorResponse.reason = ex.Message;
+                errorResponse.message = "Please Retrigger";
+                _logger.LogInformation($"DateTime:- {DateTime.Now.ToLongTimeString()},Return UpdateShippingPackage Error: {JsonConvert.SerializeObject(errorResponse)}");
+                return new JsonResult(errorResponse);
+
+            }
+
+        }
         [HttpGet]
         public async Task<IActionResult> TestTrackingStatus()
         {
@@ -558,6 +738,49 @@ namespace Uniware_PandoIntegration.API.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult>GetTrackOrder(string MobileNo,string Brand,string TokenKey)
+        {
+            ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
+
+            try
+            {
+                var expectedToken = _iconfiguration["TrackOrderToken:Key"];
+                if (TokenKey != expectedToken)
+                    {
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = "Unauthorized: Invalid TokenKey.";
+                    serviceResponse.Errcode = 401;
+                    _logger.LogWarning($"Unauthorized access attempt with TokenKey: {TokenKey} at {DateTime.Now}");
+                    return Unauthorized(serviceResponse);
+                }
+                ServiceResponse<List<TrackOrderDto>> response = new ServiceResponse<List<TrackOrderDto>>();
+
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Track Order Request MobileNo: {MobileNo}, TokenKey: {TokenKey}");
+                response = ObjBusinessLayer.GetTrackOrderDetails(MobileNo, Brand, "Prod");
+                if (response.IsSuccess)
+                {
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Track Order Response: {JsonConvert.SerializeObject(response)}");
+                    return Ok(response);
+                }
+                else
+                {
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = "No data found for the provided mobile number.";
+                    serviceResponse.Errcode = 201;
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, No Data Found for MobileNo: {MobileNo}");
+                    return NotFound(serviceResponse);
+                }
+            }
+            catch (Exception ex)
+            {
+                serviceResponse.Errcode = 500;
+                serviceResponse.Errdesc = ex.Message;
+                serviceResponse.IsSuccess = false;
+                _logger.LogError($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error in GetTrackOrder: {JsonConvert.SerializeObject(serviceResponse)}");
+                return Problem(ex.Message, null, 500, JsonConvert.SerializeObject(serviceResponse), null);
+            }
+        }
 
     }
 }

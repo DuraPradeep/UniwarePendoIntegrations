@@ -2506,125 +2506,164 @@ namespace Uniware_PandoIntegration.API.Controllers
             try
             {
                 _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Request Reverse Pickup {JsonConvert.SerializeObject(reversePickup)}");
-                Thread.Sleep(5000);
+                //Thread.Sleep(5000);
 
 
                 //string Servertype = iconfiguration["ServerType:type"];
                 //string myTempFile = Path.Combine(Path.GetTempPath(), "SaveFile.txt");
                 //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
-                string Username = string.Empty;
+                //string Username = string.Empty;
                 //string Username = System.IO.File.ReadAllText(myTempFile).Remove(System.IO.File.ReadAllText(myTempFile).Length - 2);
-                using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
-                {
-                    //var name = sr.ReadLine();
-                    Username = sr.ReadLine();
-                    sr.Close();
-                }
-                string Servertype = ObjBusinessLayer.GetEnviroment(Username);
-                string Instance = "SH";
-                var resu = _Token.GetTokens(Servertype, Instance).Result;
-                List<ReversePickupDb> reverseitems = new List<ReversePickupDb>();
-                List<PickUpAddressDb> pickaddressitems = new List<PickUpAddressDb>();
-                List<DimensionDb> dimitems = new List<DimensionDb>();
-                List<CustomFieldDb> customfields = new List<CustomFieldDb>();
-                for (int i = 0; i < reversePickup.Count; i++)
-                {
-                    var randonid = ObjBusinessLayer.GenerateNumeric();
-                    ReversePickupDb reverse = new ReversePickupDb();
-                    reverse.CId = randonid;
-                    reverse.reversePickupCode = reversePickup[i].reversePickupCode;
-                    reverse.pickupInstruction = reversePickup[i].pickupInstruction;
-                    reverse.trackingLink = reversePickup[i].trackingLink;
-                    reverse.shippingCourier = reversePickup[i].shippingCourier;
-                    reverse.trackingNumber = reversePickup[i].trackingNumber;
-                    reverse.shippingProviderCode = reversePickup[i].shippingProviderCode;
-                    reverseitems.Add(reverse);
-                    PickUpAddressDb pickUpAddress = new PickUpAddressDb();
-                    pickUpAddress.CId = randonid;
-                    pickUpAddress.id = reversePickup[i].pickUpAddress.id;
-                    pickUpAddress.name = reversePickup[i].pickUpAddress.name;
-                    pickUpAddress.addressLine1 = reversePickup[i].pickUpAddress.addressLine1;
-                    pickUpAddress.addressLine2 = reversePickup[i].pickUpAddress.addressLine2;
-                    pickUpAddress.city = reversePickup[i].pickUpAddress.city;
-                    pickUpAddress.state = reversePickup[i].pickUpAddress.state;
-                    pickUpAddress.phone = reversePickup[i].pickUpAddress.phone;
-                    pickUpAddress.pincode = reversePickup[i].pickUpAddress.pincode;
-                    pickaddressitems.Add(pickUpAddress);
-                    DimensionDb dimension = new DimensionDb();
-                    dimension.CId = randonid;
-                    dimension.boxLength = reversePickup[i].dimension.boxLength;
-                    dimension.boxWidth = reversePickup[i].dimension.boxWidth;
-                    dimension.boxHeight = reversePickup[i].dimension.boxHeight;
-                    dimension.boxWeight = reversePickup[i].dimension.boxWeight;
-                    dimitems.Add(dimension);
-                    for (int j = 0; j < reversePickup[i].customFields.Count; j++)
-                    {
-                        CustomFieldDb customField = new CustomFieldDb();
-                        customField.CId = randonid;
-                        customField.name = reversePickup[i].customFields[j].name;
-                        customField.value = reversePickup[i].customFields[j].value;
-                        customfields.Add(customField);
-                    }
-                }
-                var revermain = ObjBusinessLayer.BLReversePickupMain(reverseitems, Servertype);
-                var reveraddress = ObjBusinessLayer.BLReversePickUpAddress(pickaddressitems, Servertype);
-                var reverdimension = ObjBusinessLayer.BLReverseDimension(dimitems, Servertype);
-                var revercustom = ObjBusinessLayer.BLReverseCustomField(customfields, Servertype);
-                //var resu = _Token.GetTokens(Servertype).Result;
-                var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
-                string token = accesstoken.access_token;
-                if (token != null)
-                {
-                    var lists = ObjBusinessLayer.GetReverseAllData(Servertype);
-                    if (lists.Count > 0)
-                    {
-                        for (int i = 0; i < lists.Count; i++)
-                        {
-                            ReversePickup updateShippingpackage = new ReversePickup();
-                            updateShippingpackage.pickUpAddress = new PickUpAddress();
-                            updateShippingpackage.dimension = new Dimension();
-                            updateShippingpackage.customFields = new List<CustomField>();
-                            updateShippingpackage.reversePickupCode = lists[i].reversePickupCode;
-                            updateShippingpackage.pickupInstruction = lists[i].pickupInstruction;
-                            updateShippingpackage.trackingLink = lists[i].trackingLink;
-                            updateShippingpackage.shippingCourier = lists[i].shippingCourier;
-                            updateShippingpackage.trackingNumber = lists[i].trackingNumber;
-                            updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+                //using (StreamReader sr = new StreamReader(Path.Combine(Path.GetTempPath(), "SaveFile.txt")))
+                //{
+                //    //var name = sr.ReadLine();
+                //    Username = sr.ReadLine();
+                //    sr.Close();
+                //}
 
-                            updateShippingpackage.pickUpAddress.id = lists[i].pickUpAddress.id;
-                            updateShippingpackage.pickUpAddress.name = lists[i].pickUpAddress.name;
-                            updateShippingpackage.pickUpAddress.addressLine1 = lists[i].pickUpAddress.addressLine1;
-                            updateShippingpackage.pickUpAddress.addressLine2 = lists[i].pickUpAddress.addressLine2;
-                            updateShippingpackage.pickUpAddress.city = lists[i].pickUpAddress.city;
-                            updateShippingpackage.pickUpAddress.state = lists[i].pickUpAddress.state;
-                            updateShippingpackage.pickUpAddress.phone = lists[i].pickUpAddress.phone;
-                            updateShippingpackage.pickUpAddress.pincode = lists[i].pickUpAddress.pincode;
-
-                            updateShippingpackage.dimension.boxLength = lists[i].dimension.boxLength;
-                            updateShippingpackage.dimension.boxWidth = lists[i].dimension.boxWidth;
-                            updateShippingpackage.dimension.boxHeight = lists[i].dimension.boxHeight;
-                            updateShippingpackage.dimension.boxWeight = lists[i].dimension.boxWeight;
-                            for (int j = 0; j < lists[i].customFields.Count; j++)
-                            {
-                                CustomField customField = new CustomField();
-                                customField.name = lists[i].customFields[j].name;
-                                customField.value = lists[i].customFields[j].value;
-                                updateShippingpackage.customFields.Add(customField);
-                            }
-                            var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage, lists[i].FaciityCode, Servertype);
-
-                            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype, Instance);
-                            //}
-                        }
-                    }
-                }
-
+                HttpContext httpContext = HttpContext;
+                var atoken = httpContext.Request.Headers["Authorization"].ToString();
+                var JwtSecurity = new JwtSecurityTokenHandler().ReadToken(atoken.Split(" ")[1].ToString()) as JwtSecurityToken;
+                //string Username = JwtSecurity.Claims.First(m => m.Type == "name").Value;
+                string Servertype = JwtSecurity.Claims.First(m => m.Type == "Environment").Value;
                 ReversePickupResponse reversePickupResponse = new ReversePickupResponse();
-                reversePickupResponse.successful = true;
-                reversePickupResponse.message = "";
-                reversePickupResponse.errors = "";
-                reversePickupResponse.warnings = "";
-                return new JsonResult(reversePickupResponse);
+
+
+                Task.Run(() =>
+                {
+                    obj.CallReversePickup(reversePickup, Servertype);
+                });
+                if (reversePickup != null)
+                {
+                    reversePickupResponse.successful = true;
+                    reversePickupResponse.message = "";
+                    reversePickupResponse.errors = "";
+                    reversePickupResponse.warnings = "";
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Success:  {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                    return new JsonResult(reversePickupResponse);
+
+                   
+                }
+                else
+                {
+                    //ReversePickupResponse reversePickupResponse = new ReversePickupResponse();
+                    reversePickupResponse.successful = false;
+                    reversePickupResponse.message = "There Is No Data Came From Pando";
+                    reversePickupResponse.errors = "";
+                    reversePickupResponse.warnings = "";
+                    _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(reversePickupResponse)}");
+
+                    return new JsonResult(reversePickupResponse);
+                }
+
+
+
+                //string Servertype = ObjBusinessLayer.GetEnviroment(Username);
+                string Instance = "DFX";
+                //var resu = _Token.GetTokens(Servertype, Instance).Result;
+                //List<ReversePickupDb> reverseitems = new List<ReversePickupDb>();
+                //List<PickUpAddressDb> pickaddressitems = new List<PickUpAddressDb>();
+                //List<DimensionDb> dimitems = new List<DimensionDb>();
+                //List<CustomFieldDb> customfields = new List<CustomFieldDb>();
+                //for (int i = 0; i < reversePickup.Count; i++)
+                //{
+                //    var randonid = ObjBusinessLayer.GenerateNumeric();
+                //    ReversePickupDb reverse = new ReversePickupDb();
+                //    reverse.CId = randonid;
+                //    reverse.reversePickupCode = reversePickup[i].reversePickupCode;
+                //    reverse.pickupInstruction = reversePickup[i].pickupInstruction;
+                //    reverse.trackingLink = reversePickup[i].trackingLink;
+                //    reverse.shippingCourier = reversePickup[i].shippingCourier;
+                //    reverse.trackingNumber = reversePickup[i].trackingNumber;
+                //    reverse.shippingProviderCode = reversePickup[i].shippingProviderCode;
+                //    reverseitems.Add(reverse);
+                //    PickUpAddressDb pickUpAddress = new PickUpAddressDb();
+                //    pickUpAddress.CId = randonid;
+                //    pickUpAddress.id = reversePickup[i].pickUpAddress.id;
+                //    pickUpAddress.name = reversePickup[i].pickUpAddress.name;
+                //    pickUpAddress.addressLine1 = reversePickup[i].pickUpAddress.addressLine1;
+                //    pickUpAddress.addressLine2 = reversePickup[i].pickUpAddress.addressLine2;
+                //    pickUpAddress.city = reversePickup[i].pickUpAddress.city;
+                //    pickUpAddress.state = reversePickup[i].pickUpAddress.state;
+                //    pickUpAddress.phone = reversePickup[i].pickUpAddress.phone;
+                //    pickUpAddress.pincode = reversePickup[i].pickUpAddress.pincode;
+                //    pickaddressitems.Add(pickUpAddress);
+                //    DimensionDb dimension = new DimensionDb();
+                //    dimension.CId = randonid;
+                //    dimension.boxLength = reversePickup[i].dimension.boxLength;
+                //    dimension.boxWidth = reversePickup[i].dimension.boxWidth;
+                //    dimension.boxHeight = reversePickup[i].dimension.boxHeight;
+                //    dimension.boxWeight = reversePickup[i].dimension.boxWeight;
+                //    dimitems.Add(dimension);
+                //    for (int j = 0; j < reversePickup[i].customFields.Count; j++)
+                //    {
+                //        CustomFieldDb customField = new CustomFieldDb();
+                //        customField.CId = randonid;
+                //        customField.name = reversePickup[i].customFields[j].name;
+                //        customField.value = reversePickup[i].customFields[j].value;
+                //        customfields.Add(customField);
+                //    }
+                //}
+                //var revermain = ObjBusinessLayer.BLReversePickupMain(reverseitems, Servertype);
+                //var reveraddress = ObjBusinessLayer.BLReversePickUpAddress(pickaddressitems, Servertype);
+                //var reverdimension = ObjBusinessLayer.BLReverseDimension(dimitems, Servertype);
+                //var revercustom = ObjBusinessLayer.BLReverseCustomField(customfields, Servertype);
+                ////var resu = _Token.GetTokens(Servertype).Result;
+                //var accesstoken = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
+                //string token = accesstoken.access_token;
+                //if (token != null)
+                //{
+                //    var lists = ObjBusinessLayer.GetReverseAllData(Servertype);
+                //    if (lists.Count > 0)
+                //    {
+                //        for (int i = 0; i < lists.Count; i++)
+                //        {
+                //            ReversePickup updateShippingpackage = new ReversePickup();
+                //            updateShippingpackage.pickUpAddress = new PickUpAddress();
+                //            updateShippingpackage.dimension = new Dimension();
+                //            updateShippingpackage.customFields = new List<CustomField>();
+                //            updateShippingpackage.reversePickupCode = lists[i].reversePickupCode;
+                //            updateShippingpackage.pickupInstruction = lists[i].pickupInstruction;
+                //            updateShippingpackage.trackingLink = lists[i].trackingLink;
+                //            updateShippingpackage.shippingCourier = lists[i].shippingCourier;
+                //            updateShippingpackage.trackingNumber = lists[i].trackingNumber;
+                //            updateShippingpackage.shippingProviderCode = lists[i].shippingProviderCode;
+
+                //            updateShippingpackage.pickUpAddress.id = lists[i].pickUpAddress.id;
+                //            updateShippingpackage.pickUpAddress.name = lists[i].pickUpAddress.name;
+                //            updateShippingpackage.pickUpAddress.addressLine1 = lists[i].pickUpAddress.addressLine1;
+                //            updateShippingpackage.pickUpAddress.addressLine2 = lists[i].pickUpAddress.addressLine2;
+                //            updateShippingpackage.pickUpAddress.city = lists[i].pickUpAddress.city;
+                //            updateShippingpackage.pickUpAddress.state = lists[i].pickUpAddress.state;
+                //            updateShippingpackage.pickUpAddress.phone = lists[i].pickUpAddress.phone;
+                //            updateShippingpackage.pickUpAddress.pincode = lists[i].pickUpAddress.pincode;
+
+                //            updateShippingpackage.dimension.boxLength = lists[i].dimension.boxLength;
+                //            updateShippingpackage.dimension.boxWidth = lists[i].dimension.boxWidth;
+                //            updateShippingpackage.dimension.boxHeight = lists[i].dimension.boxHeight;
+                //            updateShippingpackage.dimension.boxWeight = lists[i].dimension.boxWeight;
+                //            for (int j = 0; j < lists[i].customFields.Count; j++)
+                //            {
+                //                CustomField customField = new CustomField();
+                //                customField.name = lists[i].customFields[j].name;
+                //                customField.value = lists[i].customFields[j].value;
+                //                updateShippingpackage.customFields.Add(customField);
+                //            }
+                //            var triggerid = ObjBusinessLayer.ReversePickUpData(updateShippingpackage, lists[i].FaciityCode, Servertype);
+
+                //            var response = _MethodWrapper.ReversePickUpdetails(updateShippingpackage, 0, triggerid, token, lists[i].FaciityCode, Servertype, Instance);
+                //            //}
+                //        }
+                //    }
+                //}
+
+                //ReversePickupResponse reversePickupResponse = new ReversePickupResponse();
+                //reversePickupResponse.successful = true;
+                //reversePickupResponse.message = "";
+                //reversePickupResponse.errors = "";
+                //reversePickupResponse.warnings = "";
+                //return new JsonResult(reversePickupResponse);
             }
             catch (Exception ex)
             {
@@ -2633,6 +2672,8 @@ namespace Uniware_PandoIntegration.API.Controllers
                 reversePickupResponse.message = ex.Message;
                 reversePickupResponse.errors = "";
                 reversePickupResponse.warnings = "";
+                _logger.LogInformation($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Error: {JsonConvert.SerializeObject(reversePickupResponse)}");
+
                 return new JsonResult(reversePickupResponse);
 
 
