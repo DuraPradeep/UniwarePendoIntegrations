@@ -29,10 +29,10 @@ namespace Uniware_PandoIntegration.Entities
     }
     public class UniwarePostDto
     {
-        public string ReversePickupCode { get; set; }
-        public string TrackingLink { get; set; }
-        public string ShippingCourier { get; set; }
-        public string ShippingProviderCode { get; set; }
-        public string TrackingNumber { get; set; }
+        public string reversePickupCode { get; set; }
+        public string trackingLink { get; set; }
+        public string shippingCourier { get; set; }
+        public string shippingProviderCode { get; set; }
+        public string trackingNumber { get; set; }
     }
 }

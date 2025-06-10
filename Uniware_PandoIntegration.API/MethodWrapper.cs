@@ -1319,11 +1319,10 @@ namespace Uniware_PandoIntegration.API
         public ServiceResponse<string> ReturnAllocatingShippingPostData(UniwarePostDto AllData,  string Token, string FacilityCode, string ServerType)
         {            
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
-            var jsonre = JsonConvert.SerializeObject(AllData);
-            var ResStatus = _Token.PostReturnAllocateShipping(jsonre, Token, FacilityCode, ServerType);
+            var ResStatus = _Token.PostReturnAllocateShipping(AllData, Token, FacilityCode, ServerType);
             if (ResStatus.Result.Errcode < 200 || ResStatus.Result.Errcode > 299 || ResStatus.Result.IsSuccess != true)
             {
-                ObjBusinessLayer.ReturnAllocateErrorDetails(true, ResStatus.Result.Errdesc, AllData.ReversePickupCode, ServerType);
+                ObjBusinessLayer.ReturnAllocateErrorDetails(true, ResStatus.Result.Errdesc, AllData.reversePickupCode, ServerType);
                 
                 serviceResponse.ObjectParam = ResStatus.Result.Errdesc;
                 serviceResponse.IsSuccess = false;

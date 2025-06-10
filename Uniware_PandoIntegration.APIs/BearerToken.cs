@@ -1370,15 +1370,16 @@ namespace Uniware_PandoIntegration.APIs
             return serviceResponse;
         }
 
-        public async Task<ServiceResponse<string>> PostReturnAllocateShipping(string Details, string Token, string Facility, string ServerType)
+        public async Task<ServiceResponse<string>> PostReturnAllocateShipping(UniwarePostDto AllData, string Token, string Facility, string ServerType)
         {
             ServiceResponse<string> serviceResponse = new ServiceResponse<string>();
             try
             {
                 var client = new HttpClient();
                 var request = new HttpRequestMessage();
+                var jsonre = JsonConvert.SerializeObject(AllData);
 
-                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Allocate SendDate:-  {serviceResponse.ObjectParam}");
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Allocate SendDate:-  {jsonre}");
 
                 if (ServerType.ToLower() == "qa")
                 {
@@ -1390,13 +1391,13 @@ namespace Uniware_PandoIntegration.APIs
                 }
                 request.Headers.Add("Facility", Facility);
                 request.Headers.Add("Authorization", "Bearer" + Token);
-                var content = new StringContent(Details, null, "application/json");
+                var content = new StringContent(jsonre, null, "application/json");
                 request.Content = content;
                 var response = await client.SendAsync(request);
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 dynamic StatuaDta = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
-                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()}, Return Allocate Response:-  {serviceResponse.ObjectParam}");
+                CreateLog($" DateTime:-  {DateTime.Now.ToLongTimeString()},shippingPackageCode:- {AllData.reversePickupCode}  Return Allocate Response:-  {serviceResponse.ObjectParam}");
                 if (response.IsSuccessStatusCode)
                 {
                     var datastatus = (bool)StatuaDta.successful;

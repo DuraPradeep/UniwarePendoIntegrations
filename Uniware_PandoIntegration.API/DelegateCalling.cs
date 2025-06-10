@@ -731,11 +731,11 @@ namespace Uniware_PandoIntegration.API
                     for (int i = 0; i < results.Count; i++)
                     {
                         UniwarePostDto allocateshipping = new UniwarePostDto();
-                        allocateshipping.ReversePickupCode = results[i].shippingPackageCode;
-                        allocateshipping.ShippingProviderCode = results[i].shippingProviderCode;
-                        allocateshipping.ShippingCourier = results[i].shippingCourier;
-                        allocateshipping.TrackingNumber = results[i].trackingNumber;
-                        allocateshipping.TrackingLink = results[i].trackingLink;
+                        allocateshipping.reversePickupCode = results[i].shippingPackageCode;
+                        allocateshipping.shippingProviderCode = results[i].shippingProviderCode;
+                        allocateshipping.shippingCourier = results[i].shippingCourier;
+                        allocateshipping.trackingNumber = results[i].trackingNumber;
+                        allocateshipping.trackingLink = results[i].trackingLink;
 
                         
                         var Token = _Token.GetTokens(Servertype, "DFX").Result;
@@ -755,7 +755,7 @@ namespace Uniware_PandoIntegration.API
                         }
                         else
                         {
-                            AllocateError.Add("Return Allocate ShippingPackage Code:- " + allocateshipping.ReversePickupCode + ", Reason " + response.ObjectParam);
+                            AllocateError.Add("Return Allocate ShippingPackage Code:- " + allocateshipping.reversePickupCode + ", Reason " + response.ObjectParam);
                             successResponse.status = false;
                             successResponse.waybill = response.ObjectParam;
                             successResponse.shippingLabel = "";
