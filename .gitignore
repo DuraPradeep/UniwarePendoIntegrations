@@ -398,3 +398,28 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Uniware_PandoIntegration.APIs/bin/Release/Uniware_PandoIntegration.Entities.pdb
+/Uniware_PandoIntegration.APIs/bin/Release/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.APIs/bin/Release/Uniware_PandoIntegration.APIs.dll
+/Uniware_PandoIntegration.APIs/bin/Release/Uniware_PandoIntegration.APIs.pdb
+/Uniware_PandoIntegration.Entities/bin/Release/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.BusinessLayer/bin/Release/Uniware_PandoIntegration.APIs.pdb
+/Uniware_PandoIntegration.BusinessLayer/bin/Release/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.Entities/bin/Release/Uniware_PandoIntegration.Entities.pdb
+/Uniware_PandoIntegration.BusinessLayer/bin/Debug/Uniware_PandoIntegration.APIs.pdb
+/Uniware_PandoIntegration.BusinessLayer/bin/Debug/Uniware_PandoIntegration.APIs.dll
+/Uniware_PandoIntegration.Entities/bin/Debug/Uniware_PandoIntegration.Entities.pdb
+/Uniware_PandoIntegration.BusinessLayer/bin/Release/Uniware_PandoIntegration.APIs.dll
+/Uniware_PandoIntegration.APIs/bin/Debug/Uniware_PandoIntegration.APIs.dll
+/Uniware_PandoIntegration.APIs/bin/Debug/Uniware_PandoIntegration.APIs.pdb
+/Uniware_PandoIntegration.APIs/bin/Debug/Uniware_PandoIntegration.Entities.pdb
+/Uniware_PandoIntegration.APIs/bin/Debug/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.Entities/bin/Debug/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.DataAccessLayer/bin/Debug/Uniware_PandoIntegration.APIs.dll
+/Uniware_PandoIntegration.DataAccessLayer/bin/Debug/Uniware_PandoIntegration.APIs.pdb
+/Uniware_PandoIntegration.BusinessLayer/bin/Debug/Uniware_PandoIntegration.Entities.dll
+/Uniware_PandoIntegration.BusinessLayer/bin/Debug/Uniware_PandoIntegration.Entities.pdb
+/Uniware_PandoIntegration.BusinessLayer/bin/Release/Uniware_PandoIntegration.Entities.pdb
+/.vs/UniWare_PandoIntegration/v17/DocumentLayout.json
+/Uniware_PandoIntegration.APIs/obj/Debug/Uniware_PandoIntegration.APIs.dll
+/Uniware_PandoIntegration.APIs/obj/Debug/Uniware_PandoIntegration.APIs.pdb
