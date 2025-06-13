@@ -39,7 +39,7 @@ using NuGet.Protocol;
 using DocumentFormat.OpenXml.Bibliography;
 using RepoDb.Extensions.QueryFields;
 using static Uniware_PandoIntegration.API.DelegateCalling;
- //using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
+//using static Uniware_PandoIntegration.API.ActionFilter.CustomAuthorizationFilter;
 
 namespace Uniware_PandoIntegration.API.Controllers
 {
@@ -777,6 +777,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             var Facilities = ObjBusinessLayer.GetFacilityList(Servertype);
 
             string Instance = "DFX";
+            ServiceResponse<RootReturnorderAPI> serviceResponse = new ServiceResponse<RootReturnorderAPI>();
 
             string token = HttpContext.Session.GetString("DFXToken");
             if (token != null)
@@ -785,63 +786,72 @@ namespace Uniware_PandoIntegration.API.Controllers
                 //foreach (var FacilityCode in Facilities)
                 //{
 
-                    var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0, Servertype,"DWH",  Instance);
-                    if (resuordercode.Count > 0)
+                var resuordercode = _MethodWrapper.GetReturnorderCode(json, token, 0, Servertype, "DWH", Instance);
+                if (resuordercode.Count > 0)
+                {
+                    ObjBusinessLayer.insertReturnOrdercoder(resuordercode, Servertype, Instance);
+                    var codes = ObjBusinessLayer.GetReturnOrderCodes(Instance, Servertype);
+                    List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
+                    List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
+                    List<ReturnAddressDetailsList> returnAddressDetailsLists = new List<ReturnAddressDetailsList>();
+                    for (int j = 0; j < codes.ObjectParam.Count; j++)
                     {
-                        ObjBusinessLayer.insertReturnOrdercoder(resuordercode,  Servertype,Instance);
-                        var codes = ObjBusinessLayer.GetReturnOrderCodes(Instance, Servertype);
-                        List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
-                        List<ReturnSaleOrderItem> returnSaleOrderItems = new List<ReturnSaleOrderItem>();
-                        List<ReturnAddressDetailsList> returnAddressDetailsLists = new List<ReturnAddressDetailsList>();
-                        for (int j = 0; j < codes.ObjectParam.Count; j++)
-                        {
-                            var jdetail = JsonConvert.SerializeObject(new { reversePickupCode = codes.ObjectParam[j].code });
+                        var jdetail = JsonConvert.SerializeObject(new { reversePickupCode = codes.ObjectParam[j].code });
 
-                            var Code = codes.ObjectParam[j].code;
-                            var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, codes.ObjectParam[j].facility, Instance);
-                            if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
+                        var Code = codes.ObjectParam[j].code;
+                        serviceResponse = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, codes.ObjectParam[j].facility, Instance);
+                        if (serviceResponse.IsSuccess)
+                        {
+                            //if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
+                            if (serviceResponse.ObjectParam.returnAddressDetailsList.Count > 0 || serviceResponse.ObjectParam.returnSaleOrderItems.Count > 0)
                             {
-                                returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
-                                returnSaleOrderItems.AddRange(list.returnSaleOrderItems);
+                                returnAddressDetailsLists.AddRange(serviceResponse.ObjectParam.returnAddressDetailsList);
+                                returnSaleOrderItems.AddRange(serviceResponse.ObjectParam.returnSaleOrderItems);
                             }
-
-                        }
-                        ObjBusinessLayer.insertReturnSaleOrderitem(returnSaleOrderItems, Servertype);
-                        ObjBusinessLayer.insertReturnaddress(returnAddressDetailsLists, Servertype);
-                        var skucodes = ObjBusinessLayer.GetReturnOrderSkuCodes(Servertype);
-
-                        List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
-                        List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
-
-                        for (int i = 0; i < skucodes.ObjectParam.Count; i++)
-                        {
-                            skucode sKucodes = new skucode();
-                            sKucodes.skuCode = skucodes.ObjectParam[i].skuCode;
-                            var code = skucodes.ObjectParam[i].Code;
-                            var skucode = skucodes.ObjectParam[i].skuCode;
-                            var jskucode = JsonConvert.SerializeObject(sKucodes);
-
-                            var skudetails = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0, Servertype, Instance);
-                            if (skudetails.Code != null)
-                            {
-                                itemTdto.Add(skudetails);
-                            }
-                        }
-                        ObjBusinessLayer.insertReturOrderItemtypes(itemTdto, Servertype);
-                        var sendata = ObjBusinessLayer.GetReturnOrderSendData(Instance, Servertype);
-                        if (sendata.ObjectParam.Count > 0)
-                        {
-                            var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata, Servertype);
-                            var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0, Servertype);
-                            return Accepted(status.Result.ObjectParam);
+                           
                         }
                         else
-                            return BadRequest("Please Retrigger");
+                        {
+                            return BadRequest(serviceResponse.Errdesc);
+                        }
+
+                    }
+                    ObjBusinessLayer.insertReturnSaleOrderitem(returnSaleOrderItems, Servertype);
+                    ObjBusinessLayer.insertReturnaddress(returnAddressDetailsLists, Servertype);
+                    var skucodes = ObjBusinessLayer.GetReturnOrderSkuCodes(Servertype);
+
+                    List<ItemTypeDTO> itemTdto = new List<ItemTypeDTO>();
+                    List<ErrorDetails> errorskuDetails = new List<ErrorDetails>();
+
+                    for (int i = 0; i < skucodes.ObjectParam.Count; i++)
+                    {
+                        skucode sKucodes = new skucode();
+                        sKucodes.skuCode = skucodes.ObjectParam[i].skuCode;
+                        var code = skucodes.ObjectParam[i].Code;
+                        var skucode = skucodes.ObjectParam[i].skuCode;
+                        var jskucode = JsonConvert.SerializeObject(sKucodes);
+
+                        var skudetails = _MethodWrapper.ReturnSkuCode(jskucode, token, code, skucode, 0, Servertype, Instance);
+                        if (skudetails.Code != null)
+                        {
+                            itemTdto.Add(skudetails);
+                        }
+                    }
+                    ObjBusinessLayer.insertReturOrderItemtypes(itemTdto, Servertype);
+                    var sendata = ObjBusinessLayer.GetReturnOrderSendData(Instance, Servertype);
+                    if (sendata.ObjectParam.Count > 0)
+                    {
+                        var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata, Servertype);
+                        var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0, Servertype);
+                        return Accepted(status.Result.ObjectParam);
                     }
                     else
-                    {
                         return BadRequest("Please Retrigger");
-                    }
+                }
+                else
+                {
+                    return BadRequest("Please Retrigger");
+                }
                 //}
             }
             return BadRequest("Please Pass Valid token");
@@ -849,7 +859,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
         [HttpGet]
-        public string ReturnOrderAPIRetrigger(UserProfile Enviornment)
+        public ActionResult ReturnOrderAPIRetrigger(UserProfile Enviornment)
         {
             Log.Information($"DateTime:-  {DateTime.Now.ToLongTimeString()}, Retriggered Return Order API");
             string Servertype = Enviornment.Environment;
@@ -858,10 +868,12 @@ namespace Uniware_PandoIntegration.API.Controllers
             var resu = _Token.GetTokens(Servertype, Instance).Result;
 
             var Facilities = ObjBusinessLayer.GetFacilityList(Servertype);
+            ServiceResponse<RootReturnorderAPI> serviceResponse = new ServiceResponse<RootReturnorderAPI>();
 
             var deres = JsonConvert.DeserializeObject<Uniware_PandoIntegration.Entities.PandoUniwariToken>(resu.ObjectParam);
             if (deres != null)
             {
+
                 foreach (var FacilityCode in Facilities)
                 {
                     string token = deres.access_token.ToString();
@@ -876,10 +888,20 @@ namespace Uniware_PandoIntegration.API.Controllers
                         var jdetail = JsonConvert.SerializeObject(returnOrderGet);
                         var Code = codes.ObjectParam[j].code;
                         var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, FacilityCode.facilityCode, Instance);
-                        if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
+                        serviceResponse = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, codes.ObjectParam[j].facility, Instance);
+                        if (serviceResponse.IsSuccess)
                         {
-                            returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
-                            returnSaleOrderItems.AddRange(list.returnSaleOrderItems);
+                            //if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
+                            if (serviceResponse.ObjectParam.returnAddressDetailsList.Count > 0 || serviceResponse.ObjectParam.returnSaleOrderItems.Count > 0)
+                            {
+                                returnAddressDetailsLists.AddRange(serviceResponse.ObjectParam.returnAddressDetailsList);
+                                returnSaleOrderItems.AddRange(serviceResponse.ObjectParam.returnSaleOrderItems);
+                            }
+
+                        }
+                        else
+                        {
+                            return BadRequest(serviceResponse.Errdesc);
                         }
                         //else
                         //    return BadRequest("Please Retrigger");
@@ -918,13 +940,16 @@ namespace Uniware_PandoIntegration.API.Controllers
                         var triggerid = ObjBusinessLayer.InsertAllsendingDataReturnorder(sendata, Servertype);
                         var status = _MethodWrapper.PostDataReturnOrder(sendata, triggerid, 0, Servertype);
                         //return Accepted(status.Result.ObjectParam);
-                        return "Failed Data Triggered Successfully";
+                        return BadRequest("Failed Data Triggered Successfully");
+                        //return "Failed Data Triggered Successfully";
                     }
-                    else return "Get Some Issue Please Retrigger";
+                    else return BadRequest("Failed Data Triggered Successfully");
+
                 }
             }
 
-            return "Please Pass valid Token";
+            return BadRequest("Failed Data Triggered Successfully");
+
 
 
         }
@@ -1512,7 +1537,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             return returndata;
         }
         //[ServiceFilter(typeof(ActionFilterExample))]
-       
+
         [HttpPost]
         public IActionResult PostUpdateShipingData()
         {
@@ -1668,7 +1693,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
         }
         //[ServiceFilter(typeof(ActionFilterExample))]
-       
+
 
         //[HttpPost]
         //public IActionResult PostAllocateShipping()
@@ -2146,6 +2171,8 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                         //foreach (var FacilityCode in Facilities)
                         //{
+                        ServiceResponse<RootReturnorderAPI> serviceResponse = new ServiceResponse<RootReturnorderAPI>();
+
                         ObjBusinessLayer.insertReturnOrdercoder(DROlist, Servertype, Instance);
                         var codes = ObjBusinessLayer.GetReturnOrderCodes(Instance, Servertype);
                         List<ErrorDetails> errorCodeDetails = new List<ErrorDetails>();
@@ -2158,11 +2185,21 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                             var jdetail = JsonConvert.SerializeObject(new { reversePickupCode = codes.ObjectParam[j].code });
                             var Code = codes.ObjectParam[j].code;
-                            var list = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, codes.ObjectParam[j].facility, Instance);
-                            if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
+                            serviceResponse = _MethodWrapper.GetReurnOrderget(jdetail, token, Code, 0, Servertype, codes.ObjectParam[j].facility, Instance);
+                            if (serviceResponse.IsSuccess)
                             {
-                                returnAddressDetailsLists.AddRange(list.returnAddressDetailsList);
-                                returnSaleOrderItems.AddRange(list.returnSaleOrderItems);
+                                //if (list.returnAddressDetailsList.Count > 0 || list.returnSaleOrderItems.Count > 0)
+                                if (serviceResponse.ObjectParam.returnAddressDetailsList.Count > 0 || serviceResponse.ObjectParam.returnSaleOrderItems.Count > 0)
+                                {
+                                    returnAddressDetailsLists.AddRange(serviceResponse.ObjectParam.returnAddressDetailsList);
+                                    returnSaleOrderItems.AddRange(serviceResponse.ObjectParam.returnSaleOrderItems);
+                                }
+
+                            }
+                            else
+                            {
+                                ExecResult += serviceResponse.Errdesc;
+                                return new JsonResult(ExecResult);
                             }
                             //return BadRequest("Please Retrigger");
                             //ExecResult += ", RO Please Retrigger";
@@ -2496,7 +2533,7 @@ namespace Uniware_PandoIntegration.API.Controllers
                 ExecResult += ex.Message;
                 return new JsonResult(ExecResult);
             }
-            
+
         }
         [ServiceFilter(typeof(ActionFilterExample))]
         [Authorize]
@@ -2543,7 +2580,7 @@ namespace Uniware_PandoIntegration.API.Controllers
 
                     return new JsonResult(reversePickupResponse);
 
-                   
+
                 }
                 else
                 {
@@ -3182,7 +3219,7 @@ namespace Uniware_PandoIntegration.API.Controllers
             string Servertype = Enviornment;
             //string Servertype = iconfiguration["ServerType:type"];
 
-            List<TDashboardDetails> ResultList = ObjBusinessLayer.GetHistoryData(Servertype,FromDate,ToDate);
+            List<TDashboardDetails> ResultList = ObjBusinessLayer.GetHistoryData(Servertype, FromDate, ToDate);
             return ResultList;
         }
 

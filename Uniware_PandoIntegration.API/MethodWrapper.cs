@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Text.Json.Nodes;
+using System.Web.Helpers;
 using System.Xml.Linq;
 using Uniware_PandoIntegration.APIs;
 using Uniware_PandoIntegration.BusinessLayer;
@@ -649,8 +650,9 @@ namespace Uniware_PandoIntegration.API
             }
             return returnorderCode;
         }
-        public RootReturnorderAPI GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode, string Instance)
+        public ServiceResponse<RootReturnorderAPI> GetReurnOrderget(string jdetail, string token, string Code, int checkcount, string ServerType, string FacilityCode, string Instance)
         {
+            ServiceResponse<RootReturnorderAPI> serviceResponse = new ServiceResponse<RootReturnorderAPI>();
             int Lcheckcount = checkcount;
             var list = _Token.ReturnOrderGet(jdetail, token, ServerType, FacilityCode, Instance);
             RootReturnorderAPI rootReturnorderAPI = new RootReturnorderAPI();
@@ -662,7 +664,7 @@ namespace Uniware_PandoIntegration.API
             {
                 if (Lcheckcount != 3)
                 {
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                     Lcheckcount += 1;
                     ErrorDetails errorDetails = new ErrorDetails();
                     errorDetails.Status = true;
@@ -670,12 +672,18 @@ namespace Uniware_PandoIntegration.API
                     errorDetails.Reason = list.Result.ObjectParam;
                     errorCodeDetails.Add(errorDetails);
                     var status = ObjBusinessLayer.UpdateReturnOrderErrordetails(errorCodeDetails, 1, ServerType);
-                    GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode, Instance);
+                    //GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode, Instance);
+                    return GetReurnOrderget(jdetail, token, Code, Lcheckcount, ServerType, FacilityCode, Instance);
                 }
                 else
                 {
-                    Emailtrigger.SendEmailToAdmin("Return Order", list.Result.ObjectParam);
-                    rootReturnorderAPI = null;
+                    Lcheckcount = 0;
+                    serviceResponse.ObjectParam = rootReturnorderAPI;
+                    serviceResponse.Errcode = list.Result.Errcode;
+                    serviceResponse.IsSuccess = list.Result.IsSuccess;
+                    serviceResponse.Errdesc = list.Result.Errdesc;
+
+                    Emailtrigger.SendEmailToAdmin("Return Order", list.Result.Errdesc + ", " + jdetail);
                 }
             }
             else
@@ -709,9 +717,13 @@ namespace Uniware_PandoIntegration.API
                     //returnAddressDetailsLists.Add(returnAddressDetailsList);
                     rootReturnorderAPI.returnAddressDetailsList.Add(returnAddressDetailsList);
                 }
+                serviceResponse.ObjectParam = rootReturnorderAPI;
+                serviceResponse.Errcode = list.Result.Errcode;
+                serviceResponse.IsSuccess = list.Result.IsSuccess;
+                serviceResponse.Errdesc = list.Result.Errdesc;
             }
 
-            return rootReturnorderAPI;
+            return serviceResponse;
         }
         //public ItemTypeDTO getReturnOrderSkuCode(string jskucode, string token, string Code, string Skucode, int checkcount, string Servertype)
         //{

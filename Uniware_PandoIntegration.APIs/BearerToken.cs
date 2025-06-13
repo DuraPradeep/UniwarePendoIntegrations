@@ -550,15 +550,36 @@ namespace Uniware_PandoIntegration.APIs
                 serviceResponse.Errcode = ((int)response.StatusCode);
                 serviceResponse.ObjectParam = await response.Content.ReadAsStringAsync();
                 CreateLog($"DateTime:-  {DateTime.Now.ToLongTimeString()},Return Order Response:{JsonConvert.SerializeObject(serviceResponse.ObjectParam)}");
+                dynamic data = JsonConvert.DeserializeObject(serviceResponse.ObjectParam);
+
                 if (response.IsSuccessStatusCode)
                 {
-                    serviceResponse.Errcode = ((int)response.StatusCode);
-                    return serviceResponse;
+                    //var ErrorDesc = data.errors[0].description;
+                    var datas = (bool)data.successful;
+
+                    //var errors = data.errors;                    
+                    if (datas)
+                    {
+                        serviceResponse.Errcode = ((int)response.StatusCode);
+                        serviceResponse.IsSuccess = true;
+                        return serviceResponse;
+                    }
+                    else
+                    {
+                        serviceResponse.Errcode = 400;
+                        serviceResponse.IsSuccess = false;
+                        serviceResponse.Errdesc = data.errors[0].description;
+                        return serviceResponse;
+                    }
+
+
                 }
                 else
                 {
                     serviceResponse.Errcode = ((int)response.StatusCode);
-
+                    serviceResponse.IsSuccess = false;
+                    serviceResponse.Errdesc = data.errors[0].description;
+                    //GetCodeDetails(Code, Token);
                 }
             }
             catch (Exception ex)
